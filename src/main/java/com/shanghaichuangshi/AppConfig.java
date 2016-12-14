@@ -1,9 +1,9 @@
 package com.shanghaichuangshi;
 
 import com.shanghaichuangshi.config.Config;
-import com.shanghaichuangshi.route.Route;
 
 import com.shanghaichuangshi.controller.ApplicationController;
+import com.shanghaichuangshi.route.RouteMatcher;
 
 public class AppConfig extends Config {
 
@@ -11,7 +11,7 @@ public class AppConfig extends Config {
 //
 //    }
 
-    public void configRoute(Route route) {
-        route.add("/app", ApplicationController.class);
+    public void configRouteMatcher(RouteMatcher routeMatcher) {
+        routeMatcher.add("/app", ApplicationController.class);
     }
 }

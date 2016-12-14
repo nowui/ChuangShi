@@ -1,10 +1,6 @@
 package com.shanghaichuangshi.model;
 
-import java.io.Serializable;
-
-public abstract class Model implements Serializable {
-
-    private static final long serialVersionUID = 1L;
+public abstract class Model {
 
 //    @Column
 //    @Comment("新增人员")
@@ -30,10 +26,6 @@ public abstract class Model implements Serializable {
 //    @Comment("删除标记")
 //    @ColDefine(type = ColType.DATETIME)
     private String system_status;
-
-    public static long getSerialVersionUID() {
-        return serialVersionUID;
-    }
 
     public String getSystem_create_user_id() {
         return system_create_user_id;

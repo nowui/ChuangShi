@@ -24,6 +24,16 @@
             <artifactId>commons-dbutils</artifactId>
             <version>1.6</version>
         </dependency>
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+            <version>4.5.2</version>
+        </dependency>
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+            <version>1.2.22</version>
+        </dependency>
     </dependencies>
 
     <properties>
@@ -45,7 +55,7 @@
                         <contextPath>/</contextPath>
                     </webAppConfig>
                     <httpConnector>
-                        <port>8180</port>
+                        <port>8080</port>
                     </httpConnector>
                 </configuration>
             </plugin>

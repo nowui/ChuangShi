@@ -1,12 +1,18 @@
 package com.shanghaichuangshi.controller;
 
-import com.shanghaichuangshi.annotation.Action;
+import com.shanghaichuangshi.annotation.Path;
 
 public class ApplicationController extends Controller {
 
-    @Action("index")
+    @Path("/app/index")
     public void index() {
-        System.out.println("ApplicationController index");
+        renderJson("ApplicationController index");
+    }
+
+    @Path("/app/detail")
+    public void detail() {
+
+        renderJson("ApplicationController detail");
     }
 
 }

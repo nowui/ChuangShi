@@ -1,9 +1,24 @@
 package com.shanghaichuangshi.controller;
 
-import java.io.Serializable;
+import com.shanghaichuangshi.render.RenderFactory;
 
-public abstract class Controller implements Serializable {
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
-    private static final long serialVersionUID = 1L;
+public abstract class Controller {
+
+    private HttpServletRequest request;
+    private HttpServletResponse response;
+    private static final RenderFactory renderFactory = RenderFactory.getInstance();
+
+    public Controller setContext(HttpServletRequest request, HttpServletResponse response) {
+        this.request = request;
+        this.response = response;
+        return this;
+    }
+
+    public void renderJson(Object object) {
+        renderFactory.getJsonRender(object).setContext(request, response).render();
+    }
 
 }
