@@ -4,7 +4,7 @@ import com.shanghaichuangshi.util.DatabaseUtil;
 
 import java.util.*;
 
-public abstract class Model<M extends HashMap<String, Object>> extends HashMap<String, Object> {
+public abstract class Model<M extends Model> extends HashMap<String, Object> {
 
     public Model get() {
         return this;
@@ -49,20 +49,26 @@ public abstract class Model<M extends HashMap<String, Object>> extends HashMap<S
     public List<M> list(String sql, List<Object> parameterList) {
         List<Map<String, Object>> resultList = DatabaseUtil.list(sql, parameterList);
 
-        List<M> modelList = new ArrayList<M>();
+        List<M> list = new ArrayList<M>();
         for(Map<String, Object> map : resultList) {
-            modelList.add((M)map);
+            try {
+                list.add((M) getClass().newInstance().set(map));
+            } catch (InstantiationException e) {
+                e.printStackTrace();
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            }
         }
 
-        return modelList;
+        return list;
     }
 
-    public Model find(String sql, List<Object> parameterList) {
+    public M find(String sql, List<Object> parameterList) {
         Map<String, Object> resultMap = DatabaseUtil.find(sql, parameterList);
 
         set(resultMap);
 
-        return this;
+        return (M)this;
     }
 
 }

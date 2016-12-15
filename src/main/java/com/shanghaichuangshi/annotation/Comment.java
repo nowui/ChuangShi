@@ -3,8 +3,7 @@ package com.shanghaichuangshi.annotation;
 import java.lang.annotation.*;
 
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ElementType.FIELD, ElementType.METHOD})
-@Documented
-public @interface Column {
+@Target({ElementType.TYPE, ElementType.FIELD})
+public @interface Comment {
     String value() default "";
 }
