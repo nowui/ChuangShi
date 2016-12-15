@@ -1,6 +1,7 @@
 package com.shanghaichuangshi.render;
 
 import com.alibaba.fastjson.JSON;
+import com.shanghaichuangshi.config.Json;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -29,7 +30,7 @@ public class JsonRender extends Render {
             writer.write(jsonText);
             writer.flush();
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("IOException: ", e);
         } finally {
             if (writer != null) {
                 writer.close();

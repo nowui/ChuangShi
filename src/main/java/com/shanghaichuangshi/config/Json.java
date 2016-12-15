@@ -1,6 +1,6 @@
-package com.shanghaichuangshi.render;
+package com.shanghaichuangshi.config;
 
-public class Json {
+public final class Json {
 
     private int code;
     private String message;

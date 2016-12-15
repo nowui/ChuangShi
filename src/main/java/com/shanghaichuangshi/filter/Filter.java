@@ -1,11 +1,11 @@
 package com.shanghaichuangshi.filter;
 
 import com.shanghaichuangshi.config.Config;
-import com.shanghaichuangshi.config.Global;
 import com.shanghaichuangshi.controller.Controller;
 import com.shanghaichuangshi.render.RenderFactory;
 import com.shanghaichuangshi.route.Route;
 import com.shanghaichuangshi.route.RouteMatcher;
+import com.shanghaichuangshi.util.DatabaseUtil;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
@@ -35,7 +35,7 @@ public class Filter implements javax.servlet.Filter {
             throw new RuntimeException("Can not create instance of class: " + configClass + ". Please check the config in web.xml");
         }
 
-        Global.init(config);
+        DatabaseUtil.init(config);
 
         config.configRouteMatcher(routeMatcher);
     }

@@ -1,6 +1,6 @@
-package com.shanghaichuangshi.constant;
+package com.shanghaichuangshi.config;
 
-final public class Constant {
+public final class Mysql {
 
     private String url;
     private String username;
@@ -38,4 +38,5 @@ final public class Constant {
     public void setDriverClass(String driverClass) {
         this.driverClass = driverClass;
     }
+
 }
