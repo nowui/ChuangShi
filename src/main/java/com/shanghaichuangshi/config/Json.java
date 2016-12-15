@@ -4,13 +4,19 @@ public final class Json {
 
     private int code;
     private String message;
+    private Integer total;
     private Object data;
 
     public Json(int code, String message, Object data) {
         this.code = code;
-
         this.message = message;
+        this.data = data;
+    }
 
+    public Json(int code, String message, Integer total, Object data) {
+        this.code = code;
+        this.message = message;
+        this.total = total;
         this.data = data;
     }
 
@@ -28,6 +34,14 @@ public final class Json {
 
     public void setMessage(String message) {
         this.message = message;
+    }
+
+    public Integer getTotal() {
+        return total;
+    }
+
+    public void setTotal(Integer total) {
+        this.total = total;
     }
 
     public Object getData() {

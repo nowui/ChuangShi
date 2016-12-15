@@ -17,8 +17,12 @@ public abstract class Controller {
         return this;
     }
 
-    public void renderJson(Object object) {
-        renderFactory.getJsonRender(object).setContext(request, response).render();
+    public void renderJson(Integer total, Object data) {
+        renderFactory.getJsonRender(total, data).setContext(request, response).render();
+    }
+
+    public void renderJson(Object data) {
+        renderFactory.getJsonRender(data).setContext(request, response).render();
     }
 
 }

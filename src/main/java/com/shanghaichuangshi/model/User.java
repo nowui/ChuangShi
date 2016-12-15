@@ -1,6 +1,10 @@
 package com.shanghaichuangshi.model;
 
-//@Table("table_user")
+import com.shanghaichuangshi.annotation.Table;
+
+@Table("table_user")
 public class User extends Model {
+
+
 
 }

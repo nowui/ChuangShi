@@ -15,8 +15,14 @@ public class RenderFactory {
         return renderFactory;
     }
 
-    public Render getJsonRender(Object object) {
-        Json json = new Json(HttpStatus.SC_OK, "", object);
+    public Render getJsonRender(Object data) {
+        Json json = new Json(HttpStatus.SC_OK, "", data);
+
+        return new JsonRender(json);
+    }
+
+    public Render getJsonRender(Integer total, Object data) {
+        Json json = new Json(HttpStatus.SC_OK, "", total, data);
 
         return new JsonRender(json);
     }

@@ -1,70 +1,68 @@
 package com.shanghaichuangshi.model;
 
-public abstract class Model {
+import com.shanghaichuangshi.util.DatabaseUtil;
 
-//    @Column
-//    @Comment("新增人员")
-//    @ColDefine(type = ColType.VARCHAR, width = 32)
-    private String system_create_user_id;
+import java.util.*;
 
-//    @Column
-//    @Comment("新增时间")
-//    @ColDefine(type = ColType.DATETIME)
-    private String system_create_time;
+public abstract class Model<M extends HashMap<String, Object>> extends HashMap<String, Object> {
 
-//    @Column
-//    @Comment("修改人员")
-//    @ColDefine(type = ColType.VARCHAR, width = 32)
-    private String system_update_user_id;
-
-//    @Column
-//    @Comment("修改时间")
-//    @ColDefine(type = ColType.DATETIME)
-    private String system_update_time;
-
-//    @Column
-//    @Comment("删除标记")
-//    @ColDefine(type = ColType.DATETIME)
-    private String system_status;
-
-    public String getSystem_create_user_id() {
-        return system_create_user_id;
+    public Model get() {
+        return this;
     }
 
-    public void setSystem_create_user_id(String system_create_user_id) {
-        this.system_create_user_id = system_create_user_id;
+    public Model set(Map<String, Object> map) {
+        for (Map.Entry<String, Object> entry : map.entrySet()) {
+            this.put(entry.getKey(), entry.getValue());
+        }
+
+        return this;
     }
 
-    public String getSystem_create_time() {
-        return system_create_time;
+    public Model keep(String... keys) {
+        Iterator<String> iterator = this.keySet().iterator();
+        while (iterator.hasNext()) {
+            Boolean isNotExit = true;
+
+            String entry = iterator.next();
+            for (String key : keys) {
+                if (key.equals(entry)) {
+                    isNotExit = false;
+                }
+            }
+
+            if (isNotExit) {
+                iterator.remove();
+            }
+        }
+
+        return this;
     }
 
-    public void setSystem_create_time(String system_create_time) {
-        this.system_create_time = system_create_time;
+    public Model remove(String... keys) {
+        for (String key : keys) {
+            this.remove(key);
+        }
+
+        return this;
     }
 
-    public String getSystem_update_user_id() {
-        return system_update_user_id;
+    public List<M> list(String sql, List<Object> parameterList) {
+        List<Map<String, Object>> resultList = DatabaseUtil.list(sql, parameterList);
+
+        List<M> modelList = new ArrayList<M>();
+        for(Map<String, Object> map : resultList) {
+            modelList.add((M)map);
+        }
+
+        return modelList;
     }
 
-    public void setSystem_update_user_id(String system_update_user_id) {
-        this.system_update_user_id = system_update_user_id;
-    }
+    public Model find(String sql, List<Object> parameterList) {
+        Map<String, Object> resultMap = DatabaseUtil.find(sql, parameterList);
 
-    public String getSystem_update_time() {
-        return system_update_time;
-    }
+        set(resultMap);
 
-    public void setSystem_update_time(String system_update_time) {
-        this.system_update_time = system_update_time;
-    }
-
-    public String getSystem_status() {
-        return system_status;
-    }
-
-    public void setSystem_status(String system_status) {
-        this.system_status = system_status;
+        return this;
     }
 
 }

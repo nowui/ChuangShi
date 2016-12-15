@@ -4,7 +4,8 @@ import java.lang.annotation.*;
 
 @Inherited
 @Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.METHOD)
-public @interface Path {
+@Target({ElementType.TYPE})
+@Documented
+public @interface Table {
     String value();
 }

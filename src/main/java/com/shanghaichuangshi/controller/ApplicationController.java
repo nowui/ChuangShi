@@ -1,6 +1,7 @@
 package com.shanghaichuangshi.controller;
 
 import com.shanghaichuangshi.annotation.Path;
+import com.shanghaichuangshi.model.User;
 import com.shanghaichuangshi.util.DatabaseUtil;
 
 import java.util.ArrayList;
@@ -11,12 +12,9 @@ public class ApplicationController extends Controller {
 
     @Path("/app/index")
     public void index() {
-        List<Object> parameterList = new ArrayList<Object>();
-        List<Map<String, Object>> list = DatabaseUtil.list("select * from table_user", parameterList);
+        List<User> userList = new User().list("select * from table_user", new ArrayList<Object>());
 
-        System.out.println(list.size());
-
-        renderJson("ApplicationController index");
+        renderJson(userList.size(), userList);
     }
 
     @Path("/app/detail")
