@@ -6,7 +6,7 @@ import com.shanghaichuangshi.config.Mysql;
 import com.shanghaichuangshi.controller.ApplicationController;
 import com.shanghaichuangshi.route.RouteMatcher;
 
-public class AppConfig extends Config {
+public class WebConfig extends Config {
 
     public void configMysql(Mysql mysql) {
         mysql.setDriverClass("com.mysql.jdbc.Driver");

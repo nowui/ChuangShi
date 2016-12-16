@@ -1,7 +1,10 @@
 package com.shanghaichuangshi.model;
 
+import com.shanghaichuangshi.annotation.Column;
+import com.shanghaichuangshi.annotation.Table;
 import com.shanghaichuangshi.util.DatabaseUtil;
 
+import java.lang.reflect.Field;
 import java.util.*;
 
 public abstract class Model<M extends Model> extends HashMap<String, Object> {
@@ -69,6 +72,45 @@ public abstract class Model<M extends Model> extends HashMap<String, Object> {
         set(resultMap);
 
         return (M)this;
+    }
+
+    public boolean save() {
+        StringBuilder sql = new StringBuilder();
+        List<Object> parameterList = new ArrayList<Object>();
+
+        Table table = this.getClass().getAnnotation(Table.class);
+        if (table == null) {
+            throw new RuntimeException("Can not find table");
+        }
+
+        Field[] fields = this.getClass().getDeclaredFields();
+        for(Field field : fields) {
+            Column column = field.getAnnotation(Column.class);
+
+            if (column != null) {
+                try {
+                    System.out.println(field.getName() + " " + field.get(User.class));
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        sql.append("INSERT INTO ").append(table.value()).append(" (");
+
+        sql.append(") VALUES (");
+
+        sql.append(")");
+
+        System.out.println(sql.toString());
+
+        return true;
+    }
+
+    public boolean update() {
+
+
+        return true;
     }
 
 }

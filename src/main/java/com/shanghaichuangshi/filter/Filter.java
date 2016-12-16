@@ -21,7 +21,7 @@ public class Filter implements javax.servlet.Filter {
     private static final RenderFactory renderFactory = RenderFactory.getInstance();
 
     public void init(FilterConfig filterConfig) throws ServletException {
-        String configClass = filterConfig.getInitParameter("config");
+        String configClass = filterConfig.getInitParameter("WebConfig");
         Object object;
         try {
             object = Class.forName(configClass).newInstance();
@@ -43,6 +43,14 @@ public class Filter implements javax.servlet.Filter {
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpServletResponse response = (HttpServletResponse) servletResponse;
+
+        response.setHeader("Access-Control-Allow-Origin", "*");
+        response.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS, HEAD");
+        response.setHeader("Access-Control-Allow-Headers", "Accept, Origin, X-Requested-With, Content-Type, Last-Modified, Token, Platform, Version");
+        response.setHeader("Access-Control-Max-Age", "7200");
+        response.setHeader("Access-Control-Allow-Credentials", "true");
+        response.setHeader("Cache-Control", "no-cache");
+        response.setHeader("Content-Type", "application/json;charset=UTF-8");
 
         String path = request.getRequestURI();
 
