@@ -10,11 +10,15 @@ import java.util.*;
 
 public abstract class Model<M extends Model> extends HashMap<String, Object> {
 
+    private String table_name;
+    private String key_id;
     private List<String> columnList;
-    private String id;
 
-    private List<String> getColumnList() {
-        if (columnList == null) {
+    private String getTable_name() {
+        if (table_name == null) {
+            Table table = this.getClass().getAnnotation(Table.class);
+            table_name = table.value();
+
             columnList = new ArrayList<String>();
 
             Field[] fields = this.getClass().getDeclaredFields();
@@ -27,7 +31,7 @@ public abstract class Model<M extends Model> extends HashMap<String, Object> {
                         String columnValue = field.get(User.class).toString();
                         columnList.add(columnValue);
                         if (key != null) {
-                            id = columnValue;
+                            key_id = columnValue;
                         }
                     } catch (IllegalAccessException e) {
                         throw new RuntimeException("IllegalAccessException: " + e);
@@ -35,24 +39,36 @@ public abstract class Model<M extends Model> extends HashMap<String, Object> {
                 }
             }
 
+            if (table_name == null) {
+                throw new RuntimeException("Can not find the table");
+            }
+
+            if (key_id == null) {
+                throw new RuntimeException("Can not find the key column");
+            }
+
             if (columnList.size() == 0) {
                 throw new RuntimeException("Can not find the column");
             }
+        }
 
-            if (id == null) {
-                throw new RuntimeException("Can not find the key column");
-            }
+        return table_name;
+    }
+
+    private List<String> getColumnList() {
+        if (columnList == null) {
+            getTable_name();
         }
 
         return columnList;
     }
 
-    private String getId() {
-        if (id == null) {
-            getColumnList();
+    private String getKey_id() {
+        if (key_id == null) {
+            getTable_name();
         }
 
-        return id;
+        return key_id;
     }
 
     public Model set(Map<String, Object> map) {
@@ -108,7 +124,19 @@ public abstract class Model<M extends Model> extends HashMap<String, Object> {
 
     public M find(String sql, List<Object> parameterList) {
         Map<String, Object> resultMap = DatabaseUtil.find(sql, parameterList);
+        set(resultMap);
 
+        return (M) this;
+    }
+
+    public M findById(String id) {
+        StringBuilder sql = new StringBuilder();
+        List<Object> parameterList = new ArrayList<Object>();
+
+        sql.append("SELECT * FROM ").append(getTable_name()).append(" WHERE ").append(getKey_id()).append(" = ? ");
+        parameterList.add(id);
+
+        Map<String, Object> resultMap = DatabaseUtil.find(sql.toString(), parameterList);
         set(resultMap);
 
         return (M) this;
@@ -119,12 +147,7 @@ public abstract class Model<M extends Model> extends HashMap<String, Object> {
         StringBuilder temp = new StringBuilder(") VALUES (");
         List<Object> parameterList = new ArrayList<Object>();
 
-        Table table = this.getClass().getAnnotation(Table.class);
-        if (table == null) {
-            throw new RuntimeException("Can not find the table");
-        }
-
-        sql.append("INSERT INTO ").append(table.value()).append(" (");
+        sql.append("INSERT INTO ").append(getTable_name()).append(" (");
 
         for (Entry<String, Object> entry : this.entrySet()) {
             for (String column : getColumnList()) {
@@ -155,16 +178,11 @@ public abstract class Model<M extends Model> extends HashMap<String, Object> {
         StringBuilder sql = new StringBuilder();
         List<Object> parameterList = new ArrayList<Object>();
 
-        Table table = this.getClass().getAnnotation(Table.class);
-        if (table == null) {
-            throw new RuntimeException("Can not find the table");
-        }
-
-        sql.append("UPDATE ").append(table.value()).append(" SET ");
+        sql.append("UPDATE ").append(getTable_name()).append(" SET ");
 
         for (Entry<String, Object> entry : this.entrySet()) {
             for (String column : getColumnList()) {
-                if (entry.getKey().equals(column) && ! column.equals(getId())) {
+                if (entry.getKey().equals(column) && ! column.equals(getKey_id())) {
                     if (parameterList.size() > 0) {
                         sql.append(", ");
                     }
@@ -176,12 +194,12 @@ public abstract class Model<M extends Model> extends HashMap<String, Object> {
 
         sql.append(" WHERE ");
 
-        String value = get(getId()).toString();
+        String value = get(getKey_id()).toString();
         if (value == null) {
             throw new RuntimeException("Can not find the id value");
         }
 
-        sql.append(getId()).append(" = ? ");
+        sql.append(getKey_id()).append(" = ? ");
         parameterList.add(value);
 
         System.out.println(sql.toString());
