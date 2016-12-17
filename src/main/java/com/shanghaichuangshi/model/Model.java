@@ -1,6 +1,7 @@
 package com.shanghaichuangshi.model;
 
 import com.shanghaichuangshi.annotation.Column;
+import com.shanghaichuangshi.annotation.Id;
 import com.shanghaichuangshi.annotation.Table;
 import com.shanghaichuangshi.util.DatabaseUtil;
 
@@ -9,14 +10,53 @@ import java.util.*;
 
 public abstract class Model<M extends Model> extends HashMap<String, Object> {
 
-    public Model get() {
-        return this;
+    private List<String> columnList;
+    private String id;
+
+    private List<String> getColumnList() {
+        if (columnList == null) {
+            columnList = new ArrayList<String>();
+
+            Field[] fields = this.getClass().getDeclaredFields();
+            for (Field field : fields) {
+                Column column = field.getAnnotation(Column.class);
+                if (column != null) {
+                    Id key = field.getAnnotation(Id.class);
+
+                    try {
+                        String columnValue = field.get(User.class).toString();
+                        columnList.add(columnValue);
+                        if (key != null) {
+                            id = columnValue;
+                        }
+                    } catch (IllegalAccessException e) {
+                        throw new RuntimeException("IllegalAccessException: " + e);
+                    }
+                }
+            }
+
+            if (columnList.size() == 0) {
+                throw new RuntimeException("Can not find the column");
+            }
+
+            if (id == null) {
+                throw new RuntimeException("Can not find the key column");
+            }
+        }
+
+        return columnList;
+    }
+
+    private String getId() {
+        if (id == null) {
+            getColumnList();
+        }
+
+        return id;
     }
 
     public Model set(Map<String, Object> map) {
-        for (Map.Entry<String, Object> entry : map.entrySet()) {
-            this.put(entry.getKey(), entry.getValue());
-        }
+        this.putAll(map);
 
         return this;
     }
@@ -53,7 +93,7 @@ public abstract class Model<M extends Model> extends HashMap<String, Object> {
         List<Map<String, Object>> resultList = DatabaseUtil.list(sql, parameterList);
 
         List<M> list = new ArrayList<M>();
-        for(Map<String, Object> map : resultList) {
+        for (Map<String, Object> map : resultList) {
             try {
                 list.add((M) getClass().newInstance().set(map));
             } catch (InstantiationException e) {
@@ -71,45 +111,82 @@ public abstract class Model<M extends Model> extends HashMap<String, Object> {
 
         set(resultMap);
 
-        return (M)this;
+        return (M) this;
     }
 
     public boolean save() {
+        StringBuilder sql = new StringBuilder();
+        StringBuilder temp = new StringBuilder(") VALUES (");
+        List<Object> parameterList = new ArrayList<Object>();
+
+        Table table = this.getClass().getAnnotation(Table.class);
+        if (table == null) {
+            throw new RuntimeException("Can not find the table");
+        }
+
+        sql.append("INSERT INTO ").append(table.value()).append(" (");
+
+        for (Entry<String, Object> entry : this.entrySet()) {
+            for (String column : getColumnList()) {
+                if (entry.getKey().equals(column)) {
+                    if (parameterList.size() > 0) {
+                        sql.append(", ");
+                        temp.append(", ");
+                    }
+                    sql.append(entry.getKey());
+                    temp.append("?");
+                    parameterList.add(entry.getValue());
+                }
+            }
+        }
+
+
+
+        sql.append(temp.toString());
+        sql.append(")");
+
+        System.out.println(sql.toString());
+
+//        return DatabaseUtil.update(sql.toString(), parameterList);
+        return true;
+    }
+
+    public boolean update() {
         StringBuilder sql = new StringBuilder();
         List<Object> parameterList = new ArrayList<Object>();
 
         Table table = this.getClass().getAnnotation(Table.class);
         if (table == null) {
-            throw new RuntimeException("Can not find table");
+            throw new RuntimeException("Can not find the table");
         }
 
-        Field[] fields = this.getClass().getDeclaredFields();
-        for(Field field : fields) {
-            Column column = field.getAnnotation(Column.class);
+        sql.append("UPDATE ").append(table.value()).append(" SET ");
 
-            if (column != null) {
-                try {
-                    System.out.println(field.getName() + " " + field.get(User.class));
-                } catch (IllegalAccessException e) {
-                    e.printStackTrace();
+        for (Entry<String, Object> entry : this.entrySet()) {
+            for (String column : getColumnList()) {
+                if (entry.getKey().equals(column) && ! column.equals(getId())) {
+                    if (parameterList.size() > 0) {
+                        sql.append(", ");
+                    }
+                    sql.append(entry.getKey()).append(" = ?");
+                    parameterList.add(entry.getValue());
                 }
             }
         }
 
-        sql.append("INSERT INTO ").append(table.value()).append(" (");
+        sql.append(" WHERE ");
 
-        sql.append(") VALUES (");
+        String value = get(getId()).toString();
+        if (value == null) {
+            throw new RuntimeException("Can not find the id value");
+        }
 
-        sql.append(")");
+        sql.append(getId()).append(" = ? ");
+        parameterList.add(value);
 
         System.out.println(sql.toString());
 
-        return true;
-    }
-
-    public boolean update() {
-
-
+//        return DatabaseUtil.update(sql.toString(), parameterList);
         return true;
     }
 

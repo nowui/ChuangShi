@@ -1,6 +1,6 @@
 package com.shanghaichuangshi.annotation;
 
-import com.shanghaichuangshi.type.ColType;
+import com.shanghaichuangshi.type.ColumnType;
 
 import java.lang.annotation.*;
 
@@ -8,7 +8,7 @@ import java.lang.annotation.*;
 @Target({ElementType.FIELD, ElementType.METHOD})
 @Documented
 public @interface Column {
-    ColType type() default ColType.AUTO;
+    ColumnType type() default ColumnType.AUTO;
 
     int width() default 0;
 

@@ -1,6 +1,6 @@
 package com.shanghaichuangshi.type;
 
-public enum ColType {
+public enum ColumnType {
     CHAR,
     BOOLEAN,
     VARCHAR,

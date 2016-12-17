@@ -49,12 +49,15 @@ public class DatabaseUtil {
         }
     }
 
-    public static int update(String sql, List<Object> parameterList) {
+    public static boolean update(String sql, List<Object> parameterList) {
+        int result = 0;
         try {
-            return runner.update(sql, new MapListHandler(), parameterList.toArray());
+            result = runner.update(sql, new MapListHandler(), parameterList.toArray());
         } catch (SQLException e) {
             throw new RuntimeException("SQLException: ", e);
         }
+
+        return result >= 1;
     }
 
 }

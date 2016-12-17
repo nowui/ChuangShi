@@ -12,11 +12,10 @@ public class ApplicationController extends Controller {
     public void index() {
         List<User> userList = new User().list("select * from table_user", new ArrayList<Object>());
         for (User u : userList) {
-            u.keep(User.COLUMN_USER_ID, User.COLUMN_USER_NAME);
+            u.keep(User.USER_ID, User.USER_PHONE);
         }
 
         User user = new User().find("select * from table_user", new ArrayList<Object>());
-        user.keep(User.COLUMN_USER_ID);
 
         user.save();
 
