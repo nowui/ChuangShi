@@ -12,5 +12,7 @@ public @interface Column {
 
     int width() default 0;
 
+    String defaultValue() default "";
+
     String comment() default "";
 }

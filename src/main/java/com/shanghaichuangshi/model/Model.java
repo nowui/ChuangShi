@@ -1,8 +1,8 @@
 package com.shanghaichuangshi.model;
 
-import com.shanghaichuangshi.annotation.Column;
 import com.shanghaichuangshi.annotation.Id;
 import com.shanghaichuangshi.annotation.Table;
+import com.shanghaichuangshi.config.Column;
 import com.shanghaichuangshi.util.DatabaseUtil;
 
 import java.lang.reflect.Field;
@@ -12,26 +12,32 @@ public abstract class Model<M extends Model> extends HashMap<String, Object> {
 
     private String table_name;
     private String key_id;
-    private List<String> columnList;
+    private List<Column> columnList;
 
     private String getTable_name() {
         if (table_name == null) {
             Table table = this.getClass().getAnnotation(Table.class);
             table_name = table.value();
 
-            columnList = new ArrayList<String>();
+            columnList = new ArrayList<Column>();
 
             Field[] fields = this.getClass().getDeclaredFields();
             for (Field field : fields) {
-                Column column = field.getAnnotation(Column.class);
-                if (column != null) {
+                com.shanghaichuangshi.annotation.Column columnAnnotation = field.getAnnotation(com.shanghaichuangshi.annotation.Column.class);
+                if (columnAnnotation != null) {
                     Id key = field.getAnnotation(Id.class);
 
+                    Column column = new Column();
+                    column.setType(columnAnnotation.type().getKey());
+                    column.setWidth(columnAnnotation.width());
+                    column.setDefaultValue(columnAnnotation.defaultValue());
+                    column.setComment(columnAnnotation.comment());
+
                     try {
-                        String columnValue = field.get(User.class).toString();
-                        columnList.add(columnValue);
+                        column.setName(field.get(User.class).toString());
+                        columnList.add(column);
                         if (key != null) {
-                            key_id = columnValue;
+                            key_id = column.getName();
                         }
                     } catch (IllegalAccessException e) {
                         throw new RuntimeException("IllegalAccessException: " + e);
@@ -55,7 +61,7 @@ public abstract class Model<M extends Model> extends HashMap<String, Object> {
         return table_name;
     }
 
-    private List<String> getColumnList() {
+    private List<Column> getColumnList() {
         if (columnList == null) {
             getTable_name();
         }
@@ -105,6 +111,18 @@ public abstract class Model<M extends Model> extends HashMap<String, Object> {
         return this;
     }
 
+    public void validate(String... keys) {
+        for (String key : keys) {
+            if (this.containsKey(key)) {
+
+            } else {
+                throw new RuntimeException(key + " is empty");
+            }
+        }
+
+
+    }
+
     public List<M> list(String sql, List<Object> parameterList) {
         List<Map<String, Object>> resultList = DatabaseUtil.list(sql, parameterList);
 
@@ -150,8 +168,8 @@ public abstract class Model<M extends Model> extends HashMap<String, Object> {
         sql.append("INSERT INTO ").append(getTable_name()).append(" (");
 
         for (Entry<String, Object> entry : this.entrySet()) {
-            for (String column : getColumnList()) {
-                if (entry.getKey().equals(column)) {
+            for (Column column : getColumnList()) {
+                if (entry.getKey().equals(column.getName())) {
                     if (parameterList.size() > 0) {
                         sql.append(", ");
                         temp.append(", ");
@@ -181,8 +199,8 @@ public abstract class Model<M extends Model> extends HashMap<String, Object> {
         sql.append("UPDATE ").append(getTable_name()).append(" SET ");
 
         for (Entry<String, Object> entry : this.entrySet()) {
-            for (String column : getColumnList()) {
-                if (entry.getKey().equals(column) && ! column.equals(getKey_id())) {
+            for (Column column : getColumnList()) {
+                if (entry.getKey().equals(column.getName()) && ! column.getName().equals(getKey_id())) {
                     if (parameterList.size() > 0) {
                         sql.append(", ");
                     }
