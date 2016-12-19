@@ -1,18 +1,12 @@
 package com.shanghaichuangshi.type;
 
 public enum ColumnType {
-    CHAR("CHAR"),
-    BOOLEAN("BOOLEAN"),
-    VARCHAR("VARCHAR"),
-    TEXT("TEXT"),
-    BINARY("BINARY"),
-    TIMESTAMP("TIMESTAMP"),
-    DATETIME("DATETIME"),
-    DATE("DATE"),
-    TIME("TIME"),
     INT("INT"),
-    FLOAT("FLOAT"),
-    AUTO("AUTO");
+    VARCHAR("VARCHAR"),
+    DECIMAL("DECIMAL"),
+    BOOLEAN("BOOLEAN"),
+    LONGTEXT("LONGTEXT"),
+    DATETIME("DATETIME");
 
     private String key;
 

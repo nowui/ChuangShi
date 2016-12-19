@@ -27,6 +27,16 @@ public class DatabaseUtil {
         druidDataSource.setMaxActive(20);
     }
 
+    public static Integer count(String sql, List<Object> parameterList) {
+        try {
+            Number result = (Number) runner.query(sql, new MapListHandler(), parameterList.toArray());
+
+            return result.intValue();
+        } catch (SQLException e) {
+            throw new RuntimeException("SQLException: ", e);
+        }
+    }
+
     public static List<Map<String, Object>> list(String sql, List<Object> parameterList) {
         try {
             return runner.query(sql, new MapListHandler(), parameterList.toArray());

@@ -8,9 +8,9 @@ import java.lang.annotation.*;
 @Target({ElementType.FIELD, ElementType.METHOD})
 @Documented
 public @interface Column {
-    ColumnType type() default ColumnType.AUTO;
+    ColumnType type() default ColumnType.VARCHAR;
 
-    int width() default 0;
+    int length() default 0;
 
     String defaultValue() default "";
 

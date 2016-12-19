@@ -9,10 +9,10 @@ import com.shanghaichuangshi.type.ColumnType;
 public class User extends Model<User> {
 
     @Id
-    @Column(type = ColumnType.VARCHAR, width = 32, comment = "用户编号")
+    @Column(type = ColumnType.VARCHAR, length = 32, comment = "用户编号")
     public static final String USER_ID = "user_id";
 
-    @Column(type = ColumnType.VARCHAR, width = 100, comment = "用户电话")
+    @Column(type = ColumnType.VARCHAR, length = 100, comment = "用户电话")
     public static final String USER_PHONE = "user_phone";
 
 }

@@ -4,6 +4,9 @@ import com.shanghaichuangshi.annotation.Id;
 import com.shanghaichuangshi.annotation.Table;
 import com.shanghaichuangshi.config.Column;
 import com.shanghaichuangshi.util.DatabaseUtil;
+import com.shanghaichuangshi.util.IntUtil;
+import com.shanghaichuangshi.util.StringUtil;
+import com.shanghaichuangshi.util.Util;
 
 import java.lang.reflect.Field;
 import java.util.*;
@@ -28,8 +31,8 @@ public abstract class Model<M extends Model> extends HashMap<String, Object> {
                     Id key = field.getAnnotation(Id.class);
 
                     Column column = new Column();
-                    column.setType(columnAnnotation.type().getKey());
-                    column.setWidth(columnAnnotation.width());
+                    column.setType(columnAnnotation.type());
+                    column.setWidth(columnAnnotation.length());
                     column.setDefaultValue(columnAnnotation.defaultValue());
                     column.setComment(columnAnnotation.comment());
 
@@ -114,9 +117,29 @@ public abstract class Model<M extends Model> extends HashMap<String, Object> {
     public void validate(String... keys) {
         for (String key : keys) {
             if (this.containsKey(key)) {
+                if (Util.isNull(this.get(key))) {
+                    throw new RuntimeException(key + " is null");
+                }
 
+                for (Column column : columnList) {
+                    if (column.getName().equals(key)) {
+                        switch (column.getType()) {
+                            case VARCHAR:
+                                if (! StringUtil.checkLength(this.get(key).toString(), column.getWidth())) {
+                                    throw new RuntimeException("The length of the " + key + " is more than " + column.getWidth());
+                                }
+                                break;
+                            case INT:
+                                if (! IntUtil.checkLength((Integer) this.get(key), column.getWidth())) {
+                                    throw new RuntimeException("The length of the " + key + " is more than " + column.getWidth());
+                                }
+                            default:
+                                break;
+                        }
+                    }
+                }
             } else {
-                throw new RuntimeException(key + " is empty");
+                throw new RuntimeException(key + " is null");
             }
         }
 
@@ -142,6 +165,8 @@ public abstract class Model<M extends Model> extends HashMap<String, Object> {
 
     public M find(String sql, List<Object> parameterList) {
         Map<String, Object> resultMap = DatabaseUtil.find(sql, parameterList);
+
+        this.clear();
         set(resultMap);
 
         return (M) this;
@@ -155,6 +180,8 @@ public abstract class Model<M extends Model> extends HashMap<String, Object> {
         parameterList.add(id);
 
         Map<String, Object> resultMap = DatabaseUtil.find(sql.toString(), parameterList);
+
+        this.clear();
         set(resultMap);
 
         return (M) this;
@@ -182,7 +209,6 @@ public abstract class Model<M extends Model> extends HashMap<String, Object> {
         }
 
 
-
         sql.append(temp.toString());
         sql.append(")");
 
@@ -200,7 +226,7 @@ public abstract class Model<M extends Model> extends HashMap<String, Object> {
 
         for (Entry<String, Object> entry : this.entrySet()) {
             for (Column column : getColumnList()) {
-                if (entry.getKey().equals(column.getName()) && ! column.getName().equals(getKey_id())) {
+                if (entry.getKey().equals(column.getName()) && !column.getName().equals(getKey_id())) {
                     if (parameterList.size() > 0) {
                         sql.append(", ");
                     }

@@ -1,6 +1,7 @@
 package com.shanghaichuangshi.controller;
 
 import com.shanghaichuangshi.annotation.Path;
+import com.shanghaichuangshi.config.DynamicSQL;
 import com.shanghaichuangshi.model.User;
 
 import java.util.ArrayList;
@@ -15,11 +16,17 @@ public class ApplicationController extends Controller {
             u.keep(User.USER_ID, User.USER_PHONE);
         }
 
-        User user = new User().find("select * from table_user", new ArrayList<Object>());
+        User user = new User().findById("00e600a0a7de4d158098e54982608598");
 
-        user.save();
+//        User user = new User().find("select * from table_user", new ArrayList<Object>());
 
-        renderJson(10, userList);
+//        user.save();
+
+        DynamicSQL dynamicSQL = new DynamicSQL();
+
+        dynamicSQL.append("SELECT COUNT(*) FROM ").append("table_user ");
+
+        renderJson(10, dynamicSQL.getSql());
     }
 
     @Path("/app/detail")

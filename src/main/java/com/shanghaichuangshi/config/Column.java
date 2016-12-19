@@ -1,9 +1,11 @@
 package com.shanghaichuangshi.config;
 
+import com.shanghaichuangshi.type.ColumnType;
+
 public class Column {
 
     private String name;
-    private String type;
+    private ColumnType type;
     private int width;
     private String defaultValue;
     private String comment;
@@ -16,11 +18,11 @@ public class Column {
         this.name = name;
     }
 
-    public String getType() {
+    public ColumnType getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(ColumnType type) {
         this.type = type;
     }
 
