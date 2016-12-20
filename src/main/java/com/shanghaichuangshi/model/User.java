@@ -5,8 +5,10 @@ import com.shanghaichuangshi.annotation.Id;
 import com.shanghaichuangshi.annotation.Table;
 import com.shanghaichuangshi.type.ColumnType;
 
-@Table("table_user")
 public class User extends Model<User> {
+
+    @Table()
+    public static final String TABLE_USER = "table_user";
 
     @Id
     @Column(type = ColumnType.VARCHAR, length = 32, comment = "用户编号")

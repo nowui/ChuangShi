@@ -3,6 +3,7 @@ package com.shanghaichuangshi.model;
 import com.shanghaichuangshi.annotation.Id;
 import com.shanghaichuangshi.annotation.Table;
 import com.shanghaichuangshi.config.Column;
+import com.shanghaichuangshi.type.ColumnType;
 import com.shanghaichuangshi.util.DatabaseUtil;
 import com.shanghaichuangshi.util.IntUtil;
 import com.shanghaichuangshi.util.StringUtil;
@@ -17,67 +18,99 @@ public abstract class Model<M extends Model> extends HashMap<String, Object> {
     private String key_id;
     private List<Column> columnList;
 
+    @com.shanghaichuangshi.annotation.Column(type = ColumnType.VARCHAR, length = 32, comment = "")
+    public static final String SYSTEM_CREATE_USER_ID = "system_create_user_id";
+
+    @com.shanghaichuangshi.annotation.Column(type = ColumnType.DATETIME, length = 0, comment = "")
+    public static final String SYSTEM_CREATE_TIME = "system_create_time";
+
+    @com.shanghaichuangshi.annotation.Column(type = ColumnType.VARCHAR, length = 32, comment = "")
+    public static final String SYSTEM_UPDATE_USER_ID = "system_update_user_id";
+
+    @com.shanghaichuangshi.annotation.Column(type = ColumnType.DATETIME, length = 0, comment = "")
+    public static final String SYSTEM_UPDATE_TIME = "system_update_time";
+
+    @com.shanghaichuangshi.annotation.Column(type = ColumnType.BOOLEAN, length = 0, comment = "")
+    public static final String SYSTEM_STATUS = "system_status";
+
     private String getTable_name() {
         if (table_name == null) {
-            Table table = this.getClass().getAnnotation(Table.class);
-            table_name = table.value();
+            Field[] fields = this.getClass().getDeclaredFields();
+            for (Field field : fields) {
+                Table table = field.getAnnotation(Table.class);
+                if (table != null) {
+                    try {
+                        table_name = field.get(User.class).toString();
 
+                        break;
+                    } catch (IllegalAccessException e) {
+                        throw new RuntimeException("IllegalAccessException: " + e);
+                    }
+                }
+            }
+        }
+
+        if (table_name == null) {
+            throw new RuntimeException("Can not find the table name");
+        }
+
+        return table_name;
+    }
+
+    private String getKey_id() {
+        if (key_id == null) {
+            Field[] fields = this.getClass().getDeclaredFields();
+            for (Field field : fields) {
+                Id id = field.getAnnotation(Id.class);
+                if (id != null) {
+                    try {
+                        key_id = field.get(User.class).toString();
+
+                        break;
+                    } catch (IllegalAccessException e) {
+                        throw new RuntimeException("IllegalAccessException: " + e);
+                    }
+                }
+            }
+        }
+
+        if (key_id == null) {
+            throw new RuntimeException("Can not find the key column");
+        }
+
+        return key_id;
+    }
+
+    private List<Column> getColumnList() {
+        if (columnList == null) {
             columnList = new ArrayList<Column>();
 
             Field[] fields = this.getClass().getDeclaredFields();
             for (Field field : fields) {
                 com.shanghaichuangshi.annotation.Column columnAnnotation = field.getAnnotation(com.shanghaichuangshi.annotation.Column.class);
                 if (columnAnnotation != null) {
-                    Id key = field.getAnnotation(Id.class);
-
-                    Column column = new Column();
-                    column.setType(columnAnnotation.type());
-                    column.setWidth(columnAnnotation.length());
-                    column.setDefaultValue(columnAnnotation.defaultValue());
-                    column.setComment(columnAnnotation.comment());
-
                     try {
+                        Column column = new Column();
+                        column.setType(columnAnnotation.type());
+                        column.setWidth(columnAnnotation.length());
+                        column.setDefaultValue(columnAnnotation.defaultValue());
+                        column.setComment(columnAnnotation.comment());
                         column.setName(field.get(User.class).toString());
                         columnList.add(column);
-                        if (key != null) {
-                            key_id = column.getName();
-                        }
+
+                        break;
                     } catch (IllegalAccessException e) {
                         throw new RuntimeException("IllegalAccessException: " + e);
                     }
                 }
             }
-
-            if (table_name == null) {
-                throw new RuntimeException("Can not find the table");
-            }
-
-            if (key_id == null) {
-                throw new RuntimeException("Can not find the key column");
-            }
-
-            if (columnList.size() == 0) {
-                throw new RuntimeException("Can not find the column");
-            }
         }
 
-        return table_name;
-    }
-
-    private List<Column> getColumnList() {
-        if (columnList == null) {
-            getTable_name();
+        if (columnList.size() == 0) {
+            throw new RuntimeException("Can not find the column");
         }
 
         return columnList;
-    }
-
-    private String getKey_id() {
-        if (key_id == null) {
-            getTable_name();
-        }
-
-        return key_id;
     }
 
     public Model set(Map<String, Object> map) {
@@ -125,12 +158,12 @@ public abstract class Model<M extends Model> extends HashMap<String, Object> {
                     if (column.getName().equals(key)) {
                         switch (column.getType()) {
                             case VARCHAR:
-                                if (! StringUtil.checkLength(this.get(key).toString(), column.getWidth())) {
+                                if (!StringUtil.checkLength(this.get(key).toString(), column.getWidth())) {
                                     throw new RuntimeException("The length of the " + key + " is more than " + column.getWidth());
                                 }
                                 break;
                             case INT:
-                                if (! IntUtil.checkLength((Integer) this.get(key), column.getWidth())) {
+                                if (!IntUtil.checkLength((Integer) this.get(key), column.getWidth())) {
                                     throw new RuntimeException("The length of the " + key + " is more than " + column.getWidth());
                                 }
                             default:

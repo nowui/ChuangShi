@@ -29,4 +29,13 @@ public class DynamicSQL {
         }
         return this;
     }
+
+    public DynamicSQL appendPagination(Integer m, Integer n) {
+        if (n > 0) {
+            this.sql.append("sLIMIT ?, ? ");
+            this.parameterList.add(m);
+            this.parameterList.add(n);
+        }
+        return this;
+    }
 }
