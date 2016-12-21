@@ -20,13 +20,13 @@ public class ApplicationController extends Controller {
 
 //        User user = new User().find("select * from table_user", new ArrayList<Object>());
 
-//        user.save();
+        user.save("123");
 
         DynamicSQL dynamicSQL = new DynamicSQL();
 
         dynamicSQL.append("SELECT COUNT(*) FROM ").append("table_user ");
 
-        renderJson(10, dynamicSQL.getSql());
+        renderJson(10, user);
     }
 
     @Path("/app/detail")

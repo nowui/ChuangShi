@@ -17,4 +17,13 @@ public class User extends Model<User> {
     @Column(type = ColumnType.VARCHAR, length = 100, comment = "用户电话")
     public static final String USER_PHONE = "user_phone";
 
+
+    public String getUser_id() {
+        return "";
+    }
+
+    public void setUser_id(String user_id) {
+
+    }
+
 }

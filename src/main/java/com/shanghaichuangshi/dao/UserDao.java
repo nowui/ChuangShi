@@ -6,7 +6,7 @@ import com.shanghaichuangshi.util.DatabaseUtil;
 
 import java.util.List;
 
-public abstract class UserDao {
+public class UserDao extends Dao {
 
     private int count(User user) {
         DynamicSQL dynamicSQL = new DynamicSQL();
@@ -57,12 +57,12 @@ public abstract class UserDao {
         return new User().findById(user_id);
     }
 
-    public boolean save(User user) {
-        return user.save();
+    public boolean save(User user, String request_user_id) {
+        return user.save(request_user_id);
     }
 
-    public boolean update(User user) {
-        return user.update();
+    public boolean update(User user, String request_user_id) {
+        return user.update(request_user_id);
     }
 
 }

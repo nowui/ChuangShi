@@ -220,7 +220,7 @@ public abstract class Model<M extends Model> extends HashMap<String, Object> {
         return (M) this;
     }
 
-    public boolean save() {
+    public boolean save(String request_user_id) {
         StringBuilder sql = new StringBuilder();
         StringBuilder temp = new StringBuilder(") VALUES (");
         List<Object> parameterList = new ArrayList<Object>();
@@ -241,6 +241,26 @@ public abstract class Model<M extends Model> extends HashMap<String, Object> {
             }
         }
 
+        sql.append(", ").append(SYSTEM_CREATE_USER_ID);
+        temp.append(", ").append("?");
+        parameterList.add(request_user_id);
+
+        sql.append(", ").append(SYSTEM_CREATE_TIME);
+        temp.append(", ").append("?");
+        parameterList.add(new Date());
+
+        sql.append(", ").append(SYSTEM_UPDATE_USER_ID);
+        temp.append(", ").append("?");
+        parameterList.add(request_user_id);
+
+        sql.append(", ").append(SYSTEM_UPDATE_TIME);
+        temp.append(", ").append("?");
+        parameterList.add(new Date());
+
+        sql.append(", ").append(SYSTEM_STATUS);
+        temp.append(", ").append("?");
+        parameterList.add(true);
+
 
         sql.append(temp.toString());
         sql.append(")");
@@ -251,7 +271,7 @@ public abstract class Model<M extends Model> extends HashMap<String, Object> {
         return true;
     }
 
-    public boolean update() {
+    public boolean update(String request_user_id) {
         StringBuilder sql = new StringBuilder();
         List<Object> parameterList = new ArrayList<Object>();
 
@@ -268,6 +288,15 @@ public abstract class Model<M extends Model> extends HashMap<String, Object> {
                 }
             }
         }
+
+        sql.append(", ").append(SYSTEM_UPDATE_USER_ID).append(" = ?");
+        parameterList.add(request_user_id);
+
+        sql.append(", ").append(SYSTEM_UPDATE_TIME).append(" = ?");
+        parameterList.add(new Date());
+
+        sql.append(", ").append(SYSTEM_STATUS).append(" = ?");
+        parameterList.add(true);
 
         sql.append(" WHERE ");
 
