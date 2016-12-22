@@ -3,6 +3,7 @@ package com.shanghaichuangshi.model;
 import com.shanghaichuangshi.annotation.Id;
 import com.shanghaichuangshi.annotation.Table;
 import com.shanghaichuangshi.config.Column;
+import com.shanghaichuangshi.constant.Key;
 import com.shanghaichuangshi.type.ColumnType;
 import com.shanghaichuangshi.util.DatabaseUtil;
 import com.shanghaichuangshi.util.IntUtil;
@@ -32,6 +33,18 @@ public abstract class Model<M extends Model> extends HashMap<String, Object> {
 
     @com.shanghaichuangshi.annotation.Column(type = ColumnType.BOOLEAN, length = 0, comment = "")
     public static final String SYSTEM_STATUS = "system_status";
+
+    public int getPage_index() {
+        return 0;
+    }
+
+    public int getPage_size() {
+        return 0;
+    }
+
+    protected String getRequest_user_id() {
+        return "";
+    }
 
     private String getTable_name() {
         if (table_name == null) {
@@ -131,6 +144,12 @@ public abstract class Model<M extends Model> extends HashMap<String, Object> {
                 }
             }
 
+//            if (isNotExit) {
+//                if (entry.equals(Key.KEY_PAGE_INDEX) || entry.equals(Key.KEY_PAGE_SIZE) || entry.equals(Key.KEY_REQUEST_USER_ID)) {
+//                    isNotExit = false;
+//                }
+//            }
+
             if (isNotExit) {
                 iterator.remove();
             }
@@ -220,7 +239,7 @@ public abstract class Model<M extends Model> extends HashMap<String, Object> {
         return (M) this;
     }
 
-    public boolean save(String request_user_id) {
+    public boolean save() {
         StringBuilder sql = new StringBuilder();
         StringBuilder temp = new StringBuilder(") VALUES (");
         List<Object> parameterList = new ArrayList<Object>();
@@ -243,7 +262,7 @@ public abstract class Model<M extends Model> extends HashMap<String, Object> {
 
         sql.append(", ").append(SYSTEM_CREATE_USER_ID);
         temp.append(", ").append("?");
-        parameterList.add(request_user_id);
+        parameterList.add(getRequest_user_id());
 
         sql.append(", ").append(SYSTEM_CREATE_TIME);
         temp.append(", ").append("?");
@@ -251,7 +270,7 @@ public abstract class Model<M extends Model> extends HashMap<String, Object> {
 
         sql.append(", ").append(SYSTEM_UPDATE_USER_ID);
         temp.append(", ").append("?");
-        parameterList.add(request_user_id);
+        parameterList.add(getRequest_user_id());
 
         sql.append(", ").append(SYSTEM_UPDATE_TIME);
         temp.append(", ").append("?");
@@ -271,7 +290,7 @@ public abstract class Model<M extends Model> extends HashMap<String, Object> {
         return true;
     }
 
-    public boolean update(String request_user_id) {
+    public boolean update() {
         StringBuilder sql = new StringBuilder();
         List<Object> parameterList = new ArrayList<Object>();
 
@@ -290,19 +309,16 @@ public abstract class Model<M extends Model> extends HashMap<String, Object> {
         }
 
         sql.append(", ").append(SYSTEM_UPDATE_USER_ID).append(" = ?");
-        parameterList.add(request_user_id);
+        parameterList.add(getRequest_user_id());
 
         sql.append(", ").append(SYSTEM_UPDATE_TIME).append(" = ?");
         parameterList.add(new Date());
-
-        sql.append(", ").append(SYSTEM_STATUS).append(" = ?");
-        parameterList.add(true);
 
         sql.append(" WHERE ");
 
         String value = get(getKey_id()).toString();
         if (value == null) {
-            throw new RuntimeException("Can not find the id value");
+            throw new RuntimeException("Can not find the id");
         }
 
         sql.append(getKey_id()).append(" = ? ");
@@ -311,6 +327,36 @@ public abstract class Model<M extends Model> extends HashMap<String, Object> {
         System.out.println(sql.toString());
 
 //        return DatabaseUtil.update(sql.toString(), parameterList);
+        return true;
+    }
+
+    public boolean delete() {
+        StringBuilder sql = new StringBuilder();
+        List<Object> parameterList = new ArrayList<Object>();
+
+        sql.append("UPDATE ").append(getTable_name()).append(" SET ");
+
+        sql.append(", ").append(SYSTEM_UPDATE_USER_ID).append(" = ?");
+        parameterList.add(getRequest_user_id());
+
+        sql.append(", ").append(SYSTEM_UPDATE_TIME).append(" = ?");
+        parameterList.add(new Date());
+
+        sql.append(", ").append(SYSTEM_STATUS).append(" = ?");
+        parameterList.add(false);
+
+        sql.append(" WHERE ");
+
+        String value = get(getKey_id()).toString();
+        if (value == null) {
+            throw new RuntimeException("Can not find the id");
+        }
+
+        sql.append(getKey_id()).append(" = ? ");
+        parameterList.add(value);
+
+        System.out.println(sql.toString());
+
         return true;
     }
 

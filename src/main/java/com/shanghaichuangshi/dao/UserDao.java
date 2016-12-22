@@ -23,7 +23,7 @@ public class UserDao extends Dao {
         return count(user);
     }
 
-    private List<User> list(User user, Integer m, Integer n) {
+    private List<User> list(User user) {
         DynamicSQL dynamicSQL = new DynamicSQL();
 
         dynamicSQL.append("SELECT ");
@@ -31,15 +31,15 @@ public class UserDao extends Dao {
         dynamicSQL.append("FROM ").append(User.TABLE_USER);
         dynamicSQL.append("WHERE ").append(User.TABLE_USER).append(".").append(User.SYSTEM_STATUS).append(" = 1 ");
         dynamicSQL.append("ORDER BY ").append(User.TABLE_USER).append(".").append(User.SYSTEM_CREATE_TIME).append(" DESC ");
-        dynamicSQL.appendPagination(m, n);
+        dynamicSQL.appendPagination(user.getPage_index(), user.getPage_size());
 
         return user.list(dynamicSQL.getSql(), dynamicSQL.getParameterList());
     }
 
-    public List<User> list(Integer m, Integer n) {
+    public List<User> list() {
         User user = new User();
 
-        return list(user, m, n);
+        return list(user);
     }
 
     private User find(User user) {
@@ -57,12 +57,16 @@ public class UserDao extends Dao {
         return new User().findById(user_id);
     }
 
-    public boolean save(User user, String request_user_id) {
-        return user.save(request_user_id);
+    public boolean save(User user) {
+        return user.save();
     }
 
-    public boolean update(User user, String request_user_id) {
-        return user.update(request_user_id);
+    public boolean update(User user) {
+        return user.update();
+    }
+
+    public boolean delete(User user) {
+        return user.delete();
     }
 
 }
