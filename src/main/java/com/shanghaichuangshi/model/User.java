@@ -19,11 +19,11 @@ public class User extends Model<User> {
 
 
     public String getUser_id() {
-        return "";
+        return getString(USER_ID);
     }
 
     public void setUser_id(String user_id) {
-
+        set(USER_ID, user_id);
     }
 
 }

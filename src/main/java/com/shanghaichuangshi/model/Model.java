@@ -34,12 +34,30 @@ public abstract class Model<M extends Model> extends HashMap<String, Object> {
     @com.shanghaichuangshi.annotation.Column(type = ColumnType.BOOLEAN, length = 0, comment = "")
     public static final String SYSTEM_STATUS = "system_status";
 
+    @com.shanghaichuangshi.annotation.Column(type = ColumnType.INT, length = 0, comment = "")
+    public static final String PAGE_INDEX = "page_index";
+
+    @com.shanghaichuangshi.annotation.Column(type = ColumnType.INT, length = 0, comment = "")
+    public static final String PAGE_SIZE = "page_size";
+
+    public String getString(String key) {
+        return (String) this.get(key);
+    }
+
+    public Integer getInteger(String key) {
+        return (Integer) this.get(key);
+    }
+
+    public int getInt(String key) {
+        return (int) this.get(key);
+    }
+
     public int getPage_index() {
-        return 0;
+        return getInt(PAGE_INDEX);
     }
 
     public int getPage_size() {
-        return 0;
+        return getInt(PAGE_SIZE);
     }
 
     protected String getRequest_user_id() {
@@ -124,6 +142,12 @@ public abstract class Model<M extends Model> extends HashMap<String, Object> {
         }
 
         return columnList;
+    }
+
+    public Model set(String key, Object value) {
+        this.put(key, value);
+
+        return this;
     }
 
     public Model set(Map<String, Object> map) {

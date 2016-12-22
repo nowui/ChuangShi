@@ -23,7 +23,7 @@ public class UserDao extends Dao {
         return count(user);
     }
 
-    private List<User> list(User user) {
+    private List<User> list(User user, Integer m, Integer n) {
         DynamicSQL dynamicSQL = new DynamicSQL();
 
         dynamicSQL.append("SELECT ");
@@ -31,15 +31,15 @@ public class UserDao extends Dao {
         dynamicSQL.append("FROM ").append(User.TABLE_USER);
         dynamicSQL.append("WHERE ").append(User.TABLE_USER).append(".").append(User.SYSTEM_STATUS).append(" = 1 ");
         dynamicSQL.append("ORDER BY ").append(User.TABLE_USER).append(".").append(User.SYSTEM_CREATE_TIME).append(" DESC ");
-        dynamicSQL.appendPagination(user.getPage_index(), user.getPage_size());
+        dynamicSQL.appendPagination(m, n);
 
         return user.list(dynamicSQL.getSql(), dynamicSQL.getParameterList());
     }
 
-    public List<User> list() {
+    public List<User> list(Integer m, Integer n) {
         User user = new User();
 
-        return list(user);
+        return list(user, m, n);
     }
 
     private User find(User user) {
@@ -53,7 +53,7 @@ public class UserDao extends Dao {
         return user.find(dynamicSQL.getSql(), dynamicSQL.getParameterList());
     }
 
-    public User findById(String user_id) {
+    public User findByUser_Id(String user_id) {
         return new User().findById(user_id);
     }
 

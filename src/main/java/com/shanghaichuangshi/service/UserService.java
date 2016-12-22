@@ -10,24 +10,22 @@ public class UserService extends Service {
 
     private UserDao userDao = new UserDao();
 
-    public List<User> list(Map<String, Object> map) {
-        return userDao.list();
+    public List<User> list(User user) {
+        return userDao.list(user.getPage_index(), user.getPage_size());
     }
 
-    public List<User> listForAdmin(Map<String, Object> map) {
-        return userDao.list();
+    public List<User> listForAdmin(User user) {
+        return userDao.list(user.getPage_index(), user.getPage_size());
     }
 
-    public User find(Map<String, Object> map) {
+    public User find(User user) {
         User userMap = new User();
 
-        return userDao.findById(userMap.getUser_id());
+        return userDao.findByUser_Id(userMap.getUser_id());
     }
 
-    public User findForAdmin(Map<String, Object> map) {
-        User userMap = new User();
-
-        return userDao.findById(userMap.getUser_id());
+    public User findForAdmin(User user) {
+        return userDao.findByUser_Id(user.getUser_id());
     }
 
     public void save(User user) {
