@@ -3,7 +3,6 @@ package com.shanghaichuangshi.model;
 import com.shanghaichuangshi.annotation.Id;
 import com.shanghaichuangshi.annotation.Table;
 import com.shanghaichuangshi.config.Column;
-import com.shanghaichuangshi.constant.Key;
 import com.shanghaichuangshi.type.ColumnType;
 import com.shanghaichuangshi.util.DatabaseUtil;
 import com.shanghaichuangshi.util.IntUtil;
@@ -308,8 +307,6 @@ public abstract class Model<M extends Model> extends HashMap<String, Object> {
         sql.append(temp.toString());
         sql.append(")");
 
-        System.out.println(sql.toString());
-
 //        return DatabaseUtil.update(sql.toString(), parameterList);
         return true;
     }
@@ -348,8 +345,6 @@ public abstract class Model<M extends Model> extends HashMap<String, Object> {
         sql.append(getKey_id()).append(" = ? ");
         parameterList.add(value);
 
-        System.out.println(sql.toString());
-
 //        return DatabaseUtil.update(sql.toString(), parameterList);
         return true;
     }
@@ -379,7 +374,7 @@ public abstract class Model<M extends Model> extends HashMap<String, Object> {
         sql.append(getKey_id()).append(" = ? ");
         parameterList.add(value);
 
-        System.out.println(sql.toString());
+//        return DatabaseUtil.update(sql.toString(), parameterList);
 
         return true;
     }

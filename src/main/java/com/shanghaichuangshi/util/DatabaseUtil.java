@@ -1,5 +1,7 @@
 package com.shanghaichuangshi.util;
 
+import com.alibaba.druid.filter.logging.Slf4jLogFilter;
+import com.alibaba.druid.filter.stat.StatFilter;
 import com.alibaba.druid.pool.DruidDataSource;
 import com.shanghaichuangshi.config.Config;
 import com.shanghaichuangshi.config.Mysql;
@@ -18,13 +20,29 @@ public class DatabaseUtil {
 
     public static void init(Config config) {
         config.configMysql(mysql);
-        druidDataSource.setDriverClassName(mysql.getDriverClass());
+
+        druidDataSource.setDriverClassName(mysql.getDriver_class());
         druidDataSource.setUrl(mysql.getUrl());
-        druidDataSource.setUsername(mysql.getUsername());
+        druidDataSource.setUsername(mysql.getUser_name());
         druidDataSource.setPassword(mysql.getPassword());
         druidDataSource.setInitialSize(5);
         druidDataSource.setMinIdle(1);
         druidDataSource.setMaxActive(20);
+
+        try {
+            druidDataSource.setFilters("stat,wall");
+        } catch (SQLException e) {
+            throw new RuntimeException("SQLException: ", e);
+        }
+
+        Slf4jLogFilter sql_log_filter = new Slf4jLogFilter();
+
+        sql_log_filter.setConnectionLogEnabled(false);
+        sql_log_filter.setStatementLogEnabled(false);
+        sql_log_filter.setStatementExecutableSqlLogEnable(true);
+        sql_log_filter.setResultSetLogEnabled(false);
+
+        druidDataSource.getProxyFilters().add(sql_log_filter);
     }
 
     public static int count(String sql, List<Object> parameterList) {

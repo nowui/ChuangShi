@@ -1,57 +1,101 @@
 package com.shanghaichuangshi.controller;
 
+import com.shanghaichuangshi.annotation.Path;
+import com.shanghaichuangshi.constant.Url;
 import com.shanghaichuangshi.model.User;
 import com.shanghaichuangshi.service.UserService;
 
 import java.util.List;
-import java.util.Map;
 
 public class UserController extends Controller {
 
     private UserService userService = new UserService();
 
-    public List<User> list() {
-        User userMap = new User();
-        userMap.set(getAttribute());
-        userMap.validate(User.PAGE_INDEX, User.PAGE_SIZE);
+    @Path(Url.USER_LIST)
+    public void list() {
+        User userModel = getModel(User.class);
 
-        return userService.list(userMap);
+        userModel.validate(User.PAGE_INDEX, User.PAGE_SIZE);
+
+        List<User> userList = userService.list(userModel);
+
+        for (User user : userList) {
+            user.keep(User.USER_ID);
+        }
+
+        renderJson(userList);
     }
 
-    public List<User> listForAdmin() {
-        User userMap = new User();
-        userMap.set(getAttribute());
-        userMap.validate(User.PAGE_INDEX, User.PAGE_SIZE);
+    @Path(Url.USER_ADMIN_LIST)
+    public void listForAdmin() {
+        User userModel = getModel(User.class);
 
-        return userService.list(userMap);
+        userModel.validate(User.PAGE_INDEX, User.PAGE_SIZE);
+
+        int count = userService.count(userModel);
+
+        List<User> userList = userService.list(userModel);
+
+        for (User user : userList) {
+            user.keep(User.USER_ID);
+        }
+
+        renderJson(count, userList);
     }
 
-    public User find() {
-        User userMap = new User();
-        userMap.set(getAttribute());
-        userMap.validate(User.USER_ID);
+    @Path(Url.USER_FIND)
+    public void find() {
+        User userModel = getModel(User.class);
 
-        return userService.find(userMap);
+        userModel.validate(User.USER_ID);
+
+        User user = userService.find(userModel);
+
+        user.remove();
+
+        renderJson(user);
     }
 
-    public User findForAdmin() {
-        User userMap = new User();
-        userMap.set(getAttribute());
-        userMap.validate(User.USER_ID);
+    @Path(Url.USER_ADMIN_FIND)
+    public void findForAdmin() {
+        User userModel = getModel(User.class);
 
-        return userService.findForAdmin(userMap);
+        userModel.validate(User.USER_ID);
+
+        User user = userService.find(userModel);
+
+        renderJson("");
     }
 
+    @Path(Url.USER_SAVE)
     public void save() {
-        //user.save();
+        User userModel = getModel(User.class);
+
+        userService.save(userModel);
+
+        renderJson("");
     }
 
+    @Path(Url.USERL_UPDATE)
     public void update() {
+        User userModel = getModel(User.class);
 
+        userModel.validate(User.USER_ID);
+
+        userService.update(userModel);
+
+        renderJson("");
     }
 
+    @Path(Url.USER_DELETE)
     public void delete() {
+        User userModel = getModel(User.class);
 
+        userModel.validate(User.USER_ID);
+
+        userService.delete(userModel);
+
+        renderJson("");
     }
 
 }

@@ -1,5 +1,6 @@
 package com.shanghaichuangshi.filter;
 
+import com.shanghaichuangshi.config.Certificate;
 import com.shanghaichuangshi.config.Config;
 import com.shanghaichuangshi.controller.Controller;
 import com.shanghaichuangshi.render.RenderFactory;
@@ -13,11 +14,15 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Filter implements javax.servlet.Filter {
 
     private Config config;
+    private static final Certificate certificate = new Certificate();
     private static final RouteMatcher routeMatcher = new RouteMatcher();
+    private static final List<String> uncheckTokenUrlList = new ArrayList<String>();
     private static final RenderFactory renderFactory = RenderFactory.getInstance();
 
     public void init(FilterConfig filterConfig) throws ServletException {
@@ -37,7 +42,11 @@ public class Filter implements javax.servlet.Filter {
 
         DatabaseUtil.init(config);
 
+        config.configCertificate(certificate);
+
         config.configRouteMatcher(routeMatcher);
+
+        config.configUncheckTokenUrl(uncheckTokenUrlList);
     }
 
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
@@ -53,6 +62,16 @@ public class Filter implements javax.servlet.Filter {
         response.setHeader("Content-Type", "application/json;charset=UTF-8");
 
         String path = request.getRequestURI();
+
+        String platform = "";
+
+        String version = "";
+
+        String user_id = "";
+
+        String authorization_id = "";
+
+        String parameter = "{}";
 
         Route route = routeMatcher.find(path);
         if(route != null) {

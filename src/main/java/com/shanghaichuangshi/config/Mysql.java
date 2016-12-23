@@ -3,9 +3,9 @@ package com.shanghaichuangshi.config;
 public final class Mysql {
 
     private String url;
-    private String username;
+    private String user_name;
     private String password;
-    private String driverClass;
+    private String driver_class;
 
     public String getUrl() {
         return url;
@@ -15,12 +15,12 @@ public final class Mysql {
         this.url = url;
     }
 
-    public String getUsername() {
-        return username;
+    public String getUser_name() {
+        return user_name;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setUser_name(String user_name) {
+        this.user_name = user_name;
     }
 
     public String getPassword() {
@@ -31,12 +31,11 @@ public final class Mysql {
         this.password = password;
     }
 
-    public String getDriverClass() {
-        return driverClass;
+    public String getDriver_class() {
+        return driver_class;
     }
 
-    public void setDriverClass(String driverClass) {
-        this.driverClass = driverClass;
+    public void setDriver_class(String driver_class) {
+        this.driver_class = driver_class;
     }
-
 }

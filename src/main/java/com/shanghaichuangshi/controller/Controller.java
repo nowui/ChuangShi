@@ -19,12 +19,12 @@ public abstract class Controller {
         return this;
     }
 
-    public void renderJson(Integer total, Object data) {
-        renderFactory.getJsonRender(total, data).setContext(request, response).render();
-    }
-
     public void renderJson(Object data) {
         renderFactory.getJsonRender(data).setContext(request, response).render();
+    }
+
+    public void renderJson(Integer total, Object data) {
+        renderFactory.getJsonRender(total, data).setContext(request, response).render();
     }
 
     public Map<String, Object> getAttribute() {
@@ -33,6 +33,26 @@ public abstract class Controller {
 
     public void setAttribute(Map<String, Object> map) {
 
+    }
+
+    public <T> T getModel(Class<T> modelClass) {
+        Object object;
+
+        try {
+            object = modelClass.newInstance();
+        } catch (InstantiationException e) {
+            throw new RuntimeException("InstantiationException: ", e);
+        } catch (IllegalAccessException e) {
+            throw new RuntimeException("IllegalAccessException: ", e);
+        }
+
+        if (object instanceof Model == false) {
+            throw new RuntimeException("Model type is error");
+        }
+
+        ((Model<?>) object).set(getAttribute());
+
+        return (T) object;
     }
 
 }

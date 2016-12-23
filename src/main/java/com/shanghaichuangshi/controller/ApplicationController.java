@@ -13,14 +13,14 @@ public class ApplicationController extends Controller {
     public void index() {
         List<User> userList = new User().list("select * from table_user", new ArrayList<Object>());
         for (User u : userList) {
-            u.keep(User.USER_ID, User.USER_PHONE);
+            u.keep(User.USER_ID, User.USER_NAME);
         }
 
         User user = new User().findById("00e600a0a7de4d158098e54982608598");
 
 //        User user = new User().find("select * from table_user", new ArrayList<Object>());
 
-        user.save("123");
+        user.save();
 
         DynamicSQL dynamicSQL = new DynamicSQL();
 
