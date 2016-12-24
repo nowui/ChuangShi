@@ -14,7 +14,10 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class Filter implements javax.servlet.Filter {
@@ -50,6 +53,8 @@ public class Filter implements javax.servlet.Filter {
     }
 
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
+        Date start = new Date();
+
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpServletResponse response = (HttpServletResponse) servletResponse;
 
@@ -73,11 +78,41 @@ public class Filter implements javax.servlet.Filter {
 
         String parameter = "{}";
 
-        Route route = routeMatcher.find(path);
-        if(route != null) {
-            execute(route.getControllerClass(), route.getMethod(), request, response);
-        } else {
-            renderFactory.getErrorRender().setContext(request, response).render();
+        Connection connection = null;
+
+        try {
+            connection = DatabaseUtil.getDruidDataSource().getConnection();
+            connection.setAutoCommit(false);
+
+
+            Route route = routeMatcher.find(path);
+            if(route != null) {
+                execute(route.getControllerClass(), route.getMethod(), request, response);
+            } else {
+                renderFactory.getErrorRender().setContext(request, response).render();
+            }
+
+            connection.commit();
+        } catch (RuntimeException | SQLException e) {
+            e.printStackTrace();
+
+            try {
+                if (connection != null) {
+                    connection.rollback();
+                }
+            } catch (SQLException e1) {
+                e1.printStackTrace();
+            }
+        } finally {
+            try {
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException e1) {
+                e1.printStackTrace();
+            }
+
+            Date end = new Date();
         }
     }
 

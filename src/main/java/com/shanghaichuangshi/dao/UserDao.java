@@ -2,7 +2,6 @@ package com.shanghaichuangshi.dao;
 
 import com.shanghaichuangshi.config.DynamicSQL;
 import com.shanghaichuangshi.model.User;
-import com.shanghaichuangshi.util.DatabaseUtil;
 
 import java.util.List;
 
@@ -14,7 +13,7 @@ public class UserDao extends Dao {
         dynamicSQL.append("SELECT COUNT(*) FROM ").append(User.TABLE_USER);
         dynamicSQL.append("WHERE ").append(User.TABLE_USER).append(".").append(User.SYSTEM_STATUS).append(" = 1 ");
 
-        return DatabaseUtil.count(dynamicSQL.getSql(), dynamicSQL.getParameterList());
+        return user.count(dynamicSQL.getSql(), dynamicSQL.getParameterList());
     }
 
     public int count() {

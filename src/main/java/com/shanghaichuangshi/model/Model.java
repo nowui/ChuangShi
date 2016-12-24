@@ -221,6 +221,10 @@ public abstract class Model<M extends Model> extends HashMap<String, Object> {
 
     }
 
+    public int count(String sql, List<Object> parameterList) {
+        return DatabaseUtil.count(sql, parameterList);
+    }
+
     public List<M> list(String sql, List<Object> parameterList) {
         List<Map<String, Object>> resultList = DatabaseUtil.list(sql, parameterList);
 
