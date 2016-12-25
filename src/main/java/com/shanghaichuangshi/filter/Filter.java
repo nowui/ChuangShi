@@ -2,11 +2,16 @@ package com.shanghaichuangshi.filter;
 
 import com.shanghaichuangshi.config.Certificate;
 import com.shanghaichuangshi.config.Config;
+import com.shanghaichuangshi.constant.Url;
 import com.shanghaichuangshi.controller.Controller;
+import com.shanghaichuangshi.model.Log;
 import com.shanghaichuangshi.render.RenderFactory;
 import com.shanghaichuangshi.route.Route;
 import com.shanghaichuangshi.route.RouteMatcher;
 import com.shanghaichuangshi.util.DatabaseUtil;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.ThreadContext;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
@@ -14,14 +19,15 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.sql.Connection;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import static com.shanghaichuangshi.constant.Constant.DATABASE;
+
 public class Filter implements javax.servlet.Filter {
 
+    private Logger logger = LogManager.getLogger(Filter.class.getName());
     private Config config;
     private static final Certificate certificate = new Certificate();
     private static final RouteMatcher routeMatcher = new RouteMatcher();
@@ -42,8 +48,6 @@ public class Filter implements javax.servlet.Filter {
         else {
             throw new RuntimeException("Can not create instance of class: " + configClass + ". Please check the config in web.xml");
         }
-
-        DatabaseUtil.init(config);
 
         config.configCertificate(certificate);
 
@@ -68,6 +72,12 @@ public class Filter implements javax.servlet.Filter {
 
         String path = request.getRequestURI();
 
+        if (path.equals(Url.FAVICON_ICO)) {
+            filterChain.doFilter(request, response);
+
+            return;
+        }
+
         String platform = "";
 
         String version = "";
@@ -78,41 +88,32 @@ public class Filter implements javax.servlet.Filter {
 
         String parameter = "{}";
 
-        Connection connection = null;
-
         try {
-            connection = DatabaseUtil.getDruidDataSource().getConnection();
-            connection.setAutoCommit(false);
-
+            DatabaseUtil.start();
 
             Route route = routeMatcher.find(path);
             if(route != null) {
                 execute(route.getControllerClass(), route.getMethod(), request, response);
             } else {
-                renderFactory.getErrorRender().setContext(request, response).render();
+                renderFactory.getNotFoundRender().setContext(request, response).render();
             }
 
-            connection.commit();
-        } catch (RuntimeException | SQLException e) {
+            DatabaseUtil.commit();
+        } catch (RuntimeException e) {
             e.printStackTrace();
 
-            try {
-                if (connection != null) {
-                    connection.rollback();
-                }
-            } catch (SQLException e1) {
-                e1.printStackTrace();
-            }
+            DatabaseUtil.rollback();
+
+            renderFactory.getInternalServerErrorRender(e.toString()).setContext(request, response).render();
         } finally {
-            try {
-                if (connection != null) {
-                    connection.close();
-                }
-            } catch (SQLException e1) {
-                e1.printStackTrace();
-            }
+            DatabaseUtil.close();
 
             Date end = new Date();
+
+            ThreadContext.put(Log.LOG_URL, path);
+            ThreadContext.put(Log.LOG_RUN_TIME, (end.getTime() - start.getTime()) + "");
+
+            logger.log(DATABASE, "Add a new log to the database");
         }
     }
 

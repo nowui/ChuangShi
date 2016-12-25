@@ -2,8 +2,6 @@ package com.shanghaichuangshi.util;
 
 import com.alibaba.druid.filter.logging.Slf4jLogFilter;
 import com.alibaba.druid.pool.DruidDataSource;
-import com.shanghaichuangshi.config.Config;
-import com.shanghaichuangshi.config.Mysql;
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.handlers.MapListHandler;
 
@@ -14,21 +12,20 @@ import java.util.Map;
 
 public class DatabaseUtil {
 
-    private static final Mysql mysql = new Mysql();
     private static final DruidDataSource druidDataSource = new DruidDataSource();
     private static final QueryRunner runner = new QueryRunner(druidDataSource);
-    private final ThreadLocal<Connection> threadLocal = new ThreadLocal<Connection>();
+    private static final ThreadLocal<Connection> threadLocal = new ThreadLocal<Connection>();
 
-    public static void init(Config config) {
-        config.configMysql(mysql);
+    static {
+        PropertiesUtil.load("Jdbc.properties");
 
-        druidDataSource.setDriverClassName(mysql.getDriver_class());
-        druidDataSource.setUrl(mysql.getUrl());
-        druidDataSource.setUsername(mysql.getUser_name());
-        druidDataSource.setPassword(mysql.getPassword());
-        druidDataSource.setInitialSize(5);
-        druidDataSource.setMinIdle(1);
-        druidDataSource.setMaxActive(20);
+        druidDataSource.setDriverClassName(PropertiesUtil.getProperty("driverClass"));
+        druidDataSource.setUrl(PropertiesUtil.getProperty("jdbcUrl"));
+        druidDataSource.setUsername(PropertiesUtil.getProperty("user"));
+        druidDataSource.setPassword(PropertiesUtil.getProperty("password"));
+        druidDataSource.setInitialSize(Integer.valueOf(PropertiesUtil.getProperty("initialSize")));
+        druidDataSource.setMinIdle(Integer.valueOf(PropertiesUtil.getProperty("minIdle")));
+        druidDataSource.setMaxActive(Integer.valueOf(PropertiesUtil.getProperty("maxActivee")));
 
         try {
             druidDataSource.setFilters("stat,wall");
@@ -46,8 +43,71 @@ public class DatabaseUtil {
         druidDataSource.getProxyFilters().add(sql_log_filter);
     }
 
-    public static DruidDataSource getDruidDataSource() {
-        return druidDataSource;
+    public static Connection getConnection() {
+        try {
+            return druidDataSource.getConnection();
+        } catch (SQLException e) {
+            throw new RuntimeException("SQLException: ", e);
+        }
+    }
+
+    public static void start() {
+        Connection connection = threadLocal.get();
+
+        if (connection == null) {
+            try {
+                connection = druidDataSource.getConnection();
+
+                threadLocal.remove();
+                threadLocal.set(connection);
+            } catch (SQLException e) {
+                throw new RuntimeException("SQLException: ", e);
+            }
+        }
+
+        try {
+            connection.setAutoCommit(false);
+        } catch (SQLException e) {
+            throw new RuntimeException("SQLException: ", e);
+        }
+    }
+
+    public static void commit() {
+        Connection connection = threadLocal.get();
+
+        try {
+            if (connection != null) {
+                connection.commit();
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("SQLException: ", e);
+        }
+    }
+
+    public static void rollback() {
+        Connection connection = threadLocal.get();
+
+        try {
+            if (connection != null) {
+                connection.rollback();
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("SQLException: ", e);
+        }
+    }
+
+    public static void close() {
+        Connection connection = threadLocal.get();
+
+        try {
+            if (connection != null) {
+                connection.close();
+
+                threadLocal.remove();
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("SQLException: ", e);
+        }
     }
 
     public static int count(String sql, List<Object> parameterList) {

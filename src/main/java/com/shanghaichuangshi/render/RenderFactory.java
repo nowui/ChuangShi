@@ -27,8 +27,14 @@ public class RenderFactory {
         return new JsonRender(json);
     }
 
-    public Render getErrorRender() {
+    public Render getNotFoundRender() {
         Json json = new Json(HttpStatus.SC_NOT_FOUND, "", "");
+
+        return new JsonRender(json);
+    }
+
+    public Render getInternalServerErrorRender(String error) {
+        Json json = new Json(HttpStatus.SC_INTERNAL_SERVER_ERROR, "", error);
 
         return new JsonRender(json);
     }

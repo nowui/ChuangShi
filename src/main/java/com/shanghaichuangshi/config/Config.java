@@ -8,8 +8,6 @@ public abstract class Config {
 
     public abstract void configCertificate(Certificate certificate);
 
-    public abstract void configMysql(Mysql mysql);
-
     public abstract void configRouteMatcher(RouteMatcher routeMatcher);
 
     public abstract void configUncheckTokenUrl(List<String> uncheckTokenUrlList);

@@ -2,6 +2,8 @@ package com.shanghaichuangshi.constant;
 
 public class Url {
 
+    public static final String FAVICON_ICO = "/favicon.ico";
+
     public static final String MEMBER_LOGIN = "/member/login";
 
     public static final String USER_LIST = "/user/list";
