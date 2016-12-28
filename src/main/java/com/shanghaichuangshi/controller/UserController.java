@@ -17,28 +17,24 @@ public class UserController extends Controller {
 
         userModel.validate(User.PAGE_INDEX, User.PAGE_SIZE);
 
-        List<User> userList = userService.list(userModel);
+        userModel.search(User.USER_ID, User.USER_ACCOUNT);
 
-        for (User user : userList) {
-            user.keep(User.USER_ID);
-        }
+        List<User> userList = userService.list(userModel);
 
         renderJson(userList);
     }
 
     @Path(Url.USER_ADMIN_LIST)
-    public void listForAdmin() {
+    public void adminList() {
         User userModel = getModel(User.class);
 
         userModel.validate(User.PAGE_INDEX, User.PAGE_SIZE);
 
+        userModel.search(User.USER_ID, User.USER_ACCOUNT);
+
         int count = userService.count(userModel);
 
         List<User> userList = userService.list(userModel);
-
-        for (User user : userList) {
-            user.keep(User.USER_ID);
-        }
 
         renderJson(count, userList);
     }
@@ -49,15 +45,15 @@ public class UserController extends Controller {
 
         userModel.validate(User.USER_ID);
 
-        User user = userService.find(userModel);
+        userModel.search(User.USER_ID, User.USER_ACCOUNT);
 
-        user.remove();
+        User user = userService.find(userModel);
 
         renderJson(user);
     }
 
     @Path(Url.USER_ADMIN_FIND)
-    public void findForAdmin() {
+    public void adminFind() {
         User userModel = getModel(User.class);
 
         userModel.validate(User.USER_ID);

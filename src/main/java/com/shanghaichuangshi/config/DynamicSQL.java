@@ -32,7 +32,7 @@ public class DynamicSQL {
 
     public DynamicSQL appendPagination(Integer m, Integer n) {
         if (n > 0) {
-            this.sql.append("sLIMIT ?, ? ");
+            this.sql.append("LIMIT ?, ? ");
             this.parameterList.add(m);
             this.parameterList.add(n);
         }

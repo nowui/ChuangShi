@@ -17,6 +17,7 @@ public abstract class Model<M extends Model> extends HashMap<String, Object> {
     private String table_name;
     private String key_id;
     private List<Column> columnList;
+    private List<String> searchList = new ArrayList<String>();
 
     @com.shanghaichuangshi.annotation.Column(type = ColumnType.VARCHAR, length = 32, comment = "")
     public static final String SYSTEM_CREATE_USER_ID = "system_create_user_id";
@@ -143,6 +144,18 @@ public abstract class Model<M extends Model> extends HashMap<String, Object> {
         return columnList;
     }
 
+    public void search(String... keys) {
+        searchList.clear();
+
+        for (String key : keys) {
+            searchList.add(key);
+        }
+    }
+
+    public List<String> getSearchList() {
+        return searchList;
+    }
+
     public Model set(String key, Object value) {
         this.put(key, value);
 
@@ -155,39 +168,33 @@ public abstract class Model<M extends Model> extends HashMap<String, Object> {
         return this;
     }
 
-    public Model keep(String... keys) {
-        Iterator<String> iterator = this.keySet().iterator();
-        while (iterator.hasNext()) {
-            Boolean isNotExit = true;
-
-            String entry = iterator.next();
-            for (String key : keys) {
-                if (key.equals(entry)) {
-                    isNotExit = false;
-                }
-            }
-
-//            if (isNotExit) {
-//                if (entry.equals(Key.KEY_PAGE_INDEX) || entry.equals(Key.KEY_PAGE_SIZE) || entry.equals(Key.KEY_REQUEST_USER_ID)) {
+//    public Model keep(String... keys) {
+//        Iterator<String> iterator = this.keySet().iterator();
+//        while (iterator.hasNext()) {
+//            Boolean isNotExit = true;
+//
+//            String entry = iterator.next();
+//            for (String key : keys) {
+//                if (key.equals(entry)) {
 //                    isNotExit = false;
 //                }
 //            }
-
-            if (isNotExit) {
-                iterator.remove();
-            }
-        }
-
-        return this;
-    }
-
-    public Model remove(String... keys) {
-        for (String key : keys) {
-            this.remove(key);
-        }
-
-        return this;
-    }
+//
+//            if (isNotExit) {
+//                iterator.remove();
+//            }
+//        }
+//
+//        return this;
+//    }
+//
+//    public Model remove(String... keys) {
+//        for (String key : keys) {
+//            this.remove(key);
+//        }
+//
+//        return this;
+//    }
 
     public void validate(String... keys) {
         for (String key : keys) {
@@ -251,11 +258,24 @@ public abstract class Model<M extends Model> extends HashMap<String, Object> {
         return (M) this;
     }
 
-    public M findById(String id) {
+    public M findById(String id, List<String> searchList) {
         StringBuilder sql = new StringBuilder();
         List<Object> parameterList = new ArrayList<Object>();
 
-        sql.append("SELECT * FROM ").append(getTable_name()).append(" WHERE ").append(getKey_id()).append(" = ? ");
+        sql.append("SELECT ");
+        if (searchList.size() > 0) {
+            for (int i = 0; i < searchList.size(); i++) {
+                if (i > 0) {
+                    sql.append(", ");
+                }
+
+                sql.append(searchList.get(i));
+            }
+            sql.append(" ");
+        } else {
+            sql.append(".* ");
+        }
+        sql.append("FROM ").append(getTable_name()).append(" WHERE ").append(getKey_id()).append(" = ? ");
         parameterList.add(id);
 
         Map<String, Object> resultMap = DatabaseUtil.find(sql.toString(), parameterList);

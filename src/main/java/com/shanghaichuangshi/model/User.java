@@ -14,8 +14,8 @@ public class User extends Model<User> {
     @Column(type = ColumnType.VARCHAR, length = 32, comment = "用户编号")
     public static final String USER_ID = "user_id";
 
-    @Column(type = ColumnType.VARCHAR, length = 20, comment = "用户名称")
-    public static final String USER_NAME = "user_name";
+    @Column(type = ColumnType.VARCHAR, length = 20, comment = "用户帐号")
+    public static final String USER_ACCOUNT = "user_account";
 
 
     public String getUser_id() {
@@ -26,12 +26,12 @@ public class User extends Model<User> {
         set(USER_ID, user_id);
     }
 
-    public String getUser_name() {
-        return getString(USER_NAME);
+    public String getUser_account() {
+        return getString(USER_ACCOUNT);
     }
 
-    public void setUser_name(String user_name) {
-        set(USER_NAME, user_name);
+    public void setUser_account(String user_account) {
+        set(USER_ACCOUNT, user_account);
     }
 
 }
