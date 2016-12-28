@@ -17,7 +17,7 @@ public abstract class Model<M extends Model> extends HashMap<String, Object> {
     private String table_name;
     private String key_id;
     private List<Column> columnList;
-    private List<String> searchList = new ArrayList<String>();
+    private List<String> selectList = new ArrayList<String>();
 
     @com.shanghaichuangshi.annotation.Column(type = ColumnType.VARCHAR, length = 32, comment = "")
     public static final String SYSTEM_CREATE_USER_ID = "system_create_user_id";
@@ -144,16 +144,16 @@ public abstract class Model<M extends Model> extends HashMap<String, Object> {
         return columnList;
     }
 
-    public void search(String... keys) {
-        searchList.clear();
+    public void select(String... keys) {
+        selectList.clear();
 
         for (String key : keys) {
-            searchList.add(key);
+            selectList.add(key);
         }
     }
 
-    public List<String> getSearchList() {
-        return searchList;
+    public List<String> getSelectList() {
+        return selectList;
     }
 
     public Model set(String key, Object value) {

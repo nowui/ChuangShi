@@ -14,11 +14,11 @@ public class UserService extends Service {
     }
 
     public List<User> list(User user) {
-        return userDao.list(user.getSearchList(), user.getPage_index(), user.getPage_size());
+        return userDao.list(user.getSelectList(), user.getPage_index(), user.getPage_size());
     }
 
     public User find(User user) {
-        return userDao.findByUser_Id(user.getUser_id(), user.getSearchList());
+        return userDao.findByUser_Id(user.getUser_id(), user.getSelectList());
     }
 
     public void save(User user) {

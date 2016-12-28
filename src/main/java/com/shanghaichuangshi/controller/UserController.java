@@ -17,7 +17,7 @@ public class UserController extends Controller {
 
         userModel.validate(User.PAGE_INDEX, User.PAGE_SIZE);
 
-        userModel.search(User.USER_ID, User.USER_ACCOUNT);
+        userModel.select(User.USER_ID, User.USER_ACCOUNT);
 
         List<User> userList = userService.list(userModel);
 
@@ -30,7 +30,7 @@ public class UserController extends Controller {
 
         userModel.validate(User.PAGE_INDEX, User.PAGE_SIZE);
 
-        userModel.search(User.USER_ID, User.USER_ACCOUNT);
+        userModel.select(User.USER_ID, User.USER_ACCOUNT);
 
         int count = userService.count(userModel);
 
@@ -45,7 +45,7 @@ public class UserController extends Controller {
 
         userModel.validate(User.USER_ID);
 
-        userModel.search(User.USER_ID, User.USER_ACCOUNT);
+        userModel.select(User.USER_ID, User.USER_ACCOUNT);
 
         User user = userService.find(userModel);
 

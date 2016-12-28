@@ -4,7 +4,6 @@ import com.shanghaichuangshi.annotation.Path;
 import com.shanghaichuangshi.model.User;
 import com.shanghaichuangshi.service.UserService;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class ApplicationController extends Controller {
@@ -17,7 +16,7 @@ public class ApplicationController extends Controller {
         uu.setUser_id("00e600a0a7de4d158098e54982608598");
         uu.set("page_index", 1);
         uu.set("page_size", 10);
-        uu.search(User.USER_ID, User.USER_ACCOUNT);
+        uu.select(User.USER_ID, User.USER_ACCOUNT);
         List<User> userList = userService.list(uu);
 
         User user = userService.find(uu);
