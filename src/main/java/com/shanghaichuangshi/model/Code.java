@@ -11,8 +11,11 @@ public class Code extends Model<Code> {
     @Column(type = ColumnType.VARCHAR, length = 100, comment = "列名")
     public static final String COLUMN_NAME = "column_name";
 
+    @Column(type = ColumnType.VARCHAR, length = 100, comment = "类型")
+    public static final String DATA_TYPE = "data_type";
+
     @Column(type = ColumnType.VARCHAR, length = 100, comment = "长度")
-    public static final String CHARACTER_MAXIMN_LENGTH = "character_maximun_length";
+    public static final String CHARACTER_MAXIMM_LENGTH = "character_maximum_length";
 
     @Column(type = ColumnType.VARCHAR, length = 100, comment = "注释")
     public static final String COLUMN_COMMENT = "column_comment";
@@ -25,8 +28,12 @@ public class Code extends Model<Code> {
         return getString(COLUMN_NAME);
     }
 
-    public String getCharacter_maximn_length() {
-        return getString(CHARACTER_MAXIMN_LENGTH);
+    public String getData_type() {
+        return getString(DATA_TYPE);
+    }
+
+    public String getCharacter_maximM_length() {
+        return getString(CHARACTER_MAXIMM_LENGTH);
     }
 
     public String getColumn_comment() {

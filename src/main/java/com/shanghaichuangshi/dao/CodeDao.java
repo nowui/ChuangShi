@@ -23,7 +23,7 @@ public class CodeDao extends Dao {
         DynamicSQL dynamicSQL = new DynamicSQL();
 
         dynamicSQL.append("SELECT ");
-        dynamicSQL.append("* ");
+        dynamicSQL.append("column_name, data_type, character_maximum_length, column_comment ");
         dynamicSQL.append("FROM information_schema.columns ");
         dynamicSQL.append("WHERE table_schema='HongLuoMeng' ");
         dynamicSQL.appendIsNullOrEmpty("AND table_name = ? ", table_name);

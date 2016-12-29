@@ -43,8 +43,9 @@ public class CodeController extends Controller {
         List<Code> columnList = new ArrayList<Code>();
 
         for (Code code : codeList) {
-            if (! code.getTable_name().startsWith("system_")) {
+            if (! code.getColumn_name().startsWith("system_")) {
                 columnList.add(code);
+                System.out.println(code);
             }
         }
 
