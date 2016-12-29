@@ -1,0 +1,71 @@
+package com.shanghaichuangshi.dao;
+
+import com.shanghaichuangshi.config.DynamicSQL;
+import com.shanghaichuangshi.model.${firstModelName};
+
+import java.util.List;
+
+public class ${firstModelName}Dao extends Dao {
+
+    private int count(${firstModelName} ${lowerModelName}) {
+        DynamicSQL dynamicSQL = new DynamicSQL();
+
+        dynamicSQL.append("SELECT COUNT(*) FROM ").append(${firstModelName}.TABLE_${upperModelName});
+        dynamicSQL.append("WHERE ").append(${firstModelName}.TABLE_${upperModelName}).append(".").append(${firstModelName}.SYSTEM_STATUS).append(" = 1 ");
+
+        return ${lowerModelName}.count(dynamicSQL.getSql(), dynamicSQL.getParameterList());
+    }
+
+    public int count() {
+        ${firstModelName} ${lowerModelName} = new ${firstModelName}();
+
+        return count(${lowerModelName});
+    }
+
+    private List<${firstModelName}> list(${firstModelName} ${lowerModelName}, Integer m, Integer n, String... columns) {
+        DynamicSQL dynamicSQL = new DynamicSQL();
+
+        dynamicSQL.append("SELECT ");
+        dynamicSQL.append(${lowerModelName}.packageSelect(columns));
+        dynamicSQL.append("FROM ").append(${firstModelName}.TABLE_${upperModelName}).append(" ");
+        dynamicSQL.append("WHERE ").append(${firstModelName}.TABLE_${upperModelName}).append(".").append(${firstModelName}.SYSTEM_STATUS).append(" = 1 ");
+        dynamicSQL.append("ORDER BY ").append(${firstModelName}.TABLE_${upperModelName}).append(".").append(${firstModelName}.SYSTEM_CREATE_TIME).append(" DESC ");
+        dynamicSQL.appendPagination(m, n);
+
+        return ${lowerModelName}.list(dynamicSQL.getSql(), dynamicSQL.getParameterList());
+    }
+
+    public List<${firstModelName}> list(Integer m, Integer n, String... columns) {
+        ${firstModelName} ${lowerModelName} = new ${firstModelName}();
+
+        return list(${lowerModelName}, m, n, columns);
+    }
+
+    private ${firstModelName} find(${firstModelName} ${lowerModelName}, String... columns) {
+        DynamicSQL dynamicSQL = new DynamicSQL();
+
+        dynamicSQL.append("SELECT ");
+        dynamicSQL.append(${lowerModelName}.packageSelect(columns));
+        dynamicSQL.append("FROM ").append(${firstModelName}.TABLE_${upperModelName}).append(" ");
+        dynamicSQL.append("WHERE ").append(${firstModelName}.TABLE_${upperModelName}).append(".").append(${firstModelName}.SYSTEM_STATUS).append(" = 1 ");
+
+        return ${lowerModelName}.find(dynamicSQL.getSql(), dynamicSQL.getParameterList());
+    }
+
+    public ${firstModelName} findBy${firstModelName}_Id(String ${lowerModelName}_id, String... columns) {
+        return new ${firstModelName}().findById(${lowerModelName}_id, columns);
+    }
+
+    public boolean save(${firstModelName} ${lowerModelName}) {
+        return ${lowerModelName}.save();
+    }
+
+    public boolean update(${firstModelName} ${lowerModelName}) {
+        return ${lowerModelName}.update();
+    }
+
+    public boolean delete(${firstModelName} ${lowerModelName}) {
+        return ${lowerModelName}.delete();
+    }
+
+}

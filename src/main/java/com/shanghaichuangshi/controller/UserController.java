@@ -9,7 +9,7 @@ import java.util.List;
 
 public class UserController extends Controller {
 
-    private UserService userService = new UserService();
+    private final UserService userService = new UserService();
 
     @Path(Url.USER_LIST)
     public void list() {

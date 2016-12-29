@@ -1,0 +1,37 @@
+package com.shanghaichuangshi.model;
+
+import com.shanghaichuangshi.annotation.Column;
+import com.shanghaichuangshi.annotation.Id;
+import com.shanghaichuangshi.annotation.Table;
+import com.shanghaichuangshi.type.ColumnType;
+
+public class ${firstModelName} extends Model<${firstModelName}> {
+
+    @Table()
+    public static final String TABLE_${upperModelName} = "table_${lowerModelName}";
+
+    @Id
+    @Column(type = ColumnType.VARCHAR, length = 32, comment = "用户编号")
+    public static final String ${upperModelName}_ID = "${lowerModelName}_id";
+
+    @Column(type = ColumnType.VARCHAR, length = 20, comment = "用户帐号")
+    public static final String ${upperModelName}_ACCOUNT = "${lowerModelName}_account";
+
+
+    public String get${firstModelName}_id() {
+        return getString(${upperModelName}_ID);
+    }
+
+    public void set${firstModelName}_id(String ${lowerModelName}_id) {
+        set(${upperModelName}_ID, ${lowerModelName}_id);
+    }
+
+    public String get${firstModelName}_account() {
+        return getString(${upperModelName}_ACCOUNT);
+    }
+
+    public void set${firstModelName}_account(String ${lowerModelName}_account) {
+        set(${upperModelName}_ACCOUNT, ${lowerModelName}_account);
+    }
+
+}

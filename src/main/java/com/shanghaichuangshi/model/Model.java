@@ -17,7 +17,7 @@ public abstract class Model<M extends Model> extends HashMap<String, Object> {
     private String table_name;
     private String key_id;
     private List<Column> columnList;
-    private List<String> selectList = new ArrayList<String>();
+    private final List<String> selectList = new ArrayList<String>();
 
     @com.shanghaichuangshi.annotation.Column(type = ColumnType.VARCHAR, length = 32, comment = "")
     public static final String SYSTEM_CREATE_USER_ID = "system_create_user_id";
@@ -168,33 +168,33 @@ public abstract class Model<M extends Model> extends HashMap<String, Object> {
         return this;
     }
 
-//    public Model keep(String... keys) {
-//        Iterator<String> iterator = this.keySet().iterator();
-//        while (iterator.hasNext()) {
-//            Boolean isNotExit = true;
-//
-//            String entry = iterator.next();
-//            for (String key : keys) {
-//                if (key.equals(entry)) {
-//                    isNotExit = false;
-//                }
-//            }
-//
-//            if (isNotExit) {
-//                iterator.remove();
-//            }
-//        }
-//
-//        return this;
-//    }
-//
-//    public Model remove(String... keys) {
-//        for (String key : keys) {
-//            this.remove(key);
-//        }
-//
-//        return this;
-//    }
+    public Model keep(String... keys) {
+        Iterator<String> iterator = this.keySet().iterator();
+        while (iterator.hasNext()) {
+            Boolean isNotExit = true;
+
+            String entry = iterator.next();
+            for (String key : keys) {
+                if (key.equals(entry)) {
+                    isNotExit = false;
+                }
+            }
+
+            if (isNotExit) {
+                iterator.remove();
+            }
+        }
+
+        return this;
+    }
+
+    public Model remove(String... keys) {
+        for (String key : keys) {
+            this.remove(key);
+        }
+
+        return this;
+    }
 
     public void validate(String... keys) {
         for (String key : keys) {
@@ -203,7 +203,7 @@ public abstract class Model<M extends Model> extends HashMap<String, Object> {
                     throw new RuntimeException(key + " is null");
                 }
 
-                for (Column column : columnList) {
+                for (Column column : getColumnList()) {
                     if (column.getName().equals(key)) {
                         switch (column.getType()) {
                             case VARCHAR:
@@ -258,23 +258,35 @@ public abstract class Model<M extends Model> extends HashMap<String, Object> {
         return (M) this;
     }
 
-    public M findById(String id, List<String> searchList) {
-        StringBuilder sql = new StringBuilder();
-        List<Object> parameterList = new ArrayList<Object>();
+    public String packageSelect(String... columns) {
+        StringBuffer sql = new StringBuffer();
 
-        sql.append("SELECT ");
-        if (searchList.size() > 0) {
-            for (int i = 0; i < searchList.size(); i++) {
+        if (columns.length > 0) {
+            for (int i = 0; i < columns.length; i++) {
                 if (i > 0) {
                     sql.append(", ");
                 }
 
-                sql.append(searchList.get(i));
+                if (columns[i].contains(".")) {
+                    sql.append(columns[i]);
+                } else {
+                    sql.append(getTable_name()).append(".").append(columns[i]);
+                }
             }
             sql.append(" ");
         } else {
-            sql.append(".* ");
+            sql.append(getTable_name()).append(".* ");
         }
+
+        return sql.toString();
+    }
+
+    public M findById(String id, String... columns) {
+        StringBuilder sql = new StringBuilder();
+        List<Object> parameterList = new ArrayList<Object>();
+
+        sql.append("SELECT ");
+        sql.append(packageSelect(columns));
         sql.append("FROM ").append(getTable_name()).append(" WHERE ").append(getKey_id()).append(" = ? ");
         parameterList.add(id);
 

@@ -15,7 +15,7 @@ public class HttpUtil {
                 result.append(line).append("\n");
             }
 
-            return result.toString();
+            return result.toString().trim();
         } catch (IOException e) {
             throw new RuntimeException("IOException: " + e);
         } finally {

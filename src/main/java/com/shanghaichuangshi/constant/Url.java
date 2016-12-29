@@ -6,6 +6,9 @@ public class Url {
 
     public static final String MEMBER_LOGIN = "/member/login";
 
+    public static final String CODE_LIST = "/code/list";
+    public static final String CODE_SAVE = "/code/save";
+
     public static final String USER_LIST = "/user/list";
     public static final String USER_ADMIN_LIST = "/user/admin/list";
     public static final String USER_FIND = "/user/find";

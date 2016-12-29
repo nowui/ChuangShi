@@ -1,11 +1,12 @@
 package com.shanghaichuangshi.controller;
 
+import com.alibaba.fastjson.JSONObject;
+import com.shanghaichuangshi.constant.Key;
 import com.shanghaichuangshi.model.Model;
 import com.shanghaichuangshi.render.RenderFactory;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.Map;
 
 public abstract class Controller {
 
@@ -19,6 +20,14 @@ public abstract class Controller {
         return this;
     }
 
+    public void setAttribute(String key, Object value) {
+        request.setAttribute(key, value);
+    }
+
+    public <T> T getAttribute(String key) {
+        return (T)request.getAttribute(key);
+    }
+
     public void renderJson(Object data) {
         renderFactory.getJsonRender(data).setContext(request, response).render();
     }
@@ -27,32 +36,22 @@ public abstract class Controller {
         renderFactory.getJsonRender(total, data).setContext(request, response).render();
     }
 
-    public Map<String, Object> getAttribute() {
-        return null;
-    }
-
-    public void setAttribute(Map<String, Object> map) {
-
-    }
-
     public <T> T getModel(Class<T> modelClass) {
-        Object object;
-
         try {
-            object = modelClass.newInstance();
+            Object object = modelClass.newInstance();
+
+            if (object instanceof Model == false) {
+                throw new RuntimeException("Model type is error");
+            }
+
+            ((Model<?>) object).set((JSONObject) getAttribute(Key.REQUEST_PARAMETER));
+
+            return (T) object;
         } catch (InstantiationException e) {
             throw new RuntimeException("InstantiationException: ", e);
         } catch (IllegalAccessException e) {
             throw new RuntimeException("IllegalAccessException: ", e);
         }
-
-        if (object instanceof Model == false) {
-            throw new RuntimeException("Model type is error");
-        }
-
-        ((Model<?>) object).set(getAttribute());
-
-        return (T) object;
     }
 
 }

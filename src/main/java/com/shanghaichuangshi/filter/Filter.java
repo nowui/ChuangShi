@@ -1,7 +1,9 @@
 package com.shanghaichuangshi.filter;
 
+import com.alibaba.fastjson.JSONObject;
 import com.shanghaichuangshi.config.Certificate;
 import com.shanghaichuangshi.config.Config;
+import com.shanghaichuangshi.constant.Key;
 import com.shanghaichuangshi.constant.Url;
 import com.shanghaichuangshi.controller.Controller;
 import com.shanghaichuangshi.model.Log;
@@ -9,6 +11,8 @@ import com.shanghaichuangshi.render.RenderFactory;
 import com.shanghaichuangshi.route.Route;
 import com.shanghaichuangshi.route.RouteMatcher;
 import com.shanghaichuangshi.util.DatabaseUtil;
+import com.shanghaichuangshi.util.HttpUtil;
+import com.shanghaichuangshi.util.Util;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.ThreadContext;
@@ -18,7 +22,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -88,46 +91,71 @@ public class Filter implements javax.servlet.Filter {
 
         String parameter = "{}";
 
+        Controller controller = null;
+
         try {
             DatabaseUtil.start();
 
+            parameter = HttpUtil.readData(request);
+
+            if (Util.isNullOrEmpty(parameter)) {
+                parameter = "{}";
+            }
+
             Route route = routeMatcher.find(path);
             if(route != null) {
-                execute(route.getControllerClass(), route.getMethod(), request, response);
+                try {
+                    controller = route.getControllerClass().newInstance().setContext(request, response);
+
+                    controller.setAttribute(Key.REQUEST_PARAMETER, JSONObject.parse(parameter));
+
+                    route.getMethod().setAccessible(true);
+
+                    route.getMethod().invoke(controller);
+                } catch (InstantiationException e) {
+                    throw new Exception("InstantiationException:", e);
+                } catch (IllegalAccessException e) {
+                    throw new Exception("IllegalAccessException:", e);
+                } catch (InvocationTargetException e) {
+                    Throwable t = e.getTargetException();
+                    throw t instanceof RuntimeException ? (RuntimeException)t : new RuntimeException(e);
+                }
             } else {
                 renderFactory.getNotFoundRender().setContext(request, response).render();
             }
 
             DatabaseUtil.commit();
-        } catch (RuntimeException e) {
+        } catch (Exception e) {
             e.printStackTrace();
 
             DatabaseUtil.rollback();
 
-            renderFactory.getInternalServerErrorRender(e.toString()).setContext(request, response).render();
+            String message = e.toString();
+            String runtimeException = "java.lang.RuntimeException: ";
+
+            if (message.contains(runtimeException)) {
+                message = message.replace(runtimeException, "");
+
+                renderFactory.getBadRequestRender(message).setContext(request, response).render();
+            } else {
+                renderFactory.getInternalServerErrorRender(message).setContext(request, response).render();
+            }
+
         } finally {
             DatabaseUtil.close();
 
             Date end = new Date();
 
             ThreadContext.put(Log.LOG_URL, path);
+            ThreadContext.put(Log.LOG_REQUEST, parameter);
+            if (controller != null) {
+                ThreadContext.put(Log.LOG_RESPONSE, controller.getAttribute(Key.RESPONSE_PARAMETER));
+            } else {
+                ThreadContext.put(Log.LOG_RESPONSE, "");
+            }
             ThreadContext.put(Log.LOG_RUN_TIME, (end.getTime() - start.getTime()) + "");
 
             logger.log(DATABASE, "Add a new log to the database");
-        }
-    }
-
-    private void execute(Class<? extends Controller> controller, Method method, HttpServletRequest request, HttpServletResponse response) {
-        method.setAccessible(true);
-
-        try {
-            method.invoke(controller.newInstance().setContext(request, response));
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (InvocationTargetException e) {
-            throw new RuntimeException("InvocationTargetException: ", e);
-        } catch (InstantiationException e) {
-            throw new RuntimeException("InstantiationException: ", e);
         }
     }
 

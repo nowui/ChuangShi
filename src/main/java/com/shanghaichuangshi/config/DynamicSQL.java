@@ -1,5 +1,7 @@
 package com.shanghaichuangshi.config;
 
+import com.shanghaichuangshi.util.Util;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,16 +18,30 @@ public class DynamicSQL {
         return parameterList;
     }
 
-    public DynamicSQL append(String string) {
-        this.sql.append(string);
-        return this;
-    }
-
     public DynamicSQL append(String string, Object... objects) {
         this.sql.append(string);
 
         for (Object object : objects) {
             this.parameterList.add(object);
+        }
+        return this;
+    }
+
+
+    public DynamicSQL appendIsNullOrEmpty(String string, Object object) {
+        if (!Util.isNullOrEmpty(object)) {
+            this.sql.append(string);
+
+            this.parameterList.add(object);
+        }
+        return this;
+    }
+
+    public DynamicSQL appendLikeIsNullOrEmpty(String string, Object object) {
+        if (!Util.isNullOrEmpty(object)) {
+            this.sql.append(string);
+
+            this.parameterList.add("%" + object + "%");
         }
         return this;
     }

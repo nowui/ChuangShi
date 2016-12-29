@@ -33,8 +33,14 @@ public class RenderFactory {
         return new JsonRender(json);
     }
 
+    public Render getBadRequestRender(String error) {
+        Json json = new Json(HttpStatus.SC_BAD_REQUEST, error, "");
+
+        return new JsonRender(json);
+    }
+
     public Render getInternalServerErrorRender(String error) {
-        Json json = new Json(HttpStatus.SC_INTERNAL_SERVER_ERROR, "", error);
+        Json json = new Json(HttpStatus.SC_INTERNAL_SERVER_ERROR, error, "");
 
         return new JsonRender(json);
     }
