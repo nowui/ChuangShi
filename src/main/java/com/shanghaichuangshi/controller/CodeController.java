@@ -44,8 +44,8 @@ public class CodeController extends Controller {
 
         for (Code code : codeList) {
             if (! code.getColumn_name().startsWith("system_")) {
+                code.set("first_column_name", code.getColumn_name().substring(0, 1).toUpperCase() + code.getColumn_name().substring(1));
                 columnList.add(code);
-                System.out.println(code);
             }
         }
 
@@ -55,6 +55,7 @@ public class CodeController extends Controller {
 
         write(lowerModelName, upperModelName, firstModelName, columnList, "/model.template", firstModelName + ".java");
         write(lowerModelName, upperModelName, firstModelName, columnList, "/dao.template", firstModelName + "Dao.java");
+        write(lowerModelName, upperModelName, firstModelName, columnList, "/service.template", firstModelName + "Service.java");
 
         renderJson("");
     }

@@ -23,7 +23,7 @@ public class ${firstModelName} extends Model<${firstModelName}> {
     <%
     for(column in columnList) {
     %>
-    public String get${column.column_name}() {
+    public String get${column.first_column_name}() {
         return getString(${strutil.toUpperCase(column.column_name)});
     }
 

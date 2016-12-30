@@ -75,7 +75,7 @@ public class Filter implements javax.servlet.Filter {
 
         String path = request.getRequestURI();
 
-        if (path.equals(Url.FAVICON_ICO)) {
+        if (path.equals(Url.FAVICON_ICO) || request.getMethod().equals("OPTIONS")) {
             filterChain.doFilter(request, response);
 
             return;
