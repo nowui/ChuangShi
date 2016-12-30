@@ -27,6 +27,10 @@ public class ${firstModelName} extends Model<${firstModelName}> {
         return getString(${strutil.toUpperCase(column.column_name)});
     }
 
+    public void set${column.first_column_name}(String ${column.column_name}) {
+        set(${strutil.toUpperCase(column.column_name)}, ${column.column_name});
+    }
+
     <%
     }
     %>

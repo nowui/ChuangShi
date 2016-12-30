@@ -17,6 +17,9 @@ public class Code extends Model<Code> {
     @Column(type = ColumnType.VARCHAR, length = 100, comment = "长度")
     public static final String CHARACTER_MAXIMM_LENGTH = "character_maximum_length";
 
+    @Column(type = ColumnType.VARCHAR, length = 100, comment = "类型")
+    public static final String COLUMN_TYPE = "column_type";
+
     @Column(type = ColumnType.VARCHAR, length = 100, comment = "注释")
     public static final String COLUMN_COMMENT = "column_comment";
 
@@ -33,7 +36,18 @@ public class Code extends Model<Code> {
     }
 
     public String getCharacter_maximM_length() {
-        return getString(CHARACTER_MAXIMM_LENGTH);
+        String length = getColumn_type().replace(getString(CHARACTER_MAXIMM_LENGTH), "").replace("(", "").replace(")", "");
+
+        System.out.println(length);
+
+        if (length.equals("")) {
+            length = "0";
+        }
+        return length;
+    }
+
+    public String getColumn_type() {
+        return getString(COLUMN_TYPE);
     }
 
     public String getColumn_comment() {

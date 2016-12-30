@@ -4,8 +4,8 @@ import com.shanghaichuangshi.config.Certificate;
 import com.shanghaichuangshi.config.Config;
 
 import com.shanghaichuangshi.constant.Url;
-import com.shanghaichuangshi.controller.ApplicationController;
 import com.shanghaichuangshi.controller.CodeController;
+import com.shanghaichuangshi.controller.RoleController;
 import com.shanghaichuangshi.controller.UserController;
 import com.shanghaichuangshi.route.RouteMatcher;
 
@@ -19,9 +19,9 @@ public class WebConfig extends Config {
     }
 
     public void configRouteMatcher(RouteMatcher routeMatcher) {
-        routeMatcher.add("/app", ApplicationController.class);
-        routeMatcher.add("/user", UserController.class);
         routeMatcher.add("/code", CodeController.class);
+        routeMatcher.add("/user", UserController.class);
+        routeMatcher.add("/role", RoleController.class);
     }
 
     public void configUncheckTokenUrl(List<String> uncheckTokenUrlList) {

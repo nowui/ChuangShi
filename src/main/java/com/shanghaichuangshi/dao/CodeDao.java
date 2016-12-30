@@ -13,7 +13,7 @@ public class CodeDao extends Dao {
         dynamicSQL.append("SELECT ");
         dynamicSQL.append("table_name ");
         dynamicSQL.append("FROM information_schema.tables ");
-        dynamicSQL.append("WHERE table_schema='HongLuoMeng' ");
+        dynamicSQL.append("WHERE table_schema='ChuangShi' ");
         dynamicSQL.appendLikeIsNullOrEmpty("AND table_name LIKE ? ", table_name);
 
         return new Code().list(dynamicSQL.getSql(), dynamicSQL.getParameterList());
@@ -23,9 +23,9 @@ public class CodeDao extends Dao {
         DynamicSQL dynamicSQL = new DynamicSQL();
 
         dynamicSQL.append("SELECT ");
-        dynamicSQL.append("column_name, data_type, character_maximum_length, column_comment ");
+        dynamicSQL.append("column_name, data_type, character_maximum_length, column_type, column_comment ");
         dynamicSQL.append("FROM information_schema.columns ");
-        dynamicSQL.append("WHERE table_schema='HongLuoMeng' ");
+        dynamicSQL.append("WHERE table_schema='ChuangShi' ");
         dynamicSQL.appendIsNullOrEmpty("AND table_name = ? ", table_name);
 
         return new Code().list(dynamicSQL.getSql(), dynamicSQL.getParameterList());

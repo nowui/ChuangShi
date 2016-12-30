@@ -17,4 +17,11 @@ public class Url {
     public static final String USERL_UPDATE = "/user/update";
     public static final String USER_DELETE = "/user/delete";
 
+    public static final String ROLE_LIST = "/role/list";
+    public static final String ROLE_ADMIN_LIST = "/role/admin/list";
+    public static final String ROLE_FIND = "/role/find";
+    public static final String ROLE_ADMIN_FIND = "/role/admin/find";
+    public static final String ROLE_SAVE = "/role/save";
+    public static final String ROLEL_UPDATE = "/role/update";
+    public static final String ROLE_DELETE = "/role/delete";
 }

@@ -148,11 +148,7 @@ public class Filter implements javax.servlet.Filter {
 
             ThreadContext.put(Log.LOG_URL, path);
             ThreadContext.put(Log.LOG_REQUEST, parameter);
-            if (controller != null) {
-                ThreadContext.put(Log.LOG_RESPONSE, controller.getAttribute(Key.RESPONSE_PARAMETER));
-            } else {
-                ThreadContext.put(Log.LOG_RESPONSE, "");
-            }
+            ThreadContext.put(Log.LOG_RESPONSE, request.getAttribute(Key.RESPONSE_PARAMETER).toString());
             ThreadContext.put(Log.LOG_RUN_TIME, (end.getTime() - start.getTime()) + "");
 
             logger.log(DATABASE, "Add a new log to the database");

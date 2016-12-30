@@ -4,6 +4,7 @@ import com.shanghaichuangshi.annotation.Path;
 import com.shanghaichuangshi.constant.Url;
 import com.shanghaichuangshi.model.Code;
 import com.shanghaichuangshi.service.CodeService;
+import com.shanghaichuangshi.util.Util;
 import org.beetl.core.Configuration;
 import org.beetl.core.GroupTemplate;
 import org.beetl.core.Template;
@@ -45,6 +46,15 @@ public class CodeController extends Controller {
         for (Code code : codeList) {
             if (! code.getColumn_name().startsWith("system_")) {
                 code.set("first_column_name", code.getColumn_name().substring(0, 1).toUpperCase() + code.getColumn_name().substring(1));
+
+                String length = code.getString("column_type").replace(code.get("data_type").toString(), "").replace("(", "").replace(")", "");
+
+                if (length.equals("")) {
+                    length = "0";
+                }
+
+                code.set("character_maximum_length", length);
+
                 columnList.add(code);
             }
         }
@@ -53,9 +63,11 @@ public class CodeController extends Controller {
         String upperModelName = lowerModelName.toUpperCase();
         String firstModelName = lowerModelName.substring(0, 1).toUpperCase() + lowerModelName.substring(1);
 
+        write(lowerModelName, upperModelName, firstModelName, columnList, "/url.template", "Url.java");
         write(lowerModelName, upperModelName, firstModelName, columnList, "/model.template", firstModelName + ".java");
         write(lowerModelName, upperModelName, firstModelName, columnList, "/dao.template", firstModelName + "Dao.java");
         write(lowerModelName, upperModelName, firstModelName, columnList, "/service.template", firstModelName + "Service.java");
+        write(lowerModelName, upperModelName, firstModelName, columnList, "/controller.template", firstModelName + "Controller.java");
 
         renderJson("");
     }
