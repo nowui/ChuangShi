@@ -14,11 +14,11 @@ public class ${firstModelName}Service extends Service {
     }
 
     public List<${firstModelName}> list(${firstModelName} ${lowerModelName}) {
-        return ${lowerModelName}Dao.list(${lowerModelName}.getPage_index(), ${lowerModelName}.getPage_size(), ${lowerModelName}.getSelectList().toArray(new String[${lowerModelName}.getSelectList().size()]));
+        return ${lowerModelName}Dao.list(${lowerModelName}.getPage_index(), ${lowerModelName}.getPage_size());
     }
 
     public ${firstModelName} find(${firstModelName} ${lowerModelName}) {
-        return ${lowerModelName}Dao.findBy${firstModelName}_Id(${lowerModelName}.get${firstModelName}_id(), ${lowerModelName}.getSelectList().toArray(new String[${lowerModelName}.getSelectList().size()]));
+        return ${lowerModelName}Dao.findBy${firstModelName}_Id(${lowerModelName}.get${firstModelName}_id());
     }
 
     public void save(${firstModelName} ${lowerModelName}) {

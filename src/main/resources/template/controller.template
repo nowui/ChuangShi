@@ -17,9 +17,11 @@ public class ${firstModelName}Controller extends Controller {
 
         ${lowerModelName}Model.validate(${firstModelName}.PAGE_INDEX, ${firstModelName}.PAGE_SIZE);
 
-        ${lowerModelName}Model.select(${firstModelName}.${upperModelName}_ID);
-
         List<${firstModelName}> ${lowerModelName}List = ${lowerModelName}Service.list(${lowerModelName}Model);
+
+        for (${firstModelName} ${lowerModelName} : ${lowerModelName}List) {
+            ${lowerModelName}.keep(${firstModelName}.${upperModelName}_ID);
+        }
 
         renderJson(${lowerModelName}List);
     }
@@ -30,11 +32,13 @@ public class ${firstModelName}Controller extends Controller {
 
         ${lowerModelName}Model.validate(${firstModelName}.PAGE_INDEX, ${firstModelName}.PAGE_SIZE);
 
-        ${lowerModelName}Model.select(${firstModelName}.${upperModelName}_ID);
-
         int count = ${lowerModelName}Service.count(${lowerModelName}Model);
 
         List<${firstModelName}> ${lowerModelName}List = ${lowerModelName}Service.list(${lowerModelName}Model);
+
+        for (${firstModelName} ${lowerModelName} : ${lowerModelName}List) {
+            ${lowerModelName}.keep(${firstModelName}.${upperModelName}_ID);
+        }
 
         renderJson(count, ${lowerModelName}List);
     }
@@ -44,8 +48,6 @@ public class ${firstModelName}Controller extends Controller {
         ${firstModelName} ${lowerModelName}Model = getModel(${firstModelName}.class);
 
         ${lowerModelName}Model.validate(${firstModelName}.${upperModelName}_ID);
-
-        ${lowerModelName}Model.select(${firstModelName}.${upperModelName}_ID);
 
         ${firstModelName} ${lowerModelName} = ${lowerModelName}Service.find(${lowerModelName}Model);
 

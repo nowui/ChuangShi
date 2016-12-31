@@ -17,7 +17,7 @@ public abstract class Model<M extends Model> extends HashMap<String, Object> {
     private String table_name;
     private String key_id;
     private List<Column> columnList;
-    private final List<String> selectList = new ArrayList<String>();
+//    private final List<String> selectList = new ArrayList<String>();
 
     @com.shanghaichuangshi.annotation.Column(type = ColumnType.VARCHAR, length = 32, comment = "")
     public static final String SYSTEM_CREATE_USER_ID = "system_create_user_id";
@@ -144,17 +144,17 @@ public abstract class Model<M extends Model> extends HashMap<String, Object> {
         return columnList;
     }
 
-    public void select(String... keys) {
-        selectList.clear();
-
-        for (String key : keys) {
-            selectList.add(key);
-        }
-    }
-
-    public List<String> getSelectList() {
-        return selectList;
-    }
+//    public void select(String... keys) {
+//        selectList.clear();
+//
+//        for (String key : keys) {
+//            selectList.add(key);
+//        }
+//    }
+//
+//    public List<String> getSelectList() {
+//        return selectList;
+//    }
 
     public Model set(String key, Object value) {
         this.put(key, value);
@@ -258,7 +258,7 @@ public abstract class Model<M extends Model> extends HashMap<String, Object> {
         return (M) this;
     }
 
-    public String packageSelect(String... columns) {
+    public String packageSelectSQL(String... columns) {
         StringBuffer sql = new StringBuffer();
 
         if (columns.length > 0) {
@@ -286,7 +286,7 @@ public abstract class Model<M extends Model> extends HashMap<String, Object> {
         List<Object> parameterList = new ArrayList<Object>();
 
         sql.append("SELECT ");
-        sql.append(packageSelect(columns));
+        sql.append(getTable_name()).append(".* ");
         sql.append("FROM ").append(getTable_name()).append(" WHERE ").append(getKey_id()).append(" = ? ");
         parameterList.add(id);
 

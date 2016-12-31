@@ -26,7 +26,7 @@ public class ${firstModelName}Dao extends Dao {
         DynamicSQL dynamicSQL = new DynamicSQL();
 
         dynamicSQL.append("SELECT ");
-        dynamicSQL.append(${lowerModelName}.packageSelect(columns));
+        dynamicSQL.append(${lowerModelName}.packageSelectSQL(columns));
         dynamicSQL.append("FROM ").append(${firstModelName}.TABLE_${upperModelName}).append(" ");
         dynamicSQL.append("WHERE ").append(${firstModelName}.TABLE_${upperModelName}).append(".").append(${firstModelName}.SYSTEM_STATUS).append(" = 1 ");
         dynamicSQL.append("ORDER BY ").append(${firstModelName}.TABLE_${upperModelName}).append(".").append(${firstModelName}.SYSTEM_CREATE_TIME).append(" DESC ");
@@ -45,7 +45,7 @@ public class ${firstModelName}Dao extends Dao {
         DynamicSQL dynamicSQL = new DynamicSQL();
 
         dynamicSQL.append("SELECT ");
-        dynamicSQL.append(${lowerModelName}.packageSelect(columns));
+        dynamicSQL.append(${lowerModelName}.packageSelectSQL(columns));
         dynamicSQL.append("FROM ").append(${firstModelName}.TABLE_${upperModelName}).append(" ");
         dynamicSQL.append("WHERE ").append(${firstModelName}.TABLE_${upperModelName}).append(".").append(${firstModelName}.SYSTEM_STATUS).append(" = 1 ");
 

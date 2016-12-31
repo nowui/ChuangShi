@@ -17,9 +17,11 @@ public class RoleController extends Controller {
 
         roleModel.validate(Role.PAGE_INDEX, Role.PAGE_SIZE);
 
-        roleModel.select(Role.ROLE_ID);
-
         List<Role> roleList = roleService.list(roleModel);
+
+        for (Role role : roleList) {
+            role.keep(Role.ROLE_ID);
+        }
 
         renderJson(roleList);
     }
@@ -30,11 +32,13 @@ public class RoleController extends Controller {
 
         roleModel.validate(Role.PAGE_INDEX, Role.PAGE_SIZE);
 
-        roleModel.select(Role.ROLE_ID);
-
         int count = roleService.count(roleModel);
 
         List<Role> roleList = roleService.list(roleModel);
+
+        for (Role role : roleList) {
+            role.keep(Role.ROLE_ID);
+        }
 
         renderJson(count, roleList);
     }
@@ -44,8 +48,6 @@ public class RoleController extends Controller {
         Role roleModel = getModel(Role.class);
 
         roleModel.validate(Role.ROLE_ID);
-
-        roleModel.select(Role.ROLE_ID);
 
         Role role = roleService.find(roleModel);
 

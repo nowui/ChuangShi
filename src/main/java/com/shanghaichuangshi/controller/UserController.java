@@ -17,9 +17,11 @@ public class UserController extends Controller {
 
         userModel.validate(User.PAGE_INDEX, User.PAGE_SIZE);
 
-        userModel.select(User.USER_ID, User.USER_ACCOUNT);
-
         List<User> userList = userService.list(userModel);
+
+        for (User user : userList) {
+            user.keep(User.USER_ID);
+        }
 
         renderJson(userList);
     }
@@ -30,11 +32,13 @@ public class UserController extends Controller {
 
         userModel.validate(User.PAGE_INDEX, User.PAGE_SIZE);
 
-        userModel.select(User.USER_ID, User.USER_ACCOUNT);
-
         int count = userService.count(userModel);
 
         List<User> userList = userService.list(userModel);
+
+        for (User user : userList) {
+            user.keep(User.USER_ID);
+        }
 
         renderJson(count, userList);
     }
@@ -44,8 +48,6 @@ public class UserController extends Controller {
         User userModel = getModel(User.class);
 
         userModel.validate(User.USER_ID);
-
-        userModel.select(User.USER_ID, User.USER_ACCOUNT);
 
         User user = userService.find(userModel);
 

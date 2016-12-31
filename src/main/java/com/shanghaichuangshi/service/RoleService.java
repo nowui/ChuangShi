@@ -14,11 +14,11 @@ public class RoleService extends Service {
     }
 
     public List<Role> list(Role role) {
-        return roleDao.list(role.getPage_index(), role.getPage_size(), role.getSelectList().toArray(new String[role.getSelectList().size()]));
+        return roleDao.list(role.getPage_index(), role.getPage_size());
     }
 
     public Role find(Role role) {
-        return roleDao.findByRole_Id(role.getRole_id(), role.getSelectList().toArray(new String[role.getSelectList().size()]));
+        return roleDao.findByRole_Id(role.getRole_id());
     }
 
     public void save(Role role) {
