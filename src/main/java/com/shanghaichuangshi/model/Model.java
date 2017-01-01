@@ -17,7 +17,6 @@ public abstract class Model<M extends Model> extends HashMap<String, Object> {
     private String table_name;
     private String key_id;
     private List<Column> columnList;
-//    private final List<String> selectList = new ArrayList<String>();
 
     @com.shanghaichuangshi.annotation.Column(type = ColumnType.VARCHAR, length = 32, comment = "")
     public static final String SYSTEM_CREATE_USER_ID = "system_create_user_id";
@@ -144,18 +143,6 @@ public abstract class Model<M extends Model> extends HashMap<String, Object> {
         return columnList;
     }
 
-//    public void select(String... keys) {
-//        selectList.clear();
-//
-//        for (String key : keys) {
-//            selectList.add(key);
-//        }
-//    }
-//
-//    public List<String> getSelectList() {
-//        return selectList;
-//    }
-
     public Model set(String key, Object value) {
         this.put(key, value);
 
@@ -228,75 +215,75 @@ public abstract class Model<M extends Model> extends HashMap<String, Object> {
 
     }
 
-    public int count(String sql, List<Object> parameterList) {
-        return DatabaseUtil.count(sql, parameterList);
-    }
-
-    public List<M> list(String sql, List<Object> parameterList) {
-        List<Map<String, Object>> resultList = DatabaseUtil.list(sql, parameterList);
-
-        List<M> list = new ArrayList<M>();
-        for (Map<String, Object> map : resultList) {
-            try {
-                list.add((M) getClass().newInstance().set(map));
-            } catch (InstantiationException e) {
-                e.printStackTrace();
-            } catch (IllegalAccessException e) {
-                e.printStackTrace();
-            }
-        }
-
-        return list;
-    }
-
-    public M find(String sql, List<Object> parameterList) {
-        Map<String, Object> resultMap = DatabaseUtil.find(sql, parameterList);
-
-        this.clear();
-        set(resultMap);
-
-        return (M) this;
-    }
-
-    public String packageSelectSQL(String... columns) {
-        StringBuffer sql = new StringBuffer();
-
-        if (columns.length > 0) {
-            for (int i = 0; i < columns.length; i++) {
-                if (i > 0) {
-                    sql.append(", ");
-                }
-
-                if (columns[i].contains(".")) {
-                    sql.append(columns[i]);
-                } else {
-                    sql.append(getTable_name()).append(".").append(columns[i]);
-                }
-            }
-            sql.append(" ");
-        } else {
-            sql.append(getTable_name()).append(".* ");
-        }
-
-        return sql.toString();
-    }
-
-    public M findById(String id, String... columns) {
-        StringBuilder sql = new StringBuilder();
-        List<Object> parameterList = new ArrayList<Object>();
-
-        sql.append("SELECT ");
-        sql.append(getTable_name()).append(".* ");
-        sql.append("FROM ").append(getTable_name()).append(" WHERE ").append(getKey_id()).append(" = ? ");
-        parameterList.add(id);
-
-        Map<String, Object> resultMap = DatabaseUtil.find(sql.toString(), parameterList);
-
-        this.clear();
-        set(resultMap);
-
-        return (M) this;
-    }
+//    public int count(String sql, List<Object> parameterList) {
+//        return DatabaseUtil.count(sql, parameterList);
+//    }
+//
+//    public List<M> list(String sql, List<Object> parameterList) {
+//        List<Map<String, Object>> resultList = DatabaseUtil.list(sql, parameterList);
+//
+//        List<M> list = new ArrayList<M>();
+//        for (Map<String, Object> map : resultList) {
+//            try {
+//                list.add((M) getClass().newInstance().set(map));
+//            } catch (InstantiationException e) {
+//                throw new RuntimeException("InstantiationException:", e);
+//            } catch (IllegalAccessException e) {
+//                throw new RuntimeException("IllegalAccessException:", e);
+//            }
+//        }
+//
+//        return list;
+//    }
+//
+//    public M find(String sql, List<Object> parameterList) {
+//        Map<String, Object> resultMap = DatabaseUtil.find(sql, parameterList);
+//
+//        this.clear();
+//        set(resultMap);
+//
+//        return (M) this;
+//    }
+//
+//    private String packageSelectSQL(String... columns) {
+//        StringBuffer sql = new StringBuffer();
+//
+//        if (columns.length > 0) {
+//            for (int i = 0; i < columns.length; i++) {
+//                if (i > 0) {
+//                    sql.append(", ");
+//                }
+//
+//                if (columns[i].contains(".")) {
+//                    sql.append(columns[i]);
+//                } else {
+//                    sql.append(getTable_name()).append(".").append(columns[i]);
+//                }
+//            }
+//            sql.append(" ");
+//        } else {
+//            sql.append(getTable_name()).append(".* ");
+//        }
+//
+//        return sql.toString();
+//    }
+//
+//    public M findById(String id, String... columns) {
+//        StringBuilder sql = new StringBuilder();
+//        List<Object> parameterList = new ArrayList<Object>();
+//
+//        sql.append("SELECT ");
+//        sql.append(getTable_name()).append(".* ");
+//        sql.append("FROM ").append(getTable_name()).append(" WHERE ").append(getKey_id()).append(" = ? ");
+//        parameterList.add(id);
+//
+//        Map<String, Object> resultMap = DatabaseUtil.find(sql.toString(), parameterList);
+//
+//        this.clear();
+//        set(resultMap);
+//
+//        return (M) this;
+//    }
 
     public boolean save() {
         StringBuilder sql = new StringBuilder();
@@ -343,8 +330,7 @@ public abstract class Model<M extends Model> extends HashMap<String, Object> {
         sql.append(temp.toString());
         sql.append(")");
 
-//        return DatabaseUtil.update(sql.toString(), parameterList);
-        return true;
+        return DatabaseUtil.update(sql.toString(), parameterList);
     }
 
     public boolean update() {
@@ -381,8 +367,7 @@ public abstract class Model<M extends Model> extends HashMap<String, Object> {
         sql.append(getKey_id()).append(" = ? ");
         parameterList.add(value);
 
-//        return DatabaseUtil.update(sql.toString(), parameterList);
-        return true;
+        return DatabaseUtil.update(sql.toString(), parameterList);
     }
 
     public boolean delete() {
@@ -410,9 +395,7 @@ public abstract class Model<M extends Model> extends HashMap<String, Object> {
         sql.append(getKey_id()).append(" = ? ");
         parameterList.add(value);
 
-//        return DatabaseUtil.update(sql.toString(), parameterList);
-
-        return true;
+        return DatabaseUtil.update(sql.toString(), parameterList);
     }
 
 }

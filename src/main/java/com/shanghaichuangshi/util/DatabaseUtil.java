@@ -2,6 +2,8 @@ package com.shanghaichuangshi.util;
 
 import com.alibaba.druid.filter.logging.Slf4jLogFilter;
 import com.alibaba.druid.pool.DruidDataSource;
+import com.shanghaichuangshi.handler.ModelListHandler;
+import com.shanghaichuangshi.model.Model;
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.handlers.MapListHandler;
 
@@ -120,17 +122,25 @@ public class DatabaseUtil {
         }
     }
 
-    public static List<Map<String, Object>> list(String sql, List<Object> parameterList) {
+//    public static List<Map<String, Object>> list(String sql, List<Object> parameterList) {
+//        try {
+//            return runner.query(sql, new MapListHandler(), parameterList.toArray());
+//        } catch (SQLException e) {
+//            throw new RuntimeException("SQLException: ", e);
+//        }
+//    }
+
+    public static List<? extends Model> list(String sql, List<Object> parameterList, Class<? extends Model> modelClass) {
         try {
-            return runner.query(sql, new MapListHandler(), parameterList.toArray());
+            return runner.query(sql, new ModelListHandler(modelClass), parameterList.toArray());
         } catch (SQLException e) {
             throw new RuntimeException("SQLException: ", e);
         }
     }
 
-    public static Map<String, Object> find(String sql, List<Object> parameterList) {
+    public static Model<? extends Model> find(String sql, List<Object> parameterList, Class<? extends Model> modelClass) {
         try {
-            List<Map<String, Object>> resultList = runner.query(sql, new MapListHandler(), parameterList.toArray());
+            List<? extends Model> resultList = runner.query(sql, new ModelListHandler(modelClass), parameterList.toArray());
 
             if (resultList.size() > 0) {
                 return resultList.get(0);

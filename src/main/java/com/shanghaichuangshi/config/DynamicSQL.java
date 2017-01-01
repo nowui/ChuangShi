@@ -24,6 +24,7 @@ public class DynamicSQL {
         for (Object object : objects) {
             this.parameterList.add(object);
         }
+
         return this;
     }
 
@@ -34,6 +35,15 @@ public class DynamicSQL {
 
             this.parameterList.add(object);
         }
+
+        return this;
+    }
+
+    public DynamicSQL appendLike(String string, Object object) {
+        this.sql.append(string);
+
+        this.parameterList.add("%" + object + "%");
+
         return this;
     }
 
@@ -43,15 +53,15 @@ public class DynamicSQL {
 
             this.parameterList.add("%" + object + "%");
         }
+
         return this;
     }
 
     public DynamicSQL appendPagination(Integer m, Integer n) {
-        if (n > 0) {
-            this.sql.append("LIMIT ?, ? ");
-            this.parameterList.add(m);
-            this.parameterList.add(n);
-        }
+        this.sql.append("LIMIT ?, ? ");
+        this.parameterList.add(m);
+        this.parameterList.add(n);
+
         return this;
     }
 }

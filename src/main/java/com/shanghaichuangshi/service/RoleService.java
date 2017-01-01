@@ -18,7 +18,7 @@ public class RoleService extends Service {
     }
 
     public Role find(Role role) {
-        return roleDao.findByRole_Id(role.getRole_id());
+        return roleDao.find(role.getRole_id());
     }
 
     public void save(Role role) {

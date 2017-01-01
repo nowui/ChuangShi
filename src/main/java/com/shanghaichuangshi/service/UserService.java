@@ -18,7 +18,7 @@ public class UserService extends Service {
     }
 
     public User find(User user) {
-        return userDao.findByUser_Id(user.getUser_id());
+        return userDao.find(user.getUser_id());
     }
 
     public void save(User user) {

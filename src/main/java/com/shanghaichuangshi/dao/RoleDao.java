@@ -2,58 +2,44 @@ package com.shanghaichuangshi.dao;
 
 import com.shanghaichuangshi.config.DynamicSQL;
 import com.shanghaichuangshi.model.Role;
+import com.shanghaichuangshi.util.DatabaseUtil;
 
 import java.util.List;
 
 public class RoleDao extends Dao {
 
-    private int count(Role role) {
+    public int count() {
         DynamicSQL dynamicSQL = new DynamicSQL();
 
         dynamicSQL.append("SELECT COUNT(*) FROM ").append(Role.TABLE_ROLE);
         dynamicSQL.append("WHERE ").append(Role.TABLE_ROLE).append(".").append(Role.SYSTEM_STATUS).append(" = 1 ");
 
-        return role.count(dynamicSQL.getSql(), dynamicSQL.getParameterList());
+        return DatabaseUtil.count(dynamicSQL.getSql(), dynamicSQL.getParameterList());
     }
 
-    public int count() {
-        Role role = new Role();
-
-        return count(role);
-    }
-
-    private List<Role> list(Role role, Integer m, Integer n, String... columns) {
+    public List<Role> list(Integer m, Integer n) {
         DynamicSQL dynamicSQL = new DynamicSQL();
 
         dynamicSQL.append("SELECT ");
-        dynamicSQL.append(role.packageSelectSQL(columns));
+        dynamicSQL.append(Role.TABLE_ROLE).append(".* ");
         dynamicSQL.append("FROM ").append(Role.TABLE_ROLE).append(" ");
         dynamicSQL.append("WHERE ").append(Role.TABLE_ROLE).append(".").append(Role.SYSTEM_STATUS).append(" = 1 ");
         dynamicSQL.append("ORDER BY ").append(Role.TABLE_ROLE).append(".").append(Role.SYSTEM_CREATE_TIME).append(" DESC ");
         dynamicSQL.appendPagination(m, n);
 
-        return role.list(dynamicSQL.getSql(), dynamicSQL.getParameterList());
+        return (List<Role>) DatabaseUtil.list(dynamicSQL.getSql(), dynamicSQL.getParameterList(), Role.class);
     }
 
-    public List<Role> list(Integer m, Integer n, String... columns) {
-        Role role = new Role();
-
-        return list(role, m, n, columns);
-    }
-
-    private Role find(Role role, String... columns) {
+    public Role find(String role_id) {
         DynamicSQL dynamicSQL = new DynamicSQL();
 
         dynamicSQL.append("SELECT ");
-        dynamicSQL.append(role.packageSelectSQL(columns));
+        dynamicSQL.append(Role.TABLE_ROLE).append(".* ");
         dynamicSQL.append("FROM ").append(Role.TABLE_ROLE).append(" ");
         dynamicSQL.append("WHERE ").append(Role.TABLE_ROLE).append(".").append(Role.SYSTEM_STATUS).append(" = 1 ");
+        dynamicSQL.append("AND ").append(Role.TABLE_ROLE).append(".").append(Role.ROLE_ID).append(" = ? ", role_id);
 
-        return role.find(dynamicSQL.getSql(), dynamicSQL.getParameterList());
-    }
-
-    public Role findByRole_Id(String role_id, String... columns) {
-        return new Role().findById(role_id, columns);
+        return (Role) DatabaseUtil.find(dynamicSQL.getSql(), dynamicSQL.getParameterList(), Role.class);
     }
 
     public boolean save(Role role) {
