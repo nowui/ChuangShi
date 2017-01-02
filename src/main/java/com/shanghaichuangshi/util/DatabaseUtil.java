@@ -10,7 +10,6 @@ import org.apache.commons.dbutils.handlers.MapListHandler;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
-import java.util.Map;
 
 public class DatabaseUtil {
 

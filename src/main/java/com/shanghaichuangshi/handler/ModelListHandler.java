@@ -30,6 +30,9 @@ public class ModelListHandler extends AbstractListHandler<Model<? extends Model>
         ResultSetMetaData resultSetMetaData = resultSet.getMetaData();
         for (int i = 1; i <= resultSetMetaData.getColumnCount(); i++) {
             model.put(resultSetMetaData.getColumnLabel(i), resultSet.getObject(i));
+
+//            String tableAlias = resultSetMetaData.getTableName(i);
+//            System.out.println(tableAlias);
         }
 
         return model;

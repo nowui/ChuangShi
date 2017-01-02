@@ -12,8 +12,8 @@ public class CodeDao extends Dao {
         DynamicSQL dynamicSQL = new DynamicSQL();
 
         dynamicSQL.append("SELECT ");
-        dynamicSQL.append("aa.table_name ");
-        dynamicSQL.append("FROM information_schema.tables as aa ");
+        dynamicSQL.append("table_name ");
+        dynamicSQL.append("FROM information_schema.tables ");
         dynamicSQL.append("WHERE table_schema='ChuangShi' ");
         dynamicSQL.appendLikeIsNullOrEmpty("AND table_name LIKE ? ", table_name);
 
