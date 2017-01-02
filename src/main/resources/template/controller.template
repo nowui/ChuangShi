@@ -19,10 +19,6 @@ public class ${firstModelName}Controller extends Controller {
 
         List<${firstModelName}> ${lowerModelName}List = ${lowerModelName}Service.list(${lowerModelName}Model);
 
-        for (${firstModelName} ${lowerModelName} : ${lowerModelName}List) {
-            ${lowerModelName}.keep(${firstModelName}.${upperModelName}_ID);
-        }
-
         renderJson(${lowerModelName}List);
     }
 
@@ -35,10 +31,6 @@ public class ${firstModelName}Controller extends Controller {
         int count = ${lowerModelName}Service.count(${lowerModelName}Model);
 
         List<${firstModelName}> ${lowerModelName}List = ${lowerModelName}Service.list(${lowerModelName}Model);
-
-        for (${firstModelName} ${lowerModelName} : ${lowerModelName}List) {
-            ${lowerModelName}.keep(${firstModelName}.${upperModelName}_ID);
-        }
 
         renderJson(count, ${lowerModelName}List);
     }

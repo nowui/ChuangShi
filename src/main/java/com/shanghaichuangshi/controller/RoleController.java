@@ -19,10 +19,6 @@ public class RoleController extends Controller {
 
         List<Role> roleList = roleService.list(roleModel);
 
-        for (Role role : roleList) {
-            role.keep(Role.ROLE_ID);
-        }
-
         renderJson(roleList);
     }
 
@@ -35,10 +31,6 @@ public class RoleController extends Controller {
         int count = roleService.count(roleModel);
 
         List<Role> roleList = roleService.list(roleModel);
-
-        for (Role role : roleList) {
-            role.keep(Role.ROLE_ID);
-        }
 
         renderJson(count, roleList);
     }

@@ -21,7 +21,7 @@ public class UserDao extends Dao {
         DynamicSQL dynamicSQL = new DynamicSQL();
 
         dynamicSQL.append("SELECT ");
-        dynamicSQL.append(User.TABLE_USER).append(".* ");
+        dynamicSQL.append(User.TABLE_USER).append(".").append(User.USER_ID).append(" ");
         dynamicSQL.append("FROM ").append(User.TABLE_USER).append(" ");
         dynamicSQL.append("WHERE ").append(User.TABLE_USER).append(".").append(User.SYSTEM_STATUS).append(" = 1 ");
         dynamicSQL.append("ORDER BY ").append(User.TABLE_USER).append(".").append(User.SYSTEM_CREATE_TIME).append(" DESC ");

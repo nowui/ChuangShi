@@ -19,10 +19,6 @@ public class UserController extends Controller {
 
         List<User> userList = userService.list(userModel);
 
-        for (User user : userList) {
-            user.keep(User.USER_ID);
-        }
-
         renderJson(userList);
     }
 
@@ -35,10 +31,6 @@ public class UserController extends Controller {
         int count = userService.count(userModel);
 
         List<User> userList = userService.list(userModel);
-
-        for (User user : userList) {
-            user.keep(User.USER_ID);
-        }
 
         renderJson(count, userList);
     }

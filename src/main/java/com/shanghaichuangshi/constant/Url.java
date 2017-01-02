@@ -24,4 +24,5 @@ public class Url {
     public static final String ROLE_SAVE = "/role/save";
     public static final String ROLEL_UPDATE = "/role/update";
     public static final String ROLE_DELETE = "/role/delete";
+
 }

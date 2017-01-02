@@ -21,7 +21,7 @@ public class RoleDao extends Dao {
         DynamicSQL dynamicSQL = new DynamicSQL();
 
         dynamicSQL.append("SELECT ");
-        dynamicSQL.append(Role.TABLE_ROLE).append(".* ");
+        dynamicSQL.append(Role.TABLE_ROLE).append(".").append(Role.ROLE_ID).append(" ");
         dynamicSQL.append("FROM ").append(Role.TABLE_ROLE).append(" ");
         dynamicSQL.append("WHERE ").append(Role.TABLE_ROLE).append(".").append(Role.SYSTEM_STATUS).append(" = 1 ");
         dynamicSQL.append("ORDER BY ").append(Role.TABLE_ROLE).append(".").append(Role.SYSTEM_CREATE_TIME).append(" DESC ");

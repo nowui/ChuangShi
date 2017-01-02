@@ -62,7 +62,7 @@ public class CodeController extends Controller {
         String upperModelName = lowerModelName.toUpperCase();
         String firstModelName = lowerModelName.substring(0, 1).toUpperCase() + lowerModelName.substring(1);
 
-        write(lowerModelName, upperModelName, firstModelName, columnList, "/url.template", "Url.java");
+        write(lowerModelName, upperModelName, firstModelName, columnList, "/url.template", firstModelName + "Url.java");
         write(lowerModelName, upperModelName, firstModelName, columnList, "/model.template", firstModelName + ".java");
         write(lowerModelName, upperModelName, firstModelName, columnList, "/dao.template", firstModelName + "Dao.java");
         write(lowerModelName, upperModelName, firstModelName, columnList, "/service.template", firstModelName + "Service.java");

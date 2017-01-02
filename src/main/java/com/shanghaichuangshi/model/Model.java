@@ -330,7 +330,10 @@ public abstract class Model<M extends Model> extends HashMap<String, Object> {
         sql.append(temp.toString());
         sql.append(")");
 
-        return DatabaseUtil.update(sql.toString(), parameterList);
+        System.out.println(sql.toString());
+        return true;
+
+//        return DatabaseUtil.update(sql.toString(), parameterList);
     }
 
     public boolean update() {
