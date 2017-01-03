@@ -25,7 +25,7 @@ public class UserDao extends Dao {
         dynamicSQL.append("FROM ").append(User.TABLE_USER).append(" ");
         dynamicSQL.append("WHERE ").append(User.TABLE_USER).append(".").append(User.SYSTEM_STATUS).append(" = 1 ");
         dynamicSQL.append("ORDER BY ").append(User.TABLE_USER).append(".").append(User.SYSTEM_CREATE_TIME).append(" DESC ");
-        dynamicSQL.appendPagination(m, n);
+        dynamicSQL.append("LIMIT ?, ? ", m, n);
 
         return (List<User>) DatabaseUtil.list(dynamicSQL.getSql(), dynamicSQL.getParameterList(), User.class);
     }

@@ -29,39 +29,39 @@ public class DynamicSQL {
     }
 
 
-    public DynamicSQL appendIsNullOrEmpty(String string, Object object) {
-        if (!Util.isNullOrEmpty(object)) {
-            this.sql.append(string);
-
-            this.parameterList.add(object);
-        }
-
-        return this;
-    }
-
-    public DynamicSQL appendLike(String string, Object object) {
-        this.sql.append(string);
-
-        this.parameterList.add("%" + object + "%");
-
-        return this;
-    }
-
-    public DynamicSQL appendLikeIsNullOrEmpty(String string, Object object) {
-        if (!Util.isNullOrEmpty(object)) {
-            this.sql.append(string);
-
-            this.parameterList.add("%" + object + "%");
-        }
-
-        return this;
-    }
-
-    public DynamicSQL appendPagination(Integer m, Integer n) {
-        this.sql.append("LIMIT ?, ? ");
-        this.parameterList.add(m);
-        this.parameterList.add(n);
-
-        return this;
-    }
+//    public DynamicSQL appendIsNullOrEmpty(String string, Object object) {
+//        if (!Util.isNullOrEmpty(object)) {
+//            this.sql.append(string);
+//
+//            this.parameterList.add(object);
+//        }
+//
+//        return this;
+//    }
+//
+//    public DynamicSQL appendLike(String string, Object object) {
+//        this.sql.append(string);
+//
+//        this.parameterList.add("%" + object + "%");
+//
+//        return this;
+//    }
+//
+//    public DynamicSQL appendLikeIsNullOrEmpty(String string, Object object) {
+//        if (!Util.isNullOrEmpty(object)) {
+//            this.sql.append(string);
+//
+//            this.parameterList.add("%" + object + "%");
+//        }
+//
+//        return this;
+//    }
+//
+//    public DynamicSQL appendPagination(Integer m, Integer n) {
+//        this.sql.append("LIMIT ?, ? ");
+//        this.parameterList.add(m);
+//        this.parameterList.add(n);
+//
+//        return this;
+//    }
 }
