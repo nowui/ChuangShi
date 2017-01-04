@@ -91,8 +91,6 @@ public class Filter implements javax.servlet.Filter {
 
         String parameter = "{}";
 
-        Controller controller = null;
-
         try {
             DatabaseUtil.start();
 
@@ -105,7 +103,7 @@ public class Filter implements javax.servlet.Filter {
             Route route = routeMatcher.find(path);
             if(route != null) {
                 try {
-                    controller = route.getControllerClass().newInstance().setContext(request, response);
+                    Controller controller = route.getControllerClass().newInstance().setContext(request, response);
 
                     controller.setAttribute(Key.REQUEST_PARAMETER, JSONObject.parse(parameter));
 
