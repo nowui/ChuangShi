@@ -2,10 +2,15 @@ package com.shanghaichuangshi.util;
 
 import java.util.Collection;
 import java.util.Map;
+import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Util {
+
+    public static String getRandomUUID() {
+        return UUID.randomUUID().toString().replaceAll("-", "");
+    }
 
     public static boolean isNull(Object obj) {
         if (obj == null) {

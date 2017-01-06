@@ -127,8 +127,6 @@ public abstract class Model<M extends Model> extends HashMap<String, Object> {
                         column.setComment(columnAnnotation.comment());
                         column.setName(field.get(User.class).toString());
                         columnList.add(column);
-
-                        break;
                     } catch (IllegalAccessException e) {
                         throw new RuntimeException("IllegalAccessException: " + e);
                     }
@@ -291,16 +289,15 @@ public abstract class Model<M extends Model> extends HashMap<String, Object> {
         List<Object> parameterList = new ArrayList<Object>();
 
         sql.append("INSERT INTO ").append(getTable_name()).append(" (");
+        sql.append(getKey_id());
+        temp.append("?");
+        parameterList.add(Util.getRandomUUID());
 
         for (Entry<String, Object> entry : this.entrySet()) {
             for (Column column : getColumnList()) {
-                if (entry.getKey().equals(column.getName())) {
-                    if (parameterList.size() > 0) {
-                        sql.append(", ");
-                        temp.append(", ");
-                    }
-                    sql.append(entry.getKey());
-                    temp.append("?");
+                if (entry.getKey().equals(column.getName()) && !entry.getKey().equals(getKey_id())) {
+                    sql.append(", ").append(entry.getKey());
+                    temp.append(", ?");
                     parameterList.add(entry.getValue());
                 }
             }
@@ -330,10 +327,7 @@ public abstract class Model<M extends Model> extends HashMap<String, Object> {
         sql.append(temp.toString());
         sql.append(")");
 
-        System.out.println(sql.toString());
-        return true;
-
-//        return DatabaseUtil.update(sql.toString(), parameterList);
+        return DatabaseUtil.update(sql.toString(), parameterList);
     }
 
     public boolean update() {

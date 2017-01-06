@@ -11,7 +11,7 @@ public class UserDao extends Dao {
     public int count() {
         DynamicSQL dynamicSQL = new DynamicSQL();
 
-        dynamicSQL.append("SELECT COUNT(*) FROM ").append(User.TABLE_USER);
+        dynamicSQL.append("SELECT COUNT(*) FROM ").append(User.TABLE_USER).append(" ");
         dynamicSQL.append("WHERE ").append(User.TABLE_USER).append(".").append(User.SYSTEM_STATUS).append(" = 1 ");
 
         return DatabaseUtil.count(dynamicSQL.getSql(), dynamicSQL.getParameterList());

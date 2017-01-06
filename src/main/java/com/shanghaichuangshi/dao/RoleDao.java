@@ -12,7 +12,7 @@ public class RoleDao extends Dao {
     public int count() {
         DynamicSQL dynamicSQL = new DynamicSQL();
 
-        dynamicSQL.append("SELECT COUNT(*) FROM ").append(Role.TABLE_ROLE);
+        dynamicSQL.append("SELECT COUNT(*) FROM ").append(Role.TABLE_ROLE).append(" ");
         dynamicSQL.append("WHERE ").append(Role.TABLE_ROLE).append(".").append(Role.SYSTEM_STATUS).append(" = 1 ");
 
         return DatabaseUtil.count(dynamicSQL.getSql(), dynamicSQL.getParameterList());

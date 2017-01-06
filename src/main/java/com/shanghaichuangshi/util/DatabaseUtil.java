@@ -6,6 +6,7 @@ import com.shanghaichuangshi.handler.ModelListHandler;
 import com.shanghaichuangshi.model.Model;
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.handlers.MapListHandler;
+import org.apache.commons.dbutils.handlers.ScalarHandler;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -113,7 +114,7 @@ public class DatabaseUtil {
 
     public static int count(String sql, List<Object> parameterList) {
         try {
-            Number result = (Number) runner.query(sql, new MapListHandler(), parameterList.toArray());
+            Number result = (Number) runner.query(sql, new ScalarHandler(1), parameterList.toArray());
 
             return result.intValue();
         } catch (SQLException e) {
@@ -154,7 +155,7 @@ public class DatabaseUtil {
     public static boolean update(String sql, List<Object> parameterList) {
         int result = 0;
         try {
-            result = runner.update(sql, new MapListHandler(), parameterList.toArray());
+            result = runner.update(sql, parameterList.toArray());
         } catch (SQLException e) {
             throw new RuntimeException("SQLException: ", e);
         }

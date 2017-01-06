@@ -61,6 +61,8 @@ public class RoleController extends Controller {
     public void save() {
         Role roleModel = getModel(Role.class);
 
+        roleModel.validate(Role.ROLE_NAME);
+
         roleService.save(roleModel);
 
         renderJson("");
@@ -70,7 +72,7 @@ public class RoleController extends Controller {
     public void update() {
         Role roleModel = getModel(Role.class);
 
-        roleModel.validate(Role.ROLE_ID);
+        roleModel.validate(Role.ROLE_ID, Role.ROLE_NAME);
 
         roleService.update(roleModel);
 
