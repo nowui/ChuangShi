@@ -14,7 +14,7 @@ public class RoleService extends Service {
     }
 
     public List<Role> list(Role role) {
-        return roleDao.list(role.getRole_name(), role.getPage_index(), role.getPage_size());
+        return roleDao.list(role.getRole_name(), role.getM(), role.getN());
     }
 
     public Role find(Role role) {

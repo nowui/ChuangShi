@@ -14,7 +14,7 @@ public class UserService extends Service {
     }
 
     public List<User> list(User user) {
-        return userDao.list(user.getPage_index(), user.getPage_size());
+        return userDao.list(user.getM(), user.getN());
     }
 
     public User find(User user) {

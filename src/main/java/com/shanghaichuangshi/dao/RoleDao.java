@@ -27,7 +27,7 @@ public class RoleDao extends Dao {
         dynamicSQL.append("FROM ").append(Role.TABLE_ROLE).append(" ");
         dynamicSQL.append("WHERE ").append(Role.TABLE_ROLE).append(".").append(Role.SYSTEM_STATUS).append(" = 1 ");
         if (!Util.isNullOrEmpty(role_name)) {
-            dynamicSQL.append("AND ").append(Role.TABLE_ROLE).append(".").append(Role.ROLE_NAME).append(" LIKE = ? ", role_name);
+            dynamicSQL.append("AND ").append(Role.TABLE_ROLE).append(".").append(Role.ROLE_NAME).append(" LIKE ? ", "%" + role_name + "%");
         }
         dynamicSQL.append("ORDER BY ").append(Role.TABLE_ROLE).append(".").append(Role.SYSTEM_CREATE_TIME).append(" DESC ");
         dynamicSQL.append("LIMIT ?, ? ", m, n);

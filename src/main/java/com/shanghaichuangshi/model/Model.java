@@ -51,12 +51,21 @@ public abstract class Model<M extends Model> extends HashMap<String, Object> {
         return (int) this.get(key);
     }
 
-    public int getPage_index() {
-        return getInt(PAGE_INDEX);
+    public int getM() {
+        int page_index = getInt(PAGE_INDEX);
+        int page_size = getInt(PAGE_SIZE);
+
+        if (page_index > 0) {
+            return (page_index - 1) * page_size;
+        } else {
+            return 1;
+        }
     }
 
-    public int getPage_size() {
-        return getInt(PAGE_SIZE);
+    public int getN() {
+        int page_size = getInt(PAGE_SIZE);
+
+        return page_size > 0 ? page_size : 0;
     }
 
     protected String getRequest_user_id() {
@@ -373,7 +382,7 @@ public abstract class Model<M extends Model> extends HashMap<String, Object> {
 
         sql.append("UPDATE ").append(getTable_name()).append(" SET ");
 
-        sql.append(", ").append(SYSTEM_UPDATE_USER_ID).append(" = ?");
+        sql.append(SYSTEM_UPDATE_USER_ID).append(" = ?");
         parameterList.add(getRequest_user_id());
 
         sql.append(", ").append(SYSTEM_UPDATE_TIME).append(" = ?");
