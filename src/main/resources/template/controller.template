@@ -61,6 +61,8 @@ public class ${firstModelName}Controller extends Controller {
     public void save() {
         ${firstModelName} ${lowerModelName}Model = getModel(${firstModelName}.class);
 
+        ${lowerModelName}Model.validate(${firstModelName}.${upperModelName}_NAME);
+
         ${lowerModelName}Service.save(${lowerModelName}Model);
 
         renderJson("");
@@ -70,7 +72,7 @@ public class ${firstModelName}Controller extends Controller {
     public void update() {
         ${firstModelName} ${lowerModelName}Model = getModel(${firstModelName}.class);
 
-        ${lowerModelName}Model.validate(${firstModelName}.${upperModelName}_ID);
+        ${lowerModelName}Model.validate(${firstModelName}.${upperModelName}_ID, ${firstModelName}.${upperModelName}_NAME);
 
         ${lowerModelName}Service.update(${lowerModelName}Model);
 

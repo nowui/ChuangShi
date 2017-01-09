@@ -25,4 +25,11 @@ public class Url {
     public static final String ROLEL_UPDATE = "/role/update";
     public static final String ROLE_DELETE = "/role/delete";
 
+    public static final String CATEGORY_ADMIN_LIST = "/category/admin/list";
+    public static final String CATEGORY_FIND = "/category/find";
+    public static final String CATEGORY_ADMIN_FIND = "/category/admin/find";
+    public static final String CATEGORY_SAVE = "/category/save";
+    public static final String CATEGORYL_UPDATE = "/category/update";
+    public static final String CATEGORY_DELETE = "/category/delete";
+
 }

@@ -15,7 +15,6 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class CodeController extends Controller {
 
@@ -62,11 +61,17 @@ public class CodeController extends Controller {
         String upperModelName = lowerModelName.toUpperCase();
         String firstModelName = lowerModelName.substring(0, 1).toUpperCase() + lowerModelName.substring(1);
 
-        write(lowerModelName, upperModelName, firstModelName, columnList, "/url.template", firstModelName + "Url.java");
+        write(lowerModelName, upperModelName, firstModelName, columnList, "/url.template", "Url.java");
         write(lowerModelName, upperModelName, firstModelName, columnList, "/model.template", firstModelName + ".java");
         write(lowerModelName, upperModelName, firstModelName, columnList, "/dao.template", firstModelName + "Dao.java");
         write(lowerModelName, upperModelName, firstModelName, columnList, "/service.template", firstModelName + "Service.java");
         write(lowerModelName, upperModelName, firstModelName, columnList, "/controller.template", firstModelName + "Controller.java");
+        write(lowerModelName, upperModelName, firstModelName, columnList, "/config.template", "WebConfig.java");
+        write(lowerModelName, upperModelName, firstModelName, columnList, "/state.template", lowerModelName + ".js");
+        write(lowerModelName, upperModelName, firstModelName, columnList, "/index.template", firstModelName + "Index.js");
+        write(lowerModelName, upperModelName, firstModelName, columnList, "/detail.template", firstModelName + "Detail.js");
+        write(lowerModelName, upperModelName, firstModelName, columnList, "/router.template", "Router.js");
+        write(lowerModelName, upperModelName, firstModelName, columnList, "/app.template", "index.js");
 
         renderJson("");
     }

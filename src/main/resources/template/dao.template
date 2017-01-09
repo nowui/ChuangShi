@@ -3,6 +3,7 @@ package com.shanghaichuangshi.dao;
 import com.shanghaichuangshi.config.DynamicSQL;
 import com.shanghaichuangshi.model.${firstModelName};
 import com.shanghaichuangshi.util.DatabaseUtil;
+import com.shanghaichuangshi.util.Util;
 
 import java.util.List;
 
@@ -11,21 +12,25 @@ public class ${firstModelName}Dao extends Dao {
     public int count() {
         DynamicSQL dynamicSQL = new DynamicSQL();
 
-        dynamicSQL.append("SELECT COUNT(*) FROM ").append(${firstModelName}.TABLE_${upperModelName});
+        dynamicSQL.append("SELECT COUNT(*) FROM ").append(${firstModelName}.TABLE_${upperModelName}).append(" ");
         dynamicSQL.append("WHERE ").append(${firstModelName}.TABLE_${upperModelName}).append(".").append(${firstModelName}.SYSTEM_STATUS).append(" = 1 ");
 
         return DatabaseUtil.count(dynamicSQL.getSql(), dynamicSQL.getParameterList());
     }
 
-    public List<${firstModelName}> list(Integer m, Integer n) {
+    public List<${firstModelName}> list(String ${lowerModelName}_name, Integer m, Integer n) {
         DynamicSQL dynamicSQL = new DynamicSQL();
 
         dynamicSQL.append("SELECT ");
-        dynamicSQL.append(${firstModelName}.TABLE_${upperModelName}).append(".").append(${firstModelName}.${upperModelName}_ID).append(" ");
+        dynamicSQL.append(${firstModelName}.TABLE_${upperModelName}).append(".").append(${firstModelName}.${upperModelName}_ID).append(", ");
+        dynamicSQL.append(${firstModelName}.TABLE_${upperModelName}).append(".").append(${firstModelName}.${upperModelName}_NAME).append(" ");
         dynamicSQL.append("FROM ").append(${firstModelName}.TABLE_${upperModelName}).append(" ");
         dynamicSQL.append("WHERE ").append(${firstModelName}.TABLE_${upperModelName}).append(".").append(${firstModelName}.SYSTEM_STATUS).append(" = 1 ");
+        if (!Util.isNullOrEmpty(${lowerModelName}_name)) {
+            dynamicSQL.append("AND ").append(${firstModelName}.TABLE_${upperModelName}).append(".").append(${firstModelName}.${upperModelName}_NAME).append(" LIKE ? ", "%" + ${lowerModelName}_name + "%");
+        }
         dynamicSQL.append("ORDER BY ").append(${firstModelName}.TABLE_${upperModelName}).append(".").append(${firstModelName}.SYSTEM_CREATE_TIME).append(" DESC ");
-        dynamicSQL.appendPagination(m, n);
+        dynamicSQL.append("LIMIT ?, ? ", m, n);
 
         return (List<${firstModelName}>) DatabaseUtil.list(dynamicSQL.getSql(), dynamicSQL.getParameterList(), ${firstModelName}.class);
     }

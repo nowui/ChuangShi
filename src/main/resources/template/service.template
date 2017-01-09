@@ -14,11 +14,11 @@ public class ${firstModelName}Service extends Service {
     }
 
     public List<${firstModelName}> list(${firstModelName} ${lowerModelName}) {
-        return ${lowerModelName}Dao.list(${lowerModelName}.getPage_index(), ${lowerModelName}.getPage_size());
+        return ${lowerModelName}Dao.list(${lowerModelName}.get${firstModelName}_name(), ${lowerModelName}.getM(), ${lowerModelName}.getN());
     }
 
     public ${firstModelName} find(${firstModelName} ${lowerModelName}) {
-        return ${lowerModelName}Dao.findBy${firstModelName}_Id(${lowerModelName}.get${firstModelName}_id());
+        return ${lowerModelName}Dao.find(${lowerModelName}.get${firstModelName}_id());
     }
 
     public void save(${firstModelName} ${lowerModelName}) {
