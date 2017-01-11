@@ -8,7 +8,6 @@ import constant from '../../constant/constant';
 import http from '../../util/http';
 import style from '../style.css';
 
-let toast;
 let request;
 
 class ${firstModelName}Index extends Component {
@@ -23,7 +22,6 @@ class ${firstModelName}Index extends Component {
   }
 
   componentWillUnmount() {
-    toast();
     request.cancel();
   }
 
@@ -31,16 +29,16 @@ class ${firstModelName}Index extends Component {
     let ${lowerModelName}_name = this.props.form.getFieldValue('${lowerModelName}_name');
     let page_index = 1;
 
-    this.handList(${lowerModelName}_name, page_index);
+    this.handleList(${lowerModelName}_name, page_index);
   }
 
-  handLoad(page_index) {
+  handleLoad(page_index) {
     let ${lowerModelName}_name = this.props.${lowerModelName}.${lowerModelName}_name;
 
-    this.handList(${lowerModelName}_name, page_index);
+    this.handleList(${lowerModelName}_name, page_index);
   }
 
-  handList(${lowerModelName}_name, page_index) {
+  handleList(${lowerModelName}_name, page_index) {
     if (this.handleStart({
         is_load: true
       })) {
@@ -75,7 +73,7 @@ class ${firstModelName}Index extends Component {
     }).post();
   }
 
-  handSave() {
+  handleSave() {
     this.props.dispatch({
       type: '${lowerModelName}/fetch',
       data: {
@@ -85,7 +83,7 @@ class ${firstModelName}Index extends Component {
     });
   }
 
-  handUpdate(${lowerModelName}_id) {
+  handleUpdate(${lowerModelName}_id) {
     if (this.handleStart({
         is_load: true,
         is_detail: true,
@@ -122,8 +120,10 @@ class ${firstModelName}Index extends Component {
         ${lowerModelName}_id: ${lowerModelName}_id
       },
       success: function (json) {
+        message.success(constant.success);
+
         setTimeout(function () {
-          this.handLoad(this.props.${lowerModelName}.page_index);
+            this.handleLoad(this.props.${lowerModelName}.page_index);
         }.bind(this), constant.timeout);
       }.bind(this),
       complete: function () {
@@ -147,10 +147,12 @@ class ${firstModelName}Index extends Component {
       url: '${lowerModelName}/' + this.props.${lowerModelName}.action,
       data: data,
       success: function (json) {
+        message.success(constant.success);
+
         this.handleCancel();
 
         setTimeout(function () {
-          this.handLoad(this.props.${lowerModelName}.page_index);
+            this.handleLoad(this.props.${lowerModelName}.page_index);
         }.bind(this), constant.timeout);
       }.bind(this),
       complete: function () {
@@ -180,14 +182,10 @@ class ${firstModelName}Index extends Component {
       data: data
     });
 
-    toast = message.loading(constant.load, 0);
-
     return false;
   }
 
   handleFinish() {
-    toast();
-
     this.props.dispatch({
       type: '${lowerModelName}/fetch',
       data: {
@@ -205,7 +203,7 @@ class ${firstModelName}Index extends Component {
     });
 
     setTimeout(function () {
-      this.handLoad(page_index);
+      this.handleLoad(page_index);
     }.bind(this), constant.timeout);
   }
 
@@ -222,7 +220,7 @@ class ${firstModelName}Index extends Component {
       dataIndex: '',
       render: (text, record, index) => (
         <span>
-          <a onClick={this.handUpdate.bind(this, record.${lowerModelName}_id)}>{constant.update}</a>
+          <a onClick={this.handleUpdate.bind(this, record.${lowerModelName}_id)}>{constant.update}</a>
           <span className={style.divider}/>
           <Popconfirm title={constant.popconfirm_title} okText={constant.popconfirm_ok}
                       cancelText={constant.popconfirm_cancel} onConfirm={this.handleDelete.bind(this, record.${lowerModelName}_id)}>
@@ -238,7 +236,7 @@ class ${firstModelName}Index extends Component {
       pageSize: this.props.${lowerModelName}.page_size,
       showSizeChanger: true,
       onShowSizeChange: this.handleChangeSize.bind(this),
-      onChange: this.handLoad.bind(this)
+      onChange: this.handleLoad.bind(this)
     };
 
     return (
@@ -253,7 +251,7 @@ class ${firstModelName}Index extends Component {
                       loading={this.props.${lowerModelName}.is_load}
                       onClick={this.handleSearch.bind(this)}>{constant.search}</Button>
               <Button type="primary" icon="plus-circle" size="default"
-                      onClick={this.handSave.bind(this)}>{constant.save}</Button>
+                      onClick={this.handleSave.bind(this)}>{constant.save}</Button>
             </Col>
           </Row>
           <Form className={style.layoutContentHeaderSearch}>
@@ -275,7 +273,10 @@ class ${firstModelName}Index extends Component {
               </Col>
             </Row>
           </Form>
-          <Table className={style.layoutContentHeaderTable} columns={columns} dataSource={this.props.${lowerModelName}.list} pagination={pagination} scroll={{y: constant.scrollHeight()}} bordered/>
+          <Table className={style.layoutContentHeaderTable}
+                 loading={this.props.${lowerModelName}.is_load && !this.props.${lowerModelName}.is_detail} columns={columns}
+                 dataSource={this.props.${lowerModelName}.list} pagination={pagination} scroll={{y: constant.scrollHeight()}}
+                 bordered/>
           <${firstModelName}Detail is_load={this.props.${lowerModelName}.is_load}
                       is_detail={this.props.${lowerModelName}.is_detail}
                       handleSubmit={this.handleSubmit.bind(this)}

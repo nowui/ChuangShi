@@ -15,4 +15,6 @@ public @interface Column {
     String defaultValue() default "";
 
     String comment() default "";
+
+    boolean updatable() default true;
 }

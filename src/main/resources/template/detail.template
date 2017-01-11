@@ -1,5 +1,5 @@
 import React, {Component, PropTypes} from 'react';
-import {Modal, Form, Row, Col, Button, Input, InputNumber} from 'antd';
+import {Modal, Form, Row, Col, Spin, Button, Input, InputNumber} from 'antd';
 
 import constant from '../../constant/constant';
 import style from '../style.css';
@@ -48,54 +48,56 @@ class ${firstModelName}Detail extends Component {
                        onClick={this.handleSubmit.bind(this)}>确定</Button>
              ]}
       >
-        <%
-        for(column in columnList) {
-        %>
-        <Row>
-          <Col span={8}>
-            <FormItem hasFeedback {...constant.formItemLayoutDetail} className={style.formItem} label="${column.column_comment}">
-              {
-                getFieldDecorator('${column.column_name}', {
-                  rules: [{
-                    required: true,
-                    message: constant.required
-                  }],
-              <%
-              switch(column.data_type) {
-                case 'int':
-                  %>
-                  initialValue: 0
+        <Spin spinning={this.props.is_load}>
+            <%
+            for(column in columnList) {
+            %>
+            <Row>
+              <Col span={8}>
+                <FormItem hasFeedback {...constant.formItemLayoutDetail} className={style.formItem} label="${column.column_comment}">
+                  {
+                    getFieldDecorator('${column.column_name}', {
+                      rules: [{
+                        required: true,
+                        message: constant.required
+                      }],
                   <%
-                  break;
-                default:
+                  switch(column.data_type) {
+                    case 'int':
+                      %>
+                      initialValue: 0
+                      <%
+                      break;
+                    default:
+                      %>
+                      initialValue: ''
+                      <%
+                  }
                   %>
-                  initialValue: ''
+                    })(
                   <%
-              }
-              %>
-                })(
-              <%
-              switch(column.data_type) {
-                case 'int':
+                  switch(column.data_type) {
+                    case 'int':
+                      %>
+                      <InputNumber type="text" className={style.formItemInput} placeholder={constant.placeholder + '${column.column_comment}'}
+                                 min={0} max={999}/>
+                      <%
+                      break;
+                    default:
+                      %>
+                      <Input type="text" placeholder={constant.placeholder + '${column.column_comment}'}/>
+                      <%
+                  }
                   %>
-                  <InputNumber type="text" className={style.formItemInput} placeholder={constant.placeholder + '${column.column_comment}'}
-                             min={0} max={999}/>
-                  <%
-                  break;
-                default:
-                  %>
-                  <Input type="text" placeholder={constant.placeholder + '${column.column_comment}'}/>
-                  <%
-              }
-              %>
-                )
-              }
-            </FormItem>
-          </Col>
-        </Row>
-        <%
-        }
-        %>
+                    )
+                  }
+                </FormItem>
+              </Col>
+            </Row>
+            <%
+            }
+            %>
+        </Spin>
       </Modal>
     );
   }

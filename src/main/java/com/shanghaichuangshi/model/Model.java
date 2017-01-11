@@ -68,7 +68,7 @@ public abstract class Model<M extends Model> extends HashMap<String, Object> {
         return page_size > 0 ? page_size : 0;
     }
 
-    protected String getRequest_user_id() {
+    public String getRequest_user_id() {
         return "";
     }
 
@@ -134,6 +134,7 @@ public abstract class Model<M extends Model> extends HashMap<String, Object> {
                         column.setWidth(columnAnnotation.length());
                         column.setDefaultValue(columnAnnotation.defaultValue());
                         column.setComment(columnAnnotation.comment());
+                        column.setUpdatable(columnAnnotation.updatable());
                         column.setName(field.get(User.class).toString());
                         columnList.add(column);
                     } catch (IllegalAccessException e) {
@@ -298,38 +299,38 @@ public abstract class Model<M extends Model> extends HashMap<String, Object> {
         List<Object> parameterList = new ArrayList<Object>();
 
         sql.append("INSERT INTO ").append(getTable_name()).append(" (");
-        sql.append(getKey_id());
-        temp.append("?");
+        sql.append(getKey_id()).append(", ");
+        temp.append("?, ");
         parameterList.add(Util.getRandomUUID());
 
         for (Entry<String, Object> entry : this.entrySet()) {
             for (Column column : getColumnList()) {
                 if (entry.getKey().equals(column.getName()) && !entry.getKey().equals(getKey_id())) {
-                    sql.append(", ").append(entry.getKey());
-                    temp.append(", ?");
+                    sql.append(entry.getKey()).append(", ");
+                    temp.append("?, ");
                     parameterList.add(entry.getValue());
                 }
             }
         }
 
-        sql.append(", ").append(SYSTEM_CREATE_USER_ID);
-        temp.append(", ").append("?");
+        sql.append(SYSTEM_CREATE_USER_ID).append(", ");
+        temp.append("?, ");
         parameterList.add(getRequest_user_id());
 
-        sql.append(", ").append(SYSTEM_CREATE_TIME);
-        temp.append(", ").append("?");
+        sql.append(SYSTEM_CREATE_TIME).append(", ");
+        temp.append("?, ");
         parameterList.add(new Date());
 
-        sql.append(", ").append(SYSTEM_UPDATE_USER_ID);
-        temp.append(", ").append("?");
+        sql.append(SYSTEM_UPDATE_USER_ID).append(", ");
+        temp.append("?, ");
         parameterList.add(getRequest_user_id());
 
-        sql.append(", ").append(SYSTEM_UPDATE_TIME);
-        temp.append(", ").append("?");
+        sql.append(SYSTEM_UPDATE_TIME).append(", ");
+        temp.append("?, ");
         parameterList.add(new Date());
 
-        sql.append(", ").append(SYSTEM_STATUS);
-        temp.append(", ").append("?");
+        sql.append(SYSTEM_STATUS);
+        temp.append("?");
         parameterList.add(true);
 
 
@@ -345,25 +346,31 @@ public abstract class Model<M extends Model> extends HashMap<String, Object> {
 
         sql.append("UPDATE ").append(getTable_name()).append(" SET ");
 
+        Iterator<String> iterator = this.keySet().iterator();
+        while (iterator.hasNext()) {
+            String entry = iterator.next();
+
+            if (entry.equals(SYSTEM_CREATE_USER_ID) || entry.equals(SYSTEM_CREATE_TIME) || entry.equals(SYSTEM_UPDATE_USER_ID) || entry.equals(SYSTEM_UPDATE_TIME)) {
+                iterator.remove();
+            }
+        }
+
         for (Entry<String, Object> entry : this.entrySet()) {
             for (Column column : getColumnList()) {
-                if (entry.getKey().equals(column.getName()) && !column.getName().equals(getKey_id())) {
-                    if (parameterList.size() > 0) {
-                        sql.append(", ");
-                    }
-                    sql.append(entry.getKey()).append(" = ?");
+                if (entry.getKey().equals(column.getName()) && !column.getName().equals(getKey_id()) && column.getUpdatable()) {
+                    sql.append(entry.getKey()).append(" = ?, ");
                     parameterList.add(entry.getValue());
                 }
             }
         }
 
-        sql.append(", ").append(SYSTEM_UPDATE_USER_ID).append(" = ?");
+        sql.append(SYSTEM_UPDATE_USER_ID).append(" = ?, ");
         parameterList.add(getRequest_user_id());
 
-        sql.append(", ").append(SYSTEM_UPDATE_TIME).append(" = ?");
+        sql.append(SYSTEM_UPDATE_TIME).append(" = ? ");
         parameterList.add(new Date());
 
-        sql.append(" WHERE ");
+        sql.append("WHERE ");
 
         String value = get(getKey_id()).toString();
         if (value == null) {
@@ -382,16 +389,16 @@ public abstract class Model<M extends Model> extends HashMap<String, Object> {
 
         sql.append("UPDATE ").append(getTable_name()).append(" SET ");
 
-        sql.append(SYSTEM_UPDATE_USER_ID).append(" = ?");
+        sql.append(SYSTEM_UPDATE_USER_ID).append(" = ?, ");
         parameterList.add(getRequest_user_id());
 
-        sql.append(", ").append(SYSTEM_UPDATE_TIME).append(" = ?");
+        sql.append(SYSTEM_UPDATE_TIME).append(" = ?, ");
         parameterList.add(new Date());
 
-        sql.append(", ").append(SYSTEM_STATUS).append(" = ?");
+        sql.append(SYSTEM_STATUS).append(" = ? ");
         parameterList.add(false);
 
-        sql.append(" WHERE ");
+        sql.append("WHERE ");
 
         String value = get(getKey_id()).toString();
         if (value == null) {

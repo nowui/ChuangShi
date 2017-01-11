@@ -23,16 +23,33 @@ public class ${firstModelName} extends Model<${firstModelName}> {
     <%
     for(column in columnList) {
     %>
-    public String get${column.first_column_name}() {
-        return getString(${strutil.toUpperCase(column.column_name)});
-    }
+    <%
+    switch(column.data_type) {
+    case 'int':
+      %>
+          public Integer get${column.first_column_name}() {
+              return getInteger(${strutil.toUpperCase(column.column_name)});
+          }
 
-    public void set${column.first_column_name}(String ${column.column_name}) {
-        set(${strutil.toUpperCase(column.column_name)}, ${column.column_name});
+          public void set${column.first_column_name}(Integer ${column.column_name}) {
+              set(${strutil.toUpperCase(column.column_name)}, ${column.column_name});
+          }
+      <%
+      break;
+    default:
+      %>
+          public String get${column.first_column_name}() {
+              return getString(${strutil.toUpperCase(column.column_name)});
+          }
+
+          public void set${column.first_column_name}(String ${column.column_name}) {
+              set(${strutil.toUpperCase(column.column_name)}, ${column.column_name});
+          }
+      <%
     }
+    %>
 
     <%
     }
     %>
-
 }

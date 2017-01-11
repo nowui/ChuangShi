@@ -12,7 +12,7 @@ public class UserDao extends Dao {
         DynamicSQL dynamicSQL = new DynamicSQL();
 
         dynamicSQL.append("SELECT COUNT(*) FROM ").append(User.TABLE_USER).append(" ");
-        dynamicSQL.append("WHERE ").append(User.TABLE_USER).append(".").append(User.SYSTEM_STATUS).append(" = 1 ");
+        dynamicSQL.append("WHERE ").append(User.TABLE_USER).append(".").append(User.SYSTEM_STATUS).append(" = ? ", true);
 
         return DatabaseUtil.count(dynamicSQL.getSql(), dynamicSQL.getParameterList());
     }
@@ -23,7 +23,7 @@ public class UserDao extends Dao {
         dynamicSQL.append("SELECT ");
         dynamicSQL.append(User.TABLE_USER).append(".").append(User.USER_ID).append(" ");
         dynamicSQL.append("FROM ").append(User.TABLE_USER).append(" ");
-        dynamicSQL.append("WHERE ").append(User.TABLE_USER).append(".").append(User.SYSTEM_STATUS).append(" = 1 ");
+        dynamicSQL.append("WHERE ").append(User.TABLE_USER).append(".").append(User.SYSTEM_STATUS).append(" = ? ", true);
         dynamicSQL.append("ORDER BY ").append(User.TABLE_USER).append(".").append(User.SYSTEM_CREATE_TIME).append(" DESC ");
         dynamicSQL.append("LIMIT ?, ? ", m, n);
 
@@ -36,7 +36,7 @@ public class UserDao extends Dao {
         dynamicSQL.append("SELECT ");
         dynamicSQL.append(User.TABLE_USER).append(".* ");
         dynamicSQL.append("FROM ").append(User.TABLE_USER).append(" ");
-        dynamicSQL.append("WHERE ").append(User.TABLE_USER).append(".").append(User.SYSTEM_STATUS).append(" = 1 ");
+        dynamicSQL.append("WHERE ").append(User.TABLE_USER).append(".").append(User.SYSTEM_STATUS).append(" = ? ", true);
         dynamicSQL.append("AND ").append(User.TABLE_USER).append(".").append(User.USER_ID).append(" = ? ", user_id);
 
         return (User) DatabaseUtil.find(dynamicSQL.getSql(), dynamicSQL.getParameterList(), User.class);

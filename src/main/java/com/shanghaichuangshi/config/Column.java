@@ -9,6 +9,7 @@ public class Column {
     private int width;
     private String defaultValue;
     private String comment;
+    private boolean updatable;
 
     public String getName() {
         return name;
@@ -48,5 +49,13 @@ public class Column {
 
     public void setComment(String comment) {
         this.comment = comment;
+    }
+
+    public boolean getUpdatable() {
+        return updatable;
+    }
+
+    public void setUpdatable(boolean updatable) {
+        this.updatable = updatable;
     }
 }

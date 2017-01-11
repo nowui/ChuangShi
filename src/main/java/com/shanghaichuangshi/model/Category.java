@@ -14,7 +14,7 @@ public class Category extends Model<Category> {
     @Column(type = ColumnType.VARCHAR, length = 32, comment = "分类编号")
     public static final String CATEGORY_ID = "category_id";
 
-    @Column(type = ColumnType.VARCHAR, length = 32, comment = "分类父编号")
+    @Column(type = ColumnType.VARCHAR, length = 32, comment = "分类父编号", updatable = false)
     public static final String PARENT_ID = "parent_id";
 
     @Column(type = ColumnType.VARCHAR, length = 20, comment = "分类名称")
@@ -26,14 +26,14 @@ public class Category extends Model<Category> {
     @Column(type = ColumnType.VARCHAR, length = 100, comment = "分类数值")
     public static final String CATEGORY_VALUE = "category_value";
 
-    @Column(type = ColumnType.INT, length = 3, comment = "分类排序")
-    public static final String CATEGORY_SORT = "category_sort";
-
-    @Column(type = ColumnType.VARCHAR, length = 3000, comment = "分类路径")
+    @Column(type = ColumnType.VARCHAR, length = 3000, comment = "分类路径", updatable = false)
     public static final String CATEGORY_PATH = "category_path";
 
     @Column(type = ColumnType.VARCHAR, length = 100, comment = "分类描述")
-    public static final String CATEGORY_DESCRIPTION = "category_description";
+    public static final String CATEGORY_REMARK = "category_remark";
+
+    @Column(type = ColumnType.INT, length = 3, comment = "分类排序")
+    public static final String CATEGORY_SORT = "category_sort";
 
     public String getCategory_id() {
         return getString(CATEGORY_ID);
@@ -75,14 +75,6 @@ public class Category extends Model<Category> {
         set(CATEGORY_VALUE, category_value);
     }
 
-    public String getCategory_sort() {
-        return getString(CATEGORY_SORT);
-    }
-
-    public void setCategory_sort(String category_sort) {
-        set(CATEGORY_SORT, category_sort);
-    }
-
     public String getCategory_path() {
         return getString(CATEGORY_PATH);
     }
@@ -91,13 +83,20 @@ public class Category extends Model<Category> {
         set(CATEGORY_PATH, category_path);
     }
 
-    public String getCategory_description() {
-        return getString(CATEGORY_DESCRIPTION);
+    public String getCategory_remark() {
+        return getString(CATEGORY_REMARK);
     }
 
-    public void setCategory_description(String category_description) {
-        set(CATEGORY_DESCRIPTION, category_description);
+    public void setCategory_remark(String category_remark) {
+        set(CATEGORY_REMARK, category_remark);
     }
 
+    public Integer getCategory_sort() {
+        return getInteger(CATEGORY_SORT);
+    }
+
+    public void setCategory_sort(Integer category_sort) {
+        set(CATEGORY_SORT, category_sort);
+    }
 
 }

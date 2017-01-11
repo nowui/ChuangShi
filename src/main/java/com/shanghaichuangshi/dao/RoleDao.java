@@ -13,7 +13,7 @@ public class RoleDao extends Dao {
         DynamicSQL dynamicSQL = new DynamicSQL();
 
         dynamicSQL.append("SELECT COUNT(*) FROM ").append(Role.TABLE_ROLE).append(" ");
-        dynamicSQL.append("WHERE ").append(Role.TABLE_ROLE).append(".").append(Role.SYSTEM_STATUS).append(" = 1 ");
+        dynamicSQL.append("WHERE ").append(Role.TABLE_ROLE).append(".").append(Role.SYSTEM_STATUS).append(" = ? ", true);
 
         return DatabaseUtil.count(dynamicSQL.getSql(), dynamicSQL.getParameterList());
     }
@@ -25,7 +25,7 @@ public class RoleDao extends Dao {
         dynamicSQL.append(Role.TABLE_ROLE).append(".").append(Role.ROLE_ID).append(", ");
         dynamicSQL.append(Role.TABLE_ROLE).append(".").append(Role.ROLE_NAME).append(" ");
         dynamicSQL.append("FROM ").append(Role.TABLE_ROLE).append(" ");
-        dynamicSQL.append("WHERE ").append(Role.TABLE_ROLE).append(".").append(Role.SYSTEM_STATUS).append(" = 1 ");
+        dynamicSQL.append("WHERE ").append(Role.TABLE_ROLE).append(".").append(Role.SYSTEM_STATUS).append(" = ? ", true);
         if (!Util.isNullOrEmpty(role_name)) {
             dynamicSQL.append("AND ").append(Role.TABLE_ROLE).append(".").append(Role.ROLE_NAME).append(" LIKE ? ", "%" + role_name + "%");
         }
@@ -41,7 +41,7 @@ public class RoleDao extends Dao {
         dynamicSQL.append("SELECT ");
         dynamicSQL.append(Role.TABLE_ROLE).append(".* ");
         dynamicSQL.append("FROM ").append(Role.TABLE_ROLE).append(" ");
-        dynamicSQL.append("WHERE ").append(Role.TABLE_ROLE).append(".").append(Role.SYSTEM_STATUS).append(" = 1 ");
+        dynamicSQL.append("WHERE ").append(Role.TABLE_ROLE).append(".").append(Role.SYSTEM_STATUS).append(" = ? ", true);
         dynamicSQL.append("AND ").append(Role.TABLE_ROLE).append(".").append(Role.ROLE_ID).append(" = ? ", role_id);
 
         return (Role) DatabaseUtil.find(dynamicSQL.getSql(), dynamicSQL.getParameterList(), Role.class);

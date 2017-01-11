@@ -1,6 +1,7 @@
 package com.shanghaichuangshi.controller;
 
 import com.shanghaichuangshi.annotation.Path;
+import com.shanghaichuangshi.constant.Key;
 import com.shanghaichuangshi.constant.Url;
 import com.shanghaichuangshi.model.Category;
 import com.shanghaichuangshi.service.CategoryService;
@@ -22,6 +23,19 @@ public class CategoryController extends Controller {
         List<Category> categoryList = categoryService.list(categoryModel);
 
         renderJson(count, categoryList);
+    }
+
+    @Path(Url.CATEGORY_ADMIN_TREE_LIST)
+    public void adminTreeList() {
+        Category categoryModel = getModel(Category.class);
+
+        categoryModel.validate(Category.CATEGORY_ID);
+
+        Category category = categoryService.treeList(categoryModel);
+
+        category.keep(Category.CATEGORY_ID, Category.CATEGORY_NAME, Key.CHILDREN);
+
+        renderJson(category);
     }
 
     @Path(Url.CATEGORY_FIND)
