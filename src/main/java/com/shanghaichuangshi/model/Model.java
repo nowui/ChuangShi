@@ -72,6 +72,10 @@ public abstract class Model<M extends Model> extends HashMap<String, Object> {
         return "";
     }
 
+    public void setRequest_user_id(String request_user_id) {
+
+    }
+
     private String getTable_name() {
         if (table_name == null) {
             Field[] fields = this.getClass().getDeclaredFields();

@@ -9,14 +9,6 @@ public class Url {
     public static final String CODE_LIST = "/code/list";
     public static final String CODE_SAVE = "/code/save";
 
-    public static final String USER_LIST = "/user/list";
-    public static final String USER_ADMIN_LIST = "/user/admin/list";
-    public static final String USER_FIND = "/user/find";
-    public static final String USER_ADMIN_FIND = "/user/admin/find";
-    public static final String USER_SAVE = "/user/save";
-    public static final String USERL_UPDATE = "/user/update";
-    public static final String USER_DELETE = "/user/delete";
-
     public static final String ROLE_LIST = "/role/list";
     public static final String ROLE_ADMIN_LIST = "/role/admin/list";
     public static final String ROLE_FIND = "/role/find";
@@ -32,5 +24,13 @@ public class Url {
     public static final String CATEGORY_SAVE = "/category/save";
     public static final String CATEGORYL_UPDATE = "/category/update";
     public static final String CATEGORY_DELETE = "/category/delete";
+
+    public static final String ADMIN_LIST = "/admin/list";
+    public static final String ADMIN_ADMIN_LIST = "/admin/admin/list";
+    public static final String ADMIN_FIND = "/admin/find";
+    public static final String ADMIN_ADMIN_FIND = "/admin/admin/find";
+    public static final String ADMIN_SAVE = "/admin/save";
+    public static final String ADMINL_UPDATE = "/admin/update";
+    public static final String ADMIN_DELETE = "/admin/delete";
 
 }

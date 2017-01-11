@@ -76,15 +76,15 @@ public class CategoryDao extends Dao {
         return category.update();
     }
 
-    public boolean delete(Category category) {
+    public boolean delete(String category_id, String request_user_id) {
         DynamicSQL dynamicSQL = new DynamicSQL();
 
         dynamicSQL.append("UPDATE ").append(Category.TABLE_CATEGORY).append(" SET ");
-        dynamicSQL.append(Category.SYSTEM_UPDATE_USER_ID).append(" = ?, ", category.getRequest_user_id());
+        dynamicSQL.append(Category.SYSTEM_UPDATE_USER_ID).append(" = ?, ", request_user_id);
         dynamicSQL.append(Category.SYSTEM_UPDATE_TIME).append(" = ?, ", new Date());
         dynamicSQL.append(Category.SYSTEM_STATUS).append(" = ? ", false);
-        dynamicSQL.append("WHERE ").append(Category.TABLE_CATEGORY).append(".").append(Category.CATEGORY_ID).append(" = ? ", category.getCategory_id());
-        dynamicSQL.append("OR ").append(Category.TABLE_CATEGORY).append(".").append(Category.CATEGORY_PATH).append(" LIKE ? ", "%\"" + category.getCategory_id() + "\"%");
+        dynamicSQL.append("WHERE ").append(Category.TABLE_CATEGORY).append(".").append(Category.CATEGORY_ID).append(" = ? ", category_id);
+        dynamicSQL.append("OR ").append(Category.TABLE_CATEGORY).append(".").append(Category.CATEGORY_PATH).append(" LIKE ? ", "%\"" + category_id + "\"%");
 
         return DatabaseUtil.update(dynamicSQL.getSql(), dynamicSQL.getParameterList());
     }

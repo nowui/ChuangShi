@@ -67,7 +67,7 @@ public class CategoryService extends Service {
     }
 
     public void delete(Category category) {
-        categoryDao.delete(category);
+        categoryDao.delete(category.getCategory_id(), category.getRequest_user_id());
     }
 
     private List<Map<String, Object>> getChildren(List<Category> categoryList, String parent_id) {
