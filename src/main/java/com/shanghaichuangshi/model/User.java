@@ -38,10 +38,10 @@ public class User extends Model<User> {
     @Column(type = ColumnType.VARCHAR, length = 200, comment = "微信token")
     public static final String WECHAT_ACCESS_TOKEN = "wechat_access_token";
 
-    @Column(type = ColumnType.VARCHAR, length = 32, comment = "外键编号")
+    @Column(type = ColumnType.VARCHAR, length = 32, comment = "外键编号", updatable = false)
     public static final String OBJECT_ID = "object_id";
 
-    @Column(type = ColumnType.VARCHAR, length = 20, comment = "用户类型")
+    @Column(type = ColumnType.VARCHAR, length = 20, comment = "用户类型", updatable = false)
     public static final String USER_TYPE = "user_type";
 
           public String getUser_id() {

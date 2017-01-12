@@ -16,5 +16,7 @@ public @interface Column {
 
     String comment() default "";
 
+    boolean findable() default true;
+
     boolean updatable() default true;
 }

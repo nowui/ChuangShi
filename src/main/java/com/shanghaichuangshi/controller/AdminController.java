@@ -3,6 +3,7 @@ package com.shanghaichuangshi.controller;
 import com.shanghaichuangshi.annotation.Path;
 import com.shanghaichuangshi.constant.Url;
 import com.shanghaichuangshi.model.Admin;
+import com.shanghaichuangshi.model.User;
 import com.shanghaichuangshi.service.AdminService;
 
 import java.util.List;
@@ -54,16 +55,18 @@ public class AdminController extends Controller {
 
         Admin admin = adminService.find(adminModel);
 
-        renderJson("");
+        renderJson(admin);
     }
 
     @Path(Url.ADMIN_SAVE)
     public void save() {
         Admin adminModel = getModel(Admin.class);
+        User userModel = getModel(User.class);
 
         adminModel.validate(Admin.ADMIN_NAME);
+        userModel.validate(User.USER_ACCOUNT, User.USER_PASSWORD);
 
-        adminService.save(adminModel);
+        adminService.save(adminModel, userModel);
 
         renderJson("");
     }
@@ -71,10 +74,12 @@ public class AdminController extends Controller {
     @Path(Url.ADMINL_UPDATE)
     public void update() {
         Admin adminModel = getModel(Admin.class);
+        User userModel = getModel(User.class);
 
         adminModel.validate(Admin.ADMIN_ID, Admin.ADMIN_NAME);
+        userModel.validate(User.USER_ACCOUNT, User.USER_PASSWORD);
 
-        adminService.update(adminModel);
+        adminService.update(adminModel, userModel);
 
         renderJson("");
     }

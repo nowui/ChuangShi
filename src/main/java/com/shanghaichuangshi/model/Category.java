@@ -14,7 +14,7 @@ public class Category extends Model<Category> {
     @Column(type = ColumnType.VARCHAR, length = 32, comment = "分类编号")
     public static final String CATEGORY_ID = "category_id";
 
-    @Column(type = ColumnType.VARCHAR, length = 32, comment = "分类父编号", updatable = false)
+    @Column(type = ColumnType.VARCHAR, length = 32, comment = "分类父编号", findable = false, updatable = false)
     public static final String PARENT_ID = "parent_id";
 
     @Column(type = ColumnType.VARCHAR, length = 20, comment = "分类名称")
@@ -26,7 +26,7 @@ public class Category extends Model<Category> {
     @Column(type = ColumnType.VARCHAR, length = 100, comment = "分类数值")
     public static final String CATEGORY_VALUE = "category_value";
 
-    @Column(type = ColumnType.VARCHAR, length = 3000, comment = "分类路径", updatable = false)
+    @Column(type = ColumnType.VARCHAR, length = 3000, comment = "分类路径", findable = false, updatable = false)
     public static final String CATEGORY_PATH = "category_path";
 
     @Column(type = ColumnType.VARCHAR, length = 100, comment = "分类描述")

@@ -9,6 +9,7 @@ public class Column {
     private int width;
     private String defaultValue;
     private String comment;
+    private boolean findable;
     private boolean updatable;
 
     public String getName() {
@@ -49,6 +50,14 @@ public class Column {
 
     public void setComment(String comment) {
         this.comment = comment;
+    }
+
+    public boolean getFindable() {
+        return findable;
+    }
+
+    public void setFindable(boolean findable) {
+        this.findable = findable;
     }
 
     public boolean getUpdatable() {

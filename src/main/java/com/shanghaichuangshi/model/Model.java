@@ -138,6 +138,7 @@ public abstract class Model<M extends Model> extends HashMap<String, Object> {
                         column.setWidth(columnAnnotation.length());
                         column.setDefaultValue(columnAnnotation.defaultValue());
                         column.setComment(columnAnnotation.comment());
+                        column.setFindable(columnAnnotation.findable());
                         column.setUpdatable(columnAnnotation.updatable());
                         column.setName(field.get(User.class).toString());
                         columnList.add(column);
@@ -190,6 +191,16 @@ public abstract class Model<M extends Model> extends HashMap<String, Object> {
     public Model remove(String... keys) {
         for (String key : keys) {
             this.remove(key);
+        }
+
+        return this;
+    }
+
+    public Model removeUnfindable() {
+        for (Column column : getColumnList()) {
+            if (!column.getFindable()) {
+                this.remove(column.getName());
+            }
         }
 
         return this;
@@ -298,6 +309,8 @@ public abstract class Model<M extends Model> extends HashMap<String, Object> {
 //    }
 
     public boolean save() {
+        String id = Util.getRandomUUID();
+
         StringBuilder sql = new StringBuilder();
         StringBuilder temp = new StringBuilder(") VALUES (");
         List<Object> parameterList = new ArrayList<Object>();
@@ -305,7 +318,7 @@ public abstract class Model<M extends Model> extends HashMap<String, Object> {
         sql.append("INSERT INTO ").append(getTable_name()).append(" (");
         sql.append(getKey_id()).append(", ");
         temp.append("?, ");
-        parameterList.add(Util.getRandomUUID());
+        parameterList.add(id);
 
         for (Entry<String, Object> entry : this.entrySet()) {
             for (Column column : getColumnList()) {
@@ -341,7 +354,9 @@ public abstract class Model<M extends Model> extends HashMap<String, Object> {
         sql.append(temp.toString());
         sql.append(")");
 
-        return DatabaseUtil.update(sql.toString(), parameterList);
+        set(getKey_id(), id);
+
+       return DatabaseUtil.update(sql.toString(), parameterList);
     }
 
     public boolean update() {

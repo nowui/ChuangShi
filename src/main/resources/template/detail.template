@@ -33,6 +33,10 @@ class ${firstModelName}Detail extends Component {
     this.props.handleCancel();
   }
 
+  handleReset() {
+    this.props.form.resetFields();
+  }
+
   render() {
     const FormItem = Form.Item;
     const {getFieldDecorator} = this.props.form;
@@ -110,6 +114,8 @@ ${firstModelName}Detail.propTypes = {
   handleCancel: React.PropTypes.func.isRequired
 };
 
-${firstModelName}Detail = Form.create({})(${firstModelName}Detail);
+${firstModelName}Detail = Form.create({
+  withRef: true
+})(${firstModelName}Detail);
 
 export default ${firstModelName}Detail;

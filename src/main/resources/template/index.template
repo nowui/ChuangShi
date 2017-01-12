@@ -169,7 +169,7 @@ class ${firstModelName}Index extends Component {
       }
     });
 
-    this.refs.detail.resetFields();
+    this.refs.detail.refs.wrappedComponent.refs.formWrappedComponent.handleReset();
   }
 
   handleStart(data) {

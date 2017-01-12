@@ -6,15 +6,18 @@ import com.shanghaichuangshi.util.DatabaseUtil;
 import com.shanghaichuangshi.util.Util;
 
 import java.util.Date;
-import java.util.List;
 
 public class UserDao extends Dao {
 
-    public int count() {
+    public int countByUser_accountAndObject_id(String user_account, String object_id) {
         DynamicSQL dynamicSQL = new DynamicSQL();
 
         dynamicSQL.append("SELECT COUNT(*) FROM ").append(User.TABLE_USER).append(" ");
         dynamicSQL.append("WHERE ").append(User.TABLE_USER).append(".").append(User.SYSTEM_STATUS).append(" = ? ", true);
+        dynamicSQL.append("AND ").append(User.TABLE_USER).append(".").append(User.USER_ACCOUNT).append(" = ? ", user_account);
+        if (!Util.isNullOrEmpty(object_id)) {
+            dynamicSQL.append("AND ").append(User.TABLE_USER).append(".").append(User.OBJECT_ID).append(" != ? ", object_id);
+        }
 
         return DatabaseUtil.count(dynamicSQL.getSql(), dynamicSQL.getParameterList());
     }
@@ -50,19 +53,46 @@ public class UserDao extends Dao {
         return (User) DatabaseUtil.find(dynamicSQL.getSql(), dynamicSQL.getParameterList(), User.class);
     }
 
-    public boolean saveByUser_accountAndUser_passwordAndUser_type(String user_account, String user_password, String user_type, String request_user_id) {
+    public String saveByUser_accountAndUser_passwordAndObject_idAndUser_type(String user_account, String user_password, String object_id, String user_type, String request_user_id) {
         User user = new User();
 
         user.setUser_account(user_account);
         user.setUser_password(user_password);
+        user.setObject_id(object_id);
         user.setUser_type(user_type);
         user.setRequest_user_id(request_user_id);
 
-        return user.save();
+        user.save();
+
+        return user.getUser_id();
     }
 
     public boolean update(User user) {
         return user.update();
+    }
+
+    public boolean updateByUser_accountAndObject_id(String user_account, String object_id, String request_user_id) {
+        DynamicSQL dynamicSQL = new DynamicSQL();
+
+        dynamicSQL.append("UPDATE ").append(User.TABLE_USER).append(" SET ");
+        dynamicSQL.append(User.USER_ACCOUNT).append(" = ?, ", user_account);
+        dynamicSQL.append(User.SYSTEM_UPDATE_USER_ID).append(" = ?, ", request_user_id);
+        dynamicSQL.append(User.SYSTEM_UPDATE_TIME).append(" = ? ", new Date());
+        dynamicSQL.append("WHERE ").append(User.TABLE_USER).append(".").append(User.OBJECT_ID).append(" = ? ", object_id);
+
+        return DatabaseUtil.update(dynamicSQL.getSql(), dynamicSQL.getParameterList());
+    }
+
+    public boolean updateByUser_passwordAndObject_id(String user_password, String object_id, String request_user_id) {
+        DynamicSQL dynamicSQL = new DynamicSQL();
+
+        dynamicSQL.append("UPDATE ").append(User.TABLE_USER).append(" SET ");
+        dynamicSQL.append(User.USER_PASSWORD).append(" = ?, ", user_password);
+        dynamicSQL.append(User.SYSTEM_UPDATE_USER_ID).append(" = ?, ", request_user_id);
+        dynamicSQL.append(User.SYSTEM_UPDATE_TIME).append(" = ? ", new Date());
+        dynamicSQL.append("WHERE ").append(User.TABLE_USER).append(".").append(User.OBJECT_ID).append(" = ? ", object_id);
+
+        return DatabaseUtil.update(dynamicSQL.getSql(), dynamicSQL.getParameterList());
     }
 
     public boolean deleteByObject_id(String object_id, String request_user_id) {

@@ -17,7 +17,7 @@ public class Admin extends Model<Admin> {
     @Column(type = ColumnType.VARCHAR, length = 20, comment = "管理员名称")
     public static final String ADMIN_NAME = "admin_name";
 
-    @Column(type = ColumnType.VARCHAR, length = 32, comment = "用户编号")
+    @Column(type = ColumnType.VARCHAR, length = 32, comment = "用户编号", findable = false, updatable = false)
     public static final String USER_ID = "user_id";
 
           public String getAdmin_id() {

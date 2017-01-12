@@ -54,7 +54,7 @@ public class ${firstModelName}Controller extends Controller {
 
         ${firstModelName} ${lowerModelName} = ${lowerModelName}Service.find(${lowerModelName}Model);
 
-        renderJson("");
+        renderJson(${lowerModelName});
     }
 
     @Path(Url.${upperModelName}_SAVE)

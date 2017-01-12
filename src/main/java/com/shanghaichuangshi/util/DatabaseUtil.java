@@ -5,11 +5,9 @@ import com.alibaba.druid.pool.DruidDataSource;
 import com.shanghaichuangshi.handler.ModelListHandler;
 import com.shanghaichuangshi.model.Model;
 import org.apache.commons.dbutils.QueryRunner;
-import org.apache.commons.dbutils.handlers.MapListHandler;
 import org.apache.commons.dbutils.handlers.ScalarHandler;
 
-import java.sql.Connection;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.List;
 
 public class DatabaseUtil {
@@ -114,7 +112,7 @@ public class DatabaseUtil {
 
     public static int count(String sql, List<Object> parameterList) {
         try {
-            Number result = (Number) runner.query(sql, new ScalarHandler(1), parameterList.toArray());
+            Long result = runner.query(sql, new ScalarHandler<Long>(1), parameterList.toArray());
 
             return result.intValue();
         } catch (SQLException e) {
@@ -143,7 +141,7 @@ public class DatabaseUtil {
             List<? extends Model> resultList = runner.query(sql, new ModelListHandler(modelClass), parameterList.toArray());
 
             if (resultList.size() > 0) {
-                return resultList.get(0);
+                return resultList.get(0).removeUnfindable();
             } else {
                 return null;
             }
