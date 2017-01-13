@@ -61,6 +61,8 @@ public class CategoryDao extends Dao {
         dynamicSQL.append(Category.TABLE_CATEGORY).append(".").append(Category.PARENT_ID).append(", ");
         dynamicSQL.append(Category.TABLE_CATEGORY).append(".").append(Category.CATEGORY_NAME).append(", ");
         dynamicSQL.append(Category.TABLE_CATEGORY).append(".").append(Category.CATEGORY_KEY).append(", ");
+        dynamicSQL.append(Category.TABLE_CATEGORY).append(".").append(Category.CATEGORY_VALUE).append(", ");
+        dynamicSQL.append(Category.TABLE_CATEGORY).append(".").append(Category.CATEGORY_REMARK).append(", ");
         dynamicSQL.append(Category.TABLE_CATEGORY).append(".").append(Category.CATEGORY_SORT).append(" ");
         dynamicSQL.append("FROM ").append(Category.TABLE_CATEGORY).append(" ");
         dynamicSQL.append("WHERE ").append(Category.TABLE_CATEGORY).append(".").append(Category.SYSTEM_STATUS).append(" = ? ", true);

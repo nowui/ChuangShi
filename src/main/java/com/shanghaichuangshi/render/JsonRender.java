@@ -13,7 +13,7 @@ public class JsonRender extends Render {
 
     public JsonRender(Json json) {
         if (json != null) {
-            jsonText = JSON.toJSONString(json);
+            jsonText = JSON.toJSONStringWithDateFormat(json, "yyyy-MM-dd HH:mm:ss");
         } else {
             throw new RuntimeException("The parameter object can not be null.");
         }
