@@ -69,6 +69,8 @@ public class CategoryDao extends Dao {
     }
 
     public boolean save(Category category) {
+        category.setCategory_id(Util.getRandomUUID());
+
         return category.save();
     }
 

@@ -196,14 +196,14 @@ public abstract class Model<M extends Model> extends HashMap<String, Object> {
         return this;
     }
 
-    public Model removeUnfindable() {
+    public M removeUnfindable() {
         for (Column column : getColumnList()) {
             if (!column.getFindable()) {
                 this.remove(column.getName());
             }
         }
 
-        return this;
+        return (M)this;
     }
 
     public void validate(String... keys) {
@@ -309,20 +309,15 @@ public abstract class Model<M extends Model> extends HashMap<String, Object> {
 //    }
 
     public boolean save() {
-        String id = Util.getRandomUUID();
-
         StringBuilder sql = new StringBuilder();
         StringBuilder temp = new StringBuilder(") VALUES (");
         List<Object> parameterList = new ArrayList<Object>();
 
         sql.append("INSERT INTO ").append(getTable_name()).append(" (");
-        sql.append(getKey_id()).append(", ");
-        temp.append("?, ");
-        parameterList.add(id);
 
         for (Entry<String, Object> entry : this.entrySet()) {
             for (Column column : getColumnList()) {
-                if (entry.getKey().equals(column.getName()) && !entry.getKey().equals(getKey_id())) {
+                if (entry.getKey().equals(column.getName())) {
                     sql.append(entry.getKey()).append(", ");
                     temp.append("?, ");
                     parameterList.add(entry.getValue());
@@ -353,8 +348,6 @@ public abstract class Model<M extends Model> extends HashMap<String, Object> {
 
         sql.append(temp.toString());
         sql.append(")");
-
-        set(getKey_id(), id);
 
        return DatabaseUtil.update(sql.toString(), parameterList);
     }

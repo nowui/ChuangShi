@@ -92,8 +92,6 @@ public class Filter implements javax.servlet.Filter {
         String parameter = "{}";
 
         try {
-            DatabaseUtil.start();
-
             parameter = HttpUtil.readData(request);
 
             if (Util.isNullOrEmpty(parameter)) {
@@ -103,6 +101,8 @@ public class Filter implements javax.servlet.Filter {
             Route route = routeMatcher.find(path);
             if(route != null) {
                 try {
+                    DatabaseUtil.start();
+
                     Controller controller = route.getControllerClass().newInstance().setContext(request, response);
 
                     controller.setAttribute(Key.REQUEST_PARAMETER, JSONObject.parse(parameter));
@@ -110,6 +110,8 @@ public class Filter implements javax.servlet.Filter {
                     route.getMethod().setAccessible(true);
 
                     route.getMethod().invoke(controller);
+
+                    DatabaseUtil.commit();
                 } catch (InstantiationException e) {
                     throw new Exception("InstantiationException:", e);
                 } catch (IllegalAccessException e) {
@@ -121,8 +123,6 @@ public class Filter implements javax.servlet.Filter {
             } else {
                 renderFactory.getNotFoundRender().setContext(request, response).render();
             }
-
-            DatabaseUtil.commit();
         } catch (Exception e) {
             e.printStackTrace();
 

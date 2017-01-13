@@ -44,6 +44,8 @@ public class AdminController extends Controller {
 
         Admin admin = adminService.find(adminModel);
 
+        admin.removeUnfindable();
+
         renderJson(admin);
     }
 

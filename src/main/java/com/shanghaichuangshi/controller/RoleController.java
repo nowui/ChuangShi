@@ -43,6 +43,8 @@ public class RoleController extends Controller {
 
         Role role = roleService.find(roleModel);
 
+        role.removeUnfindable();
+
         renderJson(role);
     }
 

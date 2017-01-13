@@ -54,6 +54,8 @@ public class AdminDao extends Dao {
     }
 
     public String save(Admin admin) {
+        admin.setAdmin_id(Util.getRandomUUID());
+
         admin.save();
 
         return admin.getAdmin_id();

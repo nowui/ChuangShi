@@ -46,6 +46,8 @@ public class CategoryController extends Controller {
 
         Category category = categoryService.find(categoryModel);
 
+        category.removeUnfindable();
+
         renderJson(category);
     }
 

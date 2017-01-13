@@ -48,6 +48,8 @@ public class RoleDao extends Dao {
     }
 
     public boolean save(Role role) {
+        role.setRole_id(Util.getRandomUUID());
+
         return role.save();
     }
 

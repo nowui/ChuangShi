@@ -43,6 +43,8 @@ public class ${firstModelName}Controller extends Controller {
 
         ${firstModelName} ${lowerModelName} = ${lowerModelName}Service.find(${lowerModelName}Model);
 
+        ${lowerModelName}.removeUnfindable();
+
         renderJson(${lowerModelName});
     }
 

@@ -3,6 +3,7 @@ package com.shanghaichuangshi.dao;
 import com.shanghaichuangshi.config.DynamicSQL;
 import com.shanghaichuangshi.model.User;
 import com.shanghaichuangshi.util.DatabaseUtil;
+import com.shanghaichuangshi.util.HashUtil;
 import com.shanghaichuangshi.util.Util;
 
 import java.util.Date;
@@ -56,6 +57,10 @@ public class UserDao extends Dao {
     public String saveByUser_accountAndUser_passwordAndObject_idAndUser_type(String user_account, String user_password, String object_id, String user_type, String request_user_id) {
         User user = new User();
 
+        String user_id = Util.getRandomUUID();
+        user_password = HashUtil.sha512(user_id + user_password);
+
+        user.setUser_id(user_id);
         user.setUser_account(user_account);
         user.setUser_password(user_password);
         user.setObject_id(object_id);
@@ -64,7 +69,7 @@ public class UserDao extends Dao {
 
         user.save();
 
-        return user.getUser_id();
+        return user_id;
     }
 
     public boolean update(User user) {

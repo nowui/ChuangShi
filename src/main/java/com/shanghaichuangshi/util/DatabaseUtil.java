@@ -13,7 +13,6 @@ import java.util.List;
 public class DatabaseUtil {
 
     private static final DruidDataSource druidDataSource = new DruidDataSource();
-    private static final QueryRunner runner = new QueryRunner(druidDataSource);
     private static final ThreadLocal<Connection> threadLocal = new ThreadLocal<Connection>();
 
     static {
@@ -44,14 +43,6 @@ public class DatabaseUtil {
     }
 
     public static Connection getConnection() {
-        try {
-            return druidDataSource.getConnection();
-        } catch (SQLException e) {
-            throw new RuntimeException("SQLException: ", e);
-        }
-    }
-
-    public static void start() {
         Connection connection = threadLocal.get();
 
         if (connection == null) {
@@ -65,6 +56,12 @@ public class DatabaseUtil {
             }
         }
 
+        return connection;
+    }
+
+    public static void start() {
+        Connection connection = getConnection();
+
         try {
             connection.setAutoCommit(false);
         } catch (SQLException e) {
@@ -73,7 +70,7 @@ public class DatabaseUtil {
     }
 
     public static void commit() {
-        Connection connection = threadLocal.get();
+        Connection connection = getConnection();
 
         try {
             if (connection != null) {
@@ -85,7 +82,7 @@ public class DatabaseUtil {
     }
 
     public static void rollback() {
-        Connection connection = threadLocal.get();
+        Connection connection = getConnection();
 
         try {
             if (connection != null) {
@@ -97,7 +94,7 @@ public class DatabaseUtil {
     }
 
     public static void close() {
-        Connection connection = threadLocal.get();
+        Connection connection = getConnection();
 
         try {
             if (connection != null) {
@@ -112,7 +109,11 @@ public class DatabaseUtil {
 
     public static int count(String sql, List<Object> parameterList) {
         try {
-            Long result = runner.query(sql, new ScalarHandler<Long>(1), parameterList.toArray());
+            QueryRunner runner = new QueryRunner();
+
+            Connection connection = getConnection();
+
+            Long result = runner.query(connection, sql, new ScalarHandler<Long>(1), parameterList.toArray());
 
             return result.intValue();
         } catch (SQLException e) {
@@ -130,7 +131,11 @@ public class DatabaseUtil {
 
     public static List<? extends Model> list(String sql, List<Object> parameterList, Class<? extends Model> modelClass) {
         try {
-            return runner.query(sql, new ModelListHandler(modelClass), parameterList.toArray());
+            QueryRunner runner = new QueryRunner();
+
+            Connection connection = getConnection();
+
+            return runner.query(connection, sql, new ModelListHandler(modelClass), parameterList.toArray());
         } catch (SQLException e) {
             throw new RuntimeException("SQLException: ", e);
         }
@@ -138,10 +143,14 @@ public class DatabaseUtil {
 
     public static Model<? extends Model> find(String sql, List<Object> parameterList, Class<? extends Model> modelClass) {
         try {
-            List<? extends Model> resultList = runner.query(sql, new ModelListHandler(modelClass), parameterList.toArray());
+            QueryRunner runner = new QueryRunner();
+
+            Connection connection = getConnection();
+
+            List<? extends Model> resultList = runner.query(connection, sql, new ModelListHandler(modelClass), parameterList.toArray());
 
             if (resultList.size() > 0) {
-                return resultList.get(0).removeUnfindable();
+                return resultList.get(0);
             } else {
                 return null;
             }
@@ -153,7 +162,11 @@ public class DatabaseUtil {
     public static boolean update(String sql, List<Object> parameterList) {
         int result = 0;
         try {
-            result = runner.update(sql, parameterList.toArray());
+            QueryRunner runner = new QueryRunner();
+
+            Connection connection = getConnection();
+
+            result = runner.update(connection, sql, parameterList.toArray());
         } catch (SQLException e) {
             throw new RuntimeException("SQLException: ", e);
         }
