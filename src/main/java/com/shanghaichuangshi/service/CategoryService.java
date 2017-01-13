@@ -34,11 +34,34 @@ public class CategoryService extends Service {
         return c;
     }
 
+    public Category treeListByCategory_key(String category_key) {
+        Category category = categoryDao.findByCategory_key(category_key);
+
+        List<Category> categoryList = categoryDao.listByCategory_path(category.getCategory_id());
+
+        category.set(Key.KEY, category.getCategory_id());
+        category.set(Key.CHILDREN, getChildren(categoryList, category.getCategory_id()));
+
+        return category;
+    }
+
     public Category find(Category category) {
         return categoryDao.find(category.getCategory_id());
     }
 
+    private void checkByCategory_idAndCategory_key(String category_id, String category_key) {
+        if (!Util.isNullOrEmpty(category_key)) {
+            int count = categoryDao.countByCategory_idAndCategory_key(category_id, category_key);
+
+            if (count > 0) {
+                throw new RuntimeException("重复的分类键值：" + category_key);
+            }
+        }
+    }
+
     public void save(Category category) {
+        checkByCategory_idAndCategory_key("", category.getCategory_key());
+
         JSONArray jsonArray = new JSONArray();
 
         if (Util.isNullOrEmpty(category.getParent_id())) {
@@ -63,6 +86,8 @@ public class CategoryService extends Service {
     }
 
     public void update(Category category) {
+        checkByCategory_idAndCategory_key(category.getCategory_id(), category.getCategory_key());
+
         categoryDao.update(category);
     }
 

@@ -36,6 +36,17 @@ public class ${firstModelName} extends Model<${firstModelName}> {
           }
       <%
       break;
+    case 'datetime':
+      %>
+          public String get${column.first_column_name}() {
+              return DateUtil.getDateTimeString(getDate(${strutil.toUpperCase(column.column_name)}));
+          }
+
+          public void set${column.first_column_name}(Date ${column.column_name}) {
+              set(${strutil.toUpperCase(column.column_name)}, ${column.column_name});
+          }
+      <%
+      break;
     default:
       %>
           public String get${column.first_column_name}() {

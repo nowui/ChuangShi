@@ -2,6 +2,7 @@ package com.shanghaichuangshi.dao;
 
 import com.shanghaichuangshi.config.DynamicSQL;
 import com.shanghaichuangshi.model.Category;
+import com.shanghaichuangshi.model.User;
 import com.shanghaichuangshi.util.DatabaseUtil;
 import com.shanghaichuangshi.util.Util;
 
@@ -15,6 +16,19 @@ public class CategoryDao extends Dao {
 
         dynamicSQL.append("SELECT COUNT(*) FROM ").append(Category.TABLE_CATEGORY).append(" ");
         dynamicSQL.append("WHERE ").append(Category.TABLE_CATEGORY).append(".").append(Category.SYSTEM_STATUS).append(" = ? ", true);
+
+        return DatabaseUtil.count(dynamicSQL.getSql(), dynamicSQL.getParameterList());
+    }
+
+    public int countByCategory_idAndCategory_key(String category_id, String category_key) {
+        DynamicSQL dynamicSQL = new DynamicSQL();
+
+        dynamicSQL.append("SELECT COUNT(*) FROM ").append(Category.TABLE_CATEGORY).append(" ");
+        dynamicSQL.append("WHERE ").append(Category.TABLE_CATEGORY).append(".").append(Category.SYSTEM_STATUS).append(" = ? ", true);
+        if (!Util.isNullOrEmpty(category_id)) {
+            dynamicSQL.append("AND ").append(Category.TABLE_CATEGORY).append(".").append(Category.CATEGORY_ID).append(" != ? ", category_id);
+        }
+        dynamicSQL.append("AND ").append(Category.TABLE_CATEGORY).append(".").append(Category.CATEGORY_KEY).append(" = ? ", category_key);
 
         return DatabaseUtil.count(dynamicSQL.getSql(), dynamicSQL.getParameterList());
     }
@@ -64,6 +78,18 @@ public class CategoryDao extends Dao {
         dynamicSQL.append("FROM ").append(Category.TABLE_CATEGORY).append(" ");
         dynamicSQL.append("WHERE ").append(Category.TABLE_CATEGORY).append(".").append(Category.SYSTEM_STATUS).append(" = ? ", true);
         dynamicSQL.append("AND ").append(Category.TABLE_CATEGORY).append(".").append(Category.CATEGORY_ID).append(" = ? ", category_id);
+
+        return (Category) DatabaseUtil.find(dynamicSQL.getSql(), dynamicSQL.getParameterList(), Category.class);
+    }
+
+    public Category findByCategory_key(String category_key) {
+        DynamicSQL dynamicSQL = new DynamicSQL();
+
+        dynamicSQL.append("SELECT ");
+        dynamicSQL.append(Category.TABLE_CATEGORY).append(".* ");
+        dynamicSQL.append("FROM ").append(Category.TABLE_CATEGORY).append(" ");
+        dynamicSQL.append("WHERE ").append(Category.TABLE_CATEGORY).append(".").append(Category.SYSTEM_STATUS).append(" = ? ", true);
+        dynamicSQL.append("AND ").append(Category.TABLE_CATEGORY).append(".").append(Category.CATEGORY_KEY).append(" = ? ", category_key);
 
         return (Category) DatabaseUtil.find(dynamicSQL.getSql(), dynamicSQL.getParameterList(), Category.class);
     }

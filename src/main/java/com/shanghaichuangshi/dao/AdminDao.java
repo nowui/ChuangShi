@@ -53,6 +53,18 @@ public class AdminDao extends Dao {
         return (Admin) DatabaseUtil.find(dynamicSQL.getSql(), dynamicSQL.getParameterList(), Admin.class);
     }
 
+    public Admin findByUser_id(String user_id) {
+        DynamicSQL dynamicSQL = new DynamicSQL();
+
+        dynamicSQL.append("SELECT ");
+        dynamicSQL.append(Admin.TABLE_ADMIN).append(".* ");
+        dynamicSQL.append("FROM ").append(Admin.TABLE_ADMIN).append(" ");
+        dynamicSQL.append("WHERE ").append(Admin.TABLE_ADMIN).append(".").append(Admin.SYSTEM_STATUS).append(" = ? ", true);
+        dynamicSQL.append("AND ").append(Admin.TABLE_ADMIN).append(".").append(Admin.USER_ID).append(" = ? ", user_id);
+
+        return (Admin) DatabaseUtil.find(dynamicSQL.getSql(), dynamicSQL.getParameterList(), Admin.class);
+    }
+
     public String save(Admin admin) {
         admin.setAdmin_id(Util.getRandomUUID());
 

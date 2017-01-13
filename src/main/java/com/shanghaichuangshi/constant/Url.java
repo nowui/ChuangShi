@@ -32,5 +32,14 @@ public class Url {
     public static final String ADMIN_SAVE = "/admin/save";
     public static final String ADMINL_UPDATE = "/admin/update";
     public static final String ADMIN_DELETE = "/admin/delete";
+    public static final String ADMIN_LOGIN = "/admin/login";
+
+    public static final String AUTHORIZATION_LIST = "/authorization/list";
+    public static final String AUTHORIZATION_ADMIN_LIST = "/authorization/admin/list";
+    public static final String AUTHORIZATION_FIND = "/authorization/find";
+    public static final String AUTHORIZATION_ADMIN_FIND = "/authorization/admin/find";
+    public static final String AUTHORIZATION_SAVE = "/authorization/save";
+    public static final String AUTHORIZATIONL_UPDATE = "/authorization/update";
+    public static final String AUTHORIZATION_DELETE = "/authorization/delete";
 
 }

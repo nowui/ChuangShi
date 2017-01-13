@@ -8,5 +8,7 @@ public class Key {
 
     public static final String KEY = "key";
     public static final String CHILDREN = "children";
+    public static final String TOKEN = "token";
+    public static final String MENU = "menu";
 
 }

@@ -43,6 +43,10 @@ public abstract class Model<M extends Model> extends HashMap<String, Object> {
         return (String) this.get(key);
     }
 
+    public Date getDate(String key) {
+        return (Date) this.get(key);
+    }
+
     public Integer getInteger(String key) {
         return (Integer) this.get(key);
     }

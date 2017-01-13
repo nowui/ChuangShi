@@ -7,6 +7,7 @@ import com.shanghaichuangshi.model.User;
 import com.shanghaichuangshi.service.AdminService;
 
 import java.util.List;
+import java.util.Map;
 
 public class AdminController extends Controller {
 
@@ -78,7 +79,7 @@ public class AdminController extends Controller {
         Admin adminModel = getModel(Admin.class);
         User userModel = getModel(User.class);
 
-        adminModel.validate(Admin.ADMIN_ID, Admin.ADMIN_NAME);
+        adminModel.validate(Admin.ADMIN_ID, Admin.ADMIN_NAME, Admin.USER_ID);
         userModel.validate(User.USER_ACCOUNT, User.USER_PASSWORD);
 
         adminService.update(adminModel, userModel);
@@ -95,6 +96,17 @@ public class AdminController extends Controller {
         adminService.delete(adminModel);
 
         renderJson("");
+    }
+
+    @Path(Url.ADMIN_LOGIN)
+    public void login() {
+        User userModel = getModel(User.class);
+
+        userModel.validate(User.USER_ACCOUNT, User.USER_PASSWORD);
+
+        Map<String, Object> resultMap = adminService.login(userModel);
+
+        renderJson(resultMap);
     }
 
 }
