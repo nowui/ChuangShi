@@ -56,48 +56,44 @@ class ${firstModelName}Detail extends Component {
             <%
             for(column in columnList) {
             %>
-            <Row>
-              <Col span={8}>
-                <FormItem hasFeedback {...constant.formItemLayoutDetail} className={style.formItem} label="${column.column_comment}">
-                  {
-                    getFieldDecorator('${column.column_name}', {
-                      rules: [{
-                        required: true,
-                        message: constant.required
-                      }],
-                  <%
-                  switch(column.data_type) {
-                    case 'int':
-                      %>
-                      initialValue: 0
-                      <%
-                      break;
-                    default:
-                      %>
-                      initialValue: ''
-                      <%
-                  }
+            <FormItem hasFeedback {...constant.formItemLayoutDetail} className={style.formItem} style={{width: constant.detail_form_item}} label="${column.column_comment}">
+              {
+                getFieldDecorator('${column.column_name}', {
+                  rules: [{
+                    required: true,
+                    message: constant.required
+                  }],
+              <%
+              switch(column.data_type) {
+                case 'int':
                   %>
-                    })(
+                  initialValue: 0
                   <%
-                  switch(column.data_type) {
-                    case 'int':
-                      %>
-                      <InputNumber type="text" className={style.formItemInput} placeholder={constant.placeholder + '${column.column_comment}'}
-                                 min={0} max={999}/>
-                      <%
-                      break;
-                    default:
-                      %>
-                      <Input type="text" placeholder={constant.placeholder + '${column.column_comment}'}/>
-                      <%
-                  }
+                  break;
+                default:
                   %>
-                    )
-                  }
-                </FormItem>
-              </Col>
-            </Row>
+                  initialValue: ''
+                  <%
+              }
+              %>
+                })(
+              <%
+              switch(column.data_type) {
+                case 'int':
+                  %>
+                  <InputNumber type="text" className={style.formItemInput} placeholder={constant.placeholder + '${column.column_comment}'}
+                             min={0} max={999}/>
+                  <%
+                  break;
+                default:
+                  %>
+                  <Input type="text" placeholder={constant.placeholder + '${column.column_comment}'}/>
+                  <%
+              }
+              %>
+                )
+              }
+            </FormItem>
             <%
             }
             %>
