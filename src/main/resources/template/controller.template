@@ -15,7 +15,7 @@ public class ${firstModelName}Controller extends Controller {
     public void list() {
         ${firstModelName} ${lowerModelName}Model = getModel(${firstModelName}.class);
 
-        ${lowerModelName}Model.validate(${firstModelName}.PAGE_INDEX, ${firstModelName}.PAGE_SIZE);
+        ${lowerModelName}Model.validate(${firstModelName}.${upperModelName}_NAME, ${firstModelName}.PAGE_INDEX, ${firstModelName}.PAGE_SIZE);
 
         List<${firstModelName}> ${lowerModelName}List = ${lowerModelName}Service.list(${lowerModelName}Model);
 

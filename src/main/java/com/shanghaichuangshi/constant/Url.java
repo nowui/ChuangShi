@@ -4,8 +4,6 @@ public class Url {
 
     public static final String FAVICON_ICO = "/favicon.ico";
 
-    public static final String MEMBER_LOGIN = "/member/login";
-
     public static final String CODE_LIST = "/code/list";
     public static final String CODE_SAVE = "/code/save";
 
@@ -41,5 +39,29 @@ public class Url {
     public static final String AUTHORIZATION_SAVE = "/authorization/save";
     public static final String AUTHORIZATIONL_UPDATE = "/authorization/update";
     public static final String AUTHORIZATION_DELETE = "/authorization/delete";
+
+    public static final String ATTRIBUTE_LIST = "/attribute/list";
+    public static final String ATTRIBUTE_ADMIN_LIST = "/attribute/admin/list";
+    public static final String ATTRIBUTE_FIND = "/attribute/find";
+    public static final String ATTRIBUTE_ADMIN_FIND = "/attribute/admin/find";
+    public static final String ATTRIBUTE_SAVE = "/attribute/save";
+    public static final String ATTRIBUTEL_UPDATE = "/attribute/update";
+    public static final String ATTRIBUTE_DELETE = "/attribute/delete";
+
+    public static final String LOG_LIST = "/log/list";
+    public static final String LOG_ADMIN_LIST = "/log/admin/list";
+    public static final String LOG_FIND = "/log/find";
+    public static final String LOG_ADMIN_FIND = "/log/admin/find";
+    public static final String LOG_SAVE = "/log/save";
+    public static final String LOGL_UPDATE = "/log/update";
+    public static final String LOG_DELETE = "/log/delete";
+
+    public static final String RESOURCE_LIST = "/resource/list";
+    public static final String RESOURCE_ADMIN_LIST = "/resource/admin/list";
+    public static final String RESOURCE_FIND = "/resource/find";
+    public static final String RESOURCE_ADMIN_FIND = "/resource/admin/find";
+    public static final String RESOURCE_SAVE = "/resource/save";
+    public static final String RESOURCEL_UPDATE = "/resource/update";
+    public static final String RESOURCE_DELETE = "/resource/delete";
 
 }

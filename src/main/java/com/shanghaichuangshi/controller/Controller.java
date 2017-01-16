@@ -46,6 +46,8 @@ public abstract class Controller {
 
             ((Model<?>) object).set((JSONObject) getAttribute(Key.REQUEST_PARAMETER));
 
+            ((Model<?>) object).set(Key.REQUEST_USER_ID, getAttribute(Key.REQUEST_USER_ID));
+
             return (T) object;
         } catch (InstantiationException e) {
             throw new RuntimeException("InstantiationException: ", e);

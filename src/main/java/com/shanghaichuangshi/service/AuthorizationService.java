@@ -29,7 +29,7 @@ public class AuthorizationService extends Service {
         return authorizationDao.find(authorization.getAuthorization_id());
     }
 
-    public String saveByUser_id(String user_id) {
+    public String saveByUser_id(String user_id, String authorization_platform, String authorization_version, String authorization_ip_address) {
         String authorization_id = Util.getRandomUUID();
         long create_millis = System.currentTimeMillis();
         Date create_time = new Date(create_millis);
@@ -44,6 +44,9 @@ public class AuthorizationService extends Service {
         authorization.setAuthorization_id(authorization_id);
         authorization.setAuthorization_token(authorization_token);
         authorization.setUser_id(user_id);
+        authorization.setAuthorization_platform(authorization_platform);
+        authorization.setAuthorization_version(authorization_version);
+        authorization.setAuthorization_ip_address(authorization_ip_address);
         authorization.setAuthorization_create_time(create_time);
         authorization.setAuthorization_expire_time(expire_time);
 

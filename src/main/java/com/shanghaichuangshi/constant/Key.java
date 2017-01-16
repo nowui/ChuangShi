@@ -8,7 +8,10 @@ public class Key {
 
     public static final String KEY = "key";
     public static final String CHILDREN = "children";
-    public static final String TOKEN = "token";
+    public static final String PLATFORM = "Platform";
+    public static final String VERSION = "Version";
+    public static final String TOKEN = "Token";
     public static final String MENU = "menu";
+    public static final String IP_ADDRESS = "ip_address";
 
 }

@@ -63,13 +63,13 @@ public class AdminService extends Service {
 
         Admin admin = adminDao.findByUser_id(u.getUser_id());
 
-        String token = authorizationService.saveByUser_id(u.getUser_id());
+        String token = authorizationService.saveByUser_id(u.getUser_id(), user.getString(Key.PLATFORM), user.getString(Key.VERSION), user.getString(Key.IP_ADDRESS));
 
         Category category = categoryService.treeListByCategory_key(CategoryType.MENU.getKey());
 
         Map<String, Object> resultMap = new HashMap<String, Object>();
         resultMap.put(Admin.ADMIN_NAME, admin.getAdmin_name());
-        resultMap.put(Key.TOKEN, token);
+        resultMap.put(Key.TOKEN.toLowerCase(), token);
         resultMap.put(Key.MENU, category.get(Key.CHILDREN));
 
         return resultMap;

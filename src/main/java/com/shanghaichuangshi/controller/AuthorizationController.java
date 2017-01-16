@@ -26,7 +26,7 @@ public class AuthorizationController extends Controller {
     public void adminList() {
         Authorization authorizationModel = getModel(Authorization.class);
 
-        authorizationModel.validate(Authorization.PAGE_INDEX, Authorization.PAGE_SIZE);
+        authorizationModel.validate(Authorization.AUTHORIZATION_TOKEN, Authorization.PAGE_INDEX, Authorization.PAGE_SIZE);
 
         int count = authorizationService.count(authorizationModel);
 

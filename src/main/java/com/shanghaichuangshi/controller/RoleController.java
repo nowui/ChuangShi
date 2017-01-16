@@ -26,7 +26,7 @@ public class RoleController extends Controller {
     public void adminList() {
         Role roleModel = getModel(Role.class);
 
-        roleModel.validate(Role.PAGE_INDEX, Role.PAGE_SIZE);
+        roleModel.validate(Role.ROLE_NAME, Role.PAGE_INDEX, Role.PAGE_SIZE);
 
         int count = roleService.count(roleModel);
 

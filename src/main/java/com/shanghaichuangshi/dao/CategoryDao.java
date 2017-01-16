@@ -2,7 +2,6 @@ package com.shanghaichuangshi.dao;
 
 import com.shanghaichuangshi.config.DynamicSQL;
 import com.shanghaichuangshi.model.Category;
-import com.shanghaichuangshi.model.User;
 import com.shanghaichuangshi.util.DatabaseUtil;
 import com.shanghaichuangshi.util.Util;
 
@@ -47,7 +46,7 @@ public class CategoryDao extends Dao {
             dynamicSQL.append("AND ").append(Category.TABLE_CATEGORY).append(".").append(Category.CATEGORY_NAME).append(" LIKE ? ", "%" + category_name + "%");
         }
         dynamicSQL.append("AND ").append(Category.TABLE_CATEGORY).append(".").append(Category.PARENT_ID).append(" = '' ");
-        dynamicSQL.append("ORDER BY ").append(Category.TABLE_CATEGORY).append(".").append(Category.CATEGORY_SORT).append(" ASC, ").append(Category.TABLE_CATEGORY).append(".").append(Category.SYSTEM_CREATE_TIME).append(" DESC ");
+        dynamicSQL.append("ORDER BY ").append(Category.TABLE_CATEGORY).append(".").append(Category.CATEGORY_SORT).append(" ASC, ").append(Category.TABLE_CATEGORY).append(".").append(Category.SYSTEM_CREATE_TIME).append(" ASC ");
         dynamicSQL.append("LIMIT ?, ? ", m, n);
 
         return (List<Category>) DatabaseUtil.list(dynamicSQL.getSql(), dynamicSQL.getParameterList(), Category.class);
@@ -67,7 +66,7 @@ public class CategoryDao extends Dao {
         dynamicSQL.append("FROM ").append(Category.TABLE_CATEGORY).append(" ");
         dynamicSQL.append("WHERE ").append(Category.TABLE_CATEGORY).append(".").append(Category.SYSTEM_STATUS).append(" = ? ", true);
         dynamicSQL.append("AND ").append(Category.TABLE_CATEGORY).append(".").append(Category.CATEGORY_PATH).append(" LIKE ? ", "%\"" + category_path + "\"%");
-        dynamicSQL.append("ORDER BY ").append(Category.TABLE_CATEGORY).append(".").append(Category.CATEGORY_SORT).append(" ASC, ").append(Category.TABLE_CATEGORY).append(".").append(Category.SYSTEM_CREATE_TIME).append(" DESC ");
+        dynamicSQL.append("ORDER BY ").append(Category.TABLE_CATEGORY).append(".").append(Category.CATEGORY_SORT).append(" ASC, ").append(Category.TABLE_CATEGORY).append(".").append(Category.SYSTEM_CREATE_TIME).append(" ASC ");
 
         return (List<Category>) DatabaseUtil.list(dynamicSQL.getSql(), dynamicSQL.getParameterList(), Category.class);
     }

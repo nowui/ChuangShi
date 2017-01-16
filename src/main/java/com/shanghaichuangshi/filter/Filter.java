@@ -3,20 +3,29 @@ package com.shanghaichuangshi.filter;
 import com.alibaba.fastjson.JSONObject;
 import com.shanghaichuangshi.config.Certificate;
 import com.shanghaichuangshi.config.Config;
+import com.shanghaichuangshi.constant.Global;
 import com.shanghaichuangshi.constant.Key;
 import com.shanghaichuangshi.constant.Url;
 import com.shanghaichuangshi.controller.Controller;
+import com.shanghaichuangshi.model.Authorization;
 import com.shanghaichuangshi.model.Log;
+import com.shanghaichuangshi.model.User;
 import com.shanghaichuangshi.render.RenderFactory;
 import com.shanghaichuangshi.route.Route;
 import com.shanghaichuangshi.route.RouteMatcher;
 import com.shanghaichuangshi.util.DatabaseUtil;
+import com.shanghaichuangshi.util.DateUtil;
 import com.shanghaichuangshi.util.HttpUtil;
 import com.shanghaichuangshi.util.Util;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
+import org.apache.http.HttpStatus;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.ThreadContext;
 
+import javax.crypto.spec.SecretKeySpec;
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -81,31 +90,71 @@ public class Filter implements javax.servlet.Filter {
             return;
         }
 
+        int log_code = HttpStatus.SC_OK;
+
+        String token = "";
+
         String platform = "";
 
         String version = "";
 
-        String user_id = "";
+        String ip_address = "";
+
+        String request_user_id = "";
 
         String authorization_id = "";
 
-        String parameter = "{}";
+        String parameter = new JSONObject().toJSONString();
 
         try {
-            parameter = HttpUtil.readData(request);
+            DatabaseUtil.start();
 
+            token = request.getHeader(Key.TOKEN);
+            platform = request.getHeader(Key.PLATFORM);
+            version = request.getHeader(Key.VERSION);
+            ip_address = HttpUtil.getIpAddress(request);
+
+            if (! uncheckTokenUrlList.contains(path)) {
+                if (Util.isNullOrEmpty(token)) {
+                    throw new RuntimeException(Key.TOKEN + "不能为空");
+                }
+
+                try {
+                    java.security.Key key = new SecretKeySpec(Global.key.getBytes(), SignatureAlgorithm.HS256.getJcaName());
+
+                    Claims claims = Jwts.parser().setSigningKey(key).parseClaimsJws(token).getBody();
+
+                    request_user_id = claims.get(User.USER_ID).toString();
+
+                    authorization_id = claims.get(Authorization.AUTHORIZATION_ID).toString();
+                } catch (Exception e) {
+                    throw new RuntimeException(Key.TOKEN + "不对");
+                }
+            }
+
+            if (Util.isNullOrEmpty(platform)) {
+                throw new RuntimeException(Key.PLATFORM + "不能为空");
+            }
+
+            if (Util.isNullOrEmpty(version)) {
+                throw new RuntimeException(Key.VERSION + "不能为空");
+            }
+
+            parameter = HttpUtil.readData(request);
             if (Util.isNullOrEmpty(parameter)) {
-                parameter = "{}";
+                parameter = new JSONObject().toJSONString();
             }
 
             Route route = routeMatcher.find(path);
             if(route != null) {
                 try {
-                    DatabaseUtil.start();
-
                     Controller controller = route.getControllerClass().newInstance().setContext(request, response);
 
                     controller.setAttribute(Key.REQUEST_PARAMETER, JSONObject.parse(parameter));
+                    controller.setAttribute(Key.REQUEST_USER_ID, request_user_id);
+                    controller.setAttribute(Key.PLATFORM, platform);
+                    controller.setAttribute(Key.VERSION, version);
+                    controller.setAttribute(Key.IP_ADDRESS, ip_address);
 
                     route.getMethod().setAccessible(true);
 
@@ -134,22 +183,43 @@ public class Filter implements javax.servlet.Filter {
             if (message.contains(runtimeException)) {
                 message = message.replace(runtimeException, "");
 
+                log_code = HttpStatus.SC_BAD_REQUEST;
+
                 renderFactory.getBadRequestRender(message).setContext(request, response).render();
             } else {
+                log_code = HttpStatus.SC_INTERNAL_SERVER_ERROR;
+
                 renderFactory.getInternalServerErrorRender(message).setContext(request, response).render();
             }
 
         } finally {
             DatabaseUtil.close();
 
-            Date end = new Date();
+            if (path.contains("/log/")) {
 
-            ThreadContext.put(Log.LOG_URL, path);
-            ThreadContext.put(Log.LOG_REQUEST, parameter);
-            ThreadContext.put(Log.LOG_RESPONSE, request.getAttribute(Key.RESPONSE_PARAMETER).toString());
-            ThreadContext.put(Log.LOG_RUN_TIME, (end.getTime() - start.getTime()) + "");
+            } else {
+                Date end = new Date();
 
-            logger.log(DATABASE, "Add a new log to the database");
+                ThreadContext.put(Log.LOG_ID, Util.getRandomUUID());
+                ThreadContext.put(Log.LOG_URL, path);
+                ThreadContext.put(Log.LOG_REQUEST, parameter);
+                ThreadContext.put(Log.LOG_RESPONSE, request.getAttribute(Key.RESPONSE_PARAMETER).toString());
+                ThreadContext.put(Log.AUTHORIZATION_ID, authorization_id);
+                ThreadContext.put(Log.USER_ID, request_user_id);
+                ThreadContext.put(Log.LOG_CODE, String.valueOf(log_code));
+                ThreadContext.put(Log.LOG_PLATFORM, platform);
+                ThreadContext.put(Log.LOG_VERSION, version);
+                ThreadContext.put(Log.LOG_IP_ADDRESS, ip_address);
+                ThreadContext.put(Log.LOG_CREATE_TIME, DateUtil.getDateTimeString(start));
+                ThreadContext.put(Log.LOG_RUN_TIME, (end.getTime() - start.getTime()) + "");
+                ThreadContext.put(Log.SYSTEM_CREATE_USER_ID, request_user_id);
+                ThreadContext.put(Log.SYSTEM_CREATE_TIME, DateUtil.getDateTimeString(start));
+                ThreadContext.put(Log.SYSTEM_UPDATE_USER_ID, request_user_id);
+                ThreadContext.put(Log.SYSTEM_UPDATE_TIME, DateUtil.getDateTimeString(start));
+                ThreadContext.put(Log.SYSTEM_STATUS, "1");
+
+                logger.log(DATABASE, "Add a new log to the database");
+            }
         }
     }
 

@@ -8,7 +8,7 @@
 	<Appenders>
 		<Console name="Console" target="SYSTEM_OUT"/>
 
-        <Console name="Console2" target="SYSTEM_OUT">
+        <Console name="DatabaseConsole" target="SYSTEM_OUT">
             <PatternLayout pattern="-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------%nurl: %X{log_url}%nrequest: %X{log_request}%nresponse: %X{log_response}%n-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------%n" />
         </Console>
 
@@ -26,13 +26,19 @@
             <Column name="log_ip_address" pattern="%X{log_ip_address}" />
             <Column name="log_create_time" pattern="%X{log_create_time}" />
             <Column name="log_run_time" pattern="%X{log_run_time}" />
+            <Column name="system_create_user_id" pattern="%X{system_create_user_id}" />
+            <Column name="system_create_time" pattern="%X{system_create_time}" />
+            <Column name="system_update_user_id" pattern="%X{system_update_user_id}" />
+            <Column name="system_update_time" pattern="%X{system_update_time}" />
+            <Column name="system_status" pattern="%X{system_status}" />
         </JDBC>
 	</Appenders>
 
 	<Loggers>
 		<Root level="DEBUG">
             <AppenderRef ref="Console" level="DEBUG" />
-            <AppenderRef ref="Console2" level="DATABASE" />
+            <AppenderRef ref="DatabaseConsole" level="DATABASE" />
+            <AppenderRef ref="DatabaseAppender" level="DATABASE" />
 		</Root>
 	</Loggers>
 

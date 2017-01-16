@@ -22,10 +22,13 @@ public class WebConfig extends Config {
         routeMatcher.add("/category", CategoryController.class);
         routeMatcher.add("/admin", AdminController.class);
         routeMatcher.add("/authorization", AuthorizationController.class);
+        routeMatcher.add("/attribute", AttributeController.class);
+        routeMatcher.add("/log", LogController.class);
+        routeMatcher.add("/resource", ResourceController.class);
     }
 
     public void configUncheckTokenUrl(List<String> uncheckTokenUrlList) {
-        uncheckTokenUrlList.add(Url.MEMBER_LOGIN);
+        uncheckTokenUrlList.add(Url.ADMIN_LOGIN);
     }
 
     public void configUncheckRequestUrl(List<String> uncheckRequestUrlList) {

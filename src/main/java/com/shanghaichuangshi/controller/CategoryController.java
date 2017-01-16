@@ -16,7 +16,7 @@ public class CategoryController extends Controller {
     public void adminList() {
         Category categoryModel = getModel(Category.class);
 
-        categoryModel.validate(Category.PAGE_INDEX, Category.PAGE_SIZE);
+        categoryModel.validate(Category.CATEGORY_NAME, Category.PAGE_INDEX, Category.PAGE_SIZE);
 
         int count = categoryService.count(categoryModel);
 
@@ -66,7 +66,7 @@ public class CategoryController extends Controller {
     public void save() {
         Category categoryModel = getModel(Category.class);
 
-        categoryModel.validate(Category.CATEGORY_NAME);
+        categoryModel.validate(Category.CATEGORY_NAME, Category.CATEGORY_SORT);
 
         categoryService.save(categoryModel);
 
@@ -77,7 +77,7 @@ public class CategoryController extends Controller {
     public void update() {
         Category categoryModel = getModel(Category.class);
 
-        categoryModel.validate(Category.CATEGORY_ID, Category.CATEGORY_NAME);
+        categoryModel.validate(Category.CATEGORY_ID, Category.CATEGORY_NAME, Category.CATEGORY_SORT);
 
         categoryService.update(categoryModel);
 

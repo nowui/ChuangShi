@@ -43,24 +43,28 @@ public class DatabaseUtil {
     }
 
     public static Connection getConnection() {
+        try {
+            return druidDataSource.getConnection();
+        } catch (SQLException e) {
+            throw new RuntimeException("SQLException: ", e);
+        }
+    }
+
+    public static Connection getThreadLocalConnection() {
         Connection connection = threadLocal.get();
 
         if (connection == null) {
-            try {
-                connection = druidDataSource.getConnection();
+            connection = getConnection();
 
-                threadLocal.remove();
-                threadLocal.set(connection);
-            } catch (SQLException e) {
-                throw new RuntimeException("SQLException: ", e);
-            }
+            threadLocal.remove();
+            threadLocal.set(connection);
         }
 
         return connection;
     }
 
     public static void start() {
-        Connection connection = getConnection();
+        Connection connection = getThreadLocalConnection();
 
         try {
             connection.setAutoCommit(false);
@@ -70,7 +74,7 @@ public class DatabaseUtil {
     }
 
     public static void commit() {
-        Connection connection = getConnection();
+        Connection connection = getThreadLocalConnection();
 
         try {
             if (connection != null) {
@@ -82,7 +86,7 @@ public class DatabaseUtil {
     }
 
     public static void rollback() {
-        Connection connection = getConnection();
+        Connection connection = getThreadLocalConnection();
 
         try {
             if (connection != null) {
@@ -94,7 +98,7 @@ public class DatabaseUtil {
     }
 
     public static void close() {
-        Connection connection = getConnection();
+        Connection connection = getThreadLocalConnection();
 
         try {
             if (connection != null) {
@@ -111,7 +115,7 @@ public class DatabaseUtil {
         try {
             QueryRunner runner = new QueryRunner();
 
-            Connection connection = getConnection();
+            Connection connection = getThreadLocalConnection();
 
             Long result = runner.query(connection, sql, new ScalarHandler<Long>(1), parameterList.toArray());
 
@@ -133,7 +137,7 @@ public class DatabaseUtil {
         try {
             QueryRunner runner = new QueryRunner();
 
-            Connection connection = getConnection();
+            Connection connection = getThreadLocalConnection();
 
             return runner.query(connection, sql, new ModelListHandler(modelClass), parameterList.toArray());
         } catch (SQLException e) {
@@ -145,7 +149,7 @@ public class DatabaseUtil {
         try {
             QueryRunner runner = new QueryRunner();
 
-            Connection connection = getConnection();
+            Connection connection = getThreadLocalConnection();
 
             List<? extends Model> resultList = runner.query(connection, sql, new ModelListHandler(modelClass), parameterList.toArray());
 

@@ -23,6 +23,9 @@ public class AuthorizationDao extends Dao {
 
         dynamicSQL.append("SELECT ");
         dynamicSQL.append(Authorization.TABLE_AUTHORIZATION).append(".").append(Authorization.AUTHORIZATION_ID).append(", ");
+        dynamicSQL.append(Authorization.TABLE_AUTHORIZATION).append(".").append(Authorization.AUTHORIZATION_TOKEN).append(", ");
+        dynamicSQL.append(Authorization.TABLE_AUTHORIZATION).append(".").append(Authorization.AUTHORIZATION_PLATFORM).append(", ");
+        dynamicSQL.append(Authorization.TABLE_AUTHORIZATION).append(".").append(Authorization.AUTHORIZATION_VERSION).append(", ");
         dynamicSQL.append(Authorization.TABLE_AUTHORIZATION).append(".").append(Authorization.AUTHORIZATION_CREATE_TIME).append(" ");
         dynamicSQL.append("FROM ").append(Authorization.TABLE_AUTHORIZATION).append(" ");
         dynamicSQL.append("WHERE ").append(Authorization.TABLE_AUTHORIZATION).append(".").append(Authorization.SYSTEM_STATUS).append(" = ? ", true);

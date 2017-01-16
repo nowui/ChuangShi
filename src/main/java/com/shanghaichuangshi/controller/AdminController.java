@@ -1,6 +1,7 @@
 package com.shanghaichuangshi.controller;
 
 import com.shanghaichuangshi.annotation.Path;
+import com.shanghaichuangshi.constant.Key;
 import com.shanghaichuangshi.constant.Url;
 import com.shanghaichuangshi.model.Admin;
 import com.shanghaichuangshi.model.User;
@@ -28,7 +29,7 @@ public class AdminController extends Controller {
     public void adminList() {
         Admin adminModel = getModel(Admin.class);
 
-        adminModel.validate(Admin.PAGE_INDEX, Admin.PAGE_SIZE);
+        adminModel.validate(Admin.ADMIN_NAME, Admin.PAGE_INDEX, Admin.PAGE_SIZE);
 
         int count = adminService.count(adminModel);
 
@@ -103,6 +104,9 @@ public class AdminController extends Controller {
         User userModel = getModel(User.class);
 
         userModel.validate(User.USER_ACCOUNT, User.USER_PASSWORD);
+        userModel.set(Key.PLATFORM, getAttribute(Key.PLATFORM));
+        userModel.set(Key.VERSION, getAttribute(Key.VERSION));
+        userModel.set(Key.IP_ADDRESS, getAttribute(Key.IP_ADDRESS));
 
         Map<String, Object> resultMap = adminService.login(userModel);
 
