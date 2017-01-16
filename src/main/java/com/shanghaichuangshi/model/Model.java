@@ -210,6 +210,26 @@ public abstract class Model<M extends Model> extends HashMap<String, Object> {
         return (M)this;
     }
 
+    private void validateColumn(String key) {
+        for (Column column : getColumnList()) {
+            if (column.getName().equals(key)) {
+                switch (column.getType()) {
+                    case VARCHAR:
+                        if (!StringUtil.checkLength(this.get(key).toString(), column.getWidth())) {
+                            throw new RuntimeException("The length of the " + key + " is more than " + column.getWidth());
+                        }
+                        break;
+                    case INT:
+                        if (!IntUtil.checkLength((Integer) this.get(key), column.getWidth())) {
+                            throw new RuntimeException("The length of the " + key + " is more than " + column.getWidth());
+                        }
+                    default:
+                        break;
+                }
+            }
+        }
+    }
+
     public void validate(String... keys) {
         for (String key : keys) {
             if (this.containsKey(key)) {
@@ -217,23 +237,7 @@ public abstract class Model<M extends Model> extends HashMap<String, Object> {
                     throw new RuntimeException(key + " is null");
                 }
 
-                for (Column column : getColumnList()) {
-                    if (column.getName().equals(key)) {
-                        switch (column.getType()) {
-                            case VARCHAR:
-                                if (!StringUtil.checkLength(this.get(key).toString(), column.getWidth())) {
-                                    throw new RuntimeException("The length of the " + key + " is more than " + column.getWidth());
-                                }
-                                break;
-                            case INT:
-                                if (!IntUtil.checkLength((Integer) this.get(key), column.getWidth())) {
-                                    throw new RuntimeException("The length of the " + key + " is more than " + column.getWidth());
-                                }
-                            default:
-                                break;
-                        }
-                    }
-                }
+                validateColumn(key);
             } else {
                 throw new RuntimeException(key + " is null");
             }
@@ -313,6 +317,10 @@ public abstract class Model<M extends Model> extends HashMap<String, Object> {
 //    }
 
     public boolean save() {
+        for (Entry<String, Object> entry : this.entrySet()) {
+            validateColumn(entry.getKey());
+        }
+
         StringBuilder sql = new StringBuilder();
         StringBuilder temp = new StringBuilder(") VALUES (");
         List<Object> parameterList = new ArrayList<Object>();
@@ -357,6 +365,10 @@ public abstract class Model<M extends Model> extends HashMap<String, Object> {
     }
 
     public boolean update() {
+        for (Entry<String, Object> entry : this.entrySet()) {
+            validateColumn(entry.getKey());
+        }
+
         StringBuilder sql = new StringBuilder();
         List<Object> parameterList = new ArrayList<Object>();
 
