@@ -14,4 +14,6 @@ public abstract class Config {
 
     public abstract void configUncheckRequestUrl(List<String> uncheckRequestUrlList);
 
+    public abstract void configUncheckLogUrl(List<String> uncheckLogUrlList);
+
 }

@@ -64,4 +64,16 @@ public class Url {
     public static final String RESOURCEL_UPDATE = "/resource/update";
     public static final String RESOURCE_DELETE = "/resource/delete";
 
+    public static final String FILE_LIST = "/file/list";
+    public static final String FILE_ADMIN_LIST = "/file/admin/list";
+    public static final String FILE_FIND = "/file/find";
+    public static final String FILE_ADMIN_FIND = "/file/admin/find";
+    public static final String FILE_SAVE = "/file/save";
+    public static final String FILEL_UPDATE = "/file/update";
+    public static final String FILE_DELETE = "/file/delete";
+
+    public static final String UPLOAD_IMAGE = "/upload/image";
+
+    public static final String ASSETS = "/assets/";
+
 }

@@ -2,6 +2,7 @@ package com.shanghaichuangshi.type;
 
 public enum ColumnType {
     INT("INT"),
+    TINYINT("TINYINT"),
     VARCHAR("VARCHAR"),
     DECIMAL("DECIMAL"),
     BOOLEAN("BOOLEAN"),

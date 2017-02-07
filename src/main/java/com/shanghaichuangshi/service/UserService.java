@@ -2,7 +2,6 @@ package com.shanghaichuangshi.service;
 
 import com.shanghaichuangshi.dao.UserDao;
 import com.shanghaichuangshi.model.User;
-import com.shanghaichuangshi.type.UserType;
 import com.shanghaichuangshi.util.Util;
 
 public class UserService extends Service {

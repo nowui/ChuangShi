@@ -20,6 +20,10 @@ public abstract class Controller {
         return this;
     }
 
+    public HttpServletRequest getRequest() {
+        return request;
+    }
+
     public void setAttribute(String key, Object value) {
         request.setAttribute(key, value);
     }

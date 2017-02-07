@@ -3,11 +3,13 @@ package com.shanghaichuangshi.model;
 import com.shanghaichuangshi.annotation.Id;
 import com.shanghaichuangshi.annotation.Table;
 import com.shanghaichuangshi.config.Column;
+import com.shanghaichuangshi.constant.Key;
 import com.shanghaichuangshi.type.ColumnType;
 import com.shanghaichuangshi.util.DatabaseUtil;
 import com.shanghaichuangshi.util.IntUtil;
 import com.shanghaichuangshi.util.StringUtil;
 import com.shanghaichuangshi.util.Util;
+import com.sun.org.apache.xpath.internal.operations.Bool;
 
 import java.lang.reflect.Field;
 import java.util.*;
@@ -51,6 +53,10 @@ public abstract class Model<M extends Model> extends HashMap<String, Object> {
         return (Integer) this.get(key);
     }
 
+    public Boolean getBoolean(String key) {
+        return (Boolean) this.get(key);
+    }
+
     public int getInt(String key) {
         return (int) this.get(key);
     }
@@ -73,11 +79,11 @@ public abstract class Model<M extends Model> extends HashMap<String, Object> {
     }
 
     public String getRequest_user_id() {
-        return "";
+        return getString(Key.REQUEST_USER_ID);
     }
 
     public void setRequest_user_id(String request_user_id) {
-
+        set(Key.REQUEST_USER_ID, request_user_id);
     }
 
     private String getTable_name() {

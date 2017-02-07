@@ -47,7 +47,7 @@ public class CodeController extends Controller {
 
                 String length = code.getString("column_type").replace(code.get("data_type").toString(), "").replace("(", "").replace(")", "");
 
-                if (length.equals("")) {
+                if (length.equals("") || length.contains(",")) {
                     length = "0";
                 }
 

@@ -13,5 +13,9 @@ public class Key {
     public static final String TOKEN = "Token";
     public static final String MENU = "menu";
     public static final String IP_ADDRESS = "ip_address";
+    public static final String ASSETS = "assets";
+    public static final String UPLOAD = "upload";
+    public static final String THUMBNAIL = "thumbnail";
+    public static final String ORIGINAL = "original";
 
 }

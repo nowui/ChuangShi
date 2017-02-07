@@ -6,17 +6,14 @@ import com.shanghaichuangshi.config.Config;
 import com.shanghaichuangshi.constant.Global;
 import com.shanghaichuangshi.constant.Key;
 import com.shanghaichuangshi.constant.Url;
-import com.shanghaichuangshi.controller.Controller;
+import com.shanghaichuangshi.controller.*;
 import com.shanghaichuangshi.model.Authorization;
 import com.shanghaichuangshi.model.Log;
 import com.shanghaichuangshi.model.User;
 import com.shanghaichuangshi.render.RenderFactory;
 import com.shanghaichuangshi.route.Route;
 import com.shanghaichuangshi.route.RouteMatcher;
-import com.shanghaichuangshi.util.DatabaseUtil;
-import com.shanghaichuangshi.util.DateUtil;
-import com.shanghaichuangshi.util.HttpUtil;
-import com.shanghaichuangshi.util.Util;
+import com.shanghaichuangshi.util.*;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -44,6 +41,8 @@ public class Filter implements javax.servlet.Filter {
     private static final Certificate certificate = new Certificate();
     private static final RouteMatcher routeMatcher = new RouteMatcher();
     private static final List<String> uncheckTokenUrlList = new ArrayList<String>();
+    private static final List<String> uncheckParameterUrlList = new ArrayList<String>();
+    private static final List<String> uncheckLogUrlList = new ArrayList<String>();
     private static final RenderFactory renderFactory = RenderFactory.getInstance();
 
     public void init(FilterConfig filterConfig) throws ServletException {
@@ -56,15 +55,32 @@ public class Filter implements javax.servlet.Filter {
         }
 
         if (object instanceof Config)
-            config = (Config)object;
+            config = (Config) object;
         else {
             throw new RuntimeException("Can not create instance of class: " + configClass + ". Please check the config in web.xml");
         }
 
+        routeMatcher.add("/code", CodeController.class);
+        routeMatcher.add("/role", RoleController.class);
+        routeMatcher.add("/category", CategoryController.class);
+        routeMatcher.add("/admin", AdminController.class);
+        routeMatcher.add("/authorization", AuthorizationController.class);
+        routeMatcher.add("/attribute", AttributeController.class);
+        routeMatcher.add("/log", LogController.class);
+        routeMatcher.add("/resource", ResourceController.class);
+        routeMatcher.add("/upload", UploadController.class);
+        routeMatcher.add("/file", FileController.class);
+
+        uncheckTokenUrlList.add(Url.ADMIN_LOGIN);
+
+        uncheckParameterUrlList.add(Url.UPLOAD_IMAGE);
+
+        uncheckLogUrlList.add(Url.LOG_ADMIN_LIST);
+        uncheckLogUrlList.add(Url.LOG_ADMIN_FIND);
+        uncheckLogUrlList.add(Url.UPLOAD_IMAGE);
+
         config.configCertificate(certificate);
-
         config.configRouteMatcher(routeMatcher);
-
         config.configUncheckTokenUrl(uncheckTokenUrlList);
     }
 
@@ -84,7 +100,7 @@ public class Filter implements javax.servlet.Filter {
 
         String path = request.getRequestURI();
 
-        if (path.equals(Url.FAVICON_ICO) || request.getMethod().equals("OPTIONS")) {
+        if (path.equals(Url.FAVICON_ICO) || request.getMethod().equals("OPTIONS") || path.contains(Url.ASSETS)) {
             filterChain.doFilter(request, response);
 
             return;
@@ -114,7 +130,7 @@ public class Filter implements javax.servlet.Filter {
             version = request.getHeader(Key.VERSION);
             ip_address = HttpUtil.getIpAddress(request);
 
-            if (! uncheckTokenUrlList.contains(path)) {
+            if (!uncheckTokenUrlList.contains(path)) {
                 if (Util.isNullOrEmpty(token)) {
                     throw new RuntimeException(Key.TOKEN + "不能为空");
                 }
@@ -140,13 +156,15 @@ public class Filter implements javax.servlet.Filter {
                 throw new RuntimeException(Key.VERSION + "不能为空");
             }
 
-            parameter = HttpUtil.readData(request);
-            if (Util.isNullOrEmpty(parameter)) {
-                parameter = new JSONObject().toJSONString();
+            if (!uncheckParameterUrlList.contains(path)) {
+                parameter = HttpUtil.readData(request);
+                if (Util.isNullOrEmpty(parameter)) {
+                    parameter = new JSONObject().toJSONString();
+                }
             }
 
             Route route = routeMatcher.find(path);
-            if(route != null) {
+            if (route != null) {
                 try {
                     Controller controller = route.getControllerClass().newInstance().setContext(request, response);
 
@@ -167,7 +185,7 @@ public class Filter implements javax.servlet.Filter {
                     throw new Exception("IllegalAccessException:", e);
                 } catch (InvocationTargetException e) {
                     Throwable t = e.getTargetException();
-                    throw t instanceof RuntimeException ? (RuntimeException)t : new RuntimeException(e);
+                    throw t instanceof RuntimeException ? (RuntimeException) t : new RuntimeException(e);
                 }
             } else {
                 renderFactory.getNotFoundRender().setContext(request, response).render();
@@ -195,7 +213,7 @@ public class Filter implements javax.servlet.Filter {
         } finally {
             DatabaseUtil.close();
 
-            if (path.contains("/log/")) {
+            if (uncheckLogUrlList.contains(path)) {
 
             } else {
                 Date end = new Date();

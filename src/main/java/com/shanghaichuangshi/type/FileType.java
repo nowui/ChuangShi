@@ -1,14 +1,13 @@
 package com.shanghaichuangshi.type;
 
-public enum CategoryType {
+public enum FileType {
 
-    MENU("MENU", "菜单"),
-    CHINA("MEMBER", "中国省市区");
+    IMAGE("IMAGE", "图片");
 
     private String key;
     private String value;
 
-    private CategoryType(String key, String value) {
+    private FileType(String key, String value) {
         this.key = key;
         this.value = value;
     }

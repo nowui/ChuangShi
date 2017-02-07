@@ -3,8 +3,6 @@ package com.shanghaichuangshi;
 import com.shanghaichuangshi.config.Certificate;
 import com.shanghaichuangshi.config.Config;
 
-import com.shanghaichuangshi.constant.Url;
-import com.shanghaichuangshi.controller.*;
 import com.shanghaichuangshi.route.RouteMatcher;
 
 import java.util.List;
@@ -17,21 +15,17 @@ public class WebConfig extends Config {
     }
 
     public void configRouteMatcher(RouteMatcher routeMatcher) {
-        routeMatcher.add("/code", CodeController.class);
-        routeMatcher.add("/role", RoleController.class);
-        routeMatcher.add("/category", CategoryController.class);
-        routeMatcher.add("/admin", AdminController.class);
-        routeMatcher.add("/authorization", AuthorizationController.class);
-        routeMatcher.add("/attribute", AttributeController.class);
-        routeMatcher.add("/log", LogController.class);
-        routeMatcher.add("/resource", ResourceController.class);
     }
 
     public void configUncheckTokenUrl(List<String> uncheckTokenUrlList) {
-        uncheckTokenUrlList.add(Url.ADMIN_LOGIN);
+
     }
 
     public void configUncheckRequestUrl(List<String> uncheckRequestUrlList) {
+
+    }
+
+    public void configUncheckLogUrl(List<String> uncheckLogUrlList) {
 
     }
 
