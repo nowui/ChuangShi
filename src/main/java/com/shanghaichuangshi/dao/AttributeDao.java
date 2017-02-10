@@ -30,7 +30,9 @@ public class AttributeDao extends Dao {
             dynamicSQL.append("AND ").append(Attribute.TABLE_ATTRIBUTE).append(".").append(Attribute.ATTRIBUTE_NAME).append(" LIKE ? ", "%" + attribute_name + "%");
         }
         dynamicSQL.append("ORDER BY ").append(Attribute.TABLE_ATTRIBUTE).append(".").append(Attribute.SYSTEM_CREATE_TIME).append(" DESC ");
-        dynamicSQL.append("LIMIT ?, ? ", m, n);
+        if (n > 0) {
+            dynamicSQL.append("LIMIT ?, ? ", m, n);
+        }
 
         return (List<Attribute>) DatabaseUtil.list(dynamicSQL.getSql(), dynamicSQL.getParameterList(), Attribute.class);
     }

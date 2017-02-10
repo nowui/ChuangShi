@@ -30,7 +30,9 @@ public class ResourceDao extends Dao {
             dynamicSQL.append("AND ").append(Resource.TABLE_RESOURCE).append(".").append(Resource.RESOURCE_NAME).append(" LIKE ? ", "%" + resource_name + "%");
         }
         dynamicSQL.append("ORDER BY ").append(Resource.TABLE_RESOURCE).append(".").append(Resource.SYSTEM_CREATE_TIME).append(" DESC ");
-        dynamicSQL.append("LIMIT ?, ? ", m, n);
+        if (n > 0) {
+            dynamicSQL.append("LIMIT ?, ? ", m, n);
+        }
 
         return (List<Resource>) DatabaseUtil.list(dynamicSQL.getSql(), dynamicSQL.getParameterList(), Resource.class);
     }

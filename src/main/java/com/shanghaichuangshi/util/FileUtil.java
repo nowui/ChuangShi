@@ -20,7 +20,15 @@ public class FileUtil {
         if (webRootPath == null)
             try {
                 String path = FileUtil.class.getResource("/").toURI().getPath();
-                webRootPath = new File(path).getParentFile().getParentFile().getCanonicalPath();
+
+                if (path.contains("target/classes/")) {
+
+                    path = path.replace("target/classes/", "src/main/webapp/");
+
+                    webRootPath = new File(path).getCanonicalPath();
+                } else {
+                    webRootPath = new File(path).getParentFile().getParentFile().getCanonicalPath();
+                }
             } catch (Exception e) {
                 throw new RuntimeException("Exception: " + e.toString());
             }

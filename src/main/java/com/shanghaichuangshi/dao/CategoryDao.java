@@ -47,12 +47,14 @@ public class CategoryDao extends Dao {
         }
         dynamicSQL.append("AND ").append(Category.TABLE_CATEGORY).append(".").append(Category.PARENT_ID).append(" = '' ");
         dynamicSQL.append("ORDER BY ").append(Category.TABLE_CATEGORY).append(".").append(Category.CATEGORY_SORT).append(" ASC, ").append(Category.TABLE_CATEGORY).append(".").append(Category.SYSTEM_CREATE_TIME).append(" ASC ");
-        dynamicSQL.append("LIMIT ?, ? ", m, n);
+        if (n > 0) {
+            dynamicSQL.append("LIMIT ?, ? ", m, n);
+        }
 
         return (List<Category>) DatabaseUtil.list(dynamicSQL.getSql(), dynamicSQL.getParameterList(), Category.class);
     }
 
-    public List<Category> listByCategory_path(String category_path) {
+    public List<Category> treeListByCategory_path(String category_path) {
         DynamicSQL dynamicSQL = new DynamicSQL();
 
         dynamicSQL.append("SELECT ");
@@ -66,6 +68,20 @@ public class CategoryDao extends Dao {
         dynamicSQL.append("FROM ").append(Category.TABLE_CATEGORY).append(" ");
         dynamicSQL.append("WHERE ").append(Category.TABLE_CATEGORY).append(".").append(Category.SYSTEM_STATUS).append(" = ? ", true);
         dynamicSQL.append("AND ").append(Category.TABLE_CATEGORY).append(".").append(Category.CATEGORY_PATH).append(" LIKE ? ", "%\"" + category_path + "\"%");
+        dynamicSQL.append("ORDER BY ").append(Category.TABLE_CATEGORY).append(".").append(Category.CATEGORY_SORT).append(" ASC, ").append(Category.TABLE_CATEGORY).append(".").append(Category.SYSTEM_CREATE_TIME).append(" ASC ");
+
+        return (List<Category>) DatabaseUtil.list(dynamicSQL.getSql(), dynamicSQL.getParameterList(), Category.class);
+    }
+
+    public List<Category> treeListByCategory_key(String category_key) {
+        DynamicSQL dynamicSQL = new DynamicSQL();
+
+        dynamicSQL.append("SELECT ");
+        dynamicSQL.append(Category.TABLE_CATEGORY).append(".").append(Category.CATEGORY_ID).append(", ");
+        dynamicSQL.append(Category.TABLE_CATEGORY).append(".").append(Category.CATEGORY_NAME).append(" ");
+        dynamicSQL.append("FROM ").append(Category.TABLE_CATEGORY).append(" ");
+        dynamicSQL.append("WHERE ").append(Category.TABLE_CATEGORY).append(".").append(Category.SYSTEM_STATUS).append(" = ? ", true);
+        dynamicSQL.append("AND ").append(Category.TABLE_CATEGORY).append(".").append(Category.CATEGORY_PATH).append(" LIKE (SELECT CONCAT('%', ").append(Category.CATEGORY_ID).append(",'%') FROM ").append(Category.TABLE_CATEGORY).append(" WHERE ").append(Category.CATEGORY_KEY).append(" = ? ) ", category_key);
         dynamicSQL.append("ORDER BY ").append(Category.TABLE_CATEGORY).append(".").append(Category.CATEGORY_SORT).append(" ASC, ").append(Category.TABLE_CATEGORY).append(".").append(Category.SYSTEM_CREATE_TIME).append(" ASC ");
 
         return (List<Category>) DatabaseUtil.list(dynamicSQL.getSql(), dynamicSQL.getParameterList(), Category.class);

@@ -33,7 +33,9 @@ public class FileDao extends Dao {
         }
         dynamicSQL.append("AND ").append(File.TABLE_FILE).append(".").append(File.SYSTEM_CREATE_USER_ID).append(" = ? ", request_user_id);
         dynamicSQL.append("ORDER BY ").append(File.TABLE_FILE).append(".").append(File.SYSTEM_CREATE_TIME).append(" DESC ");
-        dynamicSQL.append("LIMIT ?, ? ", m, n);
+        if (n > 0) {
+            dynamicSQL.append("LIMIT ?, ? ", m, n);
+        }
 
         return (List<File>) DatabaseUtil.list(dynamicSQL.getSql(), dynamicSQL.getParameterList(), File.class);
     }

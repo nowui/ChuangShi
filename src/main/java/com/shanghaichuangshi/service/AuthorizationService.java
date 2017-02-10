@@ -49,6 +49,7 @@ public class AuthorizationService extends Service {
         authorization.setAuthorization_ip_address(authorization_ip_address);
         authorization.setAuthorization_create_time(create_time);
         authorization.setAuthorization_expire_time(expire_time);
+        authorization.setRequest_user_id("");
 
         authorizationDao.save(authorization);
 

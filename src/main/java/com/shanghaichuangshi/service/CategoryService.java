@@ -26,7 +26,7 @@ public class CategoryService extends Service {
     public Category treeList(Category category) {
         Category c = categoryDao.find(category.getCategory_id());
 
-        List<Category> categoryList = categoryDao.listByCategory_path(category.getCategory_id());
+        List<Category> categoryList = categoryDao.treeListByCategory_path(category.getCategory_id());
 
         c.set(Key.KEY, c.getCategory_id());
         c.set(Key.CHILDREN, getChildren(categoryList, c.getCategory_id()));
@@ -37,12 +37,18 @@ public class CategoryService extends Service {
     public Category treeListByCategory_key(String category_key) {
         Category category = categoryDao.findByCategory_key(category_key);
 
-        List<Category> categoryList = categoryDao.listByCategory_path(category.getCategory_id());
+        List<Category> categoryList = categoryDao.treeListByCategory_path(category.getCategory_id());
 
         category.set(Key.KEY, category.getCategory_id());
         category.set(Key.CHILDREN, getMenuChildren(categoryList, category.getCategory_id()));
 
         return category;
+    }
+
+    public List<Category> listByCategory_key(String category_key) {
+        List<Category> categoryList = categoryDao.treeListByCategory_key(category_key);
+
+        return categoryList;
     }
 
     public Category find(Category category) {

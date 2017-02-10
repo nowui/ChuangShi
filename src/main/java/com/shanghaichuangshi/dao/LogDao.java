@@ -35,7 +35,9 @@ public class LogDao extends Dao {
             dynamicSQL.append("AND ").append(Log.TABLE_LOG).append(".").append(Log.LOG_URL).append(" LIKE ? ", "%" + log_url + "%");
         }
         dynamicSQL.append("ORDER BY ").append(Log.TABLE_LOG).append(".").append(Log.SYSTEM_CREATE_TIME).append(" DESC ");
-        dynamicSQL.append("LIMIT ?, ? ", m, n);
+        if (n > 0) {
+            dynamicSQL.append("LIMIT ?, ? ", m, n);
+        }
 
         return (List<Log>) DatabaseUtil.list(dynamicSQL.getSql(), dynamicSQL.getParameterList(), Log.class);
     }

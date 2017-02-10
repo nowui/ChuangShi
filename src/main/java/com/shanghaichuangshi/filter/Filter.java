@@ -82,6 +82,8 @@ public class Filter implements javax.servlet.Filter {
         config.configCertificate(certificate);
         config.configRouteMatcher(routeMatcher);
         config.configUncheckTokenUrl(uncheckTokenUrlList);
+
+        FileUtil.getWebRootPath();
     }
 
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {

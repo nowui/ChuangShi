@@ -34,7 +34,9 @@ public class AdminDao extends Dao {
             dynamicSQL.append("AND ").append(Admin.TABLE_ADMIN).append(".").append(Admin.ADMIN_NAME).append(" LIKE ? ", "%" + admin_name + "%");
         }
         dynamicSQL.append("ORDER BY ").append(Admin.TABLE_ADMIN).append(".").append(Admin.SYSTEM_CREATE_TIME).append(" DESC ");
-        dynamicSQL.append("LIMIT ?, ? ", m, n);
+        if (n > 0) {
+            dynamicSQL.append("LIMIT ?, ? ", m, n);
+        }
 
         return (List<Admin>) DatabaseUtil.list(dynamicSQL.getSql(), dynamicSQL.getParameterList(), Admin.class);
     }

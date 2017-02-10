@@ -33,7 +33,9 @@ public class AuthorizationDao extends Dao {
             dynamicSQL.append("AND ").append(Authorization.TABLE_AUTHORIZATION).append(".").append(Authorization.AUTHORIZATION_TOKEN).append(" LIKE ? ", "%" + authorization_token + "%");
         }
         dynamicSQL.append("ORDER BY ").append(Authorization.TABLE_AUTHORIZATION).append(".").append(Authorization.SYSTEM_CREATE_TIME).append(" DESC ");
-        dynamicSQL.append("LIMIT ?, ? ", m, n);
+        if (n > 0) {
+            dynamicSQL.append("LIMIT ?, ? ", m, n);
+        }
 
         return (List<Authorization>) DatabaseUtil.list(dynamicSQL.getSql(), dynamicSQL.getParameterList(), Authorization.class);
     }
