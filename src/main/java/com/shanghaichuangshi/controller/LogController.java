@@ -10,7 +10,7 @@ import java.util.List;
 
 public class LogController extends Controller {
 
-    private final LogService logService = new LogService();
+    private static final LogService logService = new LogService();
 
     @ActionKey(Url.LOG_LIST)
     public void list() {

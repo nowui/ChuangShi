@@ -15,7 +15,7 @@ import java.util.List;
 
 public class AuthorizationService extends Service {
 
-    private final AuthorizationDao authorizationDao = new AuthorizationDao();
+    private static final AuthorizationDao authorizationDao = new AuthorizationDao();
 
     public int count(Authorization authorization) {
         return authorizationDao.count(authorization.getAuthorization_token());

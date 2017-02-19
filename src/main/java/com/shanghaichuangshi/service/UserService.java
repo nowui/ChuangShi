@@ -6,7 +6,7 @@ import com.shanghaichuangshi.util.Util;
 
 public class UserService extends Service {
 
-    private final UserDao userDao = new UserDao();
+    private static final UserDao userDao = new UserDao();
 
     public String saveByUser_accountAndUser_passwordAndObject_idAndUser_type(String user_account, String user_password, String object_id, String user_type, String request_user_id) {
         int count = userDao.countByUser_idAndUser_account(user_account, "");

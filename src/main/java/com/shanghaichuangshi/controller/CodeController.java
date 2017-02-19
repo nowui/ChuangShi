@@ -1,14 +1,13 @@
 package com.shanghaichuangshi.controller;
 
 import com.jfinal.core.ActionKey;
+import com.jfinal.kit.PathKit;
 import com.jfinal.plugin.activerecord.Record;
+import com.jfinal.template.Engine;
+import com.jfinal.template.Template;
 import com.shanghaichuangshi.constant.Url;
 import com.shanghaichuangshi.model.Code;
 import com.shanghaichuangshi.service.CodeService;
-import org.beetl.core.Configuration;
-import org.beetl.core.GroupTemplate;
-import org.beetl.core.Template;
-import org.beetl.core.resource.FileResourceLoader;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -19,7 +18,7 @@ import java.util.List;
 
 public class CodeController extends Controller {
 
-    private final CodeService codeService = new CodeService();
+    private static final CodeService codeService = new CodeService();
 
     @ActionKey(Url.CODE_LIST)
     public void list() {
@@ -78,17 +77,21 @@ public class CodeController extends Controller {
     }
 
     private void write(String lowerModelName, String upperModelName, String firstModelName, List<Record> columnList, String templateName, String fileName) throws IOException {
-        String root = System.getProperty("user.dir") + File.separator + "/src/main/resources/template";
-        FileResourceLoader resourceLoader = new FileResourceLoader(root, "utf-8");
-        Configuration configuration = Configuration.defaultConfiguration();
-        GroupTemplate groupTemplate = new GroupTemplate(resourceLoader, configuration);
-        Template template = groupTemplate.getTemplate(templateName);
-        template.binding("lowerModelName", lowerModelName);
-        template.binding("upperModelName", upperModelName);
-        template.binding("firstModelName", firstModelName);
-        template.binding("columnList", columnList);
+//        String root = System.getProperty("user.dir") + File.separator + "/src/main/resources/template";
+//        FileResourceLoader resourceLoader = new FileResourceLoader(root, "utf-8");
+//        Configuration configuration = Configuration.defaultConfiguration();
+//        GroupTemplate groupTemplate = new GroupTemplate(resourceLoader, configuration);
+//        Template template = groupTemplate.getTemplate(templateName);
+//        template.binding("lowerModelName", lowerModelName);
+//        template.binding("upperModelName", upperModelName);
+//        template.binding("firstModelName", firstModelName);
+//        template.binding("columnList", columnList);
+//
+//        template.renderTo(new OutputStreamWriter(new FileOutputStream(new File("/Users/yongqiangzhong/Documents/Publish/" + fileName)), "UTF-8"));
 
-        template.renderTo(new OutputStreamWriter(new FileOutputStream(new File("/Users/yongqiangzhong/Documents/Publish/" + fileName)), "UTF-8"));
+        Engine engine = Engine.create("engine");
+        engine.setBaseTemplatePath(PathKit.getRootClassPath() + "/template/");
+        Template template = engine.getTemplate(templateName);
     }
 
 }

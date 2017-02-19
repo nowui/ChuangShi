@@ -8,7 +8,7 @@ import java.util.List;
 
 public class CodeService extends Service {
 
-    private final CodeDao codeDao = new CodeDao();
+    private static final CodeDao codeDao = new CodeDao();
 
     public List<Record> listTable(String table_name) {
         return codeDao.listTable(table_name);

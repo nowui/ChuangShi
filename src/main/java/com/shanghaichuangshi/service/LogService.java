@@ -7,7 +7,7 @@ import java.util.List;
 
 public class LogService extends Service {
 
-    private final LogDao logDao = new LogDao();
+    private static final LogDao logDao = new LogDao();
 
     public int count(Log log) {
         return logDao.count(log.getLog_url());

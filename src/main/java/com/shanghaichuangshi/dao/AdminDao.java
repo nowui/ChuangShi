@@ -81,21 +81,21 @@ public class AdminDao extends Dao {
         return admin.update();
     }
 
-    public boolean updateByAdmin_idAndUser_id(String admin_id, String user_id, String request_admin_id) {
+    public boolean updateByAdmin_idAndUser_id(String admin_id, String user_id, String request_user_id) {
         JMap map = JMap.create();
         map.put(Admin.ADMIN_ID, admin_id);
         map.put(Admin.USER_ID, user_id);
-        map.put(Admin.SYSTEM_UPDATE_USER_ID, request_admin_id);
+        map.put(Admin.SYSTEM_UPDATE_USER_ID, request_user_id);
         map.put(Admin.SYSTEM_UPDATE_TIME, new Date());
         SqlPara sqlPara = Db.getSqlPara("admin.updateByAdmin_idAndUser_id", map);
 
         return Db.update(sqlPara.getSql(), sqlPara.getPara()) == 1;
     }
 
-    public boolean delete(String admin_id, String request_admin_id) {
+    public boolean delete(String admin_id, String request_user_id) {
         JMap map = JMap.create();
         map.put(Admin.ADMIN_ID, admin_id);
-        map.put(Admin.SYSTEM_UPDATE_USER_ID, request_admin_id);
+        map.put(Admin.SYSTEM_UPDATE_USER_ID, request_user_id);
         map.put(Admin.SYSTEM_UPDATE_TIME, new Date());
         map.put(Admin.SYSTEM_STATUS, false);
         SqlPara sqlPara = Db.getSqlPara("admin.delete", map);

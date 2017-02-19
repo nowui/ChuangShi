@@ -75,6 +75,8 @@ public class WebConfig extends JFinalConfig {
         activeRecordPlugin.addSqlTemplate("log.sql");
         activeRecordPlugin.addMapping("table_user", "user_id", User.class);
         activeRecordPlugin.addSqlTemplate("user.sql");
+        activeRecordPlugin.addMapping("table_file", "file_id", File.class);
+        activeRecordPlugin.addSqlTemplate("file.sql");
 
         plugins.add(activeRecordPlugin);
     }

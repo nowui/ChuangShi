@@ -10,7 +10,7 @@ import java.util.List;
 
 public class CategoryController extends Controller {
 
-    private final CategoryService categoryService = new CategoryService();
+    private static final CategoryService categoryService = new CategoryService();
 
     @ActionKey(Url.CATEGORY_ADMIN_LIST)
     public void adminList() {
