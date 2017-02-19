@@ -1,7 +1,7 @@
 package com.shanghaichuangshi.controller;
 
-import com.shanghaichuangshi.annotation.Path;
-import com.shanghaichuangshi.constant.Key;
+import com.jfinal.core.ActionKey;
+import com.shanghaichuangshi.constant.Constant;
 import com.shanghaichuangshi.constant.Url;
 import com.shanghaichuangshi.model.Admin;
 import com.shanghaichuangshi.model.User;
@@ -14,103 +14,109 @@ public class AdminController extends Controller {
 
     private final AdminService adminService = new AdminService();
 
-    @Path(Url.ADMIN_LIST)
+    @ActionKey(Url.ADMIN_LIST)
     public void list() {
-        Admin adminModel = getModel(Admin.class);
+        validate(Constant.PAGE_INDEX, Constant.PAGE_SIZE);
 
-        adminModel.validate(Admin.PAGE_INDEX, Admin.PAGE_SIZE);
+        Admin model = getParameter(Admin.class);
 
-        List<Admin> adminList = adminService.list(adminModel);
+        model.validate(Admin.ADMIN_NAME);
 
-        renderJson(adminList);
+        List<Admin> adminList = adminService.list(model, getM(), getN());
+
+        renderSuccessJson(adminList);
     }
 
-    @Path(Url.ADMIN_ADMIN_LIST)
+    @ActionKey(Url.ADMIN_ADMIN_LIST)
     public void adminList() {
-        Admin adminModel = getModel(Admin.class);
+        validate(Constant.PAGE_INDEX, Constant.PAGE_SIZE);
 
-        adminModel.validate(Admin.ADMIN_NAME, Admin.PAGE_INDEX, Admin.PAGE_SIZE);
+        Admin model = getParameter(Admin.class);
 
-        int count = adminService.count(adminModel);
+        model.validate(Admin.ADMIN_NAME);
 
-        List<Admin> adminList = adminService.list(adminModel);
+        int count = adminService.count(model);
 
-        renderJson(count, adminList);
+        List<Admin> adminList = adminService.list(model, getM(), getN());
+
+        renderSuccessJson(count, adminList);
     }
 
-    @Path(Url.ADMIN_FIND)
+    @ActionKey(Url.ADMIN_FIND)
     public void find() {
-        Admin adminModel = getModel(Admin.class);
+        Admin model = getParameter(Admin.class);
 
-        adminModel.validate(Admin.ADMIN_ID);
+        model.validate(Admin.ADMIN_ID);
 
-        Admin admin = adminService.find(adminModel);
+        Admin admin = adminService.find(model);
 
         admin.removeUnfindable();
 
-        renderJson(admin);
+        renderSuccessJson(admin);
     }
 
-    @Path(Url.ADMIN_ADMIN_FIND)
+    @ActionKey(Url.ADMIN_ADMIN_FIND)
     public void adminFind() {
-        Admin adminModel = getModel(Admin.class);
+        Admin model = getParameter(Admin.class);
 
-        adminModel.validate(Admin.ADMIN_ID);
+        model.validate(Admin.ADMIN_ID);
 
-        Admin admin = adminService.find(adminModel);
+        Admin admin = adminService.find(model);
 
-        renderJson(admin);
+        renderSuccessJson(admin);
     }
 
-    @Path(Url.ADMIN_SAVE)
+    @ActionKey(Url.ADMIN_SAVE)
     public void save() {
-        Admin adminModel = getModel(Admin.class);
-        User userModel = getModel(User.class);
+        Admin model = getParameter(Admin.class);
+        User userModel = getParameter(User.class);
+        String request_user_id = getRequest_user_id();
 
-        adminModel.validate(Admin.ADMIN_NAME);
+        model.validate(Admin.ADMIN_NAME);
         userModel.validate(User.USER_ACCOUNT, User.USER_PASSWORD);
 
-        adminService.save(adminModel, userModel);
+        adminService.save(model, userModel, request_user_id);
 
-        renderJson("");
+        renderSuccessJson();
     }
 
-    @Path(Url.ADMINL_UPDATE)
+    @ActionKey(Url.ADMINL_UPDATE)
     public void update() {
-        Admin adminModel = getModel(Admin.class);
-        User userModel = getModel(User.class);
+        Admin model = getParameter(Admin.class);
+        User userModel = getParameter(User.class);
+        String request_user_id = getRequest_user_id();
 
-        adminModel.validate(Admin.ADMIN_ID, Admin.ADMIN_NAME, Admin.USER_ID);
+        model.validate(Admin.ADMIN_ID, Admin.ADMIN_NAME, Admin.USER_ID);
         userModel.validate(User.USER_ACCOUNT, User.USER_PASSWORD);
 
-        adminService.update(adminModel, userModel);
+        adminService.update(model, userModel, request_user_id);
 
-        renderJson("");
+        renderSuccessJson();
     }
 
-    @Path(Url.ADMIN_DELETE)
+    @ActionKey(Url.ADMIN_DELETE)
     public void delete() {
-        Admin adminModel = getModel(Admin.class);
+        Admin model = getParameter(Admin.class);
+        String request_user_id = getRequest_user_id();
 
-        adminModel.validate(Admin.ADMIN_ID);
+        model.validate(Admin.ADMIN_ID);
 
-        adminService.delete(adminModel);
+        adminService.delete(model, request_user_id);
 
-        renderJson("");
+        renderSuccessJson();
     }
 
-    @Path(Url.ADMIN_LOGIN)
+    @ActionKey(Url.ADMIN_LOGIN)
     public void login() {
-        User userModel = getModel(User.class);
+        User model = getParameter(User.class);
+        String platform = getPlatform();
+        String version = getVersion();
+        String ip_address = getIp_address();
+        String request_user_id = getRequest_user_id();
 
-        userModel.validate(User.USER_ACCOUNT, User.USER_PASSWORD);
-        userModel.set(Key.PLATFORM, getAttribute(Key.PLATFORM));
-        userModel.set(Key.VERSION, getAttribute(Key.VERSION));
-        userModel.set(Key.IP_ADDRESS, getAttribute(Key.IP_ADDRESS));
+        Map<String, Object> resultMap = adminService.login(model, platform, version, ip_address, request_user_id);
 
-        Map<String, Object> resultMap = adminService.login(userModel);
-
-        renderJson(resultMap);
+        renderSuccessJson(resultMap);
     }
 
 }

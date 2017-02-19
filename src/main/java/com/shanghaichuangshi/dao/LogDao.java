@@ -1,71 +1,44 @@
 package com.shanghaichuangshi.dao;
 
-import com.shanghaichuangshi.config.DynamicSQL;
+import com.jfinal.kit.JMap;
+import com.jfinal.plugin.activerecord.Db;
+import com.jfinal.plugin.activerecord.SqlPara;
 import com.shanghaichuangshi.model.Log;
-import com.shanghaichuangshi.util.DatabaseUtil;
-import com.shanghaichuangshi.util.Util;
 
 import java.util.List;
 
 public class LogDao extends Dao {
 
-    public int count() {
-        DynamicSQL dynamicSQL = new DynamicSQL();
+    public int count(String log_url) {
+        JMap map = JMap.create();
+        map.put(Log.LOG_URL, log_url);
+        SqlPara sqlPara = Db.getSqlPara("log.count", map);
 
-        dynamicSQL.append("SELECT COUNT(*) FROM ").append(Log.TABLE_LOG).append(" ");
-        dynamicSQL.append("WHERE ").append(Log.TABLE_LOG).append(".").append(Log.SYSTEM_STATUS).append(" = ? ", true);
-
-        return DatabaseUtil.count(dynamicSQL.getSql(), dynamicSQL.getParameterList());
+        Number count = Db.queryFirst(sqlPara.getSql(), sqlPara.getPara());
+        return count.intValue();
     }
 
-    public List<Log> list(String log_url, Integer m, Integer n) {
-        DynamicSQL dynamicSQL = new DynamicSQL();
+    public List<Log> list(String log_url, int m, int n) {
+        JMap map = JMap.create();
+        map.put(Log.LOG_URL, log_url);
+        map.put(Log.M, m);
+        map.put(Log.N, n);
+        SqlPara sqlPara = Db.getSqlPara("log.list", map);
 
-        dynamicSQL.append("SELECT ");
-        dynamicSQL.append(Log.TABLE_LOG).append(".").append(Log.LOG_ID).append(", ");
-        dynamicSQL.append(Log.TABLE_LOG).append(".").append(Log.LOG_URL).append(", ");
-        dynamicSQL.append(Log.TABLE_LOG).append(".").append(Log.LOG_CODE).append(", ");
-        dynamicSQL.append(Log.TABLE_LOG).append(".").append(Log.LOG_PLATFORM).append(", ");
-        dynamicSQL.append(Log.TABLE_LOG).append(".").append(Log.LOG_VERSION).append(", ");
-        dynamicSQL.append(Log.TABLE_LOG).append(".").append(Log.LOG_CREATE_TIME).append(", ");
-        dynamicSQL.append(Log.TABLE_LOG).append(".").append(Log.LOG_RUN_TIME).append(" ");
-        dynamicSQL.append("FROM ").append(Log.TABLE_LOG).append(" ");
-        dynamicSQL.append("WHERE ").append(Log.TABLE_LOG).append(".").append(Log.SYSTEM_STATUS).append(" = ? ", true);
-        if (!Util.isNullOrEmpty(log_url)) {
-            dynamicSQL.append("AND ").append(Log.TABLE_LOG).append(".").append(Log.LOG_URL).append(" LIKE ? ", "%" + log_url + "%");
-        }
-        dynamicSQL.append("ORDER BY ").append(Log.TABLE_LOG).append(".").append(Log.SYSTEM_CREATE_TIME).append(" DESC ");
-        if (n > 0) {
-            dynamicSQL.append("LIMIT ?, ? ", m, n);
-        }
-
-        return (List<Log>) DatabaseUtil.list(dynamicSQL.getSql(), dynamicSQL.getParameterList(), Log.class);
+        return new Log().find(sqlPara.getSql(), sqlPara.getPara());
     }
 
     public Log find(String log_id) {
-        DynamicSQL dynamicSQL = new DynamicSQL();
+        JMap map = JMap.create();
+        map.put(Log.LOG_ID, log_id);
+        SqlPara sqlPara = Db.getSqlPara("log.find", map);
 
-        dynamicSQL.append("SELECT ");
-        dynamicSQL.append(Log.TABLE_LOG).append(".* ");
-        dynamicSQL.append("FROM ").append(Log.TABLE_LOG).append(" ");
-        dynamicSQL.append("WHERE ").append(Log.TABLE_LOG).append(".").append(Log.SYSTEM_STATUS).append(" = ? ", true);
-        dynamicSQL.append("AND ").append(Log.TABLE_LOG).append(".").append(Log.LOG_ID).append(" = ? ", log_id);
-
-        return (Log) DatabaseUtil.find(dynamicSQL.getSql(), dynamicSQL.getParameterList(), Log.class);
-    }
-
-    public boolean save(Log log) {
-        log.setLog_id(Util.getRandomUUID());
-
-        return log.save();
-    }
-
-    public boolean update(Log log) {
-        return log.update();
-    }
-
-    public boolean delete(Log log) {
-        return log.delete();
+        List<Log> logList = new Log().find(sqlPara.getSql(), sqlPara.getPara());
+        if (logList.size() == 0) {
+            return null;
+        } else {
+            return logList.get(0);
+        }
     }
 
 }

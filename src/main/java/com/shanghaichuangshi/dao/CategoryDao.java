@@ -1,8 +1,9 @@
 package com.shanghaichuangshi.dao;
 
-import com.shanghaichuangshi.config.DynamicSQL;
+import com.jfinal.kit.JMap;
+import com.jfinal.plugin.activerecord.Db;
+import com.jfinal.plugin.activerecord.SqlPara;
 import com.shanghaichuangshi.model.Category;
-import com.shanghaichuangshi.util.DatabaseUtil;
 import com.shanghaichuangshi.util.Util;
 
 import java.util.Date;
@@ -10,128 +11,111 @@ import java.util.List;
 
 public class CategoryDao extends Dao {
 
-    public int count() {
-        DynamicSQL dynamicSQL = new DynamicSQL();
+    public int count(String category_name) {
+        JMap map = JMap.create();
+        map.put(Category.CATEGORY_NAME, category_name);
+        SqlPara sqlPara = Db.getSqlPara("category.count", map);
 
-        dynamicSQL.append("SELECT COUNT(*) FROM ").append(Category.TABLE_CATEGORY).append(" ");
-        dynamicSQL.append("WHERE ").append(Category.TABLE_CATEGORY).append(".").append(Category.SYSTEM_STATUS).append(" = ? ", true);
-
-        return DatabaseUtil.count(dynamicSQL.getSql(), dynamicSQL.getParameterList());
+        Number count = Db.queryFirst(sqlPara.getSql(), sqlPara.getPara());
+        return count.intValue();
     }
 
     public int countByCategory_idAndCategory_key(String category_id, String category_key) {
-        DynamicSQL dynamicSQL = new DynamicSQL();
+        JMap map = JMap.create();
+        map.put(Category.CATEGORY_ID, category_id);
+        map.put(Category.CATEGORY_KEY, category_key);
+        SqlPara sqlPara = Db.getSqlPara("category.countByCategory_idAndCategory_key", map);
 
-        dynamicSQL.append("SELECT COUNT(*) FROM ").append(Category.TABLE_CATEGORY).append(" ");
-        dynamicSQL.append("WHERE ").append(Category.TABLE_CATEGORY).append(".").append(Category.SYSTEM_STATUS).append(" = ? ", true);
-        if (!Util.isNullOrEmpty(category_id)) {
-            dynamicSQL.append("AND ").append(Category.TABLE_CATEGORY).append(".").append(Category.CATEGORY_ID).append(" != ? ", category_id);
-        }
-        dynamicSQL.append("AND ").append(Category.TABLE_CATEGORY).append(".").append(Category.CATEGORY_KEY).append(" = ? ", category_key);
-
-        return DatabaseUtil.count(dynamicSQL.getSql(), dynamicSQL.getParameterList());
+        Number count = Db.queryFirst(sqlPara.getSql(), sqlPara.getPara());
+        return count.intValue();
     }
 
-    public List<Category> list(String category_name, Integer m, Integer n) {
-        DynamicSQL dynamicSQL = new DynamicSQL();
+    public List<Category> list(String category_name, int m, int n) {
+        JMap map = JMap.create();
+        map.put(Category.CATEGORY_NAME, category_name);
+        map.put(Category.M, m);
+        map.put(Category.N, n);
+        SqlPara sqlPara = Db.getSqlPara("category.list", map);
 
-        dynamicSQL.append("SELECT ");
-        dynamicSQL.append(Category.TABLE_CATEGORY).append(".").append(Category.CATEGORY_ID).append(", ");
-        dynamicSQL.append(Category.TABLE_CATEGORY).append(".").append(Category.CATEGORY_NAME).append(", ");
-        dynamicSQL.append(Category.TABLE_CATEGORY).append(".").append(Category.CATEGORY_KEY).append(", ");
-        dynamicSQL.append(Category.TABLE_CATEGORY).append(".").append(Category.CATEGORY_SORT).append(" ");
-        dynamicSQL.append("FROM ").append(Category.TABLE_CATEGORY).append(" ");
-        dynamicSQL.append("WHERE ").append(Category.TABLE_CATEGORY).append(".").append(Category.SYSTEM_STATUS).append(" = ? ", true);
-        if (!Util.isNullOrEmpty(category_name)) {
-            dynamicSQL.append("AND ").append(Category.TABLE_CATEGORY).append(".").append(Category.CATEGORY_NAME).append(" LIKE ? ", "%" + category_name + "%");
-        }
-        dynamicSQL.append("AND ").append(Category.TABLE_CATEGORY).append(".").append(Category.PARENT_ID).append(" = '' ");
-        dynamicSQL.append("ORDER BY ").append(Category.TABLE_CATEGORY).append(".").append(Category.CATEGORY_SORT).append(" ASC, ").append(Category.TABLE_CATEGORY).append(".").append(Category.SYSTEM_CREATE_TIME).append(" ASC ");
-        if (n > 0) {
-            dynamicSQL.append("LIMIT ?, ? ", m, n);
-        }
-
-        return (List<Category>) DatabaseUtil.list(dynamicSQL.getSql(), dynamicSQL.getParameterList(), Category.class);
+        return new Category().find(sqlPara.getSql(), sqlPara.getPara());
     }
 
     public List<Category> treeListByCategory_path(String category_path) {
-        DynamicSQL dynamicSQL = new DynamicSQL();
+        JMap map = JMap.create();
+        map.put(Category.CATEGORY_PATH, "%" + category_path + "%");
+        SqlPara sqlPara = Db.getSqlPara("category.treeListByCategory_path", map);
 
-        dynamicSQL.append("SELECT ");
-        dynamicSQL.append(Category.TABLE_CATEGORY).append(".").append(Category.CATEGORY_ID).append(", ");
-        dynamicSQL.append(Category.TABLE_CATEGORY).append(".").append(Category.PARENT_ID).append(", ");
-        dynamicSQL.append(Category.TABLE_CATEGORY).append(".").append(Category.CATEGORY_NAME).append(", ");
-        dynamicSQL.append(Category.TABLE_CATEGORY).append(".").append(Category.CATEGORY_KEY).append(", ");
-        dynamicSQL.append(Category.TABLE_CATEGORY).append(".").append(Category.CATEGORY_VALUE).append(", ");
-        dynamicSQL.append(Category.TABLE_CATEGORY).append(".").append(Category.CATEGORY_REMARK).append(", ");
-        dynamicSQL.append(Category.TABLE_CATEGORY).append(".").append(Category.CATEGORY_SORT).append(" ");
-        dynamicSQL.append("FROM ").append(Category.TABLE_CATEGORY).append(" ");
-        dynamicSQL.append("WHERE ").append(Category.TABLE_CATEGORY).append(".").append(Category.SYSTEM_STATUS).append(" = ? ", true);
-        dynamicSQL.append("AND ").append(Category.TABLE_CATEGORY).append(".").append(Category.CATEGORY_PATH).append(" LIKE ? ", "%\"" + category_path + "\"%");
-        dynamicSQL.append("ORDER BY ").append(Category.TABLE_CATEGORY).append(".").append(Category.CATEGORY_SORT).append(" ASC, ").append(Category.TABLE_CATEGORY).append(".").append(Category.SYSTEM_CREATE_TIME).append(" ASC ");
-
-        return (List<Category>) DatabaseUtil.list(dynamicSQL.getSql(), dynamicSQL.getParameterList(), Category.class);
+        return new Category().find(sqlPara.getSql(), sqlPara.getPara());
     }
 
     public List<Category> treeListByCategory_key(String category_key) {
-        DynamicSQL dynamicSQL = new DynamicSQL();
+        JMap map = JMap.create();
+        map.put(Category.CATEGORY_KEY, category_key);
+        SqlPara sqlPara = Db.getSqlPara("category.treeListByCategory_key", map);
 
-        dynamicSQL.append("SELECT ");
-        dynamicSQL.append(Category.TABLE_CATEGORY).append(".").append(Category.CATEGORY_ID).append(", ");
-        dynamicSQL.append(Category.TABLE_CATEGORY).append(".").append(Category.CATEGORY_NAME).append(" ");
-        dynamicSQL.append("FROM ").append(Category.TABLE_CATEGORY).append(" ");
-        dynamicSQL.append("WHERE ").append(Category.TABLE_CATEGORY).append(".").append(Category.SYSTEM_STATUS).append(" = ? ", true);
-        dynamicSQL.append("AND ").append(Category.TABLE_CATEGORY).append(".").append(Category.CATEGORY_PATH).append(" LIKE (SELECT CONCAT('%', ").append(Category.CATEGORY_ID).append(",'%') FROM ").append(Category.TABLE_CATEGORY).append(" WHERE ").append(Category.CATEGORY_KEY).append(" = ? ) ", category_key);
-        dynamicSQL.append("ORDER BY ").append(Category.TABLE_CATEGORY).append(".").append(Category.CATEGORY_SORT).append(" ASC, ").append(Category.TABLE_CATEGORY).append(".").append(Category.SYSTEM_CREATE_TIME).append(" ASC ");
-
-        return (List<Category>) DatabaseUtil.list(dynamicSQL.getSql(), dynamicSQL.getParameterList(), Category.class);
+        return new Category().find(sqlPara.getSql(), sqlPara.getPara());
     }
 
     public Category find(String category_id) {
-        DynamicSQL dynamicSQL = new DynamicSQL();
+        JMap map = JMap.create();
+        map.put(Category.CATEGORY_ID, category_id);
+        SqlPara sqlPara = Db.getSqlPara("category.find", map);
 
-        dynamicSQL.append("SELECT ");
-        dynamicSQL.append(Category.TABLE_CATEGORY).append(".* ");
-        dynamicSQL.append("FROM ").append(Category.TABLE_CATEGORY).append(" ");
-        dynamicSQL.append("WHERE ").append(Category.TABLE_CATEGORY).append(".").append(Category.SYSTEM_STATUS).append(" = ? ", true);
-        dynamicSQL.append("AND ").append(Category.TABLE_CATEGORY).append(".").append(Category.CATEGORY_ID).append(" = ? ", category_id);
-
-        return (Category) DatabaseUtil.find(dynamicSQL.getSql(), dynamicSQL.getParameterList(), Category.class);
+        List<Category> categoryList = new Category().find(sqlPara.getSql(), sqlPara.getPara());
+        if (categoryList.size() == 0) {
+            return null;
+        } else {
+            return categoryList.get(0);
+        }
     }
 
     public Category findByCategory_key(String category_key) {
-        DynamicSQL dynamicSQL = new DynamicSQL();
+        JMap map = JMap.create();
+        map.put(Category.CATEGORY_KEY, category_key);
+        SqlPara sqlPara = Db.getSqlPara("category.findByCategory_key", map);
 
-        dynamicSQL.append("SELECT ");
-        dynamicSQL.append(Category.TABLE_CATEGORY).append(".* ");
-        dynamicSQL.append("FROM ").append(Category.TABLE_CATEGORY).append(" ");
-        dynamicSQL.append("WHERE ").append(Category.TABLE_CATEGORY).append(".").append(Category.SYSTEM_STATUS).append(" = ? ", true);
-        dynamicSQL.append("AND ").append(Category.TABLE_CATEGORY).append(".").append(Category.CATEGORY_KEY).append(" = ? ", category_key);
-
-        return (Category) DatabaseUtil.find(dynamicSQL.getSql(), dynamicSQL.getParameterList(), Category.class);
+        List<Category> categoryList = new Category().find(sqlPara.getSql(), sqlPara.getPara());
+        if (categoryList.size() == 0) {
+            return null;
+        } else {
+            return categoryList.get(0);
+        }
     }
 
-    public boolean save(Category category) {
+    public Category save(Category category, String request_user_id) {
         category.setCategory_id(Util.getRandomUUID());
+        category.setSystem_create_user_id(request_user_id);
+        category.setSystem_create_time(new Date());
+        category.setSystem_update_user_id(request_user_id);
+        category.setSystem_update_time(new Date());
+        category.setSystem_status(true);
+        category.save();
 
-        return category.save();
+        return category;
     }
 
-    public boolean update(Category category) {
+    public boolean update(Category category, String request_user_id) {
+        category.remove(Category.SYSTEM_CREATE_USER_ID);
+        category.remove(Category.SYSTEM_CREATE_TIME);
+        category.setSystem_update_user_id(request_user_id);
+        category.setSystem_update_time(new Date());
+        category.remove(Category.SYSTEM_STATUS);
+
+        System.out.println(category);
+        System.out.println("----------");
+
         return category.update();
     }
 
     public boolean delete(String category_id, String request_user_id) {
-        DynamicSQL dynamicSQL = new DynamicSQL();
+        JMap map = JMap.create();
+        map.put(Category.CATEGORY_ID, category_id);
+        map.put(Category.SYSTEM_UPDATE_USER_ID, request_user_id);
+        map.put(Category.SYSTEM_UPDATE_TIME, new Date());
+        map.put(Category.SYSTEM_STATUS, false);
+        SqlPara sqlPara = Db.getSqlPara("category.delete", map);
 
-        dynamicSQL.append("UPDATE ").append(Category.TABLE_CATEGORY).append(" SET ");
-        dynamicSQL.append(Category.SYSTEM_UPDATE_USER_ID).append(" = ?, ", request_user_id);
-        dynamicSQL.append(Category.SYSTEM_UPDATE_TIME).append(" = ?, ", new Date());
-        dynamicSQL.append(Category.SYSTEM_STATUS).append(" = ? ", false);
-        dynamicSQL.append("WHERE ").append(Category.TABLE_CATEGORY).append(".").append(Category.CATEGORY_ID).append(" = ? ", category_id);
-        dynamicSQL.append("OR ").append(Category.TABLE_CATEGORY).append(".").append(Category.CATEGORY_PATH).append(" LIKE ? ", "%\"" + category_id + "\"%");
-
-        return DatabaseUtil.update(dynamicSQL.getSql(), dynamicSQL.getParameterList());
+        return Db.update(sqlPara.getSql(), sqlPara.getPara()) == 1;
     }
 
 }

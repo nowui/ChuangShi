@@ -1,87 +1,74 @@
 package com.shanghaichuangshi.dao;
 
-import com.shanghaichuangshi.config.DynamicSQL;
-import com.shanghaichuangshi.constant.Global;
+import com.jfinal.kit.HashKit;
+import com.jfinal.kit.JMap;
+import com.jfinal.plugin.activerecord.Db;
+import com.jfinal.plugin.activerecord.SqlPara;
+import com.shanghaichuangshi.constant.Constant;
 import com.shanghaichuangshi.model.User;
-import com.shanghaichuangshi.util.DatabaseUtil;
-import com.shanghaichuangshi.util.HashUtil;
+import com.shanghaichuangshi.model.User;
 import com.shanghaichuangshi.util.Util;
 
 import java.util.Date;
+import java.util.List;
 
 public class UserDao extends Dao {
 
-    public int countByUser_idAndUser_account(String user_id, String user_account) {
-        DynamicSQL dynamicSQL = new DynamicSQL();
-
-        dynamicSQL.append("SELECT COUNT(*) FROM ").append(User.TABLE_USER).append(" ");
-        dynamicSQL.append("WHERE ").append(User.TABLE_USER).append(".").append(User.SYSTEM_STATUS).append(" = ? ", true);
-        if (!Util.isNullOrEmpty(user_id)) {
-            dynamicSQL.append("AND ").append(User.TABLE_USER).append(".").append(User.USER_ID).append(" != ? ", user_id);
-        }
-        dynamicSQL.append("AND ").append(User.TABLE_USER).append(".").append(User.USER_ACCOUNT).append(" = ? ", user_account);
-
-        return DatabaseUtil.count(dynamicSQL.getSql(), dynamicSQL.getParameterList());
+    private String generatePassword(String user_password) {
+        return HashKit.sha512(Constant.PRIVATE_KEY + user_password);
     }
 
-//    public List<User> list(String user_name, Integer m, Integer n) {
-//        DynamicSQL dynamicSQL = new DynamicSQL();
-//
-//        dynamicSQL.append("SELECT ");
-//        dynamicSQL.append(User.TABLE_USER).append(".").append(User.USER_ID).append(", ");
-//        dynamicSQL.append(User.TABLE_USER).append(".").append(User.USER_NAME).append(" ");
-//        dynamicSQL.append("FROM ").append(User.TABLE_USER).append(" ");
-//        dynamicSQL.append("WHERE ").append(User.TABLE_USER).append(".").append(User.SYSTEM_STATUS).append(" = ? ", true);
-//        if (!Util.isNullOrEmpty(user_name)) {
-//            dynamicSQL.append("AND ").append(User.TABLE_USER).append(".").append(User.USER_NAME).append(" LIKE ? ", "%" + user_name + "%");
-//        }
-//        dynamicSQL.append("ORDER BY ").append(User.TABLE_USER).append(".").append(User.SYSTEM_CREATE_TIME).append(" DESC ");
-//        dynamicSQL.append("LIMIT ?, ? ", m, n);
-//
-//        return (List<User>) DatabaseUtil.list(dynamicSQL.getSql(), dynamicSQL.getParameterList(), User.class);
-//    }
+    public int countByUser_idAndUser_account(String user_id, String user_account) {
+        JMap map = JMap.create();
+        map.put(User.USER_ID, user_id);
+        map.put(User.USER_ACCOUNT, user_account);
+        SqlPara sqlPara = Db.getSqlPara("user.countByUser_idAndUser_account", map);
+
+        Number count = Db.queryFirst(sqlPara.getSql(), sqlPara.getPara());
+        return count.intValue();
+    }
 
     public User findByUser_accountAndUser_passwordAndUser_type(String user_account, String user_password, String user_type) {
-        user_password = generatePassword(user_password);
+        JMap map = JMap.create();
+        map.put(User.USER_ACCOUNT, user_account);
+        map.put(User.USER_PASSWORD, generatePassword(user_password));
+        map.put(User.USER_TYPE, user_type);
+        SqlPara sqlPara = Db.getSqlPara("user.findByUser_accountAndUser_passwordAndUser_type", map);
 
-        DynamicSQL dynamicSQL = new DynamicSQL();
-
-        dynamicSQL.append("SELECT ");
-        dynamicSQL.append(User.TABLE_USER).append(".* ");
-        dynamicSQL.append("FROM ").append(User.TABLE_USER).append(" ");
-        dynamicSQL.append("WHERE ").append(User.TABLE_USER).append(".").append(User.SYSTEM_STATUS).append(" = ? ", true);
-        dynamicSQL.append("AND ").append(User.TABLE_USER).append(".").append(User.USER_ACCOUNT).append(" = ? ", user_account);
-        dynamicSQL.append("AND ").append(User.TABLE_USER).append(".").append(User.USER_PASSWORD).append(" = ? ", user_password);
-        dynamicSQL.append("AND ").append(User.TABLE_USER).append(".").append(User.USER_TYPE).append(" = ? ", user_type);
-
-        return (User) DatabaseUtil.find(dynamicSQL.getSql(), dynamicSQL.getParameterList(), User.class);
+        List<User> userList = new User().find(sqlPara.getSql(), sqlPara.getPara());
+        if (userList.size() == 0) {
+            return null;
+        } else {
+            return userList.get(0);
+        }
     }
 
-    public String saveByUser_accountAndUser_passwordAndObject_idAndUser_type(String user_account, String user_password, String object_id, String user_type, String request_user_id) {
-        String user_id = Util.getRandomUUID();
-        user_password = generatePassword(user_password);
-
+    public User saveByUser_accountAndUser_passwordAndObject_idAndUser_type(String user_account, String user_password, String object_id, String user_type, String request_user_id) {
         User user = new User();
-        user.setUser_id(user_id);
+        user.setUser_id(Util.getRandomUUID());
         user.setUser_account(user_account);
         user.setUser_password(generatePassword(user_password));
         user.setObject_id(object_id);
         user.setUser_type(user_type);
-        user.setRequest_user_id(request_user_id);
+        user.setSystem_create_user_id(request_user_id);
+        user.setSystem_create_time(new Date());
+        user.setSystem_update_user_id(request_user_id);
+        user.setSystem_update_time(new Date());
+        user.setSystem_status(true);
         user.save();
 
-        return user_id;
-    }
-
-    public boolean update(User user) {
-        return user.update();
+        return user;
     }
 
     public boolean updateByUser_idAndUser_account(String user_id, String user_account, String request_user_id) {
         User user = new User();
         user.setUser_id(user_id);
         user.setUser_account(user_account);
-        user.setRequest_user_id(request_user_id);
+        user.remove(User.SYSTEM_CREATE_USER_ID);
+        user.remove(User.SYSTEM_CREATE_TIME);
+        user.setSystem_update_user_id(request_user_id);
+        user.setSystem_update_time(new Date());
+        user.remove(User.SYSTEM_STATUS);
 
         return user.update();
     }
@@ -92,26 +79,25 @@ public class UserDao extends Dao {
         User user = new User();
         user.setUser_id(user_id);
         user.setUser_password(user_password);
-        user.setRequest_user_id(request_user_id);
+        user.remove(User.SYSTEM_CREATE_USER_ID);
+        user.remove(User.SYSTEM_CREATE_TIME);
+        user.setSystem_update_user_id(request_user_id);
+        user.setSystem_update_time(new Date());
+        user.remove(User.SYSTEM_STATUS);
 
         return user.update();
     }
 
     public boolean deleteByObject_idAndUser_type(String object_id, String user_type, String request_user_id) {
-        DynamicSQL dynamicSQL = new DynamicSQL();
+        JMap map = JMap.create();
+        map.put(User.OBJECT_ID, object_id);
+        map.put(User.USER_TYPE, user_type);
+        map.put(User.SYSTEM_UPDATE_USER_ID, request_user_id);
+        map.put(User.SYSTEM_UPDATE_TIME, new Date());
+        map.put(User.SYSTEM_STATUS, false);
+        SqlPara sqlPara = Db.getSqlPara("user.deleteByObject_idAndUser_type", map);
 
-        dynamicSQL.append("UPDATE ").append(User.TABLE_USER).append(" SET ");
-        dynamicSQL.append(User.SYSTEM_UPDATE_USER_ID).append(" = ?, ", request_user_id);
-        dynamicSQL.append(User.SYSTEM_UPDATE_TIME).append(" = ?, ", new Date());
-        dynamicSQL.append(User.SYSTEM_STATUS).append(" = ? ", false);
-        dynamicSQL.append("WHERE ").append(User.TABLE_USER).append(".").append(User.OBJECT_ID).append(" = ? ", object_id);
-        dynamicSQL.append("AND ").append(User.TABLE_USER).append(".").append(User.USER_TYPE).append(" = ? ", user_type);
-
-        return DatabaseUtil.update(dynamicSQL.getSql(), dynamicSQL.getParameterList());
-    }
-
-    private String generatePassword(String user_password) {
-        return HashUtil.sha512(Global.key + user_password);
+        return Db.update(sqlPara.getSql(), sqlPara.getPara()) == 1;
     }
 
 }

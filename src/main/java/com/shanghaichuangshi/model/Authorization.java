@@ -1,8 +1,6 @@
 package com.shanghaichuangshi.model;
 
 import com.shanghaichuangshi.annotation.Column;
-import com.shanghaichuangshi.annotation.Id;
-import com.shanghaichuangshi.annotation.Table;
 import com.shanghaichuangshi.type.ColumnType;
 import com.shanghaichuangshi.util.DateUtil;
 
@@ -10,10 +8,6 @@ import java.util.Date;
 
 public class Authorization extends Model<Authorization> {
 
-    @Table()
-    public static final String TABLE_AUTHORIZATION = "table_authorization";
-
-    @Id
     @Column(type = ColumnType.VARCHAR, length = 32, comment = "授权编号")
     public static final String AUTHORIZATION_ID = "authorization_id";
 
@@ -39,7 +33,7 @@ public class Authorization extends Model<Authorization> {
     public static final String AUTHORIZATION_EXPIRE_TIME = "authorization_expire_time";
 
     public String getAuthorization_id() {
-        return getString(AUTHORIZATION_ID);
+        return getStr(AUTHORIZATION_ID);
     }
 
     public void setAuthorization_id(String authorization_id) {
@@ -47,7 +41,7 @@ public class Authorization extends Model<Authorization> {
     }
 
     public String getAuthorization_token() {
-        return getString(AUTHORIZATION_TOKEN);
+        return getStr(AUTHORIZATION_TOKEN);
     }
 
     public void setAuthorization_token(String authorization_token) {
@@ -55,7 +49,7 @@ public class Authorization extends Model<Authorization> {
     }
 
     public String getUser_id() {
-        return getString(USER_ID);
+        return getStr(USER_ID);
     }
 
     public void setUser_id(String user_id) {
@@ -63,7 +57,7 @@ public class Authorization extends Model<Authorization> {
     }
 
     public String getAuthorization_platform() {
-        return getString(AUTHORIZATION_PLATFORM);
+        return getStr(AUTHORIZATION_PLATFORM);
     }
 
     public void setAuthorization_platform(String authorization_platform) {
@@ -71,7 +65,7 @@ public class Authorization extends Model<Authorization> {
     }
 
     public String getAuthorization_version() {
-        return getString(AUTHORIZATION_VERSION);
+        return getStr(AUTHORIZATION_VERSION);
     }
 
     public void setAuthorization_version(String authorization_version) {
@@ -79,7 +73,7 @@ public class Authorization extends Model<Authorization> {
     }
 
     public String getAuthorization_ip_address() {
-        return getString(AUTHORIZATION_IP_ADDRESS);
+        return getStr(AUTHORIZATION_IP_ADDRESS);
     }
 
     public void setAuthorization_ip_address(String authorization_ip_address) {

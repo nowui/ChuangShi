@@ -1,16 +1,10 @@
 package com.shanghaichuangshi.model;
 
 import com.shanghaichuangshi.annotation.Column;
-import com.shanghaichuangshi.annotation.Id;
-import com.shanghaichuangshi.annotation.Table;
 import com.shanghaichuangshi.type.ColumnType;
 
 public class Log extends Model<Log> {
 
-    @Table()
-    public static final String TABLE_LOG = "table_log";
-
-    @Id
     @Column(type = ColumnType.VARCHAR, length = 32, comment = "日志编号")
     public static final String LOG_ID = "log_id";
 
@@ -48,7 +42,7 @@ public class Log extends Model<Log> {
     public static final String LOG_RUN_TIME = "log_run_time";
 
     public String getLog_id() {
-        return getString(LOG_ID);
+        return getStr(LOG_ID);
     }
 
     public void setLog_id(String log_id) {
@@ -56,7 +50,7 @@ public class Log extends Model<Log> {
     }
 
     public String getLog_url() {
-        return getString(LOG_URL);
+        return getStr(LOG_URL);
     }
 
     public void setLog_url(String log_url) {
@@ -64,7 +58,7 @@ public class Log extends Model<Log> {
     }
 
     public String getLog_request() {
-        return getString(LOG_REQUEST);
+        return getStr(LOG_REQUEST);
     }
 
     public void setLog_request(String log_request) {
@@ -72,7 +66,7 @@ public class Log extends Model<Log> {
     }
 
     public String getLog_response() {
-        return getString(LOG_RESPONSE);
+        return getStr(LOG_RESPONSE);
     }
 
     public void setLog_response(String log_response) {
@@ -80,7 +74,7 @@ public class Log extends Model<Log> {
     }
 
     public String getAuthorization_id() {
-        return getString(AUTHORIZATION_ID);
+        return getStr(AUTHORIZATION_ID);
     }
 
     public void setAuthorization_id(String authorization_id) {
@@ -88,7 +82,7 @@ public class Log extends Model<Log> {
     }
 
     public String getUser_id() {
-        return getString(USER_ID);
+        return getStr(USER_ID);
     }
 
     public void setUser_id(String user_id) {
@@ -96,7 +90,7 @@ public class Log extends Model<Log> {
     }
 
     public String getLog_code() {
-        return getString(LOG_CODE);
+        return getStr(LOG_CODE);
     }
 
     public void setLog_code(String log_code) {
@@ -104,7 +98,7 @@ public class Log extends Model<Log> {
     }
 
     public String getLog_platform() {
-        return getString(LOG_PLATFORM);
+        return getStr(LOG_PLATFORM);
     }
 
     public void setLog_platform(String log_platform) {
@@ -112,7 +106,7 @@ public class Log extends Model<Log> {
     }
 
     public String getLog_version() {
-        return getString(LOG_VERSION);
+        return getStr(LOG_VERSION);
     }
 
     public void setLog_version(String log_version) {
@@ -120,7 +114,7 @@ public class Log extends Model<Log> {
     }
 
     public String getLog_ip_address() {
-        return getString(LOG_IP_ADDRESS);
+        return getStr(LOG_IP_ADDRESS);
     }
 
     public void setLog_ip_address(String log_ip_address) {
@@ -128,7 +122,7 @@ public class Log extends Model<Log> {
     }
 
     public String getLog_create_time() {
-        return getString(LOG_CREATE_TIME);
+        return getStr(LOG_CREATE_TIME);
     }
 
     public void setLog_create_time(String log_create_time) {
@@ -136,7 +130,7 @@ public class Log extends Model<Log> {
     }
 
     public String getLog_run_time() {
-        return getString(LOG_RUN_TIME);
+        return getStr(LOG_RUN_TIME);
     }
 
     public void setLog_run_time(String log_run_time) {

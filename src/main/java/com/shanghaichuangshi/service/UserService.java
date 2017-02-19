@@ -15,7 +15,9 @@ public class UserService extends Service {
             throw new RuntimeException("已经存在帐号:" + user_account);
         }
 
-        return userDao.saveByUser_accountAndUser_passwordAndObject_idAndUser_type(user_account, user_password, object_id, user_type, request_user_id);
+        User user = userDao.saveByUser_accountAndUser_passwordAndObject_idAndUser_type(user_account, user_password, object_id, user_type, request_user_id);
+
+        return user.getUser_id();
     }
 
     public User findByUser_accountAndUser_passwordAndUser_type(String user_account, String user_password, String user_type) {

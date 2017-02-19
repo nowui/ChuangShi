@@ -10,27 +10,15 @@ public class LogService extends Service {
     private final LogDao logDao = new LogDao();
 
     public int count(Log log) {
-        return logDao.count();
+        return logDao.count(log.getLog_url());
     }
 
-    public List<Log> list(Log log) {
-        return logDao.list(log.getLog_url(), log.getM(), log.getN());
+    public List<Log> list(Log log, int m, int n) {
+        return logDao.list(log.getLog_url(), m, n);
     }
 
     public Log find(Log log) {
         return logDao.find(log.getLog_id());
-    }
-
-    public void save(Log log) {
-        logDao.save(log);
-    }
-
-    public void update(Log log) {
-        logDao.update(log);
-    }
-
-    public void delete(Log log) {
-        logDao.delete(log);
     }
 
 }

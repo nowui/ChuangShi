@@ -1,9 +1,9 @@
 package com.shanghaichuangshi.dao;
 
-import com.shanghaichuangshi.config.DynamicSQL;
+import com.jfinal.kit.JMap;
+import com.jfinal.plugin.activerecord.Db;
+import com.jfinal.plugin.activerecord.SqlPara;
 import com.shanghaichuangshi.model.Admin;
-import com.shanghaichuangshi.model.User;
-import com.shanghaichuangshi.util.DatabaseUtil;
 import com.shanghaichuangshi.util.Util;
 
 import java.util.Date;
@@ -11,88 +11,96 @@ import java.util.List;
 
 public class AdminDao extends Dao {
 
-    public int count() {
-        DynamicSQL dynamicSQL = new DynamicSQL();
+    public int count(String admin_name) {
+        JMap map = JMap.create();
+        map.put(Admin.ADMIN_NAME, admin_name);
+        SqlPara sqlPara = Db.getSqlPara("admin.count", map);
 
-        dynamicSQL.append("SELECT COUNT(*) FROM ").append(Admin.TABLE_ADMIN).append(" ");
-        dynamicSQL.append("WHERE ").append(Admin.TABLE_ADMIN).append(".").append(Admin.SYSTEM_STATUS).append(" = ? ", true);
-
-        return DatabaseUtil.count(dynamicSQL.getSql(), dynamicSQL.getParameterList());
+        Number count = Db.queryFirst(sqlPara.getSql(), sqlPara.getPara());
+        return count.intValue();
     }
 
-    public List<Admin> list(String admin_name, Integer m, Integer n) {
-        DynamicSQL dynamicSQL = new DynamicSQL();
+    public List<Admin> list(String admin_name, int m, int n) {
+        JMap map = JMap.create();
+        map.put(Admin.ADMIN_NAME, admin_name);
+        map.put(Admin.M, m);
+        map.put(Admin.N, n);
+        SqlPara sqlPara = Db.getSqlPara("admin.list", map);
 
-        dynamicSQL.append("SELECT ");
-        dynamicSQL.append(Admin.TABLE_ADMIN).append(".").append(Admin.ADMIN_ID).append(", ");
-        dynamicSQL.append(Admin.TABLE_ADMIN).append(".").append(Admin.ADMIN_NAME).append(", ");
-        dynamicSQL.append(User.TABLE_USER).append(".").append(User.USER_ACCOUNT).append(" ");
-        dynamicSQL.append("FROM ").append(Admin.TABLE_ADMIN).append(" ");
-        dynamicSQL.append("LEFT JOIN ").append(User.TABLE_USER).append(" ON ").append(User.TABLE_USER).append(".").append(User.USER_ID).append(" = ").append(Admin.TABLE_ADMIN).append(".").append(Admin.USER_ID).append(" ");
-        dynamicSQL.append("WHERE ").append(Admin.TABLE_ADMIN).append(".").append(Admin.SYSTEM_STATUS).append(" = ? ", true);
-        if (!Util.isNullOrEmpty(admin_name)) {
-            dynamicSQL.append("AND ").append(Admin.TABLE_ADMIN).append(".").append(Admin.ADMIN_NAME).append(" LIKE ? ", "%" + admin_name + "%");
-        }
-        dynamicSQL.append("ORDER BY ").append(Admin.TABLE_ADMIN).append(".").append(Admin.SYSTEM_CREATE_TIME).append(" DESC ");
-        if (n > 0) {
-            dynamicSQL.append("LIMIT ?, ? ", m, n);
-        }
-
-        return (List<Admin>) DatabaseUtil.list(dynamicSQL.getSql(), dynamicSQL.getParameterList(), Admin.class);
+        return new Admin().find(sqlPara.getSql(), sqlPara.getPara());
     }
 
     public Admin find(String admin_id) {
-        DynamicSQL dynamicSQL = new DynamicSQL();
+        JMap map = JMap.create();
+        map.put(Admin.ADMIN_ID, admin_id);
+        SqlPara sqlPara = Db.getSqlPara("admin.find", map);
 
-        dynamicSQL.append("SELECT ");
-        dynamicSQL.append(Admin.TABLE_ADMIN).append(".*, ");
-        dynamicSQL.append(User.TABLE_USER).append(".").append(User.USER_ACCOUNT).append(" ");
-        dynamicSQL.append("FROM ").append(Admin.TABLE_ADMIN).append(" ");
-        dynamicSQL.append("LEFT JOIN ").append(User.TABLE_USER).append(" ON ").append(User.TABLE_USER).append(".").append(User.USER_ID).append(" = ").append(Admin.TABLE_ADMIN).append(".").append(Admin.USER_ID).append(" ");
-        dynamicSQL.append("WHERE ").append(Admin.TABLE_ADMIN).append(".").append(Admin.SYSTEM_STATUS).append(" = ? ", true);
-        dynamicSQL.append("AND ").append(Admin.TABLE_ADMIN).append(".").append(Admin.ADMIN_ID).append(" = ? ", admin_id);
-
-        return (Admin) DatabaseUtil.find(dynamicSQL.getSql(), dynamicSQL.getParameterList(), Admin.class);
+        List<Admin> adminList = new Admin().find(sqlPara.getSql(), sqlPara.getPara());
+        if (adminList.size() == 0) {
+            return null;
+        } else {
+            return adminList.get(0);
+        }
     }
 
     public Admin findByUser_id(String user_id) {
-        DynamicSQL dynamicSQL = new DynamicSQL();
+        JMap map = JMap.create();
+        map.put(Admin.USER_ID, user_id);
+        SqlPara sqlPara = Db.getSqlPara("admin.findByUser_id", map);
 
-        dynamicSQL.append("SELECT ");
-        dynamicSQL.append(Admin.TABLE_ADMIN).append(".* ");
-        dynamicSQL.append("FROM ").append(Admin.TABLE_ADMIN).append(" ");
-        dynamicSQL.append("WHERE ").append(Admin.TABLE_ADMIN).append(".").append(Admin.SYSTEM_STATUS).append(" = ? ", true);
-        dynamicSQL.append("AND ").append(Admin.TABLE_ADMIN).append(".").append(Admin.USER_ID).append(" = ? ", user_id);
+        System.out.println(sqlPara.getSql());
+        System.out.println("+++");
 
-        return (Admin) DatabaseUtil.find(dynamicSQL.getSql(), dynamicSQL.getParameterList(), Admin.class);
+        List<Admin> adminList = new Admin().find(sqlPara.getSql(), sqlPara.getPara());
+        if (adminList.size() == 0) {
+            return null;
+        } else {
+            return adminList.get(0);
+        }
     }
 
-    public String save(Admin admin) {
+    public Admin save(Admin admin, String request_user_id) {
         admin.setAdmin_id(Util.getRandomUUID());
-
+        admin.setSystem_create_user_id(request_user_id);
+        admin.setSystem_create_time(new Date());
+        admin.setSystem_update_user_id(request_user_id);
+        admin.setSystem_update_time(new Date());
+        admin.setSystem_status(true);
         admin.save();
 
-        return admin.getAdmin_id();
+        return admin;
     }
 
-    public boolean update(Admin admin) {
+    public boolean update(Admin admin, String request_user_id) {
+        admin.remove(Admin.SYSTEM_CREATE_USER_ID);
+        admin.remove(Admin.SYSTEM_CREATE_TIME);
+        admin.setSystem_update_user_id(request_user_id);
+        admin.setSystem_update_time(new Date());
+        admin.remove(Admin.SYSTEM_STATUS);
+
         return admin.update();
     }
 
-    public boolean updateByAdmin_idAndUser_id(String admin_id, String user_id, String request_user_id) {
-        DynamicSQL dynamicSQL = new DynamicSQL();
+    public boolean updateByAdmin_idAndUser_id(String admin_id, String user_id, String request_admin_id) {
+        JMap map = JMap.create();
+        map.put(Admin.ADMIN_ID, admin_id);
+        map.put(Admin.USER_ID, user_id);
+        map.put(Admin.SYSTEM_UPDATE_USER_ID, request_admin_id);
+        map.put(Admin.SYSTEM_UPDATE_TIME, new Date());
+        SqlPara sqlPara = Db.getSqlPara("admin.updateByAdmin_idAndUser_id", map);
 
-        dynamicSQL.append("UPDATE ").append(Admin.TABLE_ADMIN).append(" SET ");
-        dynamicSQL.append(Admin.USER_ID).append(" = ?, ", user_id);
-        dynamicSQL.append(Admin.SYSTEM_UPDATE_USER_ID).append(" = ?, ", request_user_id);
-        dynamicSQL.append(Admin.SYSTEM_UPDATE_TIME).append(" = ? ", new Date());
-        dynamicSQL.append("WHERE ").append(Admin.TABLE_ADMIN).append(".").append(Admin.ADMIN_ID).append(" = ? ", admin_id);
-
-        return DatabaseUtil.update(dynamicSQL.getSql(), dynamicSQL.getParameterList());
+        return Db.update(sqlPara.getSql(), sqlPara.getPara()) == 1;
     }
 
-    public boolean delete(Admin admin) {
-        return admin.delete();
+    public boolean delete(String admin_id, String request_admin_id) {
+        JMap map = JMap.create();
+        map.put(Admin.ADMIN_ID, admin_id);
+        map.put(Admin.SYSTEM_UPDATE_USER_ID, request_admin_id);
+        map.put(Admin.SYSTEM_UPDATE_TIME, new Date());
+        map.put(Admin.SYSTEM_STATUS, false);
+        SqlPara sqlPara = Db.getSqlPara("admin.delete", map);
+
+        return Db.update(sqlPara.getSql(), sqlPara.getPara()) == 1;
     }
 
 }

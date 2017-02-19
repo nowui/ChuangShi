@@ -24,19 +24,19 @@ public class Code extends Model<Code> {
     public static final String COLUMN_COMMENT = "column_comment";
 
     public String getTable_name() {
-        return getString(TABLE_NAME);
+        return getStr(TABLE_NAME);
     }
 
     public String getColumn_name() {
-        return getString(COLUMN_NAME);
+        return getStr(COLUMN_NAME);
     }
 
     public String getData_type() {
-        return getString(DATA_TYPE);
+        return getStr(DATA_TYPE);
     }
 
     public String getCharacter_maximM_length() {
-        String length = getColumn_type().replace(getString(CHARACTER_MAXIMM_LENGTH), "").replace("(", "").replace(")", "");
+        String length = getColumn_type().replace(getStr(CHARACTER_MAXIMM_LENGTH), "").replace("(", "").replace(")", "");
 
         System.out.println(length);
 
@@ -47,11 +47,11 @@ public class Code extends Model<Code> {
     }
 
     public String getColumn_type() {
-        return getString(COLUMN_TYPE);
+        return getStr(COLUMN_TYPE);
     }
 
     public String getColumn_comment() {
-        return getString(COLUMN_COMMENT);
+        return getStr(COLUMN_COMMENT);
     }
 
 }

@@ -1,6 +1,7 @@
 package com.shanghaichuangshi.controller;
 
-import com.shanghaichuangshi.annotation.Path;
+import com.jfinal.core.ActionKey;
+import com.jfinal.plugin.activerecord.Record;
 import com.shanghaichuangshi.constant.Url;
 import com.shanghaichuangshi.model.Code;
 import com.shanghaichuangshi.service.CodeService;
@@ -20,40 +21,40 @@ public class CodeController extends Controller {
 
     private final CodeService codeService = new CodeService();
 
-    @Path(Url.CODE_LIST)
+    @ActionKey(Url.CODE_LIST)
     public void list() {
-        Code codeModel = getModel(Code.class);
+        Code codeModel = getParameter(Code.class);
 
-        List<Code> tableList = codeService.listTable(codeModel.getTable_name());
+        List<Record> tableList = codeService.listTable(codeModel.getTable_name());
 
-        renderJson(tableList.size(), tableList);
+        renderSuccessJson(tableList.size(), tableList);
     }
 
-    @Path(Url.CODE_SAVE)
+    @ActionKey(Url.CODE_SAVE)
     public void save() throws IOException {
-        Code codeModel = getModel(Code.class);
+        Code codeModel = getParameter(Code.class);
 
         codeModel.validate(Code.TABLE_NAME);
 
         String table_name = codeModel.getTable_name();
 
-        List<Code> codeList = codeService.listColumn(codeModel.getTable_name());
+        List<Record> codeList = codeService.listColumn(codeModel.getTable_name());
 
-        List<Code> columnList = new ArrayList<Code>();
+        List<Record> columnList = new ArrayList<Record>();
 
-        for (Code code : codeList) {
-            if (! code.getColumn_name().startsWith("system_")) {
-                code.set("first_column_name", code.getColumn_name().substring(0, 1).toUpperCase() + code.getColumn_name().substring(1));
+        for (Record record : codeList) {
+            if (! record.getStr("column_name").startsWith("system_")) {
+                record.set("first_column_name", record.getStr("column_name").substring(0, 1).toUpperCase() + record.getStr("column_name").substring(1));
 
-                String length = code.getString("column_type").replace(code.get("data_type").toString(), "").replace("(", "").replace(")", "");
+                String length = record.getStr("column_type").replace(record.get("data_type").toString(), "").replace("(", "").replace(")", "");
 
                 if (length.equals("") || length.contains(",")) {
                     length = "0";
                 }
 
-                code.set("character_maximum_length", length);
+                record.set("character_maximum_length", length);
 
-                columnList.add(code);
+                columnList.add(record);
             }
         }
 
@@ -73,10 +74,10 @@ public class CodeController extends Controller {
         write(lowerModelName, upperModelName, firstModelName, columnList, "/router.template", "Router.js");
         write(lowerModelName, upperModelName, firstModelName, columnList, "/app.template", "index.js");
 
-        renderJson("");
+        renderSuccessJson("");
     }
 
-    private void write(String lowerModelName, String upperModelName, String firstModelName, List<Code> columnList, String templateName, String fileName) throws IOException {
+    private void write(String lowerModelName, String upperModelName, String firstModelName, List<Record> columnList, String templateName, String fileName) throws IOException {
         String root = System.getProperty("user.dir") + File.separator + "/src/main/resources/template";
         FileResourceLoader resourceLoader = new FileResourceLoader(root, "utf-8");
         Configuration configuration = Configuration.defaultConfiguration();

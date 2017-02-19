@@ -1,7 +1,7 @@
 package com.shanghaichuangshi.service;
 
 import com.alibaba.fastjson.JSONArray;
-import com.shanghaichuangshi.constant.Key;
+import com.shanghaichuangshi.constant.Constant;
 import com.shanghaichuangshi.dao.CategoryDao;
 import com.shanghaichuangshi.model.Category;
 import com.shanghaichuangshi.util.Util;
@@ -16,11 +16,11 @@ public class CategoryService extends Service {
     private final CategoryDao categoryDao = new CategoryDao();
 
     public int count(Category category) {
-        return categoryDao.count();
+        return categoryDao.count(category.getCategory_name());
     }
 
-    public List<Category> list(Category category) {
-        return categoryDao.list(category.getCategory_name(), category.getM(), category.getN());
+    public List<Category> list(Category category, int m, int n) {
+        return categoryDao.list(category.getCategory_name(), m, n);
     }
 
     public Category treeList(Category category) {
@@ -28,8 +28,8 @@ public class CategoryService extends Service {
 
         List<Category> categoryList = categoryDao.treeListByCategory_path(category.getCategory_id());
 
-        c.set(Key.KEY, c.getCategory_id());
-        c.set(Key.CHILDREN, getChildren(categoryList, c.getCategory_id()));
+        c.put(Constant.KEY, c.getCategory_id());
+        c.put(Constant.CHILDREN, getChildren(categoryList, c.getCategory_id()));
 
         return c;
     }
@@ -39,8 +39,8 @@ public class CategoryService extends Service {
 
         List<Category> categoryList = categoryDao.treeListByCategory_path(category.getCategory_id());
 
-        category.set(Key.KEY, category.getCategory_id());
-        category.set(Key.CHILDREN, getMenuChildren(categoryList, category.getCategory_id()));
+        category.put(Constant.KEY, category.getCategory_id());
+        category.put(Constant.CHILDREN, getMenuChildren(categoryList, category.getCategory_id()));
 
         return category;
     }
@@ -65,7 +65,7 @@ public class CategoryService extends Service {
         }
     }
 
-    public void save(Category category) {
+    public Category save(Category category, String request_user_id) {
         checkByCategory_idAndCategory_key("", category.getCategory_key());
 
         JSONArray jsonArray = new JSONArray();
@@ -88,17 +88,17 @@ public class CategoryService extends Service {
             }
         }
 
-        categoryDao.save(category);
+        return categoryDao.save(category, request_user_id);
     }
 
-    public void update(Category category) {
+    public void update(Category category, String request_user_id) {
         checkByCategory_idAndCategory_key(category.getCategory_id(), category.getCategory_key());
 
-        categoryDao.update(category);
+        categoryDao.update(category, request_user_id);
     }
 
-    public void delete(Category category) {
-        categoryDao.delete(category.getCategory_id(), category.getRequest_user_id());
+    public void delete(Category category, String request_user_id) {
+        categoryDao.delete(category.getCategory_id(), request_user_id);
     }
 
     private List<Map<String, Object>> getChildren(List<Category> categoryList, String parent_id) {
@@ -106,7 +106,7 @@ public class CategoryService extends Service {
         for (Category category : categoryList) {
             if (category.getParent_id().equals(parent_id)) {
                 Map<String, Object> map = new HashMap<String, Object>();
-                map.put(Key.KEY, category.getCategory_id());
+                map.put(Constant.KEY, category.getCategory_id());
                 map.put(Category.CATEGORY_ID, category.getCategory_id());
                 map.put(Category.CATEGORY_NAME, category.getCategory_name());
                 map.put(Category.CATEGORY_KEY, category.getCategory_key());
@@ -114,7 +114,7 @@ public class CategoryService extends Service {
 
                 List<Map<String, Object>> childrenList = getChildren(categoryList, category.getCategory_id());
                 if (childrenList.size() > 0) {
-                    map.put(Key.CHILDREN, childrenList);
+                    map.put(Constant.CHILDREN, childrenList);
                 }
                 list.add(map);
             }
@@ -127,7 +127,7 @@ public class CategoryService extends Service {
         for (Category category : categoryList) {
             if (category.getParent_id().equals(parent_id)) {
                 Map<String, Object> map = new HashMap<String, Object>();
-                map.put(Key.KEY, category.getCategory_id());
+                map.put(Constant.KEY, category.getCategory_id());
                 map.put(Category.CATEGORY_ID, category.getCategory_id());
                 map.put(Category.CATEGORY_NAME, category.getCategory_name());
                 map.put(Category.CATEGORY_VALUE, category.getCategory_value());
@@ -135,7 +135,7 @@ public class CategoryService extends Service {
 
                 List<Map<String, Object>> childrenList = getMenuChildren(categoryList, category.getCategory_id());
                 if (childrenList.size() > 0) {
-                    map.put(Key.CHILDREN, childrenList);
+                    map.put(Constant.CHILDREN, childrenList);
                 }
                 list.add(map);
             }

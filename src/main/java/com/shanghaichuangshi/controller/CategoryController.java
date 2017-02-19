@@ -1,7 +1,7 @@
 package com.shanghaichuangshi.controller;
 
-import com.shanghaichuangshi.annotation.Path;
-import com.shanghaichuangshi.constant.Key;
+import com.jfinal.core.ActionKey;
+import com.shanghaichuangshi.constant.Constant;
 import com.shanghaichuangshi.constant.Url;
 import com.shanghaichuangshi.model.Category;
 import com.shanghaichuangshi.service.CategoryService;
@@ -12,87 +12,92 @@ public class CategoryController extends Controller {
 
     private final CategoryService categoryService = new CategoryService();
 
-    @Path(Url.CATEGORY_ADMIN_LIST)
+    @ActionKey(Url.CATEGORY_ADMIN_LIST)
     public void adminList() {
-        Category categoryModel = getModel(Category.class);
+        validate(Constant.PAGE_INDEX, Constant.PAGE_SIZE);
 
-        categoryModel.validate(Category.CATEGORY_NAME, Category.PAGE_INDEX, Category.PAGE_SIZE);
+        Category model = getParameter(Category.class);
 
-        int count = categoryService.count(categoryModel);
+        model.validate(Category.CATEGORY_NAME);
 
-        List<Category> categoryList = categoryService.list(categoryModel);
+        int count = categoryService.count(model);
 
-        renderJson(count, categoryList);
+        List<Category> categoryList = categoryService.list(model, getM(), getN());
+
+        renderSuccessJson(count, categoryList);
     }
 
-    @Path(Url.CATEGORY_ADMIN_TREE_LIST)
+    @ActionKey(Url.CATEGORY_ADMIN_TREE_LIST)
     public void adminTreeList() {
-        Category categoryModel = getModel(Category.class);
+        Category model = getParameter(Category.class);
 
-        categoryModel.validate(Category.CATEGORY_ID);
+        model.validate(Category.CATEGORY_ID);
 
-        Category category = categoryService.treeList(categoryModel);
+        Category category = categoryService.treeList(model);
 
-        category.keep(Category.CATEGORY_ID, Category.CATEGORY_NAME, Key.CHILDREN);
+        category.keep(Category.CATEGORY_ID, Category.CATEGORY_NAME, Constant.CHILDREN);
 
-        renderJson(category);
+        renderSuccessJson(category);
     }
 
-    @Path(Url.CATEGORY_FIND)
+    @ActionKey(Url.CATEGORY_FIND)
     public void find() {
-        Category categoryModel = getModel(Category.class);
+        Category model = getParameter(Category.class);
 
-        categoryModel.validate(Category.CATEGORY_ID);
+        model.validate(Category.CATEGORY_ID);
 
-        Category category = categoryService.find(categoryModel);
+        Category category = categoryService.find(model);
 
         category.removeUnfindable();
 
-        renderJson(category);
+        renderSuccessJson(category);
     }
 
-    @Path(Url.CATEGORY_ADMIN_FIND)
+    @ActionKey(Url.CATEGORY_ADMIN_FIND)
     public void adminFind() {
-        Category categoryModel = getModel(Category.class);
+        Category model = getParameter(Category.class);
 
-        categoryModel.validate(Category.CATEGORY_ID);
+        model.validate(Category.CATEGORY_ID);
 
-        Category category = categoryService.find(categoryModel);
+        Category category = categoryService.find(model);
 
-        renderJson("");
+        renderSuccessJson();
     }
 
-    @Path(Url.CATEGORY_SAVE)
+    @ActionKey(Url.CATEGORY_SAVE)
     public void save() {
-        Category categoryModel = getModel(Category.class);
+        Category model = getParameter(Category.class);
+        String request_user_id = getRequest_user_id();
 
-        categoryModel.validate(Category.CATEGORY_NAME, Category.CATEGORY_SORT);
+        model.validate(Category.CATEGORY_NAME, Category.CATEGORY_SORT);
 
-        categoryService.save(categoryModel);
+        categoryService.save(model, request_user_id);
 
-        renderJson("");
+        renderSuccessJson();
     }
 
-    @Path(Url.CATEGORYL_UPDATE)
+    @ActionKey(Url.CATEGORYL_UPDATE)
     public void update() {
-        Category categoryModel = getModel(Category.class);
+        Category model = getParameter(Category.class);
+        String request_user_id = getRequest_user_id();
 
-        categoryModel.validate(Category.CATEGORY_ID, Category.CATEGORY_NAME, Category.CATEGORY_SORT);
+        model.validate(Category.CATEGORY_ID, Category.CATEGORY_NAME, Category.CATEGORY_SORT);
 
-        categoryService.update(categoryModel);
+        categoryService.update(model, request_user_id);
 
-        renderJson("");
+        renderSuccessJson();
     }
 
-    @Path(Url.CATEGORY_DELETE)
+    @ActionKey(Url.CATEGORY_DELETE)
     public void delete() {
-        Category categoryModel = getModel(Category.class);
+        Category model = getParameter(Category.class);
+        String request_user_id = getRequest_user_id();
 
-        categoryModel.validate(Category.CATEGORY_ID);
+        model.validate(Category.CATEGORY_ID);
 
-        categoryService.delete(categoryModel);
+        categoryService.delete(model, request_user_id);
 
-        renderJson("");
+        renderSuccessJson();
     }
 
 }
