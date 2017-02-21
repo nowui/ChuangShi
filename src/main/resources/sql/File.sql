@@ -12,7 +12,8 @@
   #sql("list")
     SELECT
     file_id,
-    file_name,
+    file_thumbnail,
+    file_path
     FROM table_file
     WHERE system_status = 1
     #if(file_name)

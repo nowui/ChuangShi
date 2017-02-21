@@ -66,7 +66,7 @@
     SELECT
     *
     FROM table_category
-    WHERE table_category.system_status = 1
+    WHERE system_status = 1
     AND category_id = #p(category_id)
   #end
 

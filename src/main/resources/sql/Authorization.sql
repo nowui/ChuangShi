@@ -32,7 +32,7 @@
     SELECT
     *
     FROM table_authorization
-    WHERE table_authorization.system_status = 1
+    WHERE system_status = 1
     AND authorization_id = #p(authorization_id)
   #end
 

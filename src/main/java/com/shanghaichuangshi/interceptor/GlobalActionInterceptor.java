@@ -41,6 +41,8 @@ public class GlobalActionInterceptor implements Interceptor {
 
     static {
         uncheckTokenUrlList.add(Url.ADMIN_LOGIN);
+
+        uncheckParameterUrlList.add(Url.UPLOAD_IMAGE);
     }
 
     public void intercept(Invocation invocation) {
@@ -48,7 +50,11 @@ public class GlobalActionInterceptor implements Interceptor {
 
         Connection connection = null;
         Controller controller = (Controller) invocation.getController();
-        ;
+
+        if (controller.getRequest().getMethod().equals("OPTIONS")) {
+//            return;
+        }
+
         String url = controller.getRequest().getRequestURI();
         int log_code = HttpStatus.SC_OK;
         String token = "";
@@ -60,7 +66,7 @@ public class GlobalActionInterceptor implements Interceptor {
         JSONObject parameter = new JSONObject();
 
         controller.getResponse().setHeader("Access-Control-Allow-Origin", "*");
-        controller.getResponse().setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS, HEAD");
+        controller.getResponse().setHeader("Access-Control-Allow-Methods", "GET, POST, HEAD, PUT, DELETE");
         controller.getResponse().setHeader("Access-Control-Allow-Headers", "Accept, Origin, X-Requested-With, Content-Type, Last-Modified, Token, Platform, Version");
         controller.getResponse().setHeader("Access-Control-Max-Age", "7200");
         controller.getResponse().setHeader("Access-Control-Allow-Credentials", "true");

@@ -1,6 +1,8 @@
 package com.shanghaichuangshi.controller;
 
+import com.alibaba.fastjson.JSONObject;
 import com.jfinal.core.ActionKey;
+import com.jfinal.kit.JMap;
 import com.jfinal.kit.PathKit;
 import com.jfinal.plugin.activerecord.Record;
 import com.jfinal.template.Engine;
@@ -8,17 +10,20 @@ import com.jfinal.template.Template;
 import com.shanghaichuangshi.constant.Url;
 import com.shanghaichuangshi.model.Code;
 import com.shanghaichuangshi.service.CodeService;
+import com.shanghaichuangshi.util.Util;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStreamWriter;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class CodeController extends Controller {
 
     private static final CodeService codeService = new CodeService();
+    private static final Engine engine = Engine.create("engine");
+
+    static {
+        engine.setBaseTemplatePath(PathKit.getRootClassPath() + "/template/");
+    }
 
     @ActionKey(Url.CODE_LIST)
     public void list() {
@@ -31,27 +36,29 @@ public class CodeController extends Controller {
 
     @ActionKey(Url.CODE_SAVE)
     public void save() throws IOException {
-        Code codeModel = getParameter(Code.class);
+        JSONObject jsonObject = getParameterJSONObject();
 
-        codeModel.validate(Code.TABLE_NAME);
+        String table_name = jsonObject.getString("table_name");
 
-        String table_name = codeModel.getTable_name();
-
-        List<Record> codeList = codeService.listColumn(codeModel.getTable_name());
+        List<Record> codeList = codeService.listColumn(table_name);
 
         List<Record> columnList = new ArrayList<Record>();
 
         for (Record record : codeList) {
             if (! record.getStr("column_name").startsWith("system_")) {
-                record.set("first_column_name", record.getStr("column_name").substring(0, 1).toUpperCase() + record.getStr("column_name").substring(1));
+                if (Util.isNullOrEmpty(record.get("character_maximum_length"))) {
+                    String length = record.getStr("column_type").replace(record.get("data_type").toString(), "").replace("(", "").replace(")", "");
 
-                String length = record.getStr("column_type").replace(record.get("data_type").toString(), "").replace("(", "").replace(")", "");
+                    if (length.equals("") || length.contains(",")) {
+                        length = "0";
+                    }
 
-                if (length.equals("") || length.contains(",")) {
-                    length = "0";
+                    record.set("character_maximum_length", length);
                 }
 
-                record.set("character_maximum_length", length);
+                record.set("first_column_name", record.getStr("column_name").substring(0, 1).toUpperCase() + record.getStr("column_name").substring(1));
+                record.set("data_type", record.getStr("data_type").toUpperCase());
+                record.set("upper_column_name", record.getStr("column_name").toUpperCase());
 
                 columnList.add(record);
             }
@@ -61,22 +68,23 @@ public class CodeController extends Controller {
         String upperModelName = lowerModelName.toUpperCase();
         String firstModelName = lowerModelName.substring(0, 1).toUpperCase() + lowerModelName.substring(1);
 
-        write(lowerModelName, upperModelName, firstModelName, columnList, "/url.template", "Url.java");
-        write(lowerModelName, upperModelName, firstModelName, columnList, "/model.template", firstModelName + ".java");
-        write(lowerModelName, upperModelName, firstModelName, columnList, "/dao.template", firstModelName + "Dao.java");
-        write(lowerModelName, upperModelName, firstModelName, columnList, "/service.template", firstModelName + "Service.java");
-        write(lowerModelName, upperModelName, firstModelName, columnList, "/controller.template", firstModelName + "Controller.java");
-        write(lowerModelName, upperModelName, firstModelName, columnList, "/config.template", "WebConfig.java");
-        write(lowerModelName, upperModelName, firstModelName, columnList, "/state.template", lowerModelName + ".js");
-        write(lowerModelName, upperModelName, firstModelName, columnList, "/index.template", firstModelName + "Index.js");
-        write(lowerModelName, upperModelName, firstModelName, columnList, "/detail.template", firstModelName + "Detail.js");
-        write(lowerModelName, upperModelName, firstModelName, columnList, "/router.template", "Router.js");
-        write(lowerModelName, upperModelName, firstModelName, columnList, "/app.template", "index.js");
+        write(lowerModelName, upperModelName, firstModelName, columnList, "url.template", "Url.java");
+        write(lowerModelName, upperModelName, firstModelName, columnList, "model.template", firstModelName + ".java");
+        write(lowerModelName, upperModelName, firstModelName, columnList, "dao.template", firstModelName + "Dao.java");
+        write(lowerModelName, upperModelName, firstModelName, columnList, "service.template", firstModelName + "Service.java");
+        write(lowerModelName, upperModelName, firstModelName, columnList, "controller.template", firstModelName + "Controller.java");
+        write(lowerModelName, upperModelName, firstModelName, columnList, "config.template", "WebConfig.java");
+        write(lowerModelName, upperModelName, firstModelName, columnList, "state.template", lowerModelName + ".js");
+        write(lowerModelName, upperModelName, firstModelName, columnList, "index.template", firstModelName + "Index.js");
+        write(lowerModelName, upperModelName, firstModelName, columnList, "detail.template", firstModelName + "Detail.js");
+        write(lowerModelName, upperModelName, firstModelName, columnList, "router.template", "Router.js");
+        write(lowerModelName, upperModelName, firstModelName, columnList, "app.template", "index.js");
+        write(lowerModelName, upperModelName, firstModelName, columnList, "sql.template", firstModelName + ".sql");
 
         renderSuccessJson("");
     }
 
-    private void write(String lowerModelName, String upperModelName, String firstModelName, List<Record> columnList, String templateName, String fileName) throws IOException {
+    private void write(String lower_model_name, String upper_model_name, String first_model_name, List<Record> columnList, String templateName, String fileName) throws IOException {
 //        String root = System.getProperty("user.dir") + File.separator + "/src/main/resources/template";
 //        FileResourceLoader resourceLoader = new FileResourceLoader(root, "utf-8");
 //        Configuration configuration = Configuration.defaultConfiguration();
@@ -89,9 +97,19 @@ public class CodeController extends Controller {
 //
 //        template.renderTo(new OutputStreamWriter(new FileOutputStream(new File("/Users/yongqiangzhong/Documents/Publish/" + fileName)), "UTF-8"));
 
-        Engine engine = Engine.create("engine");
-        engine.setBaseTemplatePath(PathKit.getRootClassPath() + "/template/");
+        JMap map = JMap.create();
+        map.put("lower_model_name", lower_model_name);
+        map.put("upper_model_name", upper_model_name);
+        map.put("first_model_name", first_model_name);
+        map.put("columnList", columnList);
+
         Template template = engine.getTemplate(templateName);
+
+        String result = template.renderToString(map);
+
+        Writer writer = new FileWriter(new File("/Users/yongqiangzhong/Documents/Publish/" + fileName), false);
+        writer.write(result.toCharArray());
+        writer.close();
     }
 
 }

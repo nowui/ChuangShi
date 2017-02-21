@@ -7,6 +7,8 @@ public class Url {
     public static final String CODE_LIST = "/code/list";
     public static final String CODE_SAVE = "/code/save";
 
+    public static final String UPLOAD_IMAGE = "/upload/image";
+
     public static final String ROLE_LIST = "/role/list";
     public static final String ROLE_ADMIN_LIST = "/role/admin/list";
     public static final String ROLE_FIND = "/role/find";
@@ -71,9 +73,5 @@ public class Url {
     public static final String FILE_SAVE = "/file/save";
     public static final String FILEL_UPDATE = "/file/update";
     public static final String FILE_DELETE = "/file/delete";
-
-    public static final String UPLOAD_IMAGE = "/upload/image";
-
-    public static final String ASSETS = "/assets/";
 
 }

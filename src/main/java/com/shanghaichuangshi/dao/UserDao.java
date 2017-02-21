@@ -18,11 +18,11 @@ public class UserDao extends Dao {
         return HashKit.sha512(Constant.PRIVATE_KEY + user_password);
     }
 
-    public int countByUser_idAndUser_account(String user_id, String user_account) {
+    public int countByObject_idAndUser_account(String object_id, String user_account) {
         JMap map = JMap.create();
-        map.put(User.USER_ID, user_id);
+        map.put(User.OBJECT_ID, object_id);
         map.put(User.USER_ACCOUNT, user_account);
-        SqlPara sqlPara = Db.getSqlPara("user.countByUser_idAndUser_account", map);
+        SqlPara sqlPara = Db.getSqlPara("user.countByObject_idAndUser_account", map);
 
         Number count = Db.queryFirst(sqlPara.getSql(), sqlPara.getPara());
         return count.intValue();
@@ -60,32 +60,30 @@ public class UserDao extends Dao {
         return user;
     }
 
-    public boolean updateByUser_idAndUser_account(String user_id, String user_account, String request_user_id) {
-        User user = new User();
-        user.setUser_id(user_id);
-        user.setUser_account(user_account);
-        user.remove(User.SYSTEM_CREATE_USER_ID);
-        user.remove(User.SYSTEM_CREATE_TIME);
-        user.setSystem_update_user_id(request_user_id);
-        user.setSystem_update_time(new Date());
-        user.remove(User.SYSTEM_STATUS);
+    public boolean updateByObject_idAndUser_accountAndUser_type(String object_id, String user_account, String user_type, String request_user_id) {
+        JMap map = JMap.create();
+        map.put(User.OBJECT_ID, object_id);
+        map.put(User.USER_ACCOUNT, user_account);
+        map.put(User.USER_TYPE, user_type);
+        map.put(User.SYSTEM_UPDATE_USER_ID, request_user_id);
+        map.put(User.SYSTEM_UPDATE_TIME, new Date());
+        SqlPara sqlPara = Db.getSqlPara("user.updateByObject_idAndUser_accountAndUser_type", map);
 
-        return user.update();
+        return Db.update(sqlPara.getSql(), sqlPara.getPara()) == 1;
     }
 
-    public boolean updateByUser_idAndUser_password(String user_id, String user_password, String request_user_id) {
+    public boolean updateByObject_idAndUser_passwordAndUser_type(String object_id, String user_password, String user_type, String request_user_id) {
         user_password = generatePassword(user_password);
 
-        User user = new User();
-        user.setUser_id(user_id);
-        user.setUser_password(user_password);
-        user.remove(User.SYSTEM_CREATE_USER_ID);
-        user.remove(User.SYSTEM_CREATE_TIME);
-        user.setSystem_update_user_id(request_user_id);
-        user.setSystem_update_time(new Date());
-        user.remove(User.SYSTEM_STATUS);
+        JMap map = JMap.create();
+        map.put(User.OBJECT_ID, object_id);
+        map.put(User.USER_PASSWORD, user_password);
+        map.put(User.USER_TYPE, user_type);
+        map.put(User.SYSTEM_UPDATE_USER_ID, request_user_id);
+        map.put(User.SYSTEM_UPDATE_TIME, new Date());
+        SqlPara sqlPara = Db.getSqlPara("user.updateByObject_idAndUser_passwordAndUser_type", map);
 
-        return user.update();
+        return Db.update(sqlPara.getSql(), sqlPara.getPara()) == 1;
     }
 
     public boolean deleteByObject_idAndUser_type(String object_id, String user_type, String request_user_id) {

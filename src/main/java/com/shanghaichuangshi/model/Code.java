@@ -38,8 +38,6 @@ public class Code extends Model<Code> {
     public String getCharacter_maximM_length() {
         String length = getColumn_type().replace(getStr(CHARACTER_MAXIMM_LENGTH), "").replace("(", "").replace(")", "");
 
-        System.out.println(length);
-
         if (length.equals("")) {
             length = "0";
         }

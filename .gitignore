@@ -6,3 +6,4 @@ target
 .settings
 .classpath
 assets
+src/main/webapp/upload

@@ -16,7 +16,7 @@ public class Constant {
 
     public static final String CODE = "code";
 
-    public static final String COUNT = "count";
+    public static final String TOTAL = "total";
 
     public static final String DATA = "data";
 

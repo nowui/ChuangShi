@@ -21,7 +21,7 @@
       #set(admin_name = "%" + admin_name + "%")
       AND admin_name LIKE #p(admin_name)
     #end
-    ORDER BY system_create_time DESC
+    ORDER BY table_admin.system_create_time DESC
     #if(n > 0)
       LIMIT #p(m), #p(n)
     #end
@@ -34,7 +34,7 @@
     FROM table_admin
     LEFT JOIN table_user ON table_user.user_id = table_admin.user_id
     WHERE table_admin.system_status = 1
-    AND admin_id = #p(admin_id)
+    AND table_admin.admin_id = #p(admin_id)
   #end
 
   #sql("findByUser_id")

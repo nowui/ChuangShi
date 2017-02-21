@@ -48,9 +48,6 @@ public class AdminDao extends Dao {
         map.put(Admin.USER_ID, user_id);
         SqlPara sqlPara = Db.getSqlPara("admin.findByUser_id", map);
 
-        System.out.println(sqlPara.getSql());
-        System.out.println("+++");
-
         List<Admin> adminList = new Admin().find(sqlPara.getSql(), sqlPara.getPara());
         if (adminList.size() == 0) {
             return null;

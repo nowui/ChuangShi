@@ -25,7 +25,10 @@ public class Controller extends com.jfinal.core.Controller {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+    }
 
+    public JSONObject getParameterJSONObject() {
+        return getAttr(Constant.REQUEST_PARAMETER);
     }
 
     public void validate(String... keys) {
@@ -112,10 +115,10 @@ public class Controller extends com.jfinal.core.Controller {
         super.renderJson(map);
     }
 
-    public void renderSuccessJson(int count, Object object) {
+    public void renderSuccessJson(int total, Object object) {
         Map<String, Object> map = new HashMap<String, Object>();
         map.put(Constant.CODE, HttpStatus.SC_OK);
-        map.put(Constant.COUNT, count);
+        map.put(Constant.TOTAL, total);
         map.put(Constant.DATA, object);
 
         super.renderJson(map);

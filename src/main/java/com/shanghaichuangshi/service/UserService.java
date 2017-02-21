@@ -9,7 +9,7 @@ public class UserService extends Service {
     private static final UserDao userDao = new UserDao();
 
     public String saveByUser_accountAndUser_passwordAndObject_idAndUser_type(String user_account, String user_password, String object_id, String user_type, String request_user_id) {
-        int count = userDao.countByUser_idAndUser_account(user_account, "");
+        int count = userDao.countByObject_idAndUser_account("", user_account);
 
         if (count > 0) {
             throw new RuntimeException("已经存在帐号:" + user_account);
@@ -30,26 +30,26 @@ public class UserService extends Service {
         return user;
     }
 
-    public boolean updateByUser_idAndUser_account(String user_id, String user_account, String request_user_id) {
+    public boolean updateByObject_idAndUser_accountAndUser_type(String object_id, String user_account, String user_type, String request_user_id) {
         if (Util.isNullOrEmpty(user_account)) {
             return false;
         }
 
-        int count = userDao.countByUser_idAndUser_account(user_id, user_account);
+        int count = userDao.countByObject_idAndUser_account(object_id, user_account);
 
         if (count > 0) {
             throw new RuntimeException("已经存在帐号:" + user_account);
         }
 
-        return userDao.updateByUser_idAndUser_account(user_id, user_account, request_user_id);
+        return userDao.updateByObject_idAndUser_accountAndUser_type(object_id, user_account, user_type, request_user_id);
     }
 
-    public boolean updateByUser_idAndUser_password(String user_id, String user_password, String request_user_id) {
+    public boolean updateByObject_idAndUser_passwordAndUser_type(String object_id, String user_password, String user_type, String request_user_id) {
         if (Util.isNullOrEmpty(user_password)) {
             return false;
         }
 
-        return userDao.updateByUser_idAndUser_password(user_id, user_password, request_user_id);
+        return userDao.updateByObject_idAndUser_passwordAndUser_type(object_id, user_password, user_type, request_user_id);
     }
 
     public boolean deleteByObject_idAndUser_type(String object_id, String user_type, String request_user_id) {

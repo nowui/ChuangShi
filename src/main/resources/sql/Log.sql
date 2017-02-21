@@ -34,7 +34,7 @@
     SELECT
     *
     FROM table_log
-    WHERE table_log.system_status = 1
+    WHERE system_status = 1
     AND log_id = #p(log_id)
   #end
 

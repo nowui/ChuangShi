@@ -48,9 +48,9 @@ public class AdminService extends Service {
     public void update(Admin admin, User user, String request_user_id) {
         adminDao.update(admin, request_user_id);
 
-        userService.updateByUser_idAndUser_account(admin.getUser_id(), user.getUser_account(), request_user_id);
+        userService.updateByObject_idAndUser_accountAndUser_type(admin.getAdmin_id(), user.getUser_account(), UserType.ADMIN.getKey(), request_user_id);
 
-        userService.updateByUser_idAndUser_password(admin.getUser_id(), user.getUser_password(), request_user_id);
+        userService.updateByObject_idAndUser_passwordAndUser_type(admin.getAdmin_id(), user.getUser_password(), UserType.ADMIN.getKey(), request_user_id);
     }
 
     public void delete(Admin admin, String request_user_id) {

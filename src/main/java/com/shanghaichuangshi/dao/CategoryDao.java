@@ -101,9 +101,6 @@ public class CategoryDao extends Dao {
         category.setSystem_update_time(new Date());
         category.remove(Category.SYSTEM_STATUS);
 
-        System.out.println(category);
-        System.out.println("----------");
-
         return category.update();
     }
 

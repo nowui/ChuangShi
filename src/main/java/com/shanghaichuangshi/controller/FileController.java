@@ -16,12 +16,12 @@ public class FileController extends Controller {
     public void list() {
         validate(Constant.PAGE_INDEX, Constant.PAGE_SIZE);
 
-        File fileModel = getModel(File.class);
+        File model = getParameter(File.class);
         String request_user_id = getRequest_user_id();
 
-        fileModel.validate(File.FILE_NAME);
+        model.validate(File.FILE_NAME);
 
-        List<File> fileList = fileService.list(fileModel, request_user_id, getM(), getN());
+        List<File> fileList = fileService.list(model, request_user_id, getM(), getN());
 
         renderSuccessJson(fileList);
     }
@@ -30,25 +30,25 @@ public class FileController extends Controller {
     public void adminList() {
         validate(Constant.PAGE_INDEX, Constant.PAGE_SIZE);
 
-        File fileModel = getModel(File.class);
+        File model = getParameter(File.class);
         String request_user_id = getRequest_user_id();
 
-        fileModel.validate(File.FILE_NAME);
+        model.validate(File.FILE_NAME);
 
-        int count = fileService.count(fileModel, request_user_id);
+        int count = fileService.count(model, request_user_id);
 
-        List<File> fileList = fileService.list(fileModel, request_user_id, getM(), getN());
+        List<File> fileList = fileService.list(model, request_user_id, getM(), getN());
 
         renderSuccessJson(count, fileList);
     }
 
     @ActionKey(Url.FILE_FIND)
     public void find() {
-        File fileModel = getModel(File.class);
+        File model = getParameter(File.class);
 
-        fileModel.validate(File.FILE_ID);
+        model.validate(File.FILE_ID);
 
-        File file = fileService.find(fileModel);
+        File file = fileService.find(model);
 
         file.removeUnfindable();
 
@@ -57,47 +57,47 @@ public class FileController extends Controller {
 
     @ActionKey(Url.FILE_ADMIN_FIND)
     public void adminFind() {
-        File fileModel = getModel(File.class);
+        File model = getParameter(File.class);
 
-        fileModel.validate(File.FILE_ID);
+        model.validate(File.FILE_ID);
 
-        File file = fileService.find(fileModel);
+        File file = fileService.find(model);
 
         renderSuccessJson(file);
     }
 
     @ActionKey(Url.FILE_SAVE)
     public void save() {
-        File fileModel = getModel(File.class);
+        File model = getParameter(File.class);
         String request_user_id = getRequest_user_id();
 
-        fileModel.validate(File.FILE_NAME);
+        model.validate(File.FILE_NAME);
 
-        fileService.save(fileModel, request_user_id);
+        fileService.save(model, request_user_id);
 
         renderSuccessJson();
     }
 
     @ActionKey(Url.FILEL_UPDATE)
     public void update() {
-        File fileModel = getModel(File.class);
+        File model = getParameter(File.class);
         String request_user_id = getRequest_user_id();
 
-        fileModel.validate(File.FILE_ID, File.FILE_NAME);
+        model.validate(File.FILE_ID, File.FILE_NAME);
 
-        fileService.update(fileModel, request_user_id);
+        fileService.update(model, request_user_id);
 
         renderSuccessJson();
     }
 
     @ActionKey(Url.FILE_DELETE)
     public void delete() {
-        File fileModel = getModel(File.class);
+        File model = getParameter(File.class);
         String request_user_id = getRequest_user_id();
 
-        fileModel.validate(File.FILE_ID);
+        model.validate(File.FILE_ID);
 
-        fileService.delete(fileModel, request_user_id);
+        fileService.delete(model, request_user_id);
 
         renderSuccessJson();
     }

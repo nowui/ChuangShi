@@ -18,6 +18,7 @@ public class CodeDao extends Dao {
 
     public List<Record> listColumn(String table_name) {
         JMap map = JMap.create();
+        map.put("table_name", table_name);
         SqlPara sqlPara = Db.getSqlPara("code.listColumn", map);
 
         return Db.find(sqlPara.getSql(), sqlPara.getPara());
