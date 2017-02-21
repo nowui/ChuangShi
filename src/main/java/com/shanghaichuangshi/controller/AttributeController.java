@@ -10,7 +10,7 @@ import java.util.List;
 
 public class AttributeController extends Controller {
 
-    private static final AttributeService ATTRIBUTEService = new AttributeService();
+    private static final AttributeService attributeService = new AttributeService();
 
     @ActionKey(Url.ATTRIBUTE_LIST)
     public void list() {
@@ -20,9 +20,9 @@ public class AttributeController extends Controller {
 
         model.validate(Attribute.ATTRIBUTE_NAME);
 
-        List<Attribute> ATTRIBUTEList = ATTRIBUTEService.list(model, getM(), getN());
+        List<Attribute> attributeList = attributeService.list(model, getM(), getN());
 
-        renderSuccessJson(ATTRIBUTEList);
+        renderSuccessJson(attributeList);
     }
 
     @ActionKey(Url.ATTRIBUTE_ADMIN_LIST)
@@ -33,11 +33,11 @@ public class AttributeController extends Controller {
 
         model.validate(Attribute.ATTRIBUTE_NAME);
 
-        int count = ATTRIBUTEService.count(model);
+        int count = attributeService.count(model);
 
-        List<Attribute> ATTRIBUTEList = ATTRIBUTEService.list(model, getM(), getN());
+        List<Attribute> attributeList = attributeService.list(model, getM(), getN());
 
-        renderSuccessJson(count, ATTRIBUTEList);
+        renderSuccessJson(count, attributeList);
     }
 
     @ActionKey(Url.ATTRIBUTE_FIND)
@@ -46,11 +46,11 @@ public class AttributeController extends Controller {
 
         model.validate(Attribute.ATTRIBUTE_ID);
 
-        Attribute ATTRIBUTE = ATTRIBUTEService.find(model);
+        Attribute attribute = attributeService.find(model);
 
-        ATTRIBUTE.removeUnfindable();
+        attribute.removeUnfindable();
 
-        renderSuccessJson(ATTRIBUTE);
+        renderSuccessJson(attribute);
     }
 
     @ActionKey(Url.ATTRIBUTE_ADMIN_FIND)
@@ -59,9 +59,9 @@ public class AttributeController extends Controller {
 
         model.validate(Attribute.ATTRIBUTE_ID);
 
-        Attribute ATTRIBUTE = ATTRIBUTEService.find(model);
+        Attribute attribute = attributeService.find(model);
 
-        renderSuccessJson(ATTRIBUTE);
+        renderSuccessJson(attribute);
     }
 
     @ActionKey(Url.ATTRIBUTE_SAVE)
@@ -71,7 +71,7 @@ public class AttributeController extends Controller {
 
         model.validate(Attribute.ATTRIBUTE_NAME);
 
-        ATTRIBUTEService.save(model, request_user_id);
+        attributeService.save(model, request_user_id);
 
         renderSuccessJson();
     }
@@ -83,7 +83,7 @@ public class AttributeController extends Controller {
 
         model.validate(Attribute.ATTRIBUTE_ID, Attribute.ATTRIBUTE_NAME);
 
-        ATTRIBUTEService.update(model, request_user_id);
+        attributeService.update(model, request_user_id);
 
         renderSuccessJson();
     }
@@ -95,7 +95,7 @@ public class AttributeController extends Controller {
 
         model.validate(Attribute.ATTRIBUTE_ID);
 
-        ATTRIBUTEService.delete(model, request_user_id);
+        attributeService.delete(model, request_user_id);
 
         renderSuccessJson();
     }

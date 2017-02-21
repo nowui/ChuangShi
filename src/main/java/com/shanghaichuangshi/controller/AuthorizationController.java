@@ -10,7 +10,7 @@ import java.util.List;
 
 public class AuthorizationController extends Controller {
 
-    private static final AuthorizationService AUTHORIZATIONService = new AuthorizationService();
+    private static final AuthorizationService authorizationService = new AuthorizationService();
 
     @ActionKey(Url.AUTHORIZATION_LIST)
     public void list() {
@@ -20,9 +20,9 @@ public class AuthorizationController extends Controller {
 
         model.validate(Authorization.AUTHORIZATION_TOKEN);
 
-        List<Authorization> AUTHORIZATIONList = AUTHORIZATIONService.list(model, getM(), getN());
+        List<Authorization> authorizationList = authorizationService.list(model, getM(), getN());
 
-        renderSuccessJson(AUTHORIZATIONList);
+        renderSuccessJson(authorizationList);
     }
 
     @ActionKey(Url.AUTHORIZATION_ADMIN_LIST)
@@ -33,11 +33,11 @@ public class AuthorizationController extends Controller {
 
         model.validate(Authorization.AUTHORIZATION_TOKEN);
 
-        int count = AUTHORIZATIONService.count(model);
+        int count = authorizationService.count(model);
 
-        List<Authorization> AUTHORIZATIONList = AUTHORIZATIONService.list(model, getM(), getN());
+        List<Authorization> authorizationList = authorizationService.list(model, getM(), getN());
 
-        renderSuccessJson(count, AUTHORIZATIONList);
+        renderSuccessJson(count, authorizationList);
     }
 
     @ActionKey(Url.AUTHORIZATION_FIND)
@@ -46,11 +46,11 @@ public class AuthorizationController extends Controller {
 
         model.validate(Authorization.AUTHORIZATION_ID);
 
-        Authorization AUTHORIZATION = AUTHORIZATIONService.find(model);
+        Authorization authorization = authorizationService.find(model);
 
-        AUTHORIZATION.removeUnfindable();
+        authorization.removeUnfindable();
 
-        renderSuccessJson(AUTHORIZATION);
+        renderSuccessJson(authorization);
     }
 
     @ActionKey(Url.AUTHORIZATION_ADMIN_FIND)
@@ -59,9 +59,9 @@ public class AuthorizationController extends Controller {
 
         model.validate(Authorization.AUTHORIZATION_ID);
 
-        Authorization AUTHORIZATION = AUTHORIZATIONService.find(model);
+        Authorization authorization = authorizationService.find(model);
 
-        renderSuccessJson(AUTHORIZATION);
+        renderSuccessJson(authorization);
     }
 
 }

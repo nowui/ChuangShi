@@ -10,7 +10,7 @@ import java.util.List;
 
 public class RoleController extends Controller {
 
-    private static final RoleService ROLEService = new RoleService();
+    private static final RoleService roleService = new RoleService();
 
     @ActionKey(Url.ROLE_LIST)
     public void list() {
@@ -20,9 +20,9 @@ public class RoleController extends Controller {
 
         model.validate(Role.ROLE_NAME);
 
-        List<Role> ROLEList = ROLEService.list(model, getM(), getN());
+        List<Role> roleList = roleService.list(model, getM(), getN());
 
-        renderSuccessJson(ROLEList);
+        renderSuccessJson(roleList);
     }
 
     @ActionKey(Url.ROLE_ADMIN_LIST)
@@ -34,11 +34,11 @@ public class RoleController extends Controller {
 
         model.validate(Role.ROLE_NAME);
 
-        int count = ROLEService.count(model);
+        int count = roleService.count(model);
 
-        List<Role> ROLEList = ROLEService.list(model, getM(), getN());
+        List<Role> roleList = roleService.list(model, getM(), getN());
 
-        renderSuccessJson(count, ROLEList);
+        renderSuccessJson(count, roleList);
     }
 
     @ActionKey(Url.ROLE_FIND)
@@ -47,11 +47,11 @@ public class RoleController extends Controller {
 
         model.validate(Role.ROLE_ID);
 
-        Role ROLE = ROLEService.find(model);
+        Role role = roleService.find(model);
 
-        ROLE.removeUnfindable();
+        role.removeUnfindable();
 
-        renderSuccessJson(ROLE);
+        renderSuccessJson(role);
     }
 
     @ActionKey(Url.ROLE_ADMIN_FIND)
@@ -60,9 +60,9 @@ public class RoleController extends Controller {
 
         model.validate(Role.ROLE_ID);
 
-        Role ROLE = ROLEService.find(model);
+        Role role = roleService.find(model);
 
-        renderSuccessJson(ROLE);
+        renderSuccessJson(role);
     }
 
     @ActionKey(Url.ROLE_SAVE)
@@ -72,7 +72,7 @@ public class RoleController extends Controller {
 
         model.validate(Role.ROLE_NAME);
 
-        ROLEService.save(model, request_user_id);
+        roleService.save(model, request_user_id);
 
         renderSuccessJson();
     }
@@ -84,7 +84,7 @@ public class RoleController extends Controller {
 
         model.validate(Role.ROLE_ID, Role.ROLE_NAME);
 
-        ROLEService.update(model, request_user_id);
+        roleService.update(model, request_user_id);
 
         renderSuccessJson();
     }
@@ -96,7 +96,7 @@ public class RoleController extends Controller {
 
         model.validate(Role.ROLE_ID);
 
-        ROLEService.delete(model, request_user_id);
+        roleService.delete(model, request_user_id);
 
         renderSuccessJson();
     }

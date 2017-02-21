@@ -10,7 +10,7 @@ import java.util.List;
 
 public class ResourceController extends Controller {
 
-    private static final ResourceService RESOURCEService = new ResourceService();
+    private static final ResourceService resourceService = new ResourceService();
 
     @ActionKey(Url.RESOURCE_LIST)
     public void list() {
@@ -20,9 +20,9 @@ public class ResourceController extends Controller {
 
         model.validate(Resource.RESOURCE_NAME);
 
-        List<Resource> RESOURCEList = RESOURCEService.list(model, getM(), getN());
+        List<Resource> resourceList = resourceService.list(model, getM(), getN());
 
-        renderSuccessJson(RESOURCEList);
+        renderSuccessJson(resourceList);
     }
 
     @ActionKey(Url.RESOURCE_ADMIN_LIST)
@@ -33,11 +33,11 @@ public class ResourceController extends Controller {
 
         model.validate(Resource.RESOURCE_NAME);
 
-        int count = RESOURCEService.count(model);
+        int count = resourceService.count(model);
 
-        List<Resource> RESOURCEList = RESOURCEService.list(model, getM(), getN());
+        List<Resource> resourceList = resourceService.list(model, getM(), getN());
 
-        renderSuccessJson(count, RESOURCEList);
+        renderSuccessJson(count, resourceList);
     }
 
     @ActionKey(Url.RESOURCE_FIND)
@@ -46,11 +46,11 @@ public class ResourceController extends Controller {
 
         model.validate(Resource.RESOURCE_ID);
 
-        Resource RESOURCE = RESOURCEService.find(model);
+        Resource resource = resourceService.find(model);
 
-        RESOURCE.removeUnfindable();
+        resource.removeUnfindable();
 
-        renderSuccessJson(RESOURCE);
+        renderSuccessJson(resource);
     }
 
     @ActionKey(Url.RESOURCE_ADMIN_FIND)
@@ -59,9 +59,9 @@ public class ResourceController extends Controller {
 
         model.validate(Resource.RESOURCE_ID);
 
-        Resource RESOURCE = RESOURCEService.find(model);
+        Resource resource = resourceService.find(model);
 
-        renderSuccessJson(RESOURCE);
+        renderSuccessJson(resource);
     }
 
     @ActionKey(Url.RESOURCE_SAVE)
@@ -71,7 +71,7 @@ public class ResourceController extends Controller {
 
         model.validate(Resource.RESOURCE_NAME);
 
-        RESOURCEService.save(model, request_user_id);
+        resourceService.save(model, request_user_id);
 
         renderSuccessJson();
     }
@@ -83,7 +83,7 @@ public class ResourceController extends Controller {
 
         model.validate(Resource.RESOURCE_ID, Resource.RESOURCE_NAME);
 
-        RESOURCEService.update(model, request_user_id);
+        resourceService.update(model, request_user_id);
 
         renderSuccessJson();
     }
@@ -95,7 +95,7 @@ public class ResourceController extends Controller {
 
         model.validate(Resource.RESOURCE_ID);
 
-        RESOURCEService.delete(model, request_user_id);
+        resourceService.delete(model, request_user_id);
 
         renderSuccessJson();
     }
