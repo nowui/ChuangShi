@@ -48,7 +48,7 @@ public class FileController extends Controller {
 
         model.validate(File.FILE_ID);
 
-        File file = fileService.find(model);
+        File file = fileService.find(model.getFile_id());
 
         file.removeUnfindable();
 
@@ -61,7 +61,7 @@ public class FileController extends Controller {
 
         model.validate(File.FILE_ID);
 
-        File file = fileService.find(model);
+        File file = fileService.find(model.getFile_id());
 
         renderSuccessJson(file);
     }

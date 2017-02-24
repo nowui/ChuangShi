@@ -25,8 +25,8 @@ public class AuthorizationService extends Service {
         return authorizationDao.list(authorization.getAuthorization_token(), m, n);
     }
 
-    public Authorization find(Authorization authorization) {
-        return authorizationDao.find(authorization.getAuthorization_id());
+    public Authorization find(String authorization_id) {
+        return authorizationDao.find(authorization_id);
     }
 
     public String saveByUser_id(String user_id, String authorization_platform, String authorization_version, String authorization_ip_address, String request_user_id) {

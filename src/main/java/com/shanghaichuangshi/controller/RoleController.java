@@ -47,7 +47,7 @@ public class RoleController extends Controller {
 
         model.validate(Role.ROLE_ID);
 
-        Role role = roleService.find(model);
+        Role role = roleService.find(model.getRole_id());
 
         role.removeUnfindable();
 
@@ -60,7 +60,7 @@ public class RoleController extends Controller {
 
         model.validate(Role.ROLE_ID);
 
-        Role role = roleService.find(model);
+        Role role = roleService.find(model.getRole_id());
 
         renderSuccessJson(role);
     }

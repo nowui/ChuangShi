@@ -17,8 +17,8 @@ public class LogService extends Service {
         return logDao.list(log.getLog_url(), m, n);
     }
 
-    public Log find(Log log) {
-        return logDao.find(log.getLog_id());
+    public Log find(String log_id) {
+        return logDao.find(log_id);
     }
 
 }

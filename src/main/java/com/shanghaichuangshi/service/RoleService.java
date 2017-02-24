@@ -17,20 +17,20 @@ public class RoleService extends Service {
         return roleDao.list(role.getRole_name(), m, n);
     }
 
-    public Role find(Role role) {
-        return roleDao.find(role.getRole_id());
+    public Role find(String role_id) {
+        return roleDao.find(role_id);
     }
 
-    public void save(Role role, String request_user_id) {
-        roleDao.save(role, request_user_id);
+    public Role save(Role role, String request_user_id) {
+        return roleDao.save(role, request_user_id);
     }
 
-    public void update(Role role, String request_user_id) {
-        roleDao.update(role, request_user_id);
+    public boolean update(Role role, String request_user_id) {
+        return roleDao.update(role, request_user_id);
     }
 
-    public void delete(Role role, String request_user_id) {
-        roleDao.delete(role.getRole_id(), request_user_id);
+    public boolean delete(Role role, String request_user_id) {
+        return roleDao.delete(role.getRole_id(), request_user_id);
     }
 
 }

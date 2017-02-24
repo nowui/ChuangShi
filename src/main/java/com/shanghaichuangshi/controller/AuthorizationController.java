@@ -46,7 +46,7 @@ public class AuthorizationController extends Controller {
 
         model.validate(Authorization.AUTHORIZATION_ID);
 
-        Authorization authorization = authorizationService.find(model);
+        Authorization authorization = authorizationService.find(model.getAuthorization_id());
 
         authorization.removeUnfindable();
 
@@ -59,7 +59,7 @@ public class AuthorizationController extends Controller {
 
         model.validate(Authorization.AUTHORIZATION_ID);
 
-        Authorization authorization = authorizationService.find(model);
+        Authorization authorization = authorizationService.find(model.getAuthorization_id());
 
         renderSuccessJson(authorization);
     }

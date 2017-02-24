@@ -48,7 +48,7 @@ public class AdminController extends Controller {
 
         model.validate(Admin.ADMIN_ID);
 
-        Admin admin = adminService.find(model);
+        Admin admin = adminService.find(model.getAdmin_id());
 
         admin.removeUnfindable();
 
@@ -61,7 +61,7 @@ public class AdminController extends Controller {
 
         model.validate(Admin.ADMIN_ID);
 
-        Admin admin = adminService.find(model);
+        Admin admin = adminService.find(model.getAdmin_id());
 
         renderSuccessJson(admin);
     }

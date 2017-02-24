@@ -17,20 +17,20 @@ public class FileService extends Service {
         return fileDao.list(file.getFile_name(), request_user_id, m, n);
     }
 
-    public File find(File file) {
-        return fileDao.find(file.getFile_id());
+    public File find(String file_id) {
+        return fileDao.find(file_id);
     }
 
-    public void save(File file, String request_user_id) {
-        fileDao.save(file, request_user_id);
+    public File save(File file, String request_user_id) {
+        return fileDao.save(file, request_user_id);
     }
 
-    public void update(File file, String request_user_id) {
-        fileDao.update(file, request_user_id);
+    public boolean update(File file, String request_user_id) {
+        return fileDao.update(file, request_user_id);
     }
 
-    public void delete(File file, String request_user_id) {
-        fileDao.delete(file.getFile_id(), request_user_id);
+    public boolean delete(File file, String request_user_id) {
+        return fileDao.delete(file.getFile_id(), request_user_id);
     }
 
 }

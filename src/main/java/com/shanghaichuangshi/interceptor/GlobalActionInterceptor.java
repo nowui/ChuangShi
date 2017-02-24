@@ -38,11 +38,27 @@ public class GlobalActionInterceptor implements Interceptor {
     private static final List<String> uncheckTokenUrlList = new ArrayList<String>();
     private static final List<String> uncheckParameterUrlList = new ArrayList<String>();
     private static final List<String> uncheckLogUrlList = new ArrayList<String>();
+    private static final List<String> uncheckHeaderUrlList = new ArrayList<String>();
 
     static {
         uncheckTokenUrlList.add(Url.ADMIN_LOGIN);
 
         uncheckParameterUrlList.add(Url.UPLOAD_IMAGE);
+
+        uncheckLogUrlList.add(Url.LOG_ADMIN_LIST);
+        uncheckLogUrlList.add(Url.LOG_ADMIN_FIND);
+    }
+
+    public GlobalActionInterceptor() {
+
+    }
+
+    public GlobalActionInterceptor(List<String> uncheckTokenUrlList, List<String> uncheckParameterUrlList, List<String> uncheckHeaderUrlList) {
+        this.uncheckTokenUrlList.addAll(uncheckTokenUrlList);
+
+        this.uncheckParameterUrlList.addAll(uncheckParameterUrlList);
+
+        this.uncheckHeaderUrlList.addAll(uncheckHeaderUrlList);
     }
 
     public void intercept(Invocation invocation) {
@@ -65,20 +81,22 @@ public class GlobalActionInterceptor implements Interceptor {
         String authorization_id = "";
         JSONObject parameter = new JSONObject();
 
-        controller.getResponse().setHeader("Access-Control-Allow-Origin", "*");
-        controller.getResponse().setHeader("Access-Control-Allow-Methods", "GET, POST, HEAD, PUT, DELETE");
-        controller.getResponse().setHeader("Access-Control-Allow-Headers", "Accept, Origin, X-Requested-With, Content-Type, Last-Modified, Token, Platform, Version");
-        controller.getResponse().setHeader("Access-Control-Max-Age", "7200");
-        controller.getResponse().setHeader("Access-Control-Allow-Credentials", "true");
-        controller.getResponse().setHeader("Cache-Control", "no-cache");
-        controller.getResponse().setHeader("Content-Type", "application/json;charset=UTF-8");
+//        controller.getResponse().setHeader("Access-Control-Allow-Origin", "*");
+//        controller.getResponse().setHeader("Access-Control-Allow-Methods", "GET, POST, HEAD, PUT, DELETE");
+//        controller.getResponse().setHeader("Access-Control-Allow-Headers", "Accept, Origin, X-Requested-With, Content-Type, Last-Modified, Token, Platform, Version");
+//        controller.getResponse().setHeader("Access-Control-Max-Age", "7200");
+//        controller.getResponse().setHeader("Access-Control-Allow-Credentials", "true");
+//        controller.getResponse().setHeader("Cache-Control", "no-cache");
+//        controller.getResponse().setHeader("Content-Type", "application/json;charset=UTF-8");
 
         try {
             connection = DbKit.getConfig().getDataSource().getConnection();
             DbKit.getConfig().setThreadLocalConnection(connection);
             connection.setAutoCommit(false);
 
-            if (!uncheckTokenUrlList.contains(url)) {
+            if (uncheckTokenUrlList.contains(url) || uncheckHeaderUrlList.contains(url)) {
+
+            } else {
                 token = controller.getRequest().getHeader(Constant.TOKEN);
 
                 if (Util.isNullOrEmpty(token)) {
@@ -101,15 +119,21 @@ public class GlobalActionInterceptor implements Interceptor {
             platform = controller.getRequest().getHeader(Constant.PLATFORM);
             version = controller.getRequest().getHeader(Constant.VERSION);
 
-            if (Util.isNullOrEmpty(platform)) {
+            if (!Util.isNullOrEmpty(platform) || uncheckHeaderUrlList.contains(url)) {
+
+            } else {
                 throw new RuntimeException(Constant.PLATFORM + "is null");
             }
 
-            if (Util.isNullOrEmpty(version)) {
+            if (!Util.isNullOrEmpty(version) || uncheckHeaderUrlList.contains(url)) {
+
+            } else {
                 throw new RuntimeException(Constant.VERSION + "is null");
             }
 
-            if (!uncheckParameterUrlList.contains(url)) {
+            if (uncheckParameterUrlList.contains(url) || uncheckHeaderUrlList.contains(url)) {
+
+            } else {
                 parameter = JSONObject.parseObject(HttpKit.readData(controller.getRequest()));
 
                 if (Util.isNullOrEmpty(parameter)) {
@@ -163,7 +187,7 @@ public class GlobalActionInterceptor implements Interceptor {
                 ThreadContext.put(Log.LOG_ID, Util.getRandomUUID());
                 ThreadContext.put(Log.LOG_URL, url);
                 ThreadContext.put(Log.LOG_REQUEST, parameter.toJSONString());
-                ThreadContext.put(Log.LOG_RESPONSE, parameter.toJSONString());
+                ThreadContext.put(Log.LOG_RESPONSE, controller.getAttrForStr(Constant.RESPONSE_PARAMETER));
                 ThreadContext.put(Log.AUTHORIZATION_ID, authorization_id);
                 ThreadContext.put(Log.USER_ID, request_user_id);
                 ThreadContext.put(Log.LOG_CODE, String.valueOf(log_code));

@@ -46,7 +46,7 @@ public class ResourceController extends Controller {
 
         model.validate(Resource.RESOURCE_ID);
 
-        Resource resource = resourceService.find(model);
+        Resource resource = resourceService.find(model.getResource_id());
 
         resource.removeUnfindable();
 
@@ -59,7 +59,7 @@ public class ResourceController extends Controller {
 
         model.validate(Resource.RESOURCE_ID);
 
-        Resource resource = resourceService.find(model);
+        Resource resource = resourceService.find(model.getResource_id());
 
         renderSuccessJson(resource);
     }

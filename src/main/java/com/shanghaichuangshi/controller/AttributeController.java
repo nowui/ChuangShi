@@ -46,7 +46,7 @@ public class AttributeController extends Controller {
 
         model.validate(Attribute.ATTRIBUTE_ID);
 
-        Attribute attribute = attributeService.find(model);
+        Attribute attribute = attributeService.find(model.getAttribute_id());
 
         attribute.removeUnfindable();
 
@@ -59,7 +59,7 @@ public class AttributeController extends Controller {
 
         model.validate(Attribute.ATTRIBUTE_ID);
 
-        Attribute attribute = attributeService.find(model);
+        Attribute attribute = attributeService.find(model.getAttribute_id());
 
         renderSuccessJson(attribute);
     }

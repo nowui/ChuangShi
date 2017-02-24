@@ -15,6 +15,7 @@ public class FileDao extends Dao {
 
     public int count(String file_name, String request_user_id) {
         JMap map = JMap.create();
+        map.put(File.FILE_NAME, file_name);
         map.put(Constant.REQUEST_USER_ID, request_user_id);
         SqlPara sqlPara = Db.getSqlPara("file.count", map);
 
@@ -74,10 +75,9 @@ public class FileDao extends Dao {
         map.put(File.FILE_ID, file_id);
         map.put(File.SYSTEM_UPDATE_USER_ID, request_user_id);
         map.put(File.SYSTEM_UPDATE_TIME, new Date());
-        map.put(File.SYSTEM_STATUS, false);
         SqlPara sqlPara = Db.getSqlPara("file.delete", map);
 
-        return Db.update(sqlPara.getSql(), sqlPara.getPara()) == 1;
+        return Db.update(sqlPara.getSql(), sqlPara.getPara()) != 0;
     }
 
 }

@@ -1,5 +1,6 @@
 package com.shanghaichuangshi.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.jfinal.plugin.activerecord.Model;
 import com.shanghaichuangshi.constant.Constant;
@@ -104,7 +105,7 @@ public class Controller extends com.jfinal.core.Controller {
         Map<String, Object> map = new HashMap<String, Object>();
         map.put(Constant.CODE, HttpStatus.SC_OK);
 
-        super.renderJson(map);
+        renderJson(map);
     }
 
     public void renderSuccessJson(Object object) {
@@ -112,7 +113,7 @@ public class Controller extends com.jfinal.core.Controller {
         map.put(Constant.CODE, HttpStatus.SC_OK);
         map.put(Constant.DATA, object);
 
-        super.renderJson(map);
+        renderJson(map);
     }
 
     public void renderSuccessJson(int total, Object object) {
@@ -121,7 +122,7 @@ public class Controller extends com.jfinal.core.Controller {
         map.put(Constant.TOTAL, total);
         map.put(Constant.DATA, object);
 
-        super.renderJson(map);
+        renderJson(map);
     }
 
     public void renderErrorJson(String jsonText) {
@@ -129,7 +130,14 @@ public class Controller extends com.jfinal.core.Controller {
         map.put(Constant.CODE, HttpStatus.SC_BAD_REQUEST);
         map.put(Constant.MESSAGE, jsonText);
 
-        super.renderJson(map);
+        renderJson(map);
+    }
+
+    public void renderJson(Object object) {
+        String response = JSON.toJSONString(object);
+        setAttr(Constant.RESPONSE_PARAMETER, response);
+
+        super.renderJson(object);
     }
 
 }

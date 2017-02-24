@@ -17,20 +17,20 @@ public class AttributeService extends Service {
         return attributeDao.list(attribute.getAttribute_name(), m, n);
     }
 
-    public Attribute find(Attribute attribute) {
-        return attributeDao.find(attribute.getAttribute_id());
+    public Attribute find(String attribute_id) {
+        return attributeDao.find(attribute_id);
     }
 
-    public void save(Attribute attribute, String request_user_id) {
-        attributeDao.save(attribute, request_user_id);
+    public Attribute save(Attribute attribute, String request_user_id) {
+        return attributeDao.save(attribute, request_user_id);
     }
 
-    public void update(Attribute attribute, String request_user_id) {
-        attributeDao.update(attribute, request_user_id);
+    public boolean update(Attribute attribute, String request_user_id) {
+        return attributeDao.update(attribute, request_user_id);
     }
 
-    public void delete(Attribute attribute, String request_user_id) {
-        attributeDao.delete(attribute.getAttribute_id(), request_user_id);
+    public boolean delete(Attribute attribute, String request_user_id) {
+        return attributeDao.delete(attribute.getAttribute_id(), request_user_id);
     }
 
 }

@@ -46,7 +46,7 @@ public class CategoryController extends Controller {
 
         model.validate(Category.CATEGORY_ID);
 
-        Category category = categoryService.find(model);
+        Category category = categoryService.find(model.getCategory_id());
 
         category.removeUnfindable();
 
@@ -59,7 +59,7 @@ public class CategoryController extends Controller {
 
         model.validate(Category.CATEGORY_ID);
 
-        Category category = categoryService.find(model);
+        Category category = categoryService.find(model.getCategory_id());
 
         renderSuccessJson();
     }

@@ -13,8 +13,7 @@ import com.shanghaichuangshi.service.CodeService;
 import com.shanghaichuangshi.util.Util;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class CodeController extends Controller {
 
@@ -31,7 +30,15 @@ public class CodeController extends Controller {
 
         List<Record> tableList = codeService.listTable(codeModel.getTable_name());
 
-        renderSuccessJson(tableList.size(), tableList);
+        List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
+
+        for (Record record : tableList) {
+            Map<String, Object> map = new HashMap<String, Object>();
+            map.put("table_name", record.getStr("table_name"));
+            list.add(map);
+        }
+
+        renderSuccessJson(list.size(), list);
     }
 
     @ActionKey(Url.CODE_SAVE)
@@ -68,6 +75,13 @@ public class CodeController extends Controller {
         String upperModelName = lowerModelName.toUpperCase();
         String firstModelName = lowerModelName.substring(0, 1).toUpperCase() + lowerModelName.substring(1);
 
+//        if (firstModelName.contains("_")) {
+//            int index = firstModelName.indexOf("_");
+//            firstModelName = firstModelName.substring(0, index) + firstModelName.substring(index + 1, index + 2).toUpperCase() + firstModelName.substring(index + 2);
+//        }
+
+        firstModelName = check(firstModelName);
+
         write(lowerModelName, upperModelName, firstModelName, columnList, "url.template", "Url.java");
         write(lowerModelName, upperModelName, firstModelName, columnList, "model.template", firstModelName + ".java");
         write(lowerModelName, upperModelName, firstModelName, columnList, "dao.template", firstModelName + "Dao.java");
@@ -82,6 +96,19 @@ public class CodeController extends Controller {
         write(lowerModelName, upperModelName, firstModelName, columnList, "sql.template", firstModelName + ".sql");
 
         renderSuccessJson("");
+    }
+
+    private String check(String name) {
+        if (name.contains("_")) {
+            int index = name.indexOf("_");
+            name = name.substring(0, index) + name.substring(index + 1, index + 2).toUpperCase() + name.substring(index + 2);
+
+            if (name.contains("_")) {
+                name = check(name);
+            }
+        }
+
+        return name;
     }
 
     private void write(String lower_model_name, String upper_model_name, String first_model_name, List<Record> columnList, String templateName, String fileName) throws IOException {

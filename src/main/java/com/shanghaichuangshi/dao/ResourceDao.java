@@ -14,6 +14,7 @@ public class ResourceDao extends Dao {
 
     public int count(String resource_name) {
         JMap map = JMap.create();
+        map.put(Resource.RESOURCE_NAME, resource_name);
         SqlPara sqlPara = Db.getSqlPara("resource.count", map);
 
         Number count = Db.queryFirst(sqlPara.getSql(), sqlPara.getPara());
@@ -71,10 +72,9 @@ public class ResourceDao extends Dao {
         map.put(Resource.RESOURCE_ID, resource_id);
         map.put(Resource.SYSTEM_UPDATE_USER_ID, request_user_id);
         map.put(Resource.SYSTEM_UPDATE_TIME, new Date());
-        map.put(Resource.SYSTEM_STATUS, false);
         SqlPara sqlPara = Db.getSqlPara("resource.delete", map);
 
-        return Db.update(sqlPara.getSql(), sqlPara.getPara()) == 1;
+        return Db.update(sqlPara.getSql(), sqlPara.getPara()) != 0;
     }
 
 }

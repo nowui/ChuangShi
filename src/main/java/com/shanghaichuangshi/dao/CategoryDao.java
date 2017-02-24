@@ -109,10 +109,9 @@ public class CategoryDao extends Dao {
         map.put(Category.CATEGORY_ID, category_id);
         map.put(Category.SYSTEM_UPDATE_USER_ID, request_user_id);
         map.put(Category.SYSTEM_UPDATE_TIME, new Date());
-        map.put(Category.SYSTEM_STATUS, false);
         SqlPara sqlPara = Db.getSqlPara("category.delete", map);
 
-        return Db.update(sqlPara.getSql(), sqlPara.getPara()) == 1;
+        return Db.update(sqlPara.getSql(), sqlPara.getPara()) != 0;
     }
 
 }

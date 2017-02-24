@@ -46,7 +46,7 @@ public class LogController extends Controller {
 
         model.validate(Log.LOG_ID);
 
-        Log log = logService.find(model);
+        Log log = logService.find(model.getLog_id());
 
         log.removeUnfindable();
 
@@ -59,7 +59,7 @@ public class LogController extends Controller {
 
         model.validate(Log.LOG_ID);
 
-        Log log = logService.find(model);
+        Log log = logService.find(model.getLog_id());
 
         renderSuccessJson(log);
     }

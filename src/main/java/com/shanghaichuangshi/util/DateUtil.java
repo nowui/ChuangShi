@@ -1,5 +1,6 @@
 package com.shanghaichuangshi.util;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -14,6 +15,14 @@ public class DateUtil {
 
     public static String getDateTimeString(Date dateTime) {
         return dateTimeFormat.format(dateTime);
+    }
+
+    public static Date getDateTime(String dateTime) {
+        try {
+            return dateTimeFormat.parse(dateTime);
+        } catch (ParseException e) {
+            throw new RuntimeException("时间格式不正确");
+        }
     }
 
 }

@@ -30,6 +30,10 @@ public class UserService extends Service {
         return user;
     }
 
+    public boolean updateByUser_password(String user_password, String request_user_id) {
+        return userDao.updateByUser_password(user_password, request_user_id);
+    }
+
     public boolean updateByObject_idAndUser_accountAndUser_type(String object_id, String user_account, String user_type, String request_user_id) {
         if (Util.isNullOrEmpty(user_account)) {
             return false;
@@ -54,6 +58,10 @@ public class UserService extends Service {
 
     public boolean deleteByObject_idAndUser_type(String object_id, String user_type, String request_user_id) {
         return userDao.deleteByObject_idAndUser_type(object_id, user_type, request_user_id);
+    }
+
+    public boolean deleteByUser_type(String user_type, String request_user_id) {
+        return userDao.deleteByUser_type(user_type, request_user_id);
     }
 
 }

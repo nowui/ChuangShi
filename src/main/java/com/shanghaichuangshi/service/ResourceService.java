@@ -17,20 +17,20 @@ public class ResourceService extends Service {
         return resourceDao.list(resource.getResource_name(), m, n);
     }
 
-    public Resource find(Resource resource) {
-        return resourceDao.find(resource.getResource_id());
+    public Resource find(String resource_id) {
+        return resourceDao.find(resource_id);
     }
 
-    public void save(Resource resource, String request_user_id) {
-        resourceDao.save(resource, request_user_id);
+    public Resource save(Resource resource, String request_user_id) {
+        return resourceDao.save(resource, request_user_id);
     }
 
-    public void update(Resource resource, String request_user_id) {
-        resourceDao.update(resource, request_user_id);
+    public boolean update(Resource resource, String request_user_id) {
+        return resourceDao.update(resource, request_user_id);
     }
 
-    public void delete(Resource resource, String request_user_id) {
-        resourceDao.delete(resource.getResource_id(), request_user_id);
+    public boolean delete(Resource resource, String request_user_id) {
+        return resourceDao.delete(resource.getResource_id(), request_user_id);
     }
 
 }

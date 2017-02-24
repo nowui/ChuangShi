@@ -15,6 +15,7 @@ public class AttributeDao extends Dao {
 
     public int count(String attribute_name) {
         JMap map = JMap.create();
+        map.put(Attribute.ATTRIBUTE_NAME, attribute_name);
         SqlPara sqlPara = Db.getSqlPara("attribute.count", map);
 
         Number count = Db.queryFirst(sqlPara.getSql(), sqlPara.getPara());
@@ -72,10 +73,9 @@ public class AttributeDao extends Dao {
         map.put(Attribute.ATTRIBUTE_ID, attribute_id);
         map.put(Attribute.SYSTEM_UPDATE_USER_ID, request_user_id);
         map.put(Attribute.SYSTEM_UPDATE_TIME, new Date());
-        map.put(Attribute.SYSTEM_STATUS, false);
         SqlPara sqlPara = Db.getSqlPara("attribute.delete", map);
 
-        return Db.update(sqlPara.getSql(), sqlPara.getPara()) == 1;
+        return Db.update(sqlPara.getSql(), sqlPara.getPara()) != 0;
     }
 
 }

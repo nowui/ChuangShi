@@ -29,34 +29,40 @@ public class AdminService extends Service {
         return adminDao.list(admin.getAdmin_name(), m, n);
     }
 
-    public Admin find(Admin admin) {
-        return adminDao.find(admin.getAdmin_id());
+    public Admin find(String admin_id) {
+        return adminDao.find(admin_id);
     }
 
     public Admin findByUser_id(String user_id) {
         return adminDao.findByUser_id(user_id);
     }
 
-    public void save(Admin admin, User user, String request_user_id) {
+    public Admin save(Admin admin, User user, String request_user_id) {
         Admin a = adminDao.save(admin, request_user_id);
 
         String user_id = userService.saveByUser_accountAndUser_passwordAndObject_idAndUser_type(user.getUser_account(), user.getUser_password(), a.getAdmin_id(), UserType.ADMIN.getKey(), request_user_id);
 
        adminDao.updateByAdmin_idAndUser_id(a.getAdmin_id(), user_id, request_user_id);
+
+       return a;
     }
 
-    public void update(Admin admin, User user, String request_user_id) {
-        adminDao.update(admin, request_user_id);
+    public boolean update(Admin admin, User user, String request_user_id) {
+        boolean result = adminDao.update(admin, request_user_id);
 
         userService.updateByObject_idAndUser_accountAndUser_type(admin.getAdmin_id(), user.getUser_account(), UserType.ADMIN.getKey(), request_user_id);
 
         userService.updateByObject_idAndUser_passwordAndUser_type(admin.getAdmin_id(), user.getUser_password(), UserType.ADMIN.getKey(), request_user_id);
+
+        return result;
     }
 
-    public void delete(Admin admin, String request_user_id) {
-        adminDao.delete(admin.getAdmin_id(), request_user_id);
+    public boolean delete(Admin admin, String request_user_id) {
+        boolean result = adminDao.delete(admin.getAdmin_id(), request_user_id);
 
         userService.deleteByObject_idAndUser_type(admin.getAdmin_id(), UserType.ADMIN.getKey(), request_user_id);
+
+        return result;
     }
 
     public Map<String, Object> login(User user, String platform, String version, String ip_address, String request_user_id) {

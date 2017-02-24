@@ -3,7 +3,6 @@ package com.shanghaichuangshi.dao;
 import com.jfinal.kit.JMap;
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.SqlPara;
-import com.shanghaichuangshi.constant.Constant;
 import com.shanghaichuangshi.model.Authorization;
 import com.shanghaichuangshi.model.Role;
 import com.shanghaichuangshi.util.Util;
@@ -15,6 +14,7 @@ public class RoleDao extends Dao {
 
     public int count(String role_name) {
         JMap map = JMap.create();
+        map.put(Role.ROLE_NAME, role_name);
         SqlPara sqlPara = Db.getSqlPara("role.count", map);
 
         Number count = Db.queryFirst(sqlPara.getSql(), sqlPara.getPara());
@@ -72,10 +72,9 @@ public class RoleDao extends Dao {
         map.put(Role.ROLE_ID, role_id);
         map.put(Role.SYSTEM_UPDATE_USER_ID, request_user_id);
         map.put(Role.SYSTEM_UPDATE_TIME, new Date());
-        map.put(Role.SYSTEM_STATUS, false);
         SqlPara sqlPara = Db.getSqlPara("role.delete", map);
 
-        return Db.update(sqlPara.getSql(), sqlPara.getPara()) == 1;
+        return Db.update(sqlPara.getSql(), sqlPara.getPara()) != 0;
     }
 
 }

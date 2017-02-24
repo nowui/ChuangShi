@@ -19,6 +19,14 @@
     AND user_type = #p(user_type)
   #end
 
+  #sql("updateByUser_password")
+    UPDATE table_user SET
+    user_password = #p(user_password),
+    system_update_user_id = #p(system_update_user_id),
+    system_update_time = #p(system_update_time)
+    WHERE user_id = #p(user_id)
+  #end
+
   #sql("updateByObject_idAndUser_accountAndUser_type")
     UPDATE table_user SET
     user_account = #p(user_account),
@@ -41,9 +49,17 @@
     UPDATE table_user SET
     system_update_user_id = #p(system_update_user_id),
     system_update_time = #p(system_update_time),
-    system_status = #p(system_status)
+    system_status = 0
     WHERE object_id = #p(object_id)
     AND user_type = #p(user_type)
+  #end
+
+  #sql("deleteByUser_type")
+    UPDATE table_user SET
+    system_update_user_id = #p(system_update_user_id),
+    system_update_time = #p(system_update_time),
+    system_status = 0
+    WHERE user_type = #p(user_type)
   #end
 
 #end

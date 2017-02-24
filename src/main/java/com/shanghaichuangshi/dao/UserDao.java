@@ -6,7 +6,6 @@ import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.SqlPara;
 import com.shanghaichuangshi.constant.Constant;
 import com.shanghaichuangshi.model.User;
-import com.shanghaichuangshi.model.User;
 import com.shanghaichuangshi.util.Util;
 
 import java.util.Date;
@@ -60,6 +59,17 @@ public class UserDao extends Dao {
         return user;
     }
 
+    public boolean updateByUser_password(String user_password, String request_user_id) {
+        JMap map = JMap.create();
+        map.put(User.USER_ID, request_user_id);
+        map.put(User.USER_PASSWORD, generatePassword(user_password));
+        map.put(User.SYSTEM_UPDATE_USER_ID, request_user_id);
+        map.put(User.SYSTEM_UPDATE_TIME, new Date());
+        SqlPara sqlPara = Db.getSqlPara("user.updateByUser_password", map);
+
+        return Db.update(sqlPara.getSql(), sqlPara.getPara()) != 0;
+    }
+
     public boolean updateByObject_idAndUser_accountAndUser_type(String object_id, String user_account, String user_type, String request_user_id) {
         JMap map = JMap.create();
         map.put(User.OBJECT_ID, object_id);
@@ -69,7 +79,7 @@ public class UserDao extends Dao {
         map.put(User.SYSTEM_UPDATE_TIME, new Date());
         SqlPara sqlPara = Db.getSqlPara("user.updateByObject_idAndUser_accountAndUser_type", map);
 
-        return Db.update(sqlPara.getSql(), sqlPara.getPara()) == 1;
+        return Db.update(sqlPara.getSql(), sqlPara.getPara()) != 0;
     }
 
     public boolean updateByObject_idAndUser_passwordAndUser_type(String object_id, String user_password, String user_type, String request_user_id) {
@@ -83,7 +93,7 @@ public class UserDao extends Dao {
         map.put(User.SYSTEM_UPDATE_TIME, new Date());
         SqlPara sqlPara = Db.getSqlPara("user.updateByObject_idAndUser_passwordAndUser_type", map);
 
-        return Db.update(sqlPara.getSql(), sqlPara.getPara()) == 1;
+        return Db.update(sqlPara.getSql(), sqlPara.getPara()) != 0;
     }
 
     public boolean deleteByObject_idAndUser_type(String object_id, String user_type, String request_user_id) {
@@ -92,10 +102,19 @@ public class UserDao extends Dao {
         map.put(User.USER_TYPE, user_type);
         map.put(User.SYSTEM_UPDATE_USER_ID, request_user_id);
         map.put(User.SYSTEM_UPDATE_TIME, new Date());
-        map.put(User.SYSTEM_STATUS, false);
         SqlPara sqlPara = Db.getSqlPara("user.deleteByObject_idAndUser_type", map);
 
-        return Db.update(sqlPara.getSql(), sqlPara.getPara()) == 1;
+        return Db.update(sqlPara.getSql(), sqlPara.getPara()) != 0;
+    }
+
+    public boolean deleteByUser_type(String user_type, String request_user_id) {
+        JMap map = JMap.create();
+        map.put(User.USER_TYPE, user_type);
+        map.put(User.SYSTEM_UPDATE_USER_ID, request_user_id);
+        map.put(User.SYSTEM_UPDATE_TIME, new Date());
+        SqlPara sqlPara = Db.getSqlPara("user.deleteByUser_type", map);
+
+        return Db.update(sqlPara.getSql(), sqlPara.getPara()) != 0;
     }
 
 }

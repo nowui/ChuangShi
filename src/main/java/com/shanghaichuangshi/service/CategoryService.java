@@ -51,8 +51,8 @@ public class CategoryService extends Service {
         return categoryList;
     }
 
-    public Category find(Category category) {
-        return categoryDao.find(category.getCategory_id());
+    public Category find(String category_id) {
+        return categoryDao.find(category_id);
     }
 
     private void checkByCategory_idAndCategory_key(String category_id, String category_key) {
@@ -91,14 +91,14 @@ public class CategoryService extends Service {
         return categoryDao.save(category, request_user_id);
     }
 
-    public void update(Category category, String request_user_id) {
+    public boolean update(Category category, String request_user_id) {
         checkByCategory_idAndCategory_key(category.getCategory_id(), category.getCategory_key());
 
-        categoryDao.update(category, request_user_id);
+        return categoryDao.update(category, request_user_id);
     }
 
-    public void delete(Category category, String request_user_id) {
-        categoryDao.delete(category.getCategory_id(), request_user_id);
+    public boolean delete(Category category, String request_user_id) {
+        return categoryDao.delete(category.getCategory_id(), request_user_id);
     }
 
     private List<Map<String, Object>> getChildren(List<Category> categoryList, String parent_id) {

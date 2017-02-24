@@ -86,7 +86,7 @@ public class AdminDao extends Dao {
         map.put(Admin.SYSTEM_UPDATE_TIME, new Date());
         SqlPara sqlPara = Db.getSqlPara("admin.updateByAdmin_idAndUser_id", map);
 
-        return Db.update(sqlPara.getSql(), sqlPara.getPara()) == 1;
+        return Db.update(sqlPara.getSql(), sqlPara.getPara()) != 0;
     }
 
     public boolean delete(String admin_id, String request_user_id) {
@@ -94,10 +94,9 @@ public class AdminDao extends Dao {
         map.put(Admin.ADMIN_ID, admin_id);
         map.put(Admin.SYSTEM_UPDATE_USER_ID, request_user_id);
         map.put(Admin.SYSTEM_UPDATE_TIME, new Date());
-        map.put(Admin.SYSTEM_STATUS, false);
         SqlPara sqlPara = Db.getSqlPara("admin.delete", map);
 
-        return Db.update(sqlPara.getSql(), sqlPara.getPara()) == 1;
+        return Db.update(sqlPara.getSql(), sqlPara.getPara()) != 0;
     }
 
 }
