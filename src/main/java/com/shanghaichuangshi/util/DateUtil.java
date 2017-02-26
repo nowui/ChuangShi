@@ -14,6 +14,9 @@ public class DateUtil {
     }
 
     public static String getDateTimeString(Date dateTime) {
+        if (dateTime == null) {
+            return null;
+        }
         return dateTimeFormat.format(dateTime);
     }
 
