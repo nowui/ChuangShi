@@ -1,6 +1,7 @@
-package com.shanghaichuangshi.model;
+package com.shanghaichuangshi.school.model;
 
 import com.shanghaichuangshi.annotation.Column;
+import com.shanghaichuangshi.model.Model;
 import com.shanghaichuangshi.type.ColumnType;
 
 public class #(first_model_name) extends Model<#(first_model_name)> {

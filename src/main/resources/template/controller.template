@@ -1,16 +1,17 @@
-package com.shanghaichuangshi.controller;
+package com.shanghaichuangshi.school.controller;
 
 import com.jfinal.core.ActionKey;
 import com.shanghaichuangshi.constant.Constant;
-import com.shanghaichuangshi.constant.Url;
-import com.shanghaichuangshi.model.#(first_model_name);
-import com.shanghaichuangshi.service.#(first_model_name)Service;
+import com.shanghaichuangshi.school.constant.Url;
+import com.shanghaichuangshi.controller.Controller;
+import com.shanghaichuangshi.school.model.#(first_model_name);
+import com.shanghaichuangshi.school.service.#(first_model_name)Service;
 
 import java.util.List;
 
 public class #(first_model_name)Controller extends Controller {
 
-    private static final #(first_model_name)Service #(upper_model_name)Service = new #(first_model_name)Service();
+    private static final #(first_model_name)Service #(lower_model_name)Service = new #(first_model_name)Service();
 
     @ActionKey(Url.#(upper_model_name)_LIST)
     public void list() {
@@ -20,9 +21,9 @@ public class #(first_model_name)Controller extends Controller {
 
         model.validate(#(first_model_name).#(upper_model_name)_NAME);
 
-        List<#(first_model_name)> #(upper_model_name)List = #(upper_model_name)Service.list(model, getM(), getN());
+        List<#(first_model_name)> #(lower_model_name)List = #(lower_model_name)Service.list(model, getM(), getN());
 
-        renderSuccessJson(#(upper_model_name)List);
+        renderSuccessJson(#(lower_model_name)List);
     }
 
     @ActionKey(Url.#(upper_model_name)_ADMIN_LIST)
@@ -33,11 +34,11 @@ public class #(first_model_name)Controller extends Controller {
 
         model.validate(#(first_model_name).#(upper_model_name)_NAME);
 
-        int count = #(upper_model_name)Service.count(model);
+        int count = #(lower_model_name)Service.count(model);
 
-        List<#(first_model_name)> #(upper_model_name)List = #(upper_model_name)Service.list(model, getM(), getN());
+        List<#(first_model_name)> #(lower_model_name)List = #(lower_model_name)Service.list(model, getM(), getN());
 
-        renderSuccessJson(count, #(upper_model_name)List);
+        renderSuccessJson(count, #(lower_model_name)List);
     }
 
     @ActionKey(Url.#(upper_model_name)_FIND)
@@ -46,11 +47,11 @@ public class #(first_model_name)Controller extends Controller {
 
         model.validate(#(first_model_name).#(upper_model_name)_ID);
 
-        #(first_model_name) #(upper_model_name) = #(upper_model_name)Service.find(model);
+        #(first_model_name) #(lower_model_name) = #(lower_model_name)Service.find(model.get#(first_model_name)_id());
 
-        #(upper_model_name).removeUnfindable();
+        #(lower_model_name).removeUnfindable();
 
-        renderSuccessJson(#(upper_model_name));
+        renderSuccessJson(#(lower_model_name));
     }
 
     @ActionKey(Url.#(upper_model_name)_ADMIN_FIND)
@@ -59,9 +60,9 @@ public class #(first_model_name)Controller extends Controller {
 
         model.validate(#(first_model_name).#(upper_model_name)_ID);
 
-        #(first_model_name) #(upper_model_name) = #(upper_model_name)Service.find(model);
+        #(first_model_name) #(lower_model_name) = #(lower_model_name)Service.find(model.get#(first_model_name)_id());
 
-        renderSuccessJson(#(upper_model_name));
+        renderSuccessJson(#(lower_model_name));
     }
 
     @ActionKey(Url.#(upper_model_name)_SAVE)
@@ -71,7 +72,7 @@ public class #(first_model_name)Controller extends Controller {
 
         model.validate(#(first_model_name).#(upper_model_name)_NAME);
 
-        #(upper_model_name)Service.save(model, request_user_id);
+        #(lower_model_name)Service.save(model, request_user_id);
 
         renderSuccessJson();
     }
@@ -83,7 +84,7 @@ public class #(first_model_name)Controller extends Controller {
 
         model.validate(#(first_model_name).#(upper_model_name)_ID, #(first_model_name).#(upper_model_name)_NAME);
 
-        #(upper_model_name)Service.update(model, request_user_id);
+        #(lower_model_name)Service.update(model, request_user_id);
 
         renderSuccessJson();
     }
@@ -95,7 +96,7 @@ public class #(first_model_name)Controller extends Controller {
 
         model.validate(#(first_model_name).#(upper_model_name)_ID);
 
-        #(upper_model_name)Service.delete(model, request_user_id);
+        #(lower_model_name)Service.delete(model, request_user_id);
 
         renderSuccessJson();
     }

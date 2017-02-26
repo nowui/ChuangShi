@@ -82,7 +82,7 @@
     UPDATE table_category SET
     system_update_user_id = #p(system_update_user_id),
     system_update_time = #p(system_update_time),
-    system_status = #p(system_status)
+    system_status = 0
     WHERE category_id = #p(category_id)
     #set(category_id = "%" + category_id + "%")
     OR category_path LIKE #p(category_id)

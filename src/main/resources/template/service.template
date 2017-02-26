@@ -18,8 +18,8 @@ public class #(first_model_name)Service extends Service {
         return #(lower_model_name)Dao.list(#(lower_model_name).get#(first_model_name)_name(), m, n);
     }
 
-    public #(first_model_name) find(#(first_model_name) #(lower_model_name)) {
-        return #(lower_model_name)Dao.find(#(lower_model_name).get#(first_model_name)_id());
+    public #(first_model_name) find(String #(lower_model_name)_id) {
+        return #(lower_model_name)Dao.find(#(lower_model_name)_id);
     }
 
     public #(first_model_name) save(#(first_model_name) #(lower_model_name), String request_user_id) {

@@ -54,6 +54,7 @@ class #(first_model_name)Detail extends Component {
       >
         <Spin spinning={this.props.is_load}>
             #for(column : columnList)
+            #if(column.column_name != lower_model_name + "_id")
             <FormItem hasFeedback {...constant.formItemLayoutDetail} className={style.formItem}
                       style={{width: constant.detail_form_item_width}} label="#(column.column_comment)">
               {
@@ -77,6 +78,7 @@ class #(first_model_name)Detail extends Component {
                 )
               }
             </FormItem>
+            #end
             #end
         </Spin>
       </Modal>

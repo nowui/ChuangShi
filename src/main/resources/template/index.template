@@ -46,7 +46,7 @@ class #(first_model_name)Index extends Component {
     }
 
     request = http({
-      url: '#(lower_model_name)/admin/list',
+      url: '/#(lower_model_name)/admin/list',
       data: {
         #(lower_model_name)_name: #(lower_model_name)_name,
         page_index: page_index,
@@ -107,7 +107,7 @@ class #(first_model_name)Index extends Component {
     }
 
     request = http({
-      url: '#(lower_model_name)/find',
+      url: '/#(lower_model_name)/admin/find',
       data: {
         #(lower_model_name)_id: #(lower_model_name)_id
       },
@@ -128,7 +128,7 @@ class #(first_model_name)Index extends Component {
     }
 
     request = http({
-      url: '#(lower_model_name)/delete',
+      url: '/#(lower_model_name)/delete',
       data: {
         #(lower_model_name)_id: #(lower_model_name)_id
       },
@@ -157,7 +157,7 @@ class #(first_model_name)Index extends Component {
     }
 
     request = http({
-      url: '#(lower_model_name)/' + this.props.#(lower_model_name).action,
+      url: '/#(lower_model_name)/' + this.props.#(lower_model_name).action,
       data: data,
       success: function (json) {
         message.success(constant.success);

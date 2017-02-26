@@ -37,7 +37,7 @@
     UPDATE table_role SET
     system_update_user_id = #p(system_update_user_id),
     system_update_time = #p(system_update_time),
-    system_status = #p(system_status)
+    system_status = 0
     WHERE role_id = #p(role_id)
   #end
 

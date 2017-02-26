@@ -1,10 +1,11 @@
-package com.shanghaichuangshi.dao;
+package com.shanghaichuangshi.school.dao;
 
 import com.jfinal.kit.JMap;
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.SqlPara;
+import com.shanghaichuangshi.dao.Dao;
 import com.shanghaichuangshi.model.Authorization;
-import com.shanghaichuangshi.model.#(first_model_name);
+import com.shanghaichuangshi.school.model.#(first_model_name);
 import com.shanghaichuangshi.util.Util;
 
 import java.util.Date;
@@ -14,6 +15,7 @@ public class #(first_model_name)Dao extends Dao {
 
     public int count(String #(lower_model_name)_name) {
         JMap map = JMap.create();
+        map.put(#(first_model_name).#(upper_model_name)_NAME, #(lower_model_name)_name);
         SqlPara sqlPara = Db.getSqlPara("#(lower_model_name).count", map);
 
         Number count = Db.queryFirst(sqlPara.getSql(), sqlPara.getPara());
@@ -71,7 +73,6 @@ public class #(first_model_name)Dao extends Dao {
         map.put(#(first_model_name).#(upper_model_name)_ID, #(lower_model_name)_id);
         map.put(#(first_model_name).SYSTEM_UPDATE_USER_ID, request_user_id);
         map.put(#(first_model_name).SYSTEM_UPDATE_TIME, new Date());
-        map.put(#(first_model_name).SYSTEM_STATUS, false);
         SqlPara sqlPara = Db.getSqlPara("#(lower_model_name).delete", map);
 
         return Db.update(sqlPara.getSql(), sqlPara.getPara()) != 0;
