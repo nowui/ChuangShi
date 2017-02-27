@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.shanghaichuangshi.constant.Constant;
 import com.shanghaichuangshi.dao.CategoryDao;
 import com.shanghaichuangshi.model.Category;
+import com.shanghaichuangshi.type.CategoryType;
 import com.shanghaichuangshi.util.Util;
 
 import java.util.ArrayList;
@@ -43,6 +44,16 @@ public class CategoryService extends Service {
         category.put(Constant.CHILDREN, getMenuChildren(categoryList, category.getCategory_id()));
 
         return category;
+    }
+
+    public List<Map<String, Object>> treeChinaList() {
+        Category category = categoryDao.findByCategory_key(CategoryType.CHINA.getKey());
+
+        List<Category> categoryList = categoryDao.treeListByCategory_path(category.getCategory_id());
+
+        List<Map<String, Object>> resultList = getChinaChildren(categoryList, category.getCategory_id());
+
+        return resultList;
     }
 
     public List<Category> listByCategory_key(String category_key) {
@@ -134,6 +145,24 @@ public class CategoryService extends Service {
                 map.put(Category.CATEGORY_REMARK, category.getCategory_remark());
 
                 List<Map<String, Object>> childrenList = getMenuChildren(categoryList, category.getCategory_id());
+                if (childrenList.size() > 0) {
+                    map.put(Constant.CHILDREN, childrenList);
+                }
+                list.add(map);
+            }
+        }
+        return list;
+    }
+
+    private List<Map<String, Object>> getChinaChildren(List<Category> categoryList, String parent_id) {
+        List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
+        for (Category category : categoryList) {
+            if (category.getParent_id().equals(parent_id)) {
+                Map<String, Object> map = new HashMap<String, Object>();
+                map.put("value", category.getCategory_id());
+                map.put("label", category.getCategory_name());
+
+                List<Map<String, Object>> childrenList = getChinaChildren(categoryList, category.getCategory_id());
                 if (childrenList.size() > 0) {
                     map.put(Constant.CHILDREN, childrenList);
                 }

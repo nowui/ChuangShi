@@ -5,8 +5,10 @@ import com.shanghaichuangshi.constant.Constant;
 import com.shanghaichuangshi.constant.Url;
 import com.shanghaichuangshi.model.Category;
 import com.shanghaichuangshi.service.CategoryService;
+import com.shanghaichuangshi.type.CategoryType;
 
 import java.util.List;
+import java.util.Map;
 
 public class CategoryController extends Controller {
 
@@ -38,6 +40,13 @@ public class CategoryController extends Controller {
         category.keep(Category.CATEGORY_ID, Category.CATEGORY_NAME, Constant.CHILDREN);
 
         renderSuccessJson(category);
+    }
+
+    @ActionKey(Url.CATEGORY_CHINA_LIST)
+    public void chinaList() {
+        List<Map<String, Object>> resultList = categoryService.treeChinaList();
+
+        renderSuccessJson(resultList);
     }
 
     @ActionKey(Url.CATEGORY_FIND)

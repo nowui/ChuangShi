@@ -20,10 +20,9 @@ public class UploadService extends Service {
         String thumbnailPath = PathKit.getWebRootPath() + "/" + Constant.UPLOAD + "/" + request_user_id + "/" + Constant.THUMBNAIL;
         String originalPath = PathKit.getWebRootPath() + "/" + Constant.UPLOAD + "/" + request_user_id + "/" + Constant.ORIGINAL;
 
-        if (FileUtil.createPath(path)) {
-            FileUtil.createPath(thumbnailPath);
-            FileUtil.createPath(originalPath);
-        }
+        FileUtil.createPath(path);
+        FileUtil.createPath(thumbnailPath);
+        FileUtil.createPath(originalPath);
 
         for (UploadFile uploadFile : uploadFileList) {
             String suffix = uploadFile.getFileName().substring(uploadFile.getFileName().lastIndexOf(".") + 1);

@@ -3,7 +3,8 @@ package com.shanghaichuangshi.type;
 public enum CategoryType {
 
     MENU("MENU", "菜单"),
-    CHINA("MEMBER", "中国省市区");
+    CHINA("CHINA", "中国省市区"),
+    PRODUCT("PRODUCT", "商品");
 
     private String key;
     private String value;

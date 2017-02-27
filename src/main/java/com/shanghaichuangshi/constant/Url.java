@@ -19,6 +19,7 @@ public class Url {
 
     public static final String CATEGORY_ADMIN_LIST = "/category/admin/list";
     public static final String CATEGORY_ADMIN_TREE_LIST = "/category/admin/tree/list";
+    public static final String CATEGORY_CHINA_LIST = "/category/china/list";
     public static final String CATEGORY_FIND = "/category/find";
     public static final String CATEGORY_ADMIN_FIND = "/category/admin/find";
     public static final String CATEGORY_SAVE = "/category/save";
