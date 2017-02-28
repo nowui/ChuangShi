@@ -42,6 +42,8 @@ public class AdminService extends Service {
 
         String user_id = userService.saveByUser_accountAndUser_passwordAndObject_idAndUser_type(user.getUser_account(), user.getUser_password(), a.getAdmin_id(), UserType.ADMIN.getKey(), request_user_id);
 
+        admin.setUser_id(user_id);
+
        adminDao.updateByAdmin_idAndUser_id(a.getAdmin_id(), user_id, request_user_id);
 
        return a;

@@ -27,6 +27,16 @@ public class UserDao extends Dao {
         return count.intValue();
     }
 
+    public int countByObject_idAndUser_phone(String object_id, String user_phone) {
+        JMap map = JMap.create();
+        map.put(User.OBJECT_ID, object_id);
+        map.put(User.USER_PHONE, user_phone);
+        SqlPara sqlPara = Db.getSqlPara("user.countByObject_idAndUser_phone", map);
+
+        Number count = Db.queryFirst(sqlPara.getSql(), sqlPara.getPara());
+        return count.intValue();
+    }
+
     public User findByUser_accountAndUser_passwordAndUser_type(String user_account, String user_password, String user_type) {
         JMap map = JMap.create();
         map.put(User.USER_ACCOUNT, user_account);
@@ -46,6 +56,23 @@ public class UserDao extends Dao {
         User user = new User();
         user.setUser_id(Util.getRandomUUID());
         user.setUser_account(user_account);
+        user.setUser_password(generatePassword(user_password));
+        user.setObject_id(object_id);
+        user.setUser_type(user_type);
+        user.setSystem_create_user_id(request_user_id);
+        user.setSystem_create_time(new Date());
+        user.setSystem_update_user_id(request_user_id);
+        user.setSystem_update_time(new Date());
+        user.setSystem_status(true);
+        user.save();
+
+        return user;
+    }
+
+    public User saveByUser_phoneAndUser_passwordAndObject_idAndUser_type(String user_phone, String user_password, String object_id, String user_type, String request_user_id) {
+        User user = new User();
+        user.setUser_id(Util.getRandomUUID());
+        user.setUser_phone(user_phone);
         user.setUser_password(generatePassword(user_password));
         user.setObject_id(object_id);
         user.setUser_type(user_type);

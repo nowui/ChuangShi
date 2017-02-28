@@ -12,10 +12,22 @@ public class UserService extends Service {
         int count = userDao.countByObject_idAndUser_account("", user_account);
 
         if (count > 0) {
-            throw new RuntimeException("已经存在帐号:" + user_account);
+            throw new RuntimeException("帐号已经存在:" + user_account);
         }
 
         User user = userDao.saveByUser_accountAndUser_passwordAndObject_idAndUser_type(user_account, user_password, object_id, user_type, request_user_id);
+
+        return user.getUser_id();
+    }
+
+    public String saveByUser_phoneAndUser_passwordAndObject_idAndUser_type(String user_phone, String user_password, String object_id, String user_type, String request_user_id) {
+        int count = userDao.countByObject_idAndUser_phone("", user_phone);
+
+        if (count > 0) {
+            throw new RuntimeException("手机号码已经存在:" + user_phone);
+        }
+
+        User user = userDao.saveByUser_phoneAndUser_passwordAndObject_idAndUser_type(user_phone, user_password, object_id, user_type, request_user_id);
 
         return user.getUser_id();
     }
