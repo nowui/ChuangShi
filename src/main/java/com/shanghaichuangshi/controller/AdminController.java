@@ -109,12 +109,9 @@ public class AdminController extends Controller {
     @ActionKey(Url.ADMIN_LOGIN)
     public void login() {
         User model = getParameter(User.class);
-        String platform = getPlatform();
-        String version = getVersion();
-        String ip_address = getIp_address();
         String request_user_id = getRequest_user_id();
 
-        Map<String, Object> resultMap = adminService.login(model, platform, version, ip_address, request_user_id);
+        Map<String, Object> resultMap = adminService.login(model, getPlatform(), getVersion(), getIp_address(), request_user_id);
 
         renderSuccessJson(resultMap);
     }

@@ -52,6 +52,21 @@ public class UserDao extends Dao {
         }
     }
 
+    public User findByUser_phoneAndUser_passwordAndUser_type(String user_phone, String user_password, String user_type) {
+        JMap map = JMap.create();
+        map.put(User.USER_PHONE, user_phone);
+        map.put(User.USER_PASSWORD, generatePassword(user_password));
+        map.put(User.USER_TYPE, user_type);
+        SqlPara sqlPara = Db.getSqlPara("user.findByUser_phoneAndUser_passwordAndUser_type", map);
+
+        List<User> userList = new User().find(sqlPara.getSql(), sqlPara.getPara());
+        if (userList.size() == 0) {
+            return null;
+        } else {
+            return userList.get(0);
+        }
+    }
+
     public User saveByUser_accountAndUser_passwordAndObject_idAndUser_type(String user_account, String user_password, String object_id, String user_type, String request_user_id) {
         User user = new User();
         user.setUser_id(Util.getRandomUUID());

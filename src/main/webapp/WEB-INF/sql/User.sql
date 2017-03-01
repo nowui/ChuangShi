@@ -28,6 +28,16 @@
     AND user_type = #p(user_type)
   #end
 
+  #sql("findByUser_phoneAndUser_passwordAndUser_type")
+    SELECT
+    *
+    FROM table_user
+    WHERE table_user.system_status = 1
+    AND user_phone = #p(user_phone)
+    AND user_password = #p(user_password)
+    AND user_type = #p(user_type)
+  #end
+
   #sql("updateByUser_password")
     UPDATE table_user SET
     user_password = #p(user_password),

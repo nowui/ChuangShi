@@ -36,7 +36,17 @@ public class UserService extends Service {
         User user = userDao.findByUser_accountAndUser_passwordAndUser_type(user_account, user_password, user_type);
 
         if (user == null) {
-            throw new RuntimeException("用户名或者密码不正确");
+            throw new RuntimeException("帐号或者密码不正确");
+        }
+
+        return user;
+    }
+
+    public User findByUser_phoneAndUser_passwordAndUser_type(String user_phone, String user_password, String user_type) {
+        User user = userDao.findByUser_phoneAndUser_passwordAndUser_type(user_phone, user_password, user_type);
+
+        if (user == null) {
+            throw new RuntimeException("帐号或者密码不正确");
         }
 
         return user;
