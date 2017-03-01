@@ -15,10 +15,6 @@ import com.shanghaichuangshi.model.*;
 
 public class WebConfig extends JFinalConfig {
 
-    public static void main(String[] args) {
-         JFinal.start("WebRoot", 80, "/");
-    }
-
     public void configConstant(Constants constants) {
         constants.setDevMode(false);
         constants.setViewType(ViewType.JSP);
@@ -65,7 +61,7 @@ public class WebConfig extends JFinalConfig {
         druidPlugin.addFilter(sql_log_filter);
 
         ActiveRecordPlugin activeRecordPlugin = new ActiveRecordPlugin(druidPlugin);
-        activeRecordPlugin.setBaseSqlTemplatePath(PathKit.getRootClassPath() + "/sql/");
+        activeRecordPlugin.setBaseSqlTemplatePath(PathKit.getWebRootPath() + "/WEB-INF/sql/");
         activeRecordPlugin.addSqlTemplate("code.sql");
 
         activeRecordPlugin.addMapping("table_admin", "admin_id", Admin.class);

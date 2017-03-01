@@ -2,7 +2,7 @@
 
   #sql("listTable")
     SELECT table_name FROM information_schema.tables
-    WHERE table_schema='Shop'
+    WHERE table_schema=#p(table_schema)
   #end
 
   #sql("listColumn")
@@ -13,7 +13,7 @@
     data_type,
     column_comment
     FROM information_schema.columns
-    WHERE table_schema='Shop'
+    WHERE table_schema=#p(table_schema)
     AND table_name = #p(table_name)
   #end
 

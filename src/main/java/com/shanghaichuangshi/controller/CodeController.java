@@ -8,7 +8,6 @@ import com.jfinal.plugin.activerecord.Record;
 import com.jfinal.template.Engine;
 import com.jfinal.template.Template;
 import com.shanghaichuangshi.constant.Url;
-import com.shanghaichuangshi.model.Code;
 import com.shanghaichuangshi.service.CodeService;
 import com.shanghaichuangshi.util.Util;
 
@@ -21,14 +20,16 @@ public class CodeController extends Controller {
     private static final Engine engine = Engine.create("engine");
 
     static {
-        engine.setBaseTemplatePath(PathKit.getRootClassPath() + "/template/");
+        engine.setBaseTemplatePath(PathKit.getWebRootPath() + "/WEB-INF/template/");
     }
 
     @ActionKey(Url.CODE_LIST)
     public void list() {
-        Code codeModel = getParameter(Code.class);
+        JSONObject jsonObject = getParameterJSONObject();
 
-        List<Record> tableList = codeService.listTable(codeModel.getTable_name());
+        String table_schema = jsonObject.getString("table_schema");
+
+        List<Record> tableList = codeService.listTable(table_schema);
 
         List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
 
@@ -46,8 +47,9 @@ public class CodeController extends Controller {
         JSONObject jsonObject = getParameterJSONObject();
 
         String table_name = jsonObject.getString("table_name");
+        String table_schema = jsonObject.getString("table_schema");
 
-        List<Record> codeList = codeService.listColumn(table_name);
+        List<Record> codeList = codeService.listColumn(table_name, table_schema);
 
         List<Record> columnList = new ArrayList<Record>();
 
