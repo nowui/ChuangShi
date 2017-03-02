@@ -21,6 +21,10 @@ public class UserService extends Service {
     }
 
     public String saveByUser_phoneAndUser_passwordAndObject_idAndUser_type(String user_phone, String user_password, String object_id, String user_type, String request_user_id) {
+        if (!Util.isPhone(user_phone)) {
+            throw new RuntimeException("手机号码格式不对:" + user_phone);
+        }
+
         int count = userDao.countByObject_idAndUser_phone("", user_phone);
 
         if (count > 0) {
@@ -68,6 +72,24 @@ public class UserService extends Service {
         }
 
         return userDao.updateByObject_idAndUser_accountAndUser_type(object_id, user_account, user_type, request_user_id);
+    }
+
+    public boolean updateByObject_idAndUser_phoneAndUser_type(String object_id, String user_phone, String user_type, String request_user_id) {
+        if (Util.isNullOrEmpty(user_phone)) {
+            return false;
+        }
+
+        if (!Util.isPhone(user_phone)) {
+            throw new RuntimeException("手机号码格式不对:" + user_phone);
+        }
+
+        int count = userDao.countByObject_idAndUser_phone(object_id, user_phone);
+
+        if (count > 0) {
+            throw new RuntimeException("已经存在手机号码:" + user_phone);
+        }
+
+        return userDao.updateByObject_idAndUser_phoneAndUser_type(object_id, user_phone, user_type, request_user_id);
     }
 
     public boolean updateByObject_idAndUser_passwordAndUser_type(String object_id, String user_password, String user_type, String request_user_id) {

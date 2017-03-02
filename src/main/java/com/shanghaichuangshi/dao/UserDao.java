@@ -124,6 +124,18 @@ public class UserDao extends Dao {
         return Db.update(sqlPara.getSql(), sqlPara.getPara()) != 0;
     }
 
+    public boolean updateByObject_idAndUser_phoneAndUser_type(String object_id, String user_phone, String user_type, String request_user_id) {
+        JMap map = JMap.create();
+        map.put(User.OBJECT_ID, object_id);
+        map.put(User.USER_PHONE, user_phone);
+        map.put(User.USER_TYPE, user_type);
+        map.put(User.SYSTEM_UPDATE_USER_ID, request_user_id);
+        map.put(User.SYSTEM_UPDATE_TIME, new Date());
+        SqlPara sqlPara = Db.getSqlPara("user.updateByObject_idAndUser_phoneAndUser_type", map);
+
+        return Db.update(sqlPara.getSql(), sqlPara.getPara()) != 0;
+    }
+
     public boolean updateByObject_idAndUser_passwordAndUser_type(String object_id, String user_password, String user_type, String request_user_id) {
         user_password = generatePassword(user_password);
 

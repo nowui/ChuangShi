@@ -55,6 +55,15 @@
     AND user_type = #p(user_type)
   #end
 
+  #sql("updateByObject_idAndUser_phoneAndUser_type")
+    UPDATE table_user SET
+    user_phone = #p(user_phone),
+    system_update_user_id = #p(system_update_user_id),
+    system_update_time = #p(system_update_time)
+    WHERE object_id = #p(object_id)
+    AND user_type = #p(user_type)
+  #end
+
   #sql("updateByObject_idAndUser_passwordAndUser_type")
     UPDATE table_user SET
     user_password = #p(user_password),
