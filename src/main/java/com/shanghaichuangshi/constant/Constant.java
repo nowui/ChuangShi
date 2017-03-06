@@ -48,4 +48,8 @@ public class Constant {
 
     public static final String PAGE_SIZE = "page_size";
 
+    public static final String NAME = "name";
+
+    public static final String FINDABLE = "findable";
+
 }

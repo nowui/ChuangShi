@@ -1,35 +1,37 @@
 package com.shanghaichuangshi.model;
 
+import com.shanghaichuangshi.annotation.Column;
 import com.shanghaichuangshi.constant.Constant;
 import com.shanghaichuangshi.type.ColumnType;
 import com.shanghaichuangshi.util.Util;
 
-import java.util.Date;
+import java.lang.reflect.Field;
+import java.util.*;
 
 public class Model<M extends Model> extends com.jfinal.plugin.activerecord.Model<M> {
 
     private static final long serialVersionUID = 1L;
 
-    @com.shanghaichuangshi.annotation.Column(type = ColumnType.VARCHAR, length = 32, comment = "")
+    @com.shanghaichuangshi.annotation.Column(type = ColumnType.VARCHAR, length = 32, comment = "", findable = false)
     public static final String SYSTEM_CREATE_USER_ID = "system_create_user_id";
 
-    @com.shanghaichuangshi.annotation.Column(type = ColumnType.DATETIME, length = 0, comment = "")
+    @com.shanghaichuangshi.annotation.Column(type = ColumnType.DATETIME, length = 0, comment = "", findable = false)
     public static final String SYSTEM_CREATE_TIME = "system_create_time";
 
-    @com.shanghaichuangshi.annotation.Column(type = ColumnType.VARCHAR, length = 32, comment = "")
+    @com.shanghaichuangshi.annotation.Column(type = ColumnType.VARCHAR, length = 32, comment = "", findable = false)
     public static final String SYSTEM_UPDATE_USER_ID = "system_update_user_id";
 
-    @com.shanghaichuangshi.annotation.Column(type = ColumnType.DATETIME, length = 0, comment = "")
+    @com.shanghaichuangshi.annotation.Column(type = ColumnType.DATETIME, length = 0, comment = "", findable = false)
     public static final String SYSTEM_UPDATE_TIME = "system_update_time";
 
-    @com.shanghaichuangshi.annotation.Column(type = ColumnType.BOOLEAN, length = 0, comment = "")
+    @com.shanghaichuangshi.annotation.Column(type = ColumnType.BOOLEAN, length = 0, comment = "", findable = false)
     public static final String SYSTEM_STATUS = "system_status";
 
     public static final String M = "m";
 
     public static final String N = "n";
 
-//    private String request_user_id;
+    private List<Map<String, Object>> columnList;
 
     public void setSystem_create_user_id(String system_create_user_id) {
         set(SYSTEM_CREATE_USER_ID, system_create_user_id);
@@ -91,7 +93,63 @@ public class Model<M extends Model> extends com.jfinal.plugin.activerecord.Model
     }
 
     public void removeUnfindable() {
+        for (Map<String, Object> map : getColumnList()) {
+            if (!(boolean)map.get(Constant.FINDABLE)) {
+                this.remove(map.get(Constant.NAME).toString());
+            }
+        }
+    }
 
+    private List<Map<String, Object>> getColumnList() {
+        if (columnList == null) {
+            columnList = new ArrayList<Map<String, Object>>();
+
+            Field[] fields = this.getClass().getDeclaredFields();
+            for (Field field : fields) {
+                Column column = field.getAnnotation(Column.class);
+
+                if (column != null) {
+                    Map<String, Object> map = new HashMap<String, Object>();
+
+                    try {
+                        map.put(Constant.NAME, field.get(Model.class).toString());
+                    } catch (IllegalAccessException e) {
+                        throw new RuntimeException("IllegalAccessException: " + e);
+                    }
+
+                    map.put(Constant.FINDABLE, column.findable());
+
+                    columnList.add(map);
+                }
+            }
+
+            Map<String, Object> map = new HashMap<String, Object>();
+            map.put(Constant.NAME, SYSTEM_CREATE_USER_ID);
+            map.put(Constant.FINDABLE, false);
+            columnList.add(map);
+
+            map = new HashMap<String, Object>();
+            map.put(Constant.NAME, SYSTEM_CREATE_TIME);
+            map.put(Constant.FINDABLE, false);
+            columnList.add(map);
+
+            map = new HashMap<String, Object>();
+            map.put(Constant.NAME, SYSTEM_UPDATE_USER_ID);
+            map.put(Constant.FINDABLE, false);
+            columnList.add(map);
+
+            map = new HashMap<String, Object>();
+            map.put(Constant.NAME, SYSTEM_UPDATE_TIME);
+            map.put(Constant.FINDABLE, false);
+            columnList.add(map);
+
+            map = new HashMap<String, Object>();
+            map.put(Constant.NAME, SYSTEM_STATUS);
+            map.put(Constant.FINDABLE, false);
+            columnList.add(map);
+        }
+
+        return columnList;
     }
 
 }
