@@ -11,7 +11,7 @@ import java.util.List;
 
 public class #(first_model_name)Controller extends Controller {
 
-    private static final #(first_model_name)Service #(lower_model_name)Service = new #(first_model_name)Service();
+    private static final #(first_model_name)Service #(first_lower_model_name)Service = new #(first_model_name)Service();
 
     @ActionKey(Url.#(upper_model_name)_LIST)
     public void list() {
@@ -21,9 +21,9 @@ public class #(first_model_name)Controller extends Controller {
 
         model.validate(#(first_model_name).#(upper_model_name)_NAME);
 
-        List<#(first_model_name)> #(lower_model_name)List = #(lower_model_name)Service.list(model, getM(), getN());
+        List<#(first_model_name)> #(first_lower_model_name)Listvice = #(first_lower_model_name)Service.list(model, getM(), getN());
 
-        renderSuccessJson(#(lower_model_name)List);
+        renderSuccessJson(#(first_lower_model_name)Listvice);
     }
 
     @ActionKey(Url.#(upper_model_name)_ADMIN_LIST)
@@ -34,11 +34,11 @@ public class #(first_model_name)Controller extends Controller {
 
         model.validate(#(first_model_name).#(upper_model_name)_NAME);
 
-        int count = #(lower_model_name)Service.count(model);
+        int count = #(first_lower_model_name)Service.count(model);
 
-        List<#(first_model_name)> #(lower_model_name)List = #(lower_model_name)Service.list(model, getM(), getN());
+        List<#(first_model_name)> #(first_lower_model_name)Listvice = #(first_lower_model_name)Service.list(model, getM(), getN());
 
-        renderSuccessJson(count, #(lower_model_name)List);
+        renderSuccessJson(count, #(first_lower_model_name)Listvice);
     }
 
     @ActionKey(Url.#(upper_model_name)_FIND)
@@ -47,7 +47,7 @@ public class #(first_model_name)Controller extends Controller {
 
         model.validate(#(first_model_name).#(upper_model_name)_ID);
 
-        #(first_model_name) #(lower_model_name) = #(lower_model_name)Service.find(model.get#(first_model_name)_id());
+        #(first_model_name) #(lower_model_name) = #(first_lower_model_name)Service.find(model.get#(first_model_name)_id());
 
         #(lower_model_name).removeUnfindable();
 
@@ -60,7 +60,7 @@ public class #(first_model_name)Controller extends Controller {
 
         model.validate(#(first_model_name).#(upper_model_name)_ID);
 
-        #(first_model_name) #(lower_model_name) = #(lower_model_name)Service.find(model.get#(first_model_name)_id());
+        #(first_model_name) #(lower_model_name) = #(first_lower_model_name)Service.find(model.get#(first_model_name)_id());
 
         renderSuccessJson(#(lower_model_name));
     }
@@ -72,7 +72,7 @@ public class #(first_model_name)Controller extends Controller {
 
         model.validate(#(first_model_name).#(upper_model_name)_NAME);
 
-        #(lower_model_name)Service.save(model, request_user_id);
+        #(first_lower_model_name)Service.save(model, request_user_id);
 
         renderSuccessJson();
     }
@@ -84,7 +84,7 @@ public class #(first_model_name)Controller extends Controller {
 
         model.validate(#(first_model_name).#(upper_model_name)_ID, #(first_model_name).#(upper_model_name)_NAME);
 
-        #(lower_model_name)Service.update(model, request_user_id);
+        #(first_lower_model_name)Service.update(model, request_user_id);
 
         renderSuccessJson();
     }
@@ -96,7 +96,7 @@ public class #(first_model_name)Controller extends Controller {
 
         model.validate(#(first_model_name).#(upper_model_name)_ID);
 
-        #(lower_model_name)Service.delete(model, request_user_id);
+        #(first_lower_model_name)Service.delete(model, request_user_id);
 
         renderSuccessJson();
     }

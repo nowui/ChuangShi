@@ -3,7 +3,6 @@ package com.shanghaichuangshi.dao;
 import com.jfinal.kit.JMap;
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.SqlPara;
-import com.shanghaichuangshi.model.Authorization;
 import com.shanghaichuangshi.model.Resource;
 import com.shanghaichuangshi.util.Util;
 
@@ -24,8 +23,8 @@ public class ResourceDao extends Dao {
     public List<Resource> list(String resource_name, Integer m, Integer n) {
         JMap map = JMap.create();
         map.put(Resource.RESOURCE_NAME, resource_name);
-        map.put(Authorization.M, m);
-        map.put(Authorization.N, n);
+        map.put(Resource.M, m);
+        map.put(Resource.N, n);
         SqlPara sqlPara = Db.getSqlPara("resource.list", map);
 
         return new Resource().find(sqlPara.getSql(), sqlPara.getPara());

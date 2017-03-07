@@ -4,7 +4,6 @@ import com.jfinal.kit.JMap;
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.SqlPara;
 import com.shanghaichuangshi.constant.Constant;
-import com.shanghaichuangshi.model.Authorization;
 import com.shanghaichuangshi.model.File;
 import com.shanghaichuangshi.util.Util;
 
@@ -27,8 +26,8 @@ public class FileDao extends Dao {
         JMap map = JMap.create();
         map.put(File.FILE_NAME, file_name);
         map.put(Constant.REQUEST_USER_ID, request_user_id);
-        map.put(Authorization.M, m);
-        map.put(Authorization.N, n);
+        map.put(File.M, m);
+        map.put(File.N, n);
         SqlPara sqlPara = Db.getSqlPara("file.list", map);
 
         return new File().find(sqlPara.getSql(), sqlPara.getPara());

@@ -76,6 +76,7 @@ public class CodeController extends Controller {
         String lowerModelName = table_name.replace("table_", "").toLowerCase();
         String upperModelName = lowerModelName.toUpperCase();
         String firstModelName = lowerModelName.substring(0, 1).toUpperCase() + lowerModelName.substring(1);
+        String firstLowerModelName = lowerModelName.substring(0, 1).toLowerCase() + lowerModelName.substring(1);
 
 //        if (firstModelName.contains("_")) {
 //            int index = firstModelName.indexOf("_");
@@ -83,19 +84,20 @@ public class CodeController extends Controller {
 //        }
 
         firstModelName = check(firstModelName);
+        firstLowerModelName = check(firstLowerModelName);
 
-        write(lowerModelName, upperModelName, firstModelName, columnList, "url.template", "Url.java");
-        write(lowerModelName, upperModelName, firstModelName, columnList, "model.template", firstModelName + ".java");
-        write(lowerModelName, upperModelName, firstModelName, columnList, "dao.template", firstModelName + "Dao.java");
-        write(lowerModelName, upperModelName, firstModelName, columnList, "service.template", firstModelName + "Service.java");
-        write(lowerModelName, upperModelName, firstModelName, columnList, "controller.template", firstModelName + "Controller.java");
-        write(lowerModelName, upperModelName, firstModelName, columnList, "config.template", "WebConfig.java");
-        write(lowerModelName, upperModelName, firstModelName, columnList, "state.template", lowerModelName + ".js");
-        write(lowerModelName, upperModelName, firstModelName, columnList, "index.template", firstModelName + "Index.js");
-        write(lowerModelName, upperModelName, firstModelName, columnList, "detail.template", firstModelName + "Detail.js");
-        write(lowerModelName, upperModelName, firstModelName, columnList, "router.template", "Router.js");
-        write(lowerModelName, upperModelName, firstModelName, columnList, "app.template", "index.js");
-        write(lowerModelName, upperModelName, firstModelName, columnList, "sql.template", firstModelName + ".sql");
+        write(lowerModelName, upperModelName, firstModelName, firstLowerModelName, columnList, "url.template", "Url.java");
+        write(lowerModelName, upperModelName, firstModelName, firstLowerModelName, columnList, "model.template", firstModelName + ".java");
+        write(lowerModelName, upperModelName, firstModelName, firstLowerModelName, columnList, "dao.template", firstModelName + "Dao.java");
+        write(lowerModelName, upperModelName, firstModelName, firstLowerModelName, columnList, "service.template", firstModelName + "Service.java");
+        write(lowerModelName, upperModelName, firstModelName, firstLowerModelName, columnList, "controller.template", firstModelName + "Controller.java");
+        write(lowerModelName, upperModelName, firstModelName, firstLowerModelName, columnList, "config.template", "WebConfig.java");
+        write(lowerModelName, upperModelName, firstModelName, firstLowerModelName, columnList, "state.template", lowerModelName + ".js");
+        write(lowerModelName, upperModelName, firstModelName, firstLowerModelName, columnList, "index.template", firstModelName + "Index.js");
+        write(lowerModelName, upperModelName, firstModelName, firstLowerModelName, columnList, "detail.template", firstModelName + "Detail.js");
+        write(lowerModelName, upperModelName, firstModelName, firstLowerModelName, columnList, "router.template", "Router.js");
+        write(lowerModelName, upperModelName, firstModelName, firstLowerModelName, columnList, "app.template", "index.js");
+        write(lowerModelName, upperModelName, firstModelName, firstLowerModelName, columnList, "sql.template", firstModelName + ".sql");
 
         renderSuccessJson("");
     }
@@ -113,7 +115,7 @@ public class CodeController extends Controller {
         return name;
     }
 
-    private void write(String lower_model_name, String upper_model_name, String first_model_name, List<Record> columnList, String templateName, String fileName) throws IOException {
+    private void write(String lower_model_name, String upper_model_name, String first_model_name, String firstLowerModelName, List<Record> columnList, String templateName, String fileName) throws IOException {
 //        String root = System.getProperty("user.dir") + File.separator + "/src/main/resources/template";
 //        FileResourceLoader resourceLoader = new FileResourceLoader(root, "utf-8");
 //        Configuration configuration = Configuration.defaultConfiguration();
@@ -130,6 +132,7 @@ public class CodeController extends Controller {
         map.put("lower_model_name", lower_model_name);
         map.put("upper_model_name", upper_model_name);
         map.put("first_model_name", first_model_name);
+        map.put("first_lower_model_name", firstLowerModelName);
         map.put("columnList", columnList);
 
         Template template = engine.getTemplate(templateName);
