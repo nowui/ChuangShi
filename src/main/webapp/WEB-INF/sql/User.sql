@@ -18,6 +18,14 @@
     AND user_phone = #p(user_phone)
   #end
 
+  #sql("find")
+    SELECT
+    *
+    FROM table_user
+    WHERE table_user.system_status = 1
+    AND user_id = #p(user_id)
+  #end
+
   #sql("findByUser_accountAndUser_passwordAndUser_type")
     SELECT
     *

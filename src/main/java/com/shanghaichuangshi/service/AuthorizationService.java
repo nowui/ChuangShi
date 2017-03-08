@@ -29,7 +29,7 @@ public class AuthorizationService extends Service {
         return authorizationDao.find(authorization_id);
     }
 
-    public String saveByUser_id(String user_id, String authorization_platform, String authorization_version, String authorization_ip_address, String request_user_id) {
+    public String saveByUser_id(String user_id, String object_id, String authorization_platform, String authorization_version, String authorization_ip_address, String request_user_id) {
         String authorization_id = Util.getRandomUUID();
         long create_millis = System.currentTimeMillis();
         Date create_time = new Date(create_millis);
@@ -38,7 +38,7 @@ public class AuthorizationService extends Service {
         Date expire_time = new Date(expMillis);
 
         Key key = new SecretKeySpec(Constant.PRIVATE_KEY.getBytes(), SignatureAlgorithm.HS256.getJcaName());
-        String authorization_token = Jwts.builder().setIssuedAt(create_time).setExpiration(expire_time).claim(Authorization.AUTHORIZATION_ID, authorization_id).claim(User.USER_ID, user_id).signWith(SignatureAlgorithm.HS512, key).compact();
+        String authorization_token = Jwts.builder().setIssuedAt(create_time).setExpiration(expire_time).claim(Authorization.AUTHORIZATION_ID, authorization_id).claim(User.USER_ID, user_id).claim(User.OBJECT_ID, object_id).signWith(SignatureAlgorithm.HS512, key).compact();
 
         Authorization authorization = new Authorization();
         authorization.setAuthorization_id(authorization_id);

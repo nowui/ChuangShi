@@ -4,6 +4,7 @@ import com.jfinal.kit.HashKit;
 import com.jfinal.kit.JMap;
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.SqlPara;
+import com.shanghaichuangshi.cache.UserCache;
 import com.shanghaichuangshi.constant.Constant;
 import com.shanghaichuangshi.model.User;
 import com.shanghaichuangshi.util.Util;
@@ -12,6 +13,8 @@ import java.util.Date;
 import java.util.List;
 
 public class UserDao extends Dao {
+
+    private static final UserCache userCache = new UserCache();
 
     private String generatePassword(String user_password) {
         return HashKit.sha512(Constant.PRIVATE_KEY + user_password);
@@ -35,6 +38,27 @@ public class UserDao extends Dao {
 
         Number count = Db.queryFirst(sqlPara.getSql(), sqlPara.getPara());
         return count.intValue();
+    }
+
+    public User find(String user_id) {
+        User user = userCache.getUserByUser_id(user_id);
+
+        if (user == null) {
+            JMap map = JMap.create();
+            map.put(User.USER_ID, user_id);
+            SqlPara sqlPara = Db.getSqlPara("user.find", map);
+
+            List<User> userList = new User().find(sqlPara.getSql(), sqlPara.getPara());
+            if (userList.size() == 0) {
+                user = null;
+            } else {
+                user = userList.get(0);
+            }
+
+            userCache.setUserByUser_id(user, user_id);
+        }
+
+        return user;
     }
 
     public User findByUser_accountAndUser_passwordAndUser_type(String user_account, String user_password, String user_type) {

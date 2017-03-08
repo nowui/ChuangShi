@@ -36,6 +36,7 @@ public class GlobalActionInterceptor implements Interceptor {
 
     private Logger logger = LogManager.getLogger(GlobalActionInterceptor.class.getName());
     private static final List<String> uncheckTokenUrlList = new ArrayList<String>();
+    private static final List<String> uncheckRequestUserIdUrlList = new ArrayList<String>();
     private static final List<String> uncheckParameterUrlList = new ArrayList<String>();
     private static final List<String> uncheckLogUrlList = new ArrayList<String>();
     private static final List<String> uncheckHeaderUrlList = new ArrayList<String>();
@@ -53,8 +54,10 @@ public class GlobalActionInterceptor implements Interceptor {
 
     }
 
-    public GlobalActionInterceptor(List<String> uncheckTokenUrlList, List<String> uncheckParameterUrlList, List<String> uncheckHeaderUrlList) {
+    public GlobalActionInterceptor(List<String> uncheckTokenUrlList, List<String> uncheckRequestUserIdUrlList, List<String> uncheckParameterUrlList, List<String> uncheckHeaderUrlList) {
         this.uncheckTokenUrlList.addAll(uncheckTokenUrlList);
+
+        this.uncheckRequestUserIdUrlList.addAll(uncheckRequestUserIdUrlList);
 
         this.uncheckParameterUrlList.addAll(uncheckParameterUrlList);
 
@@ -99,10 +102,6 @@ public class GlobalActionInterceptor implements Interceptor {
             } else {
                 token = controller.getRequest().getHeader(Constant.TOKEN);
 
-                if (Util.isNullOrEmpty(token)) {
-                    throw new RuntimeException(Constant.TOKEN + " is null");
-                }
-
                 try {
                     Key key = new SecretKeySpec(Constant.PRIVATE_KEY.getBytes(), SignatureAlgorithm.HS256.getJcaName());
 
@@ -112,7 +111,9 @@ public class GlobalActionInterceptor implements Interceptor {
 
                     authorization_id = claims.get(Authorization.AUTHORIZATION_ID).toString();
                 } catch (Exception e) {
-                    throw new RuntimeException(Constant.TOKEN + " is error");
+                    if (!uncheckRequestUserIdUrlList.contains(url)) {
+                        throw new RuntimeException(Constant.TOKEN + " is error");
+                    }
                 }
             }
 

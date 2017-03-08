@@ -11,7 +11,7 @@ public class Authorization extends Model<Authorization> {
     @Column(type = ColumnType.VARCHAR, length = 32, comment = "授权编号")
     public static final String AUTHORIZATION_ID = "authorization_id";
 
-    @Column(type = ColumnType.VARCHAR, length = 300, comment = "授权token")
+    @Column(type = ColumnType.VARCHAR, length = 350, comment = "授权token")
     public static final String AUTHORIZATION_TOKEN = "authorization_token";
 
     @Column(type = ColumnType.VARCHAR, length = 32, comment = "用户编号")

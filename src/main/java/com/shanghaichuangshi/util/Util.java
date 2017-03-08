@@ -1,6 +1,7 @@
 package com.shanghaichuangshi.util;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.regex.Matcher;
@@ -97,6 +98,16 @@ public class Util {
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(string);
         return matcher.matches();
+    }
+
+    public static Object[][] getObjectArray(List<Object[]> parameterList) {
+        Object[][] parameterArray = new Object[parameterList.size()][];
+        int i = 0;
+        for (Object[] oo : parameterList) {
+            parameterArray[i++] = oo;
+        }
+
+        return parameterArray;
     }
 
 }

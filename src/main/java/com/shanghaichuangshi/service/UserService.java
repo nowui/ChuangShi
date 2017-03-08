@@ -36,6 +36,10 @@ public class UserService extends Service {
         return user.getUser_id();
     }
 
+    public User find(String user_id) {
+        return userDao.find(user_id);
+    }
+
     public User findByUser_accountAndUser_passwordAndUser_type(String user_account, String user_password, String user_type) {
         User user = userDao.findByUser_accountAndUser_passwordAndUser_type(user_account, user_password, user_type);
 

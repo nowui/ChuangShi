@@ -52,4 +52,6 @@ public class Constant {
 
     public static final String FINDABLE = "findable";
 
+    public static final int BATCH_SIZE = 100;
+
 }
