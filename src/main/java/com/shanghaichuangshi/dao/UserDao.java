@@ -53,9 +53,9 @@ public class UserDao extends Dao {
                 user = null;
             } else {
                 user = userList.get(0);
-            }
 
-            userCache.setUserByUser_id(user, user_id);
+                userCache.setUserByUser_id(user, user_id);
+            }
         }
 
         return user;

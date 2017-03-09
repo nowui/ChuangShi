@@ -72,7 +72,7 @@ public class AdminService extends Service {
 
         Admin admin = adminDao.findByUser_id(u.getUser_id());
 
-        String token = authorizationService.saveByUser_id(u.getUser_id(), admin.getAdmin_id(), platform, version, ip_address, request_user_id);
+        String token = authorizationService.saveByUser_id(u.getUser_id(), platform, version, ip_address, request_user_id);
 
         Category category = categoryService.treeListByCategory_key(CategoryType.MENU.getKey());
 
