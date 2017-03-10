@@ -1,9 +1,6 @@
 package com.shanghaichuangshi.util;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -108,6 +105,16 @@ public class Util {
         }
 
         return parameterArray;
+    }
+
+    public static String getFixLenthString(int strLength) {
+        Random rm = new Random();
+
+        double pross = (1 + rm.nextDouble()) * Math.pow(10, strLength);
+
+        String fixLenthString = String.valueOf(pross);
+
+        return fixLenthString.substring(1, strLength + 1);
     }
 
 }
