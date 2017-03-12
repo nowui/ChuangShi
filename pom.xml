@@ -80,6 +80,11 @@
             <version>26Dec2008</version>
         </dependency>
         <dependency>
+            <groupId>com.jfinal</groupId>
+            <artifactId>jfinal-weixin</artifactId>
+            <version>1.8</version>
+        </dependency>
+        <dependency>
             <groupId>org.apache.poi</groupId>
             <artifactId>poi</artifactId>
             <version>3.15</version>
