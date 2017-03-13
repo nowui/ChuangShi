@@ -57,9 +57,7 @@ public class CategoryController extends Controller {
 
         Category category = categoryService.find(model.getCategory_id());
 
-        category.removeUnfindable();
-
-        renderSuccessJson(category);
+        renderSuccessJson(category.format());
     }
 
     @ActionKey(Url.CATEGORY_ADMIN_FIND)

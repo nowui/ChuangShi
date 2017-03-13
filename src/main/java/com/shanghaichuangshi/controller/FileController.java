@@ -50,9 +50,7 @@ public class FileController extends Controller {
 
         File file = fileService.find(model.getFile_id());
 
-        file.removeUnfindable();
-
-        renderSuccessJson(file);
+        renderSuccessJson(file.format());
     }
 
     @ActionKey(Url.FILE_ADMIN_FIND)

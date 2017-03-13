@@ -92,12 +92,31 @@ public class Model<M extends Model> extends com.jfinal.plugin.activerecord.Model
         }
     }
 
-    public void removeUnfindable() {
-        for (Map<String, Object> map : getColumnList()) {
-            if (!(boolean)map.get(Constant.FINDABLE)) {
-                this.remove(map.get(Constant.NAME).toString());
+    public Map<String, Object> format() {
+        Map<String, Object> result = new HashMap<String, Object>();
+
+        Iterator<Map.Entry<String, Object>> iterator = this.getAttrs().entrySet().iterator();
+        while (iterator.hasNext()) {
+            Map.Entry<String, Object> entry = iterator.next();
+
+            boolean isFind = true;
+
+            for (Map<String, Object> column : getColumnList()) {
+                if (column.get(Constant.NAME).toString().equals(entry.getKey())) {
+                    if (!(boolean)column.get(Constant.FINDABLE)) {
+                        isFind = false;
+
+                        break;
+                    }
+                }
+            }
+
+            if (isFind) {
+                result.put(entry.getKey(), entry.getValue());
             }
         }
+
+        return result;
     }
 
     private List<Map<String, Object>> getColumnList() {

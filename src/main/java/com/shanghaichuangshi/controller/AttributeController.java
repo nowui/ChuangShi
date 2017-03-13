@@ -48,9 +48,7 @@ public class AttributeController extends Controller {
 
         Attribute attribute = attributeService.find(model.getAttribute_id());
 
-        attribute.removeUnfindable();
-
-        renderSuccessJson(attribute);
+        renderSuccessJson(attribute.format());
     }
 
     @ActionKey(Url.ATTRIBUTE_ADMIN_FIND)

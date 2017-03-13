@@ -3,6 +3,7 @@ package com.shanghaichuangshi.dao;
 import com.jfinal.kit.JMap;
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.SqlPara;
+import com.shanghaichuangshi.cache.CategoryCache;
 import com.shanghaichuangshi.model.Category;
 import com.shanghaichuangshi.util.Util;
 
@@ -10,6 +11,8 @@ import java.util.Date;
 import java.util.List;
 
 public class CategoryDao extends Dao {
+
+    private static final CategoryCache categoryCache = new CategoryCache();
 
     public int count(String category_name) {
         JMap map = JMap.create();
@@ -57,16 +60,24 @@ public class CategoryDao extends Dao {
     }
 
     public Category find(String category_id) {
-        JMap map = JMap.create();
-        map.put(Category.CATEGORY_ID, category_id);
-        SqlPara sqlPara = Db.getSqlPara("category.find", map);
+        Category category = categoryCache.getCategoryByCategory_id(category_id);
 
-        List<Category> categoryList = new Category().find(sqlPara.getSql(), sqlPara.getPara());
-        if (categoryList.size() == 0) {
-            return null;
-        } else {
-            return categoryList.get(0);
+        if (category == null) {
+            JMap map = JMap.create();
+            map.put(Category.CATEGORY_ID, category_id);
+            SqlPara sqlPara = Db.getSqlPara("category.find", map);
+
+            List<Category> categoryList = new Category().find(sqlPara.getSql(), sqlPara.getPara());
+            if (categoryList.size() == 0) {
+                category = null;
+            } else {
+                category = categoryList.get(0);
+
+                categoryCache.setCategoryByCategory_id(category, category_id);
+            }
         }
+
+        return category;
     }
 
     public Category findByCategory_key(String category_key) {
@@ -95,6 +106,8 @@ public class CategoryDao extends Dao {
     }
 
     public boolean update(Category category, String request_user_id) {
+        categoryCache.removeCategoryByCategory_id(category.getCategory_id());
+
         category.remove(Category.SYSTEM_CREATE_USER_ID);
         category.remove(Category.SYSTEM_CREATE_TIME);
         category.setSystem_update_user_id(request_user_id);
@@ -105,6 +118,8 @@ public class CategoryDao extends Dao {
     }
 
     public boolean delete(String category_id, String request_user_id) {
+        categoryCache.removeCategoryByCategory_id(category_id);
+
         JMap map = JMap.create();
         map.put(Category.CATEGORY_ID, category_id);
         map.put(Category.SYSTEM_UPDATE_USER_ID, request_user_id);
