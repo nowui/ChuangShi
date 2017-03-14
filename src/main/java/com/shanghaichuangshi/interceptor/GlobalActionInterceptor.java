@@ -68,7 +68,15 @@ public class GlobalActionInterceptor implements Interceptor {
         Date start = new Date();
 
         Connection connection = null;
-        Controller controller = (Controller) invocation.getController();
+        Controller controller = null;
+
+        try {
+            controller = (Controller) invocation.getController();
+        } catch (Exception e) {
+            invocation.invoke();
+
+            return;
+        }
 
         String url = controller.getRequest().getRequestURI();
         int log_code = HttpStatus.SC_OK;
