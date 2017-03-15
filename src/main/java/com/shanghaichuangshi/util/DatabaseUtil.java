@@ -1,7 +1,7 @@
 package com.shanghaichuangshi.util;
 
 import com.alibaba.druid.pool.DruidDataSource;
-import com.jfinal.kit.PropKit;
+import com.shanghaichuangshi.constant.Jdbc;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -11,15 +11,13 @@ public class DatabaseUtil {
     private static final DruidDataSource druidDataSource = new DruidDataSource();
 
     static {
-        PropKit.use("Jdbc.properties");
-
-        druidDataSource.setDriverClassName(PropKit.get("driverClass"));
-        druidDataSource.setUrl(PropKit.get("jdbcUrl"));
-        druidDataSource.setUsername(PropKit.get("user"));
-        druidDataSource.setPassword(PropKit.get("password"));
-        druidDataSource.setInitialSize(Integer.valueOf(PropKit.getInt("initialSize")));
-        druidDataSource.setMinIdle(Integer.valueOf(PropKit.getInt("minIdle")));
-        druidDataSource.setMaxActive(Integer.valueOf(PropKit.getInt("maxActivee")));
+        druidDataSource.setDriverClassName(Jdbc.driver_class);
+        druidDataSource.setUrl(Jdbc.jdbc_url);
+        druidDataSource.setUsername(Jdbc.user);
+        druidDataSource.setPassword(Jdbc.password);
+        druidDataSource.setInitialSize(Jdbc.initial_size);
+        druidDataSource.setMinIdle(Jdbc.min_idle);
+        druidDataSource.setMaxActive(Jdbc.max_activee);
 
         try {
             druidDataSource.setFilters("stat,wall");

@@ -20,17 +20,20 @@ public class User extends Model<User> {
     @Column(type = ColumnType.VARCHAR, length = 20, comment = "用户密码")
     public static final String USER_PASSWORD = "user_password";
 
-    @Column(type = ColumnType.VARCHAR, length = 100, comment = "微博uid")
-    public static final String WEIBO_UID = "weibo_uid";
+    @Column(type = ColumnType.VARCHAR, length = 20, comment = "用户名称")
+    public static final String USER_NAME = "user_name";
 
-    @Column(type = ColumnType.VARCHAR, length = 200, comment = "微博token")
-    public static final String WEIBO_ACCESS_TOKEN = "weibo_access_token";
+    @Column(type = ColumnType.VARCHAR, length = 100, comment = "用户头像")
+    public static final String USER_AVATAR = "user_avatar";
 
-    @Column(type = ColumnType.VARCHAR, length = 100, comment = "微信uid")
-    public static final String WECHAT_UID = "wechat_uid";
+    @Column(type = ColumnType.VARCHAR, length = 100, comment = "用户头像")
+    public static final String USER_AVATAR_THUMBNAIL = "user_avatar_thumbnail";
 
-    @Column(type = ColumnType.VARCHAR, length = 200, comment = "微信token")
-    public static final String WECHAT_ACCESS_TOKEN = "wechat_access_token";
+    @Column(type = ColumnType.VARCHAR, length = 100, comment = "用户头像")
+    public static final String USER_AVATAR_ORIGINAL = "user_avatar_original";
+
+    @Column(type = ColumnType.VARCHAR, length = 100, comment = "微信OpenId")
+    public static final String WECHAT_OPEN_ID = "wechat_open_id";
 
     @Column(type = ColumnType.VARCHAR, length = 32, comment = "外键编号", updatable = false)
     public static final String OBJECT_ID = "object_id";
@@ -78,36 +81,44 @@ public class User extends Model<User> {
         set(USER_PASSWORD, user_password);
     }
 
-    public String getWeibo_uid() {
-        return getStr(WEIBO_UID);
+    public String getUser_name() {
+        return getStr(USER_NAME);
     }
 
-    public void setWeibo_uid(String weibo_uid) {
-        set(WEIBO_UID, weibo_uid);
+    public void setUser_name(String user_name) {
+        set(USER_NAME, user_name);
     }
 
-    public String getWeibo_access_token() {
-        return getStr(WEIBO_ACCESS_TOKEN);
+    public String getUser_avatar() {
+        return getStr(USER_AVATAR);
     }
 
-    public void setWeibo_access_token(String weibo_access_token) {
-        set(WEIBO_ACCESS_TOKEN, weibo_access_token);
+    public void setUser_avatar(String user_avatar) {
+        set(USER_AVATAR, user_avatar);
     }
 
-    public String getWechat_uid() {
-        return getStr(WECHAT_UID);
+    public String getUser_avatar_thumbnail() {
+        return getStr(USER_AVATAR_THUMBNAIL);
     }
 
-    public void setWechat_uid(String wechat_uid) {
-        set(WECHAT_UID, wechat_uid);
+    public void setUser_avatar_thumbnail(String user_avatar_thumbnail) {
+        set(USER_AVATAR_THUMBNAIL, user_avatar_thumbnail);
     }
 
-    public String getWechat_access_token() {
-        return getStr(WECHAT_ACCESS_TOKEN);
+    public String getUser_avatar_original() {
+        return getStr(USER_AVATAR_ORIGINAL);
     }
 
-    public void setWechat_access_token(String wechat_access_token) {
-        set(WECHAT_ACCESS_TOKEN, wechat_access_token);
+    public void setUser_avatar_original(String user_avatar_original) {
+        set(USER_AVATAR_ORIGINAL, user_avatar_original);
+    }
+
+    public String getWechat_open_id() {
+        return getStr(WECHAT_OPEN_ID);
+    }
+
+    public void setWechat_open_id(String wechat_open_id) {
+        set(WECHAT_OPEN_ID, wechat_open_id);
     }
 
     public String getObject_id() {

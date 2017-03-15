@@ -91,11 +91,30 @@ public class UserDao extends Dao {
         }
     }
 
+    public User findByWechat_open_idAndUser_type(String wechat_open_id, String user_type) {
+        JMap map = JMap.create();
+        map.put(User.WECHAT_OPEN_ID, wechat_open_id);
+        map.put(User.USER_TYPE, user_type);
+        SqlPara sqlPara = Db.getSqlPara("user.findByWechat_open_idAndUser_type", map);
+
+        List<User> userList = new User().find(sqlPara.getSql(), sqlPara.getPara());
+        if (userList.size() == 0) {
+            return null;
+        } else {
+            return userList.get(0);
+        }
+    }
+
     public User saveByUser_accountAndUser_passwordAndObject_idAndUser_type(String user_account, String user_password, String object_id, String user_type, String request_user_id) {
         User user = new User();
         user.setUser_id(Util.getRandomUUID());
         user.setUser_account(user_account);
         user.setUser_password(generatePassword(user_password));
+        user.setUser_name(user_account);
+        user.setUser_avatar("");
+        user.setUser_avatar_thumbnail("");
+        user.setUser_avatar_original("");
+        user.setWechat_open_id("");
         user.setObject_id(object_id);
         user.setUser_type(user_type);
         user.setSystem_create_user_id(request_user_id);
@@ -112,7 +131,36 @@ public class UserDao extends Dao {
         User user = new User();
         user.setUser_id(Util.getRandomUUID());
         user.setUser_phone(user_phone);
+        user.setUser_account("");
         user.setUser_password(generatePassword(user_password));
+        user.setUser_name(user_phone);
+        user.setUser_avatar("");
+        user.setUser_avatar_thumbnail("");
+        user.setUser_avatar_original("");
+        user.setWechat_open_id("");
+        user.setObject_id(object_id);
+        user.setUser_type(user_type);
+        user.setSystem_create_user_id(request_user_id);
+        user.setSystem_create_time(new Date());
+        user.setSystem_update_user_id(request_user_id);
+        user.setSystem_update_time(new Date());
+        user.setSystem_status(true);
+        user.save();
+
+        return user;
+    }
+
+    public User saveByUser_nameAndUser_avatarAndWechat_open_id(String user_name, String user_avatar, String wechat_open_id, String object_id, String user_type, String request_user_id) {
+        User user = new User();
+        user.setUser_id(Util.getRandomUUID());
+        user.setUser_phone("");
+        user.setUser_account("");
+        user.setUser_password("");
+        user.setUser_name(user_name);
+        user.setUser_avatar(user_avatar);
+        user.setUser_avatar_thumbnail(user_avatar);
+        user.setUser_avatar_original(user_avatar);
+        user.setWechat_open_id(wechat_open_id);
         user.setObject_id(object_id);
         user.setUser_type(user_type);
         user.setSystem_create_user_id(request_user_id);

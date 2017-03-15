@@ -35,6 +35,7 @@ import static com.shanghaichuangshi.constant.Constant.DATABASE;
 public class GlobalActionInterceptor implements Interceptor {
 
     private Logger logger = LogManager.getLogger(GlobalActionInterceptor.class.getName());
+    private static final List<String> uncheckUrlList = new ArrayList<String>();
     private static final List<String> uncheckTokenUrlList = new ArrayList<String>();
     private static final List<String> uncheckRequestUserIdUrlList = new ArrayList<String>();
     private static final List<String> uncheckParameterUrlList = new ArrayList<String>();
@@ -54,7 +55,9 @@ public class GlobalActionInterceptor implements Interceptor {
 
     }
 
-    public GlobalActionInterceptor(List<String> uncheckTokenUrlList, List<String> uncheckRequestUserIdUrlList, List<String> uncheckParameterUrlList, List<String> uncheckHeaderUrlList) {
+    public GlobalActionInterceptor(List<String> uncheckUrlList, List<String> uncheckTokenUrlList, List<String> uncheckRequestUserIdUrlList, List<String> uncheckParameterUrlList, List<String> uncheckHeaderUrlList) {
+        this.uncheckUrlList.addAll(uncheckUrlList);
+
         this.uncheckTokenUrlList.addAll(uncheckTokenUrlList);
 
         this.uncheckRequestUserIdUrlList.addAll(uncheckRequestUserIdUrlList);
@@ -65,20 +68,17 @@ public class GlobalActionInterceptor implements Interceptor {
     }
 
     public void intercept(Invocation invocation) {
-        Date start = new Date();
+        String url = invocation.getController().getRequest().getRequestURI();
 
-        Connection connection = null;
-        Controller controller = null;
-
-        try {
-            controller = (Controller) invocation.getController();
-        } catch (Exception e) {
+        if (uncheckUrlList.contains(url)) {
             invocation.invoke();
 
             return;
         }
 
-        String url = controller.getRequest().getRequestURI();
+        Date start = new Date();
+        Connection connection = null;
+        Controller controller = (Controller) invocation.getController();
         int log_code = HttpStatus.SC_OK;
         String token = "";
         String platform = "";

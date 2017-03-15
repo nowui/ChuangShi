@@ -8,6 +8,34 @@ public class UserService extends Service {
 
     private static final UserDao userDao = new UserDao();
 
+    public User find(String user_id) {
+        return userDao.find(user_id);
+    }
+
+    public User findByUser_accountAndUser_passwordAndUser_type(String user_account, String user_password, String user_type) {
+        User user = userDao.findByUser_accountAndUser_passwordAndUser_type(user_account, user_password, user_type);
+
+        if (user == null) {
+            throw new RuntimeException("帐号或者密码不正确");
+        }
+
+        return user;
+    }
+
+    public User findByUser_phoneAndUser_passwordAndUser_type(String user_phone, String user_password, String user_type) {
+        User user = userDao.findByUser_phoneAndUser_passwordAndUser_type(user_phone, user_password, user_type);
+
+        if (user == null) {
+            throw new RuntimeException("帐号或者密码不正确");
+        }
+
+        return user;
+    }
+
+    public User findByWechat_open_idAndUser_type(String wechat_open_id, String user_type) {
+        return userDao.findByWechat_open_idAndUser_type(wechat_open_id, user_type);
+    }
+
     public String saveByUser_accountAndUser_passwordAndObject_idAndUser_type(String user_account, String user_password, String object_id, String user_type, String request_user_id) {
         int count = userDao.countByObject_idAndUser_account("", user_account);
 
@@ -36,28 +64,8 @@ public class UserService extends Service {
         return user.getUser_id();
     }
 
-    public User find(String user_id) {
-        return userDao.find(user_id);
-    }
-
-    public User findByUser_accountAndUser_passwordAndUser_type(String user_account, String user_password, String user_type) {
-        User user = userDao.findByUser_accountAndUser_passwordAndUser_type(user_account, user_password, user_type);
-
-        if (user == null) {
-            throw new RuntimeException("帐号或者密码不正确");
-        }
-
-        return user;
-    }
-
-    public User findByUser_phoneAndUser_passwordAndUser_type(String user_phone, String user_password, String user_type) {
-        User user = userDao.findByUser_phoneAndUser_passwordAndUser_type(user_phone, user_password, user_type);
-
-        if (user == null) {
-            throw new RuntimeException("帐号或者密码不正确");
-        }
-
-        return user;
+    public User saveByUser_nameAndUser_avatarAndWechat_open_id(String user_name, String user_avatar, String wechat_open_id, String object_id, String user_type, String request_user_id) {
+        return userDao.saveByUser_nameAndUser_avatarAndWechat_open_id(user_name, user_avatar, wechat_open_id, object_id, user_type, request_user_id);
     }
 
     public boolean updateByUser_password(String user_password, String request_user_id) {
