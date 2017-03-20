@@ -26,13 +26,13 @@ public class User extends Model<User> {
     @Column(type = ColumnType.VARCHAR, length = 100, comment = "用户头像")
     public static final String USER_AVATAR = "user_avatar";
 
-    @Column(type = ColumnType.VARCHAR, length = 100, comment = "用户头像")
+    @Column(type = ColumnType.VARCHAR, length = 200, comment = "用户头像")
     public static final String USER_AVATAR_THUMBNAIL = "user_avatar_thumbnail";
 
-    @Column(type = ColumnType.VARCHAR, length = 100, comment = "用户头像")
+    @Column(type = ColumnType.VARCHAR, length = 200, comment = "用户头像")
     public static final String USER_AVATAR_ORIGINAL = "user_avatar_original";
 
-    @Column(type = ColumnType.VARCHAR, length = 100, comment = "微信OpenId")
+    @Column(type = ColumnType.VARCHAR, length = 200, comment = "微信OpenId")
     public static final String WECHAT_OPEN_ID = "wechat_open_id";
 
     @Column(type = ColumnType.VARCHAR, length = 32, comment = "外键编号", updatable = false)

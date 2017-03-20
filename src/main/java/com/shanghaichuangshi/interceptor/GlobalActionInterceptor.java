@@ -3,11 +3,11 @@ package com.shanghaichuangshi.interceptor;
 import com.alibaba.fastjson.JSONObject;
 import com.jfinal.aop.Interceptor;
 import com.jfinal.aop.Invocation;
+import com.jfinal.core.Controller;
 import com.jfinal.kit.HttpKit;
 import com.jfinal.plugin.activerecord.DbKit;
 import com.shanghaichuangshi.constant.Constant;
 import com.shanghaichuangshi.constant.Url;
-import com.shanghaichuangshi.controller.Controller;
 import com.shanghaichuangshi.model.Authorization;
 import com.shanghaichuangshi.model.Log;
 import com.shanghaichuangshi.model.User;
@@ -70,15 +70,9 @@ public class GlobalActionInterceptor implements Interceptor {
     public void intercept(Invocation invocation) {
         String url = invocation.getController().getRequest().getRequestURI();
 
-        if (uncheckUrlList.contains(url)) {
-            invocation.invoke();
-
-            return;
-        }
-
         Date start = new Date();
         Connection connection = null;
-        Controller controller = (Controller) invocation.getController();
+        Controller controller = invocation.getController();
         int log_code = HttpStatus.SC_OK;
         String token = "";
         String platform = "";
@@ -93,7 +87,7 @@ public class GlobalActionInterceptor implements Interceptor {
             DbKit.getConfig().setThreadLocalConnection(connection);
             connection.setAutoCommit(false);
 
-            if (uncheckTokenUrlList.contains(url) || uncheckHeaderUrlList.contains(url)) {
+            if (uncheckUrlList.contains(url) || uncheckTokenUrlList.contains(url) || uncheckHeaderUrlList.contains(url)) {
 
             } else {
                 token = controller.getRequest().getHeader(Constant.TOKEN);
@@ -116,19 +110,19 @@ public class GlobalActionInterceptor implements Interceptor {
             platform = controller.getRequest().getHeader(Constant.PLATFORM);
             version = controller.getRequest().getHeader(Constant.VERSION);
 
-            if (!Util.isNullOrEmpty(platform) || uncheckHeaderUrlList.contains(url)) {
+            if (!Util.isNullOrEmpty(platform) || uncheckUrlList.contains(url) || uncheckHeaderUrlList.contains(url)) {
 
             } else {
                 throw new RuntimeException(Constant.PLATFORM + "is null");
             }
 
-            if (!Util.isNullOrEmpty(version) || uncheckHeaderUrlList.contains(url)) {
+            if (!Util.isNullOrEmpty(version) || uncheckUrlList.contains(url) || uncheckHeaderUrlList.contains(url)) {
 
             } else {
                 throw new RuntimeException(Constant.VERSION + "is null");
             }
 
-            if (uncheckParameterUrlList.contains(url) || uncheckHeaderUrlList.contains(url)) {
+            if (uncheckUrlList.contains(url) || uncheckParameterUrlList.contains(url) || uncheckHeaderUrlList.contains(url)) {
 
             } else {
                 parameter = JSONObject.parseObject(HttpKit.readData(controller.getRequest()));
@@ -138,13 +132,17 @@ public class GlobalActionInterceptor implements Interceptor {
                 }
             }
 
-            controller.setPlatform(platform);
-            controller.setVersion(version);
-            controller.setIp_address(ip_address);
-            controller.setRequest_user_id(request_user_id);
-            controller.setPage_index(parameter.getIntValue(Constant.PAGE_INDEX));
-            controller.setPage_size(parameter.getIntValue(Constant.PAGE_SIZE));
-            controller.setParameter(parameter);
+            if (uncheckUrlList.contains(url)) {
+
+            } else {
+                ((com.shanghaichuangshi.controller.Controller)controller).setPlatform(platform);
+                ((com.shanghaichuangshi.controller.Controller)controller).setVersion(version);
+                ((com.shanghaichuangshi.controller.Controller)controller).setIp_address(ip_address);
+                ((com.shanghaichuangshi.controller.Controller)controller).setRequest_user_id(request_user_id);
+                ((com.shanghaichuangshi.controller.Controller)controller).setPage_index(parameter.getIntValue(Constant.PAGE_INDEX));
+                ((com.shanghaichuangshi.controller.Controller)controller).setPage_size(parameter.getIntValue(Constant.PAGE_SIZE));
+                ((com.shanghaichuangshi.controller.Controller)controller).setParameter(parameter);
+            }
 
             invocation.invoke();
 
@@ -164,7 +162,7 @@ public class GlobalActionInterceptor implements Interceptor {
             String value = "java.lang.RuntimeException: ";
             message = message.replace(value, "");
 
-            controller.renderErrorJson(message);
+            ((com.shanghaichuangshi.controller.Controller)controller).renderErrorJson(message);
 
             e.printStackTrace();
         } finally {
