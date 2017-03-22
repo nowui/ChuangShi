@@ -26,9 +26,7 @@ import javax.crypto.spec.SecretKeySpec;
 import java.security.Key;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 import static com.shanghaichuangshi.constant.Constant.DATABASE;
 
@@ -162,7 +160,11 @@ public class GlobalActionInterceptor implements Interceptor {
             String value = "java.lang.RuntimeException: ";
             message = message.replace(value, "");
 
-            ((com.shanghaichuangshi.controller.Controller)controller).renderErrorJson(message);
+            Map<String, Object> map = new HashMap<String, Object>();
+            map.put(Constant.CODE, HttpStatus.SC_BAD_REQUEST);
+            map.put(Constant.MESSAGE, message);
+
+            controller.renderJson(map);
 
             e.printStackTrace();
         } finally {
