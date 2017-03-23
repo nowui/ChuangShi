@@ -7,7 +7,7 @@ import java.util.List;
 
 public class CodeService extends Service {
 
-    private static final CodeDao codeDao = new CodeDao();
+    private final CodeDao codeDao = new CodeDao();
 
     public List<Record> listTable(String table_schema) {
         return codeDao.listTable(table_schema);

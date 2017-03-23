@@ -10,7 +10,7 @@ import java.util.List;
 
 public class AuthorizationController extends Controller {
 
-    private static final AuthorizationService authorizationService = new AuthorizationService();
+    private final AuthorizationService authorizationService = new AuthorizationService();
 
     @ActionKey(Url.AUTHORIZATION_LIST)
     public void list() {

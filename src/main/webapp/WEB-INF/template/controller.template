@@ -11,7 +11,7 @@ import java.util.List;
 
 public class #(first_model_name)Controller extends Controller {
 
-    private static final #(first_model_name)Service #(first_lower_model_name)Service = new #(first_model_name)Service();
+    private final #(first_model_name)Service #(first_lower_model_name)Service = new #(first_model_name)Service();
 
     @ActionKey(Url.#(upper_model_name)_LIST)
     public void list() {

@@ -4,28 +4,22 @@ import com.shanghaichuangshi.model.User;
 
 public class UserCache extends Cache {
 
-    private final String USER_CACHE_MODEL = "user_cache_model";
+    private final String USER_OBJECT_CACHE = "user_object_cache";
 
     public User getUserByUser_id(String user_id) {
-        return (User) ehcacheObject.get(USER_CACHE_MODEL + "_" + user_id);
+        return (User) getObjectBykeyAndId(USER_OBJECT_CACHE, user_id);
     }
 
     public void setUserByUser_id(User user, String user_id) {
-        ehcacheObject.put(USER_CACHE_MODEL + "_" + user_id, user);
-
-        setMapByKeyAndId(USER_CACHE_MODEL, user_id);
+        setObjectBykeyAndId(user, USER_OBJECT_CACHE, user_id);
     }
 
     public void removeUserByUser_id(String user_id) {
-        ehcacheObject.remove(USER_CACHE_MODEL + "_" + user_id);
-
-        removeMapByKeyAndId(USER_CACHE_MODEL, user_id);
+        removeObjectBykeyAndId(USER_OBJECT_CACHE, user_id);
     }
 
     public void removeUser() {
-        ehcacheObject.removeAll(getMapByKey(USER_CACHE_MODEL));
-
-        removeMapByKey(USER_CACHE_MODEL);
+        removeObjectByKey(USER_OBJECT_CACHE);
     }
 
 }

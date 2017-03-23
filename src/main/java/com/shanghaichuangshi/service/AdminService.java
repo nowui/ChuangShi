@@ -1,6 +1,5 @@
 package com.shanghaichuangshi.service;
 
-import com.jfinal.template.ext.directive.Str;
 import com.shanghaichuangshi.constant.Constant;
 import com.shanghaichuangshi.dao.AdminDao;
 import com.shanghaichuangshi.model.Admin;
@@ -15,11 +14,11 @@ import java.util.Map;
 
 public class AdminService extends Service {
 
-    private final AdminDao adminDao = new AdminDao();
+    private AdminDao adminDao = new AdminDao();
 
-    private final UserService userService = new UserService();
-    private final AuthorizationService authorizationService = new AuthorizationService();
-    private final CategoryService categoryService = new CategoryService();
+    private UserService userService = new UserService();
+    private AuthorizationService authorizationService = new AuthorizationService();
+    private CategoryService categoryService = new CategoryService();
 
     public int count(Admin admin) {
         return adminDao.count(admin.getAdmin_name());

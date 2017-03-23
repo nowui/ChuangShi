@@ -7,7 +7,7 @@ import java.util.List;
 
 public class AttributeService extends Service {
 
-    private static final AttributeDao attributeDao = new AttributeDao();
+    private final AttributeDao attributeDao = new AttributeDao();
 
     public int count(Attribute attribute) {
         return attributeDao.count(attribute.getAttribute_name());

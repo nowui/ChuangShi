@@ -6,7 +6,7 @@ import com.shanghaichuangshi.util.Util;
 
 public class UserService extends Service {
 
-    private static final UserDao userDao = new UserDao();
+    private final UserDao userDao = new UserDao();
 
     public User find(String user_id) {
         return userDao.find(user_id);

@@ -10,7 +10,7 @@ import java.util.List;
 
 public class ResourceController extends Controller {
 
-    private static final ResourceService resourceService = new ResourceService();
+    private final ResourceService resourceService = new ResourceService();
 
     @ActionKey(Url.RESOURCE_LIST)
     public void list() {

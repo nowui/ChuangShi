@@ -8,7 +8,7 @@ import java.util.List;
 
 public class #(first_model_name)Service extends Service {
 
-    private static final #(first_model_name)Dao #(first_lower_model_name)Dao = new #(first_model_name)Dao();
+    private final #(first_model_name)Dao #(first_lower_model_name)Dao = new #(first_model_name)Dao();
 
     public int count(#(first_model_name) #(lower_model_name)) {
         return #(first_lower_model_name)Dao.count(#(lower_model_name).get#(first_model_name)_name());

@@ -14,7 +14,7 @@ import java.util.Map;
 
 public class CategoryService extends Service {
 
-    private static final CategoryDao categoryDao = new CategoryDao();
+    private final CategoryDao categoryDao = new CategoryDao();
 
     public int count(Category category) {
         return categoryDao.count(category.getCategory_name());

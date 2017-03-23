@@ -5,14 +5,13 @@ import com.shanghaichuangshi.constant.Constant;
 import com.shanghaichuangshi.constant.Url;
 import com.shanghaichuangshi.model.Category;
 import com.shanghaichuangshi.service.CategoryService;
-import com.shanghaichuangshi.type.CategoryType;
 
 import java.util.List;
 import java.util.Map;
 
 public class CategoryController extends Controller {
 
-    private static final CategoryService categoryService = new CategoryService();
+    private final CategoryService categoryService = new CategoryService();
 
     @ActionKey(Url.CATEGORY_ADMIN_LIST)
     public void adminList() {

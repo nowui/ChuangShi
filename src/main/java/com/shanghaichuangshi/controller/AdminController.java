@@ -12,7 +12,7 @@ import java.util.Map;
 
 public class AdminController extends Controller {
 
-    private static final AdminService adminService = new AdminService();
+    private final AdminService adminService = new AdminService();
 
     @ActionKey(Url.ADMIN_LIST)
     public void list() {

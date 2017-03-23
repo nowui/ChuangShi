@@ -12,7 +12,7 @@ import java.util.List;
 
 public class CategoryDao extends Dao {
 
-    private static final CategoryCache categoryCache = new CategoryCache();
+    private final CategoryCache categoryCache = new CategoryCache();
 
     public int count(String category_name) {
         JMap map = JMap.create();

@@ -14,7 +14,7 @@ import java.util.List;
 
 public class UserDao extends Dao {
 
-    private static final UserCache userCache = new UserCache();
+    private final UserCache userCache = new UserCache();
 
     private String generatePassword(String user_password) {
         return HashKit.sha512(Constant.PRIVATE_KEY + user_password);

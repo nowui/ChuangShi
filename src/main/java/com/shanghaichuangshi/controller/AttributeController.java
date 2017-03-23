@@ -10,7 +10,7 @@ import java.util.List;
 
 public class AttributeController extends Controller {
 
-    private static final AttributeService attributeService = new AttributeService();
+    private final AttributeService attributeService = new AttributeService();
 
     @ActionKey(Url.ATTRIBUTE_LIST)
     public void list() {

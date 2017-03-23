@@ -13,7 +13,7 @@ import java.util.List;
 
 public class UploadService extends Service {
 
-    private static final FileService fileService = new FileService();
+    private final FileService fileService = new FileService();
 
     public void image(List<UploadFile> uploadFileList, String request_user_id) {
         String path = PathKit.getWebRootPath() + "/" + Constant.UPLOAD + "/" + request_user_id;

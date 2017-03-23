@@ -16,12 +16,7 @@ import java.util.*;
 
 public class CodeController extends Controller {
 
-    private static final CodeService codeService = new CodeService();
-    private static final Engine engine = Engine.create("engine");
-
-    static {
-        engine.setBaseTemplatePath(PathKit.getWebRootPath() + "/WEB-INF/template/");
-    }
+    private final CodeService codeService = new CodeService();
 
     @ActionKey(Url.CODE_LIST)
     public void list() {
@@ -54,7 +49,7 @@ public class CodeController extends Controller {
         List<Record> columnList = new ArrayList<Record>();
 
         for (Record record : codeList) {
-            if (! record.getStr("column_name").startsWith("system_")) {
+            if (!record.getStr("column_name").startsWith("system_")) {
                 if (Util.isNullOrEmpty(record.get("character_maximum_length"))) {
                     String length = record.getStr("column_type").replace(record.get("data_type").toString(), "").replace("(", "").replace(")", "");
 
@@ -86,18 +81,21 @@ public class CodeController extends Controller {
         firstModelName = check(firstModelName);
         firstLowerModelName = check(firstLowerModelName);
 
-        write(lowerModelName, upperModelName, firstModelName, firstLowerModelName, columnList, "url.template", "Url.java");
-        write(lowerModelName, upperModelName, firstModelName, firstLowerModelName, columnList, "model.template", firstModelName + ".java");
-        write(lowerModelName, upperModelName, firstModelName, firstLowerModelName, columnList, "dao.template", firstModelName + "Dao.java");
-        write(lowerModelName, upperModelName, firstModelName, firstLowerModelName, columnList, "service.template", firstModelName + "Service.java");
-        write(lowerModelName, upperModelName, firstModelName, firstLowerModelName, columnList, "controller.template", firstModelName + "Controller.java");
-        write(lowerModelName, upperModelName, firstModelName, firstLowerModelName, columnList, "config.template", "WebConfig.java");
-        write(lowerModelName, upperModelName, firstModelName, firstLowerModelName, columnList, "state.template", lowerModelName + ".js");
-        write(lowerModelName, upperModelName, firstModelName, firstLowerModelName, columnList, "index.template", firstModelName + "Index.js");
-        write(lowerModelName, upperModelName, firstModelName, firstLowerModelName, columnList, "detail.template", firstModelName + "Detail.js");
-        write(lowerModelName, upperModelName, firstModelName, firstLowerModelName, columnList, "router.template", "Router.js");
-        write(lowerModelName, upperModelName, firstModelName, firstLowerModelName, columnList, "app.template", "index.js");
-        write(lowerModelName, upperModelName, firstModelName, firstLowerModelName, columnList, "sql.template", firstModelName + ".sql");
+        Engine engine = Engine.create("engine");
+        engine.setBaseTemplatePath(PathKit.getWebRootPath() + "/WEB-INF/template/");
+
+        write(engine, lowerModelName, upperModelName, firstModelName, firstLowerModelName, columnList, "url.template", "Url.java");
+        write(engine, lowerModelName, upperModelName, firstModelName, firstLowerModelName, columnList, "model.template", firstModelName + ".java");
+        write(engine, lowerModelName, upperModelName, firstModelName, firstLowerModelName, columnList, "dao.template", firstModelName + "Dao.java");
+        write(engine, lowerModelName, upperModelName, firstModelName, firstLowerModelName, columnList, "service.template", firstModelName + "Service.java");
+        write(engine, lowerModelName, upperModelName, firstModelName, firstLowerModelName, columnList, "controller.template", firstModelName + "Controller.java");
+        write(engine, lowerModelName, upperModelName, firstModelName, firstLowerModelName, columnList, "config.template", "WebConfig.java");
+        write(engine, lowerModelName, upperModelName, firstModelName, firstLowerModelName, columnList, "state.template", lowerModelName + ".js");
+        write(engine, lowerModelName, upperModelName, firstModelName, firstLowerModelName, columnList, "index.template", firstModelName + "Index.js");
+        write(engine, lowerModelName, upperModelName, firstModelName, firstLowerModelName, columnList, "detail.template", firstModelName + "Detail.js");
+        write(engine, lowerModelName, upperModelName, firstModelName, firstLowerModelName, columnList, "router.template", "Router.js");
+        write(engine, lowerModelName, upperModelName, firstModelName, firstLowerModelName, columnList, "app.template", "index.js");
+        write(engine, lowerModelName, upperModelName, firstModelName, firstLowerModelName, columnList, "sql.template", firstModelName + ".sql");
 
         renderSuccessJson("");
     }
@@ -115,19 +113,7 @@ public class CodeController extends Controller {
         return name;
     }
 
-    private void write(String lower_model_name, String upper_model_name, String first_model_name, String firstLowerModelName, List<Record> columnList, String templateName, String fileName) throws IOException {
-//        String root = System.getProperty("user.dir") + File.separator + "/src/main/resources/template";
-//        FileResourceLoader resourceLoader = new FileResourceLoader(root, "utf-8");
-//        Configuration configuration = Configuration.defaultConfiguration();
-//        GroupTemplate groupTemplate = new GroupTemplate(resourceLoader, configuration);
-//        Template template = groupTemplate.getTemplate(templateName);
-//        template.binding("lowerModelName", lowerModelName);
-//        template.binding("upperModelName", upperModelName);
-//        template.binding("firstModelName", firstModelName);
-//        template.binding("columnList", columnList);
-//
-//        template.renderTo(new OutputStreamWriter(new FileOutputStream(new File("/Users/yongqiangzhong/Documents/Publish/" + fileName)), "UTF-8"));
-
+    private void write(Engine engine, String lower_model_name, String upper_model_name, String first_model_name, String firstLowerModelName, List<Record> columnList, String templateName, String fileName) throws IOException {
         JMap map = JMap.create();
         map.put("lower_model_name", lower_model_name);
         map.put("upper_model_name", upper_model_name);

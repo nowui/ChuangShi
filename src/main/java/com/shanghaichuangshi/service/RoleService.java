@@ -7,7 +7,7 @@ import java.util.List;
 
 public class RoleService extends Service {
 
-    private static final RoleDao roleDao = new RoleDao();
+    private final RoleDao roleDao = new RoleDao();
 
     public int count(Role role) {
         return roleDao.count(role.getRole_name());

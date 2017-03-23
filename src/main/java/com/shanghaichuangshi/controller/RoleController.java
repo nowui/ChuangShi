@@ -10,7 +10,7 @@ import java.util.List;
 
 public class RoleController extends Controller {
 
-    private static final RoleService roleService = new RoleService();
+    private final RoleService roleService = new RoleService();
 
     @ActionKey(Url.ROLE_LIST)
     public void list() {

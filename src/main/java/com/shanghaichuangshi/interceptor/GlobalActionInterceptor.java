@@ -33,34 +33,26 @@ import static com.shanghaichuangshi.constant.Constant.DATABASE;
 public class GlobalActionInterceptor implements Interceptor {
 
     private Logger logger = LogManager.getLogger(GlobalActionInterceptor.class.getName());
-    private static final List<String> uncheckUrlList = new ArrayList<String>();
-    private static final List<String> uncheckTokenUrlList = new ArrayList<String>();
-    private static final List<String> uncheckRequestUserIdUrlList = new ArrayList<String>();
-    private static final List<String> uncheckParameterUrlList = new ArrayList<String>();
-    private static final List<String> uncheckLogUrlList = new ArrayList<String>();
-    private static final List<String> uncheckHeaderUrlList = new ArrayList<String>();
-
-    static {
-        uncheckTokenUrlList.add(Url.ADMIN_LOGIN);
-
-        uncheckParameterUrlList.add(Url.UPLOAD_IMAGE);
-
-        uncheckLogUrlList.add(Url.LOG_ADMIN_LIST);
-        uncheckLogUrlList.add(Url.LOG_ADMIN_FIND);
-    }
-
-    public GlobalActionInterceptor() {
-
-    }
+    private final List<String> uncheckUrlList = new ArrayList<String>();
+    private final List<String> uncheckTokenUrlList = new ArrayList<String>();
+    private final List<String> uncheckRequestUserIdUrlList = new ArrayList<String>();
+    private final List<String> uncheckParameterUrlList = new ArrayList<String>();
+    private final List<String> uncheckLogUrlList = new ArrayList<String>();
+    private final List<String> uncheckHeaderUrlList = new ArrayList<String>();
 
     public GlobalActionInterceptor(List<String> uncheckUrlList, List<String> uncheckTokenUrlList, List<String> uncheckRequestUserIdUrlList, List<String> uncheckParameterUrlList, List<String> uncheckHeaderUrlList) {
         this.uncheckUrlList.addAll(uncheckUrlList);
 
+        this.uncheckTokenUrlList.add(Url.ADMIN_LOGIN);
         this.uncheckTokenUrlList.addAll(uncheckTokenUrlList);
 
         this.uncheckRequestUserIdUrlList.addAll(uncheckRequestUserIdUrlList);
 
+        this.uncheckParameterUrlList.add(Url.UPLOAD_IMAGE);
         this.uncheckParameterUrlList.addAll(uncheckParameterUrlList);
+
+        this.uncheckLogUrlList.add(Url.LOG_ADMIN_LIST);
+        this.uncheckLogUrlList.add(Url.LOG_ADMIN_FIND);
 
         this.uncheckHeaderUrlList.addAll(uncheckHeaderUrlList);
     }

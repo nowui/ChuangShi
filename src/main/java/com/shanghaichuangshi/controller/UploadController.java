@@ -9,7 +9,7 @@ import java.util.List;
 
 public class UploadController extends Controller {
 
-    private static final UploadService uploadService = new UploadService();
+    private final UploadService uploadService = new UploadService();
 
     @ActionKey(Url.UPLOAD_IMAGE)
     public void image() {

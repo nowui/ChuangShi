@@ -10,7 +10,7 @@ import java.util.List;
 
 public class FileController extends Controller {
 
-    private static final FileService fileService = new FileService();
+    private final FileService fileService = new FileService();
 
     @ActionKey(Url.FILE_LIST)
     public void list() {

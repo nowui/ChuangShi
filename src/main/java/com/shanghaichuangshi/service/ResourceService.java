@@ -7,7 +7,7 @@ import java.util.List;
 
 public class ResourceService extends Service {
 
-    private static final ResourceDao resourceDao = new ResourceDao();
+    private final ResourceDao resourceDao = new ResourceDao();
 
     public int count(Resource resource) {
         return resourceDao.count(resource.getResource_name());
