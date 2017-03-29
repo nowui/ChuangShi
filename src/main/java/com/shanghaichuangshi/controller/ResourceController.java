@@ -48,7 +48,7 @@ public class ResourceController extends Controller {
 
         Resource resource = resourceService.find(model.getResource_id());
 
-        renderSuccessJson(resource.format());
+        renderSuccessJson(resource.formatToMap());
     }
 
     @ActionKey(Url.RESOURCE_ADMIN_FIND)

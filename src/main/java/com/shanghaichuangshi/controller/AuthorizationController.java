@@ -48,7 +48,7 @@ public class AuthorizationController extends Controller {
 
         Authorization authorization = authorizationService.find(model.getAuthorization_id());
 
-        renderSuccessJson(authorization.format());
+        renderSuccessJson(authorization.formatToMap());
     }
 
     @ActionKey(Url.AUTHORIZATION_ADMIN_FIND)

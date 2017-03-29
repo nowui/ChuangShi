@@ -36,7 +36,7 @@ public abstract class Cache {
         removeMapByKey(key);
     }
 
-    private Set<String> getMapByKey(String key) {
+    protected Set<String> getMapByKey(String key) {
         Map<String, Set<String>> keyMap = (Map<String, Set<String>>) userManagedCache.get(KET_OBJECT_CACHE);
 
         if (keyMap == null) {
@@ -51,12 +51,10 @@ public abstract class Cache {
             set = new HashSet<String>();
 		}
 
-        userManagedCache.close();
-
 		return set;
 	}
 
-    private void setMapByKeyAndId(String key, String id) {
+    protected void setMapByKeyAndId(String key, String id) {
         Map<String, Set<String>> keyMap = (Map<String, Set<String>>) userManagedCache.get(KET_OBJECT_CACHE);
 
         if (keyMap == null) {
@@ -78,7 +76,7 @@ public abstract class Cache {
         userManagedCache.put(KET_OBJECT_CACHE, keyMap);
 	}
 
-    private void removeMapByKeyAndId(String key, String id) {
+    protected void removeMapByKeyAndId(String key, String id) {
         Map<String, Set<String>> keyMap = (Map<String, Set<String>>) userManagedCache.get(KET_OBJECT_CACHE);
 
         if (keyMap == null) {
@@ -100,7 +98,7 @@ public abstract class Cache {
         userManagedCache.put(KET_OBJECT_CACHE, keyMap);
 	}
 
-    private void removeMapByKey(String key) {
+    protected void removeMapByKey(String key) {
         Map<String, Set<String>> keyMap = (Map<String, Set<String>>) userManagedCache.get(KET_OBJECT_CACHE);
 
         if (keyMap == null) {

@@ -49,7 +49,7 @@ public class #(first_model_name)Controller extends Controller {
 
         #(first_model_name) #(lower_model_name) = #(first_lower_model_name)Service.find(model.get#(first_model_name)_id());
 
-        renderSuccessJson(#(lower_model_name).format());
+        renderSuccessJson(#(lower_model_name).formatToMap());
     }
 
     @ActionKey(Url.#(upper_model_name)_ADMIN_FIND)

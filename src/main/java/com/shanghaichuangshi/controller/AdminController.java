@@ -50,7 +50,7 @@ public class AdminController extends Controller {
 
         Admin admin = adminService.find(model.getAdmin_id());
 
-        renderSuccessJson(admin.format());
+        renderSuccessJson(admin.formatToMap());
     }
 
     @ActionKey(Url.ADMIN_ADMIN_FIND)

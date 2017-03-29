@@ -36,9 +36,9 @@ public class CategoryController extends Controller {
 
         Category category = categoryService.treeList(model);
 
-        category.keep(Category.CATEGORY_ID, Category.CATEGORY_NAME, Constant.CHILDREN);
+        Map<String, Object> result = category.keepToMap(Category.CATEGORY_ID, Category.CATEGORY_NAME, Constant.CHILDREN);
 
-        renderSuccessJson(category);
+        renderSuccessJson(result);
     }
 
     @ActionKey(Url.CATEGORY_CHINA_LIST)
@@ -56,7 +56,7 @@ public class CategoryController extends Controller {
 
         Category category = categoryService.find(model.getCategory_id());
 
-        renderSuccessJson(category.format());
+        renderSuccessJson(category.formatToMap());
     }
 
     @ActionKey(Url.CATEGORY_ADMIN_FIND)

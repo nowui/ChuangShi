@@ -50,7 +50,7 @@ public class FileController extends Controller {
 
         File file = fileService.find(model.getFile_id());
 
-        renderSuccessJson(file.format());
+        renderSuccessJson(file.formatToMap());
     }
 
     @ActionKey(Url.FILE_ADMIN_FIND)

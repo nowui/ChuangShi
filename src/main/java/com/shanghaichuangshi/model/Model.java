@@ -92,7 +92,7 @@ public class Model<M extends Model> extends com.jfinal.plugin.activerecord.Model
         }
     }
 
-    public Map<String, Object> format() {
+    public Map<String, Object> formatToMap() {
         Map<String, Object> result = new HashMap<String, Object>();
 
         Iterator<Map.Entry<String, Object>> iterator = this.getAttrs().entrySet().iterator();
@@ -108,6 +108,32 @@ public class Model<M extends Model> extends com.jfinal.plugin.activerecord.Model
 
                         break;
                     }
+                }
+            }
+
+            if (isFind) {
+                result.put(entry.getKey(), entry.getValue());
+            }
+        }
+
+        return result;
+    }
+
+    public Map<String, Object> keepToMap(String... keys) {
+        Map<String, Object> result = new HashMap<String, Object>();
+
+        Iterator<Map.Entry<String, Object>> iterator = this.getAttrs().entrySet().iterator();
+        while (iterator.hasNext()) {
+            Map.Entry<String, Object> entry = iterator.next();
+
+            boolean isFind = false;
+
+
+            for (String key : keys) {
+                if (key.equals(entry.getKey())) {
+                    isFind = true;
+
+                    break;
                 }
             }
 
