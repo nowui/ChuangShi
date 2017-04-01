@@ -10,6 +10,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
 
 import javax.crypto.spec.SecretKeySpec;
 import java.security.Key;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -31,11 +32,12 @@ public class AuthorizationService extends Service {
 
     public String saveByUser_id(String user_id, String authorization_platform, String authorization_version, String authorization_ip_address, String request_user_id) {
         String authorization_id = Util.getRandomUUID();
-        long create_millis = System.currentTimeMillis();
-        Date create_time = new Date(create_millis);
+        Date create_time = new Date();
 
-        long expMillis = create_millis + 1000 * 60 * 60 * 24 * 360;
-        Date expire_time = new Date(expMillis);
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(create_time);
+        calendar.add(Calendar.YEAR, 1);
+        Date expire_time = calendar.getTime();
 
         Key key = new SecretKeySpec(Constant.PRIVATE_KEY.getBytes(), SignatureAlgorithm.HS256.getJcaName());
         String authorization_token = Jwts.builder().setIssuedAt(create_time).setExpiration(expire_time).claim(Authorization.AUTHORIZATION_ID, authorization_id).claim(User.USER_ID, user_id).signWith(SignatureAlgorithm.HS512, key).compact();

@@ -92,7 +92,7 @@ public class GlobalActionInterceptor implements Interceptor {
                     authorization_id = claims.get(Authorization.AUTHORIZATION_ID).toString();
                 } catch (Exception e) {
                     if (!uncheckRequestUserIdUrlList.contains(url)) {
-                        throw new RuntimeException(Constant.TOKEN + " is error");
+                        throw new RuntimeException(Constant.TOKEN + " timeout");
                     }
                 }
             }
