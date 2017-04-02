@@ -1,5 +1,13 @@
 package com.shanghaichuangshi.util;
 
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
+import com.jfinal.kit.PathKit;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStreamReader;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -126,6 +134,90 @@ public class Util {
         String fixLenthString = String.valueOf(pross);
 
         return fixLenthString.substring(1, strLength + 1);
+    }
+
+    public static String get() {
+        List<String> list = new ArrayList<String>();
+        List<JSONObject> provinceList = new ArrayList<JSONObject>();
+        List<JSONObject> cityList = new ArrayList<JSONObject>();
+        List<JSONObject> areaList = new ArrayList<JSONObject>();
+
+        try {
+            String encoding = "UTF-8";
+            File file = new File(PathKit.getWebRootPath() + "/WEB-INF/classes/china.txt");
+            if (file.isFile() && file.exists()) {
+                InputStreamReader read = new InputStreamReader(
+                        new FileInputStream(file), encoding);
+                BufferedReader bufferedReader = new BufferedReader(read);
+                String lineTxt = null;
+                while ((lineTxt = bufferedReader.readLine()) != null) {
+                    list.add(lineTxt);
+                }
+                read.close();
+            } else {
+                System.out.println("找不到指定的文件");
+            }
+        } catch (Exception e) {
+            System.out.println("读取文件内容出错");
+            e.printStackTrace();
+        }
+
+        for (String lineTxt : list) {
+            if (lineTxt.contains("province")) {
+                JSONObject jsonObject = new JSONObject();
+                jsonObject.put("value", lineTxt.split("province")[0]);
+                jsonObject.put("label", lineTxt.split("province")[1]);
+                provinceList.add(jsonObject);
+            }
+
+            if (lineTxt.contains("city")) {
+                JSONObject jsonObject = new JSONObject();
+                jsonObject.put("value", lineTxt.split("city")[0]);
+                jsonObject.put("label", lineTxt.split("city")[1]);
+                cityList.add(jsonObject);
+            }
+
+            if (lineTxt.contains("area")) {
+                JSONObject jsonObject = new JSONObject();
+                jsonObject.put("value", lineTxt.split("area")[0]);
+                jsonObject.put("label", lineTxt.split("area")[1]);
+                areaList.add(jsonObject);
+            }
+        }
+
+        for (JSONObject city : cityList) {
+            List<JSONObject> children = new ArrayList<JSONObject>();
+
+            for (JSONObject area : areaList) {
+                if (city.getString("value").substring(0, 4).equals(area.getString("value").substring(0, 4))) {
+                    if (!area.getString("label").equals("市辖区")) {
+                        children.add(area);
+                    }
+                }
+            }
+
+            city.put("children", children);
+        }
+
+        for (JSONObject province : provinceList) {
+            List<JSONObject> children = new ArrayList<JSONObject>();
+
+            for (JSONObject city : cityList) {
+                if (province.getString("value").substring(0, 2).equals(city.getString("value").substring(0, 2))) {
+                    if (city.getString("label").equals("市辖区")) {
+                        city.put("label", province.getString("label"));
+                    }
+
+                    children.add(city);
+                }
+            }
+
+            province.put("children", children);
+
+            province.put("label", province.getString("label").replace("市", ""));
+        }
+
+        return JSONArray.toJSONString(provinceList);
     }
 
 }

@@ -17,6 +17,7 @@ import java.util.*;
 public class CodeController extends Controller {
 
     private final CodeService codeService = new CodeService();
+    private static Engine engine = Engine.create("engine");
 
     @ActionKey(Url.CODE_LIST)
     public void list() {
@@ -81,7 +82,7 @@ public class CodeController extends Controller {
         firstModelName = check(firstModelName);
         firstLowerModelName = check(firstLowerModelName);
 
-        Engine engine = Engine.create("engine");
+
         engine.setBaseTemplatePath(PathKit.getWebRootPath() + "/WEB-INF/template/");
 
         write(engine, lowerModelName, upperModelName, firstModelName, firstLowerModelName, columnList, "url.template", "Url.java");
