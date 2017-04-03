@@ -7,6 +7,7 @@ import com.shanghaichuangshi.model.Category;
 import com.shanghaichuangshi.model.User;
 import com.shanghaichuangshi.type.CategoryType;
 import com.shanghaichuangshi.type.UserType;
+import com.shanghaichuangshi.util.Util;
 
 import java.util.HashMap;
 import java.util.List;
@@ -37,15 +38,14 @@ public class AdminService extends Service {
     }
 
     public Admin save(Admin admin, User user, String request_user_id) {
-        Admin a = adminDao.save(admin, request_user_id);
-
-        String user_id = userService.saveByUser_accountAndUser_passwordAndObject_idAndUser_type(user.getUser_account(), user.getUser_password(), a.getAdmin_id(), UserType.ADMIN.getKey(), request_user_id);
-
+        String user_id = Util.getRandomUUID();
         admin.setUser_id(user_id);
 
-       adminDao.updateByAdmin_idAndUser_id(a.getAdmin_id(), user_id, request_user_id);
+        adminDao.save(admin, request_user_id);
 
-       return a;
+        userService.saveByUser_idAndUser_accountAndUser_passwordAndObject_idAndUser_type(user_id, user.getUser_account(), user.getUser_password(), admin.getAdmin_id(), UserType.ADMIN.getKey(), request_user_id);
+
+        return admin;
     }
 
     public boolean update(Admin admin, User user, String request_user_id) {

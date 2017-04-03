@@ -45,12 +45,4 @@
     AND user_id = #p(user_id)
   #end
 
-  #sql("updateByAdmin_idAndUser_id")
-    UPDATE table_admin SET
-    user_id = #p(user_id),
-    system_update_user_id = #p(system_update_user_id),
-    system_update_time = #p(system_update_time)
-    WHERE admin_id = #p(admin_id)
-  #end
-
 #end

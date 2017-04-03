@@ -36,19 +36,17 @@ public class UserService extends Service {
         return userDao.findByWechat_open_idAndUser_type(wechat_open_id, user_type);
     }
 
-    public String saveByUser_accountAndUser_passwordAndObject_idAndUser_type(String user_account, String user_password, String object_id, String user_type, String request_user_id) {
+    public User saveByUser_idAndUser_accountAndUser_passwordAndObject_idAndUser_type(String user_id, String user_account, String user_password, String object_id, String user_type, String request_user_id) {
         int count = userDao.countByObject_idAndUser_account("", user_account);
 
         if (count > 0) {
             throw new RuntimeException("帐号已经存在:" + user_account);
         }
 
-        User user = userDao.saveByUser_accountAndUser_passwordAndObject_idAndUser_type(user_account, user_password, object_id, user_type, request_user_id);
-
-        return user.getUser_id();
+        return userDao.saveByUser_idAndUser_accountAndUser_passwordAndObject_idAndUser_type(user_id, user_account, user_password, object_id, user_type, request_user_id);
     }
 
-    public String saveByUser_phoneAndUser_passwordAndObject_idAndUser_type(String user_phone, String user_password, String object_id, String user_type, String request_user_id) {
+    public User saveByUser_idAndUser_phoneAndUser_passwordAndObject_idAndUser_type(String user_id, String user_phone, String user_password, String object_id, String user_type, String request_user_id) {
         if (!Util.isPhone(user_phone)) {
             throw new RuntimeException("手机号码格式不对:" + user_phone);
         }
@@ -59,13 +57,11 @@ public class UserService extends Service {
             throw new RuntimeException("手机号码已经存在:" + user_phone);
         }
 
-        User user = userDao.saveByUser_phoneAndUser_passwordAndObject_idAndUser_type(user_phone, user_password, object_id, user_type, request_user_id);
-
-        return user.getUser_id();
+        return userDao.saveByUser_idAndUser_phoneAndUser_passwordAndObject_idAndUser_type(user_id, user_phone, user_password, object_id, user_type, request_user_id);
     }
 
-    public User saveByUser_nameAndUser_avatarAndWechat_open_id(String user_name, String user_avatar, String wechat_open_id, String object_id, String user_type, String request_user_id) {
-        return userDao.saveByUser_nameAndUser_avatarAndWechat_open_id(user_name, user_avatar, wechat_open_id, object_id, user_type, request_user_id);
+    public User saveByUser_idAndUser_nameAndUser_avatarAndWechat_open_id(String user_id, String user_name, String user_avatar, String wechat_open_id, String object_id, String user_type, String request_user_id) {
+        return userDao.saveByUser_idAndUser_nameAndUser_avatarAndWechat_open_id(user_id, user_name, user_avatar, wechat_open_id, object_id, user_type, request_user_id);
     }
 
     public boolean updateByUser_password(String user_password, String request_user_id) {

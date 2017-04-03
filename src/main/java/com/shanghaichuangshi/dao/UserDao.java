@@ -105,9 +105,9 @@ public class UserDao extends Dao {
         }
     }
 
-    public User saveByUser_accountAndUser_passwordAndObject_idAndUser_type(String user_account, String user_password, String object_id, String user_type, String request_user_id) {
+    public User saveByUser_idAndUser_accountAndUser_passwordAndObject_idAndUser_type(String user_id, String user_account, String user_password, String object_id, String user_type, String request_user_id) {
         User user = new User();
-        user.setUser_id(Util.getRandomUUID());
+        user.setUser_id(user_id);
         user.setUser_account(user_account);
         user.setUser_password(generatePassword(user_password));
         user.setUser_name(user_account);
@@ -127,9 +127,9 @@ public class UserDao extends Dao {
         return user;
     }
 
-    public User saveByUser_phoneAndUser_passwordAndObject_idAndUser_type(String user_phone, String user_password, String object_id, String user_type, String request_user_id) {
+    public User saveByUser_idAndUser_phoneAndUser_passwordAndObject_idAndUser_type(String user_id, String user_phone, String user_password, String object_id, String user_type, String request_user_id) {
         User user = new User();
-        user.setUser_id(Util.getRandomUUID());
+        user.setUser_id(user_id);
         user.setUser_phone(user_phone);
         user.setUser_account("");
         user.setUser_password(generatePassword(user_password));
@@ -150,9 +150,9 @@ public class UserDao extends Dao {
         return user;
     }
 
-    public User saveByUser_nameAndUser_avatarAndWechat_open_id(String user_name, String user_avatar, String wechat_open_id, String object_id, String user_type, String request_user_id) {
+    public User saveByUser_idAndUser_nameAndUser_avatarAndWechat_open_id(String user_id, String user_name, String user_avatar, String wechat_open_id, String object_id, String user_type, String request_user_id) {
         User user = new User();
-        user.setUser_id(Util.getRandomUUID());
+        user.setUser_id(user_id);
         user.setUser_phone("");
         user.setUser_account("");
         user.setUser_password("");
