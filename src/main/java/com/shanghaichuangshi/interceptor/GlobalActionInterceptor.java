@@ -103,13 +103,13 @@ public class GlobalActionInterceptor implements Interceptor {
             if (!Util.isNullOrEmpty(platform) || uncheckUrlList.contains(url) || uncheckHeaderUrlList.contains(url)) {
 
             } else {
-                throw new RuntimeException(Constant.PLATFORM + "is null");
+                throw new RuntimeException(Constant.PLATFORM + " is null");
             }
 
             if (!Util.isNullOrEmpty(version) || uncheckUrlList.contains(url) || uncheckHeaderUrlList.contains(url)) {
 
             } else {
-                throw new RuntimeException(Constant.VERSION + "is null");
+                throw new RuntimeException(Constant.VERSION + " is null");
             }
 
             if (uncheckUrlList.contains(url) || uncheckParameterUrlList.contains(url) || uncheckHeaderUrlList.contains(url)) {
