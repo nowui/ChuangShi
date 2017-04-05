@@ -33,16 +33,32 @@ public class Model<M extends Model> extends com.jfinal.plugin.activerecord.Model
 
     private List<Map<String, Object>> columnList;
 
+    public String getSystem_create_user_id() {
+        return getStr(SYSTEM_CREATE_USER_ID);
+    }
+
     public void setSystem_create_user_id(String system_create_user_id) {
         set(SYSTEM_CREATE_USER_ID, system_create_user_id);
+    }
+
+    public Date getSystem_create_time() {
+        return getDate(SYSTEM_CREATE_TIME);
     }
 
     public void setSystem_create_time(Date system_create_time) {
         set(SYSTEM_CREATE_TIME, system_create_time);
     }
 
+    public String getSystem_update_user_id() {
+        return getStr(SYSTEM_UPDATE_USER_ID);
+    }
+
     public void setSystem_update_user_id(String system_update_user_id) {
         set(SYSTEM_UPDATE_USER_ID, system_update_user_id);
+    }
+
+    public Date getSystem_update_time() {
+        return getDate(SYSTEM_UPDATE_TIME);
     }
 
     public void setSystem_update_time(Date system_update_time) {

@@ -60,7 +60,7 @@ public class UserService extends Service {
         return userDao.saveByUser_idAndUser_phoneAndUser_passwordAndObject_idAndUser_type(user_id, user_phone, user_password, object_id, user_type, request_user_id);
     }
 
-    public User saveByUser_idAndUser_nameAndUser_avatarAndWechat_open_id(String user_id, String user_name, String user_avatar, String wechat_open_id, String object_id, String user_type, String request_user_id) {
+    public User saveByUser_idAndUser_nameAndUser_avatarAndWechat_open_idAndObject_idAndUser_type(String user_id, String user_name, String user_avatar, String wechat_open_id, String object_id, String user_type, String request_user_id) {
         return userDao.saveByUser_idAndUser_nameAndUser_avatarAndWechat_open_id(user_id, user_name, user_avatar, wechat_open_id, object_id, user_type, request_user_id);
     }
 
