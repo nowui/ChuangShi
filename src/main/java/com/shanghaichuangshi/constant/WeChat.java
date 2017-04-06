@@ -11,6 +11,9 @@ public class WeChat {
     public static String rncoding_aes_key = "";
     public static String mch_id = "";
     public static String mch_key = "";
+    public static String body = "";
+    public static String redirect_uri = "";
+    public static String notify_url = "";
 
     static {
         PropKit.clear();
@@ -22,6 +25,9 @@ public class WeChat {
         rncoding_aes_key = PropKit.get("rncoding_aes_key");
         mch_id = PropKit.get("mch_id");
         mch_key = PropKit.get("mch_key");
+        body = PropKit.get("body");
+        redirect_uri = PropKit.get("redirect_uri");
+        notify_url = PropKit.get("notify_url");
     }
 
     public static ApiConfig getApiConfig() {

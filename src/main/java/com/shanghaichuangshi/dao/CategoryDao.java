@@ -3,8 +3,8 @@ package com.shanghaichuangshi.dao;
 import com.jfinal.kit.JMap;
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.SqlPara;
-import com.shanghaichuangshi.cache.CategoryCache;
 import com.shanghaichuangshi.model.Category;
+import com.shanghaichuangshi.util.CacheUtil;
 import com.shanghaichuangshi.util.Util;
 
 import java.util.Date;
@@ -12,7 +12,7 @@ import java.util.List;
 
 public class CategoryDao extends Dao {
 
-    private final CategoryCache categoryCache = new CategoryCache();
+    private final String CATEGORY_CACHE = "category_cache";
 
     public int count(String category_name) {
         JMap map = JMap.create();
@@ -60,7 +60,7 @@ public class CategoryDao extends Dao {
     }
 
     public Category find(String category_id) {
-        Category category = categoryCache.getCategoryByCategory_id(category_id);
+        Category category = CacheUtil.get(CATEGORY_CACHE, category_id);
 
         if (category == null) {
             JMap map = JMap.create();
@@ -73,7 +73,7 @@ public class CategoryDao extends Dao {
             } else {
                 category = categoryList.get(0);
 
-                categoryCache.setCategoryByCategory_id(category, category_id);
+                CacheUtil.put(CATEGORY_CACHE, category_id, category);
             }
         }
 
@@ -106,7 +106,7 @@ public class CategoryDao extends Dao {
     }
 
     public boolean update(Category category, String request_user_id) {
-        categoryCache.removeCategoryByCategory_id(category.getCategory_id());
+        CacheUtil.remove(CATEGORY_CACHE, category.getCategory_id());
 
         category.remove(Category.SYSTEM_CREATE_USER_ID);
         category.remove(Category.SYSTEM_CREATE_TIME);
@@ -118,7 +118,7 @@ public class CategoryDao extends Dao {
     }
 
     public boolean delete(String category_id, String request_user_id) {
-        categoryCache.removeCategoryByCategory_id(category_id);
+        CacheUtil.remove(CATEGORY_CACHE, category_id);
 
         JMap map = JMap.create();
         map.put(Category.CATEGORY_ID, category_id);

@@ -5,10 +5,11 @@ import com.shanghaichuangshi.constant.Constant;
 import com.shanghaichuangshi.type.ColumnType;
 import com.shanghaichuangshi.util.Util;
 
+import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.util.*;
 
-public class Model<M extends Model> extends com.jfinal.plugin.activerecord.Model<M> {
+public class Model<M extends Model> extends com.jfinal.plugin.activerecord.Model<M> implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
