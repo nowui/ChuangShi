@@ -50,7 +50,7 @@ public class AdminController extends Controller {
 
         Admin admin = adminService.find(model.getAdmin_id());
 
-        renderSuccessJson(admin.formatToMap());
+        renderSuccessJson(admin.removeUnfindable());
     }
 
     @ActionKey(Url.ADMIN_ADMIN_FIND)

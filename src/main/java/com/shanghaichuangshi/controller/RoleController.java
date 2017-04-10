@@ -49,7 +49,7 @@ public class RoleController extends Controller {
 
         Role role = roleService.find(model.getRole_id());
 
-        renderSuccessJson(role.formatToMap());
+        renderSuccessJson(role.removeUnfindable());
     }
 
     @ActionKey(Url.ROLE_ADMIN_FIND)

@@ -109,57 +109,67 @@ public class Model<M extends Model> extends com.jfinal.plugin.activerecord.Model
         }
     }
 
-    public Map<String, Object> formatToMap() {
-        Map<String, Object> result = new HashMap<String, Object>();
+//    public Map<String, Object> formatToMap() {
+//        Map<String, Object> result = new HashMap<String, Object>();
+//
+//        Iterator<Map.Entry<String, Object>> iterator = this.getAttrs().entrySet().iterator();
+//        while (iterator.hasNext()) {
+//            Map.Entry<String, Object> entry = iterator.next();
+//
+//            boolean isFind = true;
+//
+//            for (Map<String, Object> column : getColumnList()) {
+//                if (column.get(Constant.NAME).toString().equals(entry.getKey())) {
+//                    if (!(boolean)column.get(Constant.FINDABLE)) {
+//                        isFind = false;
+//
+//                        break;
+//                    }
+//                }
+//            }
+//
+//            if (isFind) {
+//                result.put(entry.getKey(), entry.getValue());
+//            }
+//        }
+//
+//        return result;
+//    }
+//
+//    public Map<String, Object> keepToMap(String... keys) {
+//        Map<String, Object> result = new HashMap<String, Object>();
+//
+//        Iterator<Map.Entry<String, Object>> iterator = this.getAttrs().entrySet().iterator();
+//        while (iterator.hasNext()) {
+//            Map.Entry<String, Object> entry = iterator.next();
+//
+//            boolean isFind = false;
+//
+//
+//            for (String key : keys) {
+//                if (key.equals(entry.getKey())) {
+//                    isFind = true;
+//
+//                    break;
+//                }
+//            }
+//
+//            if (isFind) {
+//                result.put(entry.getKey(), entry.getValue());
+//            }
+//        }
+//
+//        return result;
+//    }
 
-        Iterator<Map.Entry<String, Object>> iterator = this.getAttrs().entrySet().iterator();
-        while (iterator.hasNext()) {
-            Map.Entry<String, Object> entry = iterator.next();
-
-            boolean isFind = true;
-
-            for (Map<String, Object> column : getColumnList()) {
-                if (column.get(Constant.NAME).toString().equals(entry.getKey())) {
-                    if (!(boolean)column.get(Constant.FINDABLE)) {
-                        isFind = false;
-
-                        break;
-                    }
-                }
-            }
-
-            if (isFind) {
-                result.put(entry.getKey(), entry.getValue());
+    public M removeUnfindable() {
+        for (Map<String, Object> map : getColumnList()) {
+            if (!(boolean)map.get(Constant.FINDABLE)) {
+                this.remove(map.get(Constant.NAME).toString());
             }
         }
 
-        return result;
-    }
-
-    public Map<String, Object> keepToMap(String... keys) {
-        Map<String, Object> result = new HashMap<String, Object>();
-
-        Iterator<Map.Entry<String, Object>> iterator = this.getAttrs().entrySet().iterator();
-        while (iterator.hasNext()) {
-            Map.Entry<String, Object> entry = iterator.next();
-
-            boolean isFind = false;
-
-
-            for (String key : keys) {
-                if (key.equals(entry.getKey())) {
-                    isFind = true;
-
-                    break;
-                }
-            }
-
-            if (isFind) {
-                result.put(entry.getKey(), entry.getValue());
-            }
-        }
-
-        return result;
+        return (M) this;
     }
 
     private List<Map<String, Object>> getColumnList() {

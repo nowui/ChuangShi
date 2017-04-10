@@ -48,7 +48,7 @@ public class LogController extends Controller {
 
         Log log = logService.find(model.getLog_id());
 
-        renderSuccessJson(log.formatToMap());
+        renderSuccessJson(log.removeUnfindable());
     }
 
     @ActionKey(Url.LOG_ADMIN_FIND)
