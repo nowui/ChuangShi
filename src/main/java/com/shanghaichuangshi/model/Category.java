@@ -20,7 +20,7 @@ public class Category extends Model<Category> {
     @Column(type = ColumnType.VARCHAR, length = 100, comment = "分类数值")
     public static final String CATEGORY_VALUE = "category_value";
 
-    @Column(type = ColumnType.VARCHAR, length = 3000, comment = "分类路径", findable = false, updatable = false)
+    @Column(type = ColumnType.VARCHAR, length = 5000, comment = "分类路径", findable = false, updatable = false)
     public static final String CATEGORY_PATH = "category_path";
 
     @Column(type = ColumnType.VARCHAR, length = 100, comment = "分类描述")
