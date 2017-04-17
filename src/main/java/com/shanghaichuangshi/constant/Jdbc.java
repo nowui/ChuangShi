@@ -4,6 +4,7 @@ import com.jfinal.kit.PropKit;
 
 public class Jdbc {
 
+    public static String table_schema = "";
     public static String driver_class = "";
     public static String jdbc_url = "";
     public static String user = "";
@@ -16,6 +17,7 @@ public class Jdbc {
         PropKit.clear();
         PropKit.use("Jdbc.properties");
 
+        table_schema = PropKit.get("table_schema");
         driver_class = PropKit.get("driver_class");
         jdbc_url = PropKit.get("jdbc_url");
         user = PropKit.get("user");

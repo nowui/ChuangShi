@@ -7,6 +7,7 @@ import com.jfinal.kit.PathKit;
 import com.jfinal.plugin.activerecord.Record;
 import com.jfinal.template.Engine;
 import com.jfinal.template.Template;
+import com.shanghaichuangshi.constant.Jdbc;
 import com.shanghaichuangshi.constant.Url;
 import com.shanghaichuangshi.service.CodeService;
 import com.shanghaichuangshi.util.Util;
@@ -23,9 +24,7 @@ public class CodeController extends Controller {
     public void list() {
         JSONObject jsonObject = getParameterJSONObject();
 
-        String table_schema = jsonObject.getString("table_schema");
-
-        List<Record> tableList = codeService.listTable(table_schema);
+        List<Record> tableList = codeService.listTable();
 
         List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
 
@@ -43,9 +42,9 @@ public class CodeController extends Controller {
         JSONObject jsonObject = getParameterJSONObject();
 
         String table_name = jsonObject.getString("table_name");
-        String table_schema = jsonObject.getString("table_schema");
+        String name_space = jsonObject.getString("name_space");
 
-        List<Record> codeList = codeService.listColumn(table_name, table_schema);
+        List<Record> codeList = codeService.listColumn(table_name);
 
         List<Record> columnList = new ArrayList<Record>();
 
@@ -85,18 +84,18 @@ public class CodeController extends Controller {
 
         engine.setBaseTemplatePath(PathKit.getWebRootPath() + "/WEB-INF/template/");
 
-        write(engine, lowerModelName, upperModelName, firstModelName, firstLowerModelName, columnList, "url.template", "Url.java");
-        write(engine, lowerModelName, upperModelName, firstModelName, firstLowerModelName, columnList, "model.template", firstModelName + ".java");
-        write(engine, lowerModelName, upperModelName, firstModelName, firstLowerModelName, columnList, "dao.template", firstModelName + "Dao.java");
-        write(engine, lowerModelName, upperModelName, firstModelName, firstLowerModelName, columnList, "service.template", firstModelName + "Service.java");
-        write(engine, lowerModelName, upperModelName, firstModelName, firstLowerModelName, columnList, "controller.template", firstModelName + "Controller.java");
-        write(engine, lowerModelName, upperModelName, firstModelName, firstLowerModelName, columnList, "config.template", "WebConfig.java");
-        write(engine, lowerModelName, upperModelName, firstModelName, firstLowerModelName, columnList, "state.template", lowerModelName + ".js");
-        write(engine, lowerModelName, upperModelName, firstModelName, firstLowerModelName, columnList, "index.template", firstModelName + "Index.js");
-        write(engine, lowerModelName, upperModelName, firstModelName, firstLowerModelName, columnList, "detail.template", firstModelName + "Detail.js");
-        write(engine, lowerModelName, upperModelName, firstModelName, firstLowerModelName, columnList, "router.template", "Router.js");
-        write(engine, lowerModelName, upperModelName, firstModelName, firstLowerModelName, columnList, "app.template", "index.js");
-        write(engine, lowerModelName, upperModelName, firstModelName, firstLowerModelName, columnList, "sql.template", firstModelName + ".sql");
+        write(engine, name_space, lowerModelName, upperModelName, firstModelName, firstLowerModelName, columnList, "url.template", "Url.java");
+        write(engine, name_space, lowerModelName, upperModelName, firstModelName, firstLowerModelName, columnList, "model.template", firstModelName + ".java");
+        write(engine, name_space, lowerModelName, upperModelName, firstModelName, firstLowerModelName, columnList, "dao.template", firstModelName + "Dao.java");
+        write(engine, name_space, lowerModelName, upperModelName, firstModelName, firstLowerModelName, columnList, "service.template", firstModelName + "Service.java");
+        write(engine, name_space, lowerModelName, upperModelName, firstModelName, firstLowerModelName, columnList, "controller.template", firstModelName + "Controller.java");
+        write(engine, name_space, lowerModelName, upperModelName, firstModelName, firstLowerModelName, columnList, "config.template", "WebConfig.java");
+        write(engine, name_space, lowerModelName, upperModelName, firstModelName, firstLowerModelName, columnList, "state.template", lowerModelName + ".js");
+        write(engine, name_space, lowerModelName, upperModelName, firstModelName, firstLowerModelName, columnList, "index.template", firstModelName + "Index.js");
+        write(engine, name_space, lowerModelName, upperModelName, firstModelName, firstLowerModelName, columnList, "detail.template", firstModelName + "Detail.js");
+        write(engine, name_space, lowerModelName, upperModelName, firstModelName, firstLowerModelName, columnList, "router.template", "Router.js");
+        write(engine, name_space, lowerModelName, upperModelName, firstModelName, firstLowerModelName, columnList, "app.template", "index.js");
+        write(engine, name_space, lowerModelName, upperModelName, firstModelName, firstLowerModelName, columnList, "sql.template", firstModelName + ".sql");
 
         renderSuccessJson("");
     }
@@ -114,8 +113,13 @@ public class CodeController extends Controller {
         return name;
     }
 
-    private void write(Engine engine, String lower_model_name, String upper_model_name, String first_model_name, String firstLowerModelName, List<Record> columnList, String templateName, String fileName) throws IOException {
+    private void write(Engine engine, String name_space, String lower_model_name, String upper_model_name, String first_model_name, String firstLowerModelName, List<Record> columnList, String templateName, String fileName) throws IOException {
+        if (Util.isNullOrEmpty(name_space)) {
+            name_space = Jdbc.table_schema.toLowerCase();
+        }
+
         JMap map = JMap.create();
+        map.put("name_space", name_space);
         map.put("lower_model_name", lower_model_name);
         map.put("upper_model_name", upper_model_name);
         map.put("first_model_name", first_model_name);

@@ -33,8 +33,10 @@ public class Controller extends com.jfinal.core.Controller {
     }
 
     public void validate(String... keys) {
+        JSONObject jsonObject = getAttr(Constant.REQUEST_PARAMETER);
+
         for (String key : keys) {
-            if (Util.isNull(getAttr(key))) {
+            if (Util.isNull(jsonObject.get(key))) {
                 throw new RuntimeException(key + " is null");
             }
         }

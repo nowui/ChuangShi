@@ -5,7 +5,7 @@
     <artifactId>chuangshi</artifactId>
     <packaging>jar</packaging>
     <version>1.0-SNAPSHOT</version>
-    <name>chuangshi Maven Webapp</name>
+    <name>ChuangShi Maven Webapp</name>
     <url>http://maven.apache.org</url>
 
     <dependencies>
@@ -103,7 +103,7 @@
     </properties>
 
     <build>
-        <finalName>chuangshi</finalName>
+        <finalName>ChuangShi</finalName>
     </build>
 
 </project>
