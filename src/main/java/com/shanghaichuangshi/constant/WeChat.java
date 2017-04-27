@@ -14,6 +14,8 @@ public class WeChat {
     public static String body = "";
     public static String redirect_uri = "";
     public static String notify_url = "";
+    public static String wx_app_id = "";
+    public static String wx_app_secret = "";
 
     static {
         PropKit.clear();
@@ -28,6 +30,8 @@ public class WeChat {
         body = PropKit.get("body");
         redirect_uri = PropKit.get("redirect_uri");
         notify_url = PropKit.get("notify_url");
+        wx_app_id = PropKit.get("wx_app_id");
+        wx_app_secret = PropKit.get("wx_app_secret");
     }
 
     public static ApiConfig getApiConfig() {
