@@ -3,6 +3,7 @@ package com.shanghaichuangshi.util;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.jfinal.kit.PathKit;
+import com.shanghaichuangshi.constant.Constant;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -218,6 +219,14 @@ public class Util {
         }
 
         return JSONArray.toJSONString(provinceList);
+    }
+
+    public static String getThumbnail_path(String path) {
+        return path.substring(0, path.lastIndexOf("/")) + "/" + Constant.THUMBNAIL + "/" + path.substring(path.lastIndexOf("/") + 1, path.length());
+    }
+
+    public static String getOriginal_path(String path) {
+        return path.substring(0, path.lastIndexOf("/")) + "/" + Constant.ORIGINAL + "/" + path.substring(path.lastIndexOf("/") + 1, path.length());
     }
 
 }

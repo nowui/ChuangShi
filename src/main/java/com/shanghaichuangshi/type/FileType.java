@@ -2,7 +2,8 @@ package com.shanghaichuangshi.type;
 
 public enum FileType {
 
-    IMAGE("IMAGE", "图片");
+    IMAGE("IMAGE", "图片"),
+    VIDEO("VIDEO", "视频");
 
     private String key;
     private String value;

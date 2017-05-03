@@ -12,7 +12,7 @@ public class CodeDao extends Dao {
 
     public List<Record> listTable() {
         JMap map = JMap.create();
-        map.put("table_schema", Jdbc.table_schema.toLowerCase());
+        map.put("table_schema", Jdbc.table_schema);
         SqlPara sqlPara = Db.getSqlPara("code.listTable", map);
 
         return Db.find(sqlPara.getSql(), sqlPara.getPara());
@@ -21,7 +21,7 @@ public class CodeDao extends Dao {
     public List<Record> listColumn(String table_name) {
         JMap map = JMap.create();
         map.put("table_name", table_name);
-        map.put("table_schema", Jdbc.table_schema.toLowerCase());
+        map.put("table_schema", Jdbc.table_schema);
         SqlPara sqlPara = Db.getSqlPara("code.listColumn", map);
 
         return Db.find(sqlPara.getSql(), sqlPara.getPara());
