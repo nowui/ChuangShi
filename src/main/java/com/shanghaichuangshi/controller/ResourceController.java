@@ -59,7 +59,7 @@ public class ResourceController extends Controller {
 
         Resource resource = resourceService.find(model.getResource_id());
 
-        renderSuccessJson(resource);
+        renderSuccessJson(resource.removeSystemInfo());
     }
 
     @ActionKey(Url.RESOURCE_SAVE)

@@ -60,7 +60,7 @@ public class #(first_model_name)Controller extends Controller {
 
         #(first_model_name) #(lower_model_name) = #(first_lower_model_name)Service.find(model.get#(first_model_name)_id());
 
-        renderSuccessJson(#(lower_model_name));
+        renderSuccessJson(#(lower_model_name).removeSystemInfo());
     }
 
     @ActionKey(Url.#(upper_model_name)_SAVE)

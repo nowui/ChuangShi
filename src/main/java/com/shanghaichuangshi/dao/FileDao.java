@@ -5,12 +5,15 @@ import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.SqlPara;
 import com.shanghaichuangshi.constant.Constant;
 import com.shanghaichuangshi.model.File;
+import com.shanghaichuangshi.util.CacheUtil;
 import com.shanghaichuangshi.util.Util;
 
 import java.util.Date;
 import java.util.List;
 
 public class FileDao extends Dao {
+
+    private final String FILE_CACHE = "file_cache";
 
     public int count(String file_name, String request_user_id) {
         JMap map = JMap.create();
@@ -34,16 +37,24 @@ public class FileDao extends Dao {
     }
 
     public File find(String file_id) {
-        JMap map = JMap.create();
-        map.put(File.FILE_ID, file_id);
-        SqlPara sqlPara = Db.getSqlPara("file.find", map);
+        File file = CacheUtil.get(FILE_CACHE, file_id);
 
-        List<File> fileList = new File().find(sqlPara.getSql(), sqlPara.getPara());
-        if (fileList.size() == 0) {
-            return null;
-        } else {
-            return fileList.get(0);
+        if (file == null) {
+            JMap map = JMap.create();
+            map.put(File.FILE_ID, file_id);
+            SqlPara sqlPara = Db.getSqlPara("file.find", map);
+
+            List<File> fileList = new File().find(sqlPara.getSql(), sqlPara.getPara());
+            if (fileList.size() == 0) {
+                file = null;
+            } else {
+                file = fileList.get(0);
+
+                CacheUtil.put(FILE_CACHE, file_id, file);
+            }
         }
+
+        return file;
     }
 
     public File save(File file, String request_user_id) {
@@ -60,6 +71,8 @@ public class FileDao extends Dao {
     }
 
     public boolean update(File file, String request_user_id) {
+        CacheUtil.remove(FILE_CACHE, file.getFile_id());
+
         file.remove(File.SYSTEM_CREATE_USER_ID);
         file.remove(File.SYSTEM_CREATE_TIME);
         file.setSystem_update_user_id(request_user_id);
@@ -70,6 +83,8 @@ public class FileDao extends Dao {
     }
 
     public boolean delete(String file_id, String request_user_id) {
+        CacheUtil.remove(FILE_CACHE, file_id);
+
         JMap map = JMap.create();
         map.put(File.FILE_ID, file_id);
         map.put(File.SYSTEM_UPDATE_USER_ID, request_user_id);

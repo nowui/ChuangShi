@@ -24,7 +24,7 @@ public class File extends Model<File> {
     public static final String FILE_PATH = "file_path";
 
     @Column(type = ColumnType.VARCHAR, length = 100, comment = "")
-    public static final String FILE_THUMBNAIL = "file_thumbnail";
+    public static final String FILE_THUMBNAIL_PATH = "file_thumbnail_path";
 
     @Column(type = ColumnType.VARCHAR, length = 100, comment = "")
     public static final String FILE_ORIGINAL_PATH = "file_original_path";
@@ -77,12 +77,12 @@ public class File extends Model<File> {
         set(FILE_PATH, file_path);
     }
 
-    public String getFile_thumbnail() {
-        return getStr(FILE_THUMBNAIL);
+    public String getFile_thumbnail_path() {
+        return getStr(FILE_THUMBNAIL_PATH);
     }
 
-    public void setFile_thumbnail(String file_thumbnail) {
-        set(FILE_THUMBNAIL, file_thumbnail);
+    public void setFile_thumbnail_path(String file_thumbnail_path) {
+        set(FILE_THUMBNAIL_PATH, file_thumbnail_path);
     }
 
     public String getFile_original_path() {

@@ -21,7 +21,7 @@ public class FileController extends Controller {
 
         model.validate(File.FILE_NAME);
 
-        List<File> fileList = fileService.list(model, request_user_id, getM(), getN());
+        List<File> fileList = fileService.list(model.getFile_name(), request_user_id, getM(), getN());
 
         renderSuccessJson(fileList);
     }
@@ -35,9 +35,9 @@ public class FileController extends Controller {
 
         model.validate(File.FILE_NAME);
 
-        int count = fileService.count(model, request_user_id);
+        int count = fileService.count(model.getFile_name(), request_user_id);
 
-        List<File> fileList = fileService.list(model, request_user_id, getM(), getN());
+        List<File> fileList = fileService.list(model.getFile_name(), request_user_id, getM(), getN());
 
         renderSuccessJson(count, fileList);
     }
@@ -61,7 +61,7 @@ public class FileController extends Controller {
 
         File file = fileService.find(model.getFile_id());
 
-        renderSuccessJson(file);
+        renderSuccessJson(file.removeSystemInfo());
     }
 
     @ActionKey(Url.FILE_SAVE)

@@ -60,7 +60,7 @@ public class RoleController extends Controller {
 
         Role role = roleService.find(model.getRole_id());
 
-        renderSuccessJson(role);
+        renderSuccessJson(role.removeSystemInfo());
     }
 
     @ActionKey(Url.ROLE_SAVE)

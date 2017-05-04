@@ -30,7 +30,6 @@
     SELECT
     *
     FROM table_file
-    LEFT JOIN table_user ON user_id = user_id
     WHERE system_status = 1
     AND file_id = #p(file_id)
   #end

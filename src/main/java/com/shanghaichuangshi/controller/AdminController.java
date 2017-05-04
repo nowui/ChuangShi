@@ -61,7 +61,7 @@ public class AdminController extends Controller {
 
         Admin admin = adminService.find(model.getAdmin_id());
 
-        renderSuccessJson(admin);
+        renderSuccessJson(admin.removeSystemInfo());
     }
 
     @ActionKey(Url.ADMIN_SAVE)

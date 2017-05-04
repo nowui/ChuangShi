@@ -172,6 +172,16 @@ public class Model<M extends Model> extends com.jfinal.plugin.activerecord.Model
         return (M) this;
     }
 
+    public M removeSystemInfo() {
+        this.remove(SYSTEM_CREATE_USER_ID);
+        this.remove(SYSTEM_CREATE_TIME);
+        this.remove(SYSTEM_UPDATE_USER_ID);
+        this.remove(SYSTEM_UPDATE_TIME);
+        this.remove(SYSTEM_STATUS);
+
+        return (M) this;
+    }
+
     private List<Map<String, Object>> getColumnList() {
         if (columnList == null) {
             columnList = new ArrayList<Map<String, Object>>();

@@ -59,7 +59,7 @@ public class LogController extends Controller {
 
         Log log = logService.find(model.getLog_id());
 
-        renderSuccessJson(log);
+        renderSuccessJson(log.removeSystemInfo());
     }
 
 }

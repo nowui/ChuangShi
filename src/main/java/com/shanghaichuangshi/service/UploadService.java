@@ -44,7 +44,7 @@ public class UploadService extends Service {
             file.setFile_suffix(suffix);
             file.setFile_size((int) uploadFile.getFile().length());
             file.setFile_path(path.replace(PathKit.getWebRootPath(), ""));
-            file.setFile_thumbnail(thumbnailPath.replace(PathKit.getWebRootPath(), ""));
+            file.setFile_thumbnail_path(thumbnailPath.replace(PathKit.getWebRootPath(), ""));
             file.setFile_original_path(originalPath.replace(PathKit.getWebRootPath(), ""));
             fileService.save(file, request_user_id);
         }

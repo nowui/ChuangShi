@@ -65,7 +65,7 @@ public class CategoryController extends Controller {
 
         Category category = categoryService.find(model.getCategory_id());
 
-        renderSuccessJson(category);
+        renderSuccessJson(category.removeSystemInfo());
     }
 
     @ActionKey(Url.CATEGORY_SAVE)

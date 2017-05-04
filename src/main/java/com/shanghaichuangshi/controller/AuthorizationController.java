@@ -59,7 +59,7 @@ public class AuthorizationController extends Controller {
 
         Authorization authorization = authorizationService.find(model.getAuthorization_id());
 
-        renderSuccessJson(authorization);
+        renderSuccessJson(authorization.removeSystemInfo());
     }
 
 }

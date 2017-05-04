@@ -59,7 +59,7 @@ public class AttributeController extends Controller {
 
         Attribute attribute = attributeService.find(model.getAttribute_id());
 
-        renderSuccessJson(attribute);
+        renderSuccessJson(attribute.removeSystemInfo());
     }
 
     @ActionKey(Url.ATTRIBUTE_SAVE)
