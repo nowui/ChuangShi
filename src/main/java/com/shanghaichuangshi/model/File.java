@@ -5,29 +5,32 @@ import com.shanghaichuangshi.type.ColumnType;
 
 public class File extends Model<File> {
 
-    @Column(type = ColumnType.VARCHAR, length = 32, comment = "")
+    @Column(type = ColumnType.VARCHAR, length = 32, comment = "文件编号")
     public static final String FILE_ID = "file_id";
 
-    @Column(type = ColumnType.VARCHAR, length = 10, comment = "")
+    @Column(type = ColumnType.VARCHAR, length = 10, comment = "文件类型")
     public static final String FILE_TYPE = "file_type";
 
-    @Column(type = ColumnType.VARCHAR, length = 100, comment = "")
+    @Column(type = ColumnType.VARCHAR, length = 100, comment = "文件名称")
     public static final String FILE_NAME = "file_name";
 
-    @Column(type = ColumnType.VARCHAR, length = 10, comment = "")
+    @Column(type = ColumnType.VARCHAR, length = 10, comment = "文件后缀")
     public static final String FILE_SUFFIX = "file_suffix";
 
-    @Column(type = ColumnType.INT, length = 11, comment = "")
+    @Column(type = ColumnType.INT, length = 11, comment = "文件大小")
     public static final String FILE_SIZE = "file_size";
 
-    @Column(type = ColumnType.VARCHAR, length = 100, comment = "")
+    @Column(type = ColumnType.VARCHAR, length = 200, comment = "文件路径")
     public static final String FILE_PATH = "file_path";
 
-    @Column(type = ColumnType.VARCHAR, length = 100, comment = "")
+    @Column(type = ColumnType.VARCHAR, length = 200, comment = "文件路径")
     public static final String FILE_THUMBNAIL_PATH = "file_thumbnail_path";
 
-    @Column(type = ColumnType.VARCHAR, length = 100, comment = "")
+    @Column(type = ColumnType.VARCHAR, length = 200, comment = "文件路径")
     public static final String FILE_ORIGINAL_PATH = "file_original_path";
+
+    @Column(type = ColumnType.VARCHAR, length = 200, comment = "文件封面")
+    public static final String FILE_IMAGE = "file_image";
 
     public String getFile_id() {
         return getStr(FILE_ID);
@@ -91,6 +94,14 @@ public class File extends Model<File> {
 
     public void setFile_original_path(String file_original_path) {
         set(FILE_ORIGINAL_PATH, file_original_path);
+    }
+
+    public String getFile_image() {
+        return getStr(FILE_IMAGE);
+    }
+
+    public void setFile_image(String file_image) {
+        set(FILE_IMAGE, file_image);
     }
 
 }

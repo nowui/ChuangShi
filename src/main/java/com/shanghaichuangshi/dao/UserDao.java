@@ -1,7 +1,7 @@
 package com.shanghaichuangshi.dao;
 
 import com.jfinal.kit.HashKit;
-import com.jfinal.kit.JMap;
+import com.jfinal.kit.Kv;
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.SqlPara;
 import com.shanghaichuangshi.constant.Constant;
@@ -20,7 +20,7 @@ public class UserDao extends Dao {
     }
 
     public int countByObject_idAndUser_account(String object_id, String user_account) {
-        JMap map = JMap.create();
+        Kv map = Kv.create();
         map.put(User.OBJECT_ID, object_id);
         map.put(User.USER_ACCOUNT, user_account);
         SqlPara sqlPara = Db.getSqlPara("user.countByObject_idAndUser_account", map);
@@ -30,7 +30,7 @@ public class UserDao extends Dao {
     }
 
     public int countByObject_idAndUser_phone(String object_id, String user_phone) {
-        JMap map = JMap.create();
+        Kv map = Kv.create();
         map.put(User.OBJECT_ID, object_id);
         map.put(User.USER_PHONE, user_phone);
         SqlPara sqlPara = Db.getSqlPara("user.countByObject_idAndUser_phone", map);
@@ -43,7 +43,7 @@ public class UserDao extends Dao {
         User user = CacheUtil.get(USER_CACHE, user_id);
 
         if (user == null) {
-            JMap map = JMap.create();
+            Kv map = Kv.create();
             map.put(User.USER_ID, user_id);
             SqlPara sqlPara = Db.getSqlPara("user.find", map);
 
@@ -61,7 +61,7 @@ public class UserDao extends Dao {
     }
 
     public User findByUser_accountAndUser_passwordAndUser_type(String user_account, String user_password, String user_type) {
-        JMap map = JMap.create();
+        Kv map = Kv.create();
         map.put(User.USER_ACCOUNT, user_account);
         map.put(User.USER_PASSWORD, generatePassword(user_password));
         map.put(User.USER_TYPE, user_type);
@@ -76,7 +76,7 @@ public class UserDao extends Dao {
     }
 
     public User findByUser_phoneAndUser_passwordAndUser_type(String user_phone, String user_password, String user_type) {
-        JMap map = JMap.create();
+        Kv map = Kv.create();
         map.put(User.USER_PHONE, user_phone);
         map.put(User.USER_PASSWORD, generatePassword(user_password));
         map.put(User.USER_TYPE, user_type);
@@ -91,7 +91,7 @@ public class UserDao extends Dao {
     }
 
     public User findByWechat_open_idAndUser_type(String wechat_open_id, String user_type) {
-        JMap map = JMap.create();
+        Kv map = Kv.create();
         map.put(User.WECHAT_OPEN_ID, wechat_open_id);
         map.put(User.USER_TYPE, user_type);
         SqlPara sqlPara = Db.getSqlPara("user.findByWechat_open_idAndUser_type", map);
@@ -173,7 +173,7 @@ public class UserDao extends Dao {
     }
 
     public boolean updateByUser_password(String user_password, String request_user_id) {
-        JMap map = JMap.create();
+        Kv map = Kv.create();
         map.put(User.USER_ID, request_user_id);
         map.put(User.USER_PASSWORD, generatePassword(user_password));
         map.put(User.SYSTEM_UPDATE_USER_ID, request_user_id);
@@ -184,7 +184,7 @@ public class UserDao extends Dao {
     }
 
     public boolean updateByObject_idAndUser_accountAndUser_type(String object_id, String user_account, String user_type, String request_user_id) {
-        JMap map = JMap.create();
+        Kv map = Kv.create();
         map.put(User.OBJECT_ID, object_id);
         map.put(User.USER_ACCOUNT, user_account);
         map.put(User.USER_TYPE, user_type);
@@ -196,7 +196,7 @@ public class UserDao extends Dao {
     }
 
     public boolean updateByObject_idAndUser_phoneAndUser_type(String object_id, String user_phone, String user_type, String request_user_id) {
-        JMap map = JMap.create();
+        Kv map = Kv.create();
         map.put(User.OBJECT_ID, object_id);
         map.put(User.USER_PHONE, user_phone);
         map.put(User.USER_TYPE, user_type);
@@ -210,7 +210,7 @@ public class UserDao extends Dao {
     public boolean updateByObject_idAndUser_passwordAndUser_type(String object_id, String user_password, String user_type, String request_user_id) {
         user_password = generatePassword(user_password);
 
-        JMap map = JMap.create();
+        Kv map = Kv.create();
         map.put(User.OBJECT_ID, object_id);
         map.put(User.USER_PASSWORD, user_password);
         map.put(User.USER_TYPE, user_type);
@@ -222,7 +222,7 @@ public class UserDao extends Dao {
     }
 
     public boolean deleteByObject_idAndUser_type(String object_id, String user_type, String request_user_id) {
-        JMap map = JMap.create();
+        Kv map = Kv.create();
         map.put(User.OBJECT_ID, object_id);
         map.put(User.USER_TYPE, user_type);
         map.put(User.SYSTEM_UPDATE_USER_ID, request_user_id);
@@ -233,7 +233,7 @@ public class UserDao extends Dao {
     }
 
     public boolean deleteByUser_type(String user_type, String request_user_id) {
-        JMap map = JMap.create();
+        Kv map = Kv.create();
         map.put(User.USER_TYPE, user_type);
         map.put(User.SYSTEM_UPDATE_USER_ID, request_user_id);
         map.put(User.SYSTEM_UPDATE_TIME, new Date());

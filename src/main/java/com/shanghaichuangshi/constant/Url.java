@@ -34,6 +34,7 @@ public class Url {
     public static final String ADMINL_UPDATE = "/admin/update";
     public static final String ADMIN_DELETE = "/admin/delete";
     public static final String ADMIN_LOGIN = "/admin/login";
+    public static final String ADMIN_MENU = "/admin/menu";
 
     public static final String AUTHORIZATION_LIST = "/authorization/list";
     public static final String AUTHORIZATION_ADMIN_LIST = "/authorization/admin/list";
@@ -68,10 +69,12 @@ public class Url {
     public static final String RESOURCE_DELETE = "/resource/delete";
 
     public static final String FILE_LIST = "/file/list";
-    public static final String FILE_ADMIN_LIST = "/file/admin/list";
+    public static final String FILE_ADMIN_IMAGE_LIST = "/file/admin/image/list";
+    public static final String FILE_ADMIN_VIDEO_LIST = "/file/admin/video/list";
     public static final String FILE_FIND = "/file/find";
     public static final String FILE_ADMIN_FIND = "/file/admin/find";
     public static final String FILE_SAVE = "/file/save";
+    public static final String FILE_VIDEO_SAVE = "/file/video/save";
     public static final String FILEL_UPDATE = "/file/update";
     public static final String FILE_DELETE = "/file/delete";
 

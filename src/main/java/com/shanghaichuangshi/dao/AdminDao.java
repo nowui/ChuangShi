@@ -1,6 +1,6 @@
 package com.shanghaichuangshi.dao;
 
-import com.jfinal.kit.JMap;
+import com.jfinal.kit.Kv;
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.SqlPara;
 import com.shanghaichuangshi.model.Admin;
@@ -12,7 +12,7 @@ import java.util.List;
 public class AdminDao extends Dao {
 
     public int count(String admin_name) {
-        JMap map = JMap.create();
+        Kv map = Kv.create();
         map.put(Admin.ADMIN_NAME, admin_name);
         SqlPara sqlPara = Db.getSqlPara("admin.count", map);
 
@@ -21,7 +21,7 @@ public class AdminDao extends Dao {
     }
 
     public List<Admin> list(String admin_name, int m, int n) {
-        JMap map = JMap.create();
+        Kv map = Kv.create();
         map.put(Admin.ADMIN_NAME, admin_name);
         map.put(Admin.M, m);
         map.put(Admin.N, n);
@@ -31,7 +31,7 @@ public class AdminDao extends Dao {
     }
 
     public Admin find(String admin_id) {
-        JMap map = JMap.create();
+        Kv map = Kv.create();
         map.put(Admin.ADMIN_ID, admin_id);
         SqlPara sqlPara = Db.getSqlPara("admin.find", map);
 
@@ -44,7 +44,7 @@ public class AdminDao extends Dao {
     }
 
     public Admin findByUser_id(String user_id) {
-        JMap map = JMap.create();
+        Kv map = Kv.create();
         map.put(Admin.USER_ID, user_id);
         SqlPara sqlPara = Db.getSqlPara("admin.findByUser_id", map);
 
@@ -79,7 +79,7 @@ public class AdminDao extends Dao {
     }
 
     public boolean delete(String admin_id, String request_user_id) {
-        JMap map = JMap.create();
+        Kv map = Kv.create();
         map.put(Admin.ADMIN_ID, admin_id);
         map.put(Admin.SYSTEM_UPDATE_USER_ID, request_user_id);
         map.put(Admin.SYSTEM_UPDATE_TIME, new Date());

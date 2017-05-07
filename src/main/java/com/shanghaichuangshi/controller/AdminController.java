@@ -114,4 +114,14 @@ public class AdminController extends Controller {
         renderSuccessJson(resultMap);
     }
 
+    @ActionKey(Url.ADMIN_MENU)
+    public void menu() {
+        User model = getParameter(User.class);
+        String request_user_id = getRequest_user_id();
+
+        List<Map<String, Object>> resultList = adminService.menu(request_user_id);
+
+        renderSuccessJson(resultList);
+    }
+
 }

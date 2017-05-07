@@ -5,6 +5,7 @@ import com.shanghaichuangshi.constant.Constant;
 import com.shanghaichuangshi.constant.Url;
 import com.shanghaichuangshi.model.File;
 import com.shanghaichuangshi.service.FileService;
+import com.shanghaichuangshi.type.FileType;
 
 import java.util.List;
 
@@ -21,13 +22,13 @@ public class FileController extends Controller {
 
         model.validate(File.FILE_NAME);
 
-        List<File> fileList = fileService.list(model.getFile_name(), request_user_id, getM(), getN());
+        List<File> fileList = fileService.list(model.getFile_name(), "", request_user_id, getM(), getN());
 
         renderSuccessJson(fileList);
     }
 
-    @ActionKey(Url.FILE_ADMIN_LIST)
-    public void adminList() {
+    @ActionKey(Url.FILE_ADMIN_IMAGE_LIST)
+    public void adminImageList() {
         validate(Constant.PAGE_INDEX, Constant.PAGE_SIZE);
 
         File model = getParameter(File.class);
@@ -35,9 +36,29 @@ public class FileController extends Controller {
 
         model.validate(File.FILE_NAME);
 
-        int count = fileService.count(model.getFile_name(), request_user_id);
+        String file_type = FileType.IMAGE.getKey();
 
-        List<File> fileList = fileService.list(model.getFile_name(), request_user_id, getM(), getN());
+        int count = fileService.count(model.getFile_name(), file_type, request_user_id);
+
+        List<File> fileList = fileService.list(model.getFile_name(), file_type, request_user_id, getM(), getN());
+
+        renderSuccessJson(count, fileList);
+    }
+
+    @ActionKey(Url.FILE_ADMIN_VIDEO_LIST)
+    public void adminVideoList() {
+        validate(Constant.PAGE_INDEX, Constant.PAGE_SIZE);
+
+        File model = getParameter(File.class);
+        String request_user_id = getRequest_user_id();
+
+        model.validate(File.FILE_NAME);
+
+        String file_type = FileType.VIDEO.getKey();
+
+        int count = fileService.count(model.getFile_name(), file_type, request_user_id);
+
+        List<File> fileList = fileService.list(model.getFile_name(), file_type, request_user_id, getM(), getN());
 
         renderSuccessJson(count, fileList);
     }
@@ -64,16 +85,28 @@ public class FileController extends Controller {
         renderSuccessJson(file.removeSystemInfo());
     }
 
-    @ActionKey(Url.FILE_SAVE)
-    public void save() {
+//    @ActionKey(Url.FILE_SAVE)
+//    public void save() {
+//        File model = getParameter(File.class);
+//        String request_user_id = getRequest_user_id();
+//
+//        model.validate(File.FILE_NAME);
+//
+//        fileService.save(model, request_user_id);
+//
+//        renderSuccessJson();
+//    }
+
+    @ActionKey(Url.FILE_VIDEO_SAVE)
+    public void videoSave() {
         File model = getParameter(File.class);
         String request_user_id = getRequest_user_id();
 
-        model.validate(File.FILE_NAME);
+        model.validate(File.FILE_NAME, File.FILE_PATH, File.FILE_IMAGE);
 
-        fileService.save(model, request_user_id);
+        File file = fileService.videoSave(model.getFile_name(), model.getFile_path(), model.getFile_image(), request_user_id);
 
-        renderSuccessJson();
+        renderSuccessJson(file);
     }
 
     @ActionKey(Url.FILEL_UPDATE)
@@ -81,7 +114,7 @@ public class FileController extends Controller {
         File model = getParameter(File.class);
         String request_user_id = getRequest_user_id();
 
-        model.validate(File.FILE_ID, File.FILE_NAME);
+        model.validate(File.FILE_NAME, File.FILE_PATH, File.FILE_IMAGE);
 
         fileService.update(model, request_user_id);
 

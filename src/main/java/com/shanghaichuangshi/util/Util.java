@@ -5,6 +5,9 @@ import com.alibaba.fastjson.JSONObject;
 import com.jfinal.kit.PathKit;
 import com.shanghaichuangshi.constant.Constant;
 
+import javax.crypto.Cipher;
+import javax.crypto.KeyGenerator;
+import javax.crypto.spec.SecretKeySpec;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -227,6 +230,15 @@ public class Util {
 
     public static String getOriginal_path(String path) {
         return path.substring(0, path.lastIndexOf("/")) + "/" + Constant.ORIGINAL + "/" + path.substring(path.lastIndexOf("/") + 1, path.length());
+    }
+
+    public static byte[] aesEncryptToBytes(String content, String encryptKey) throws Exception {
+        KeyGenerator kgen = KeyGenerator.getInstance("AES");
+        kgen.init(128);
+        Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
+        cipher.init(Cipher.ENCRYPT_MODE, new SecretKeySpec(encryptKey.getBytes(), "AES"));
+
+        return cipher.doFinal(content.getBytes("utf-8"));
     }
 
 }

@@ -1,6 +1,7 @@
 package com.shanghaichuangshi.dao;
 
-import com.jfinal.kit.JMap;
+import com.jfinal.kit.Kv;
+import com.jfinal.kit.Kv;
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.SqlPara;
 import com.shanghaichuangshi.constant.Constant;
@@ -15,9 +16,10 @@ public class FileDao extends Dao {
 
     private final String FILE_CACHE = "file_cache";
 
-    public int count(String file_name, String request_user_id) {
-        JMap map = JMap.create();
+    public int count(String file_name, String file_type, String request_user_id) {
+        Kv map = Kv.create();
         map.put(File.FILE_NAME, file_name);
+        map.put(File.FILE_TYPE, file_type);
         map.put(Constant.REQUEST_USER_ID, request_user_id);
         SqlPara sqlPara = Db.getSqlPara("file.count", map);
 
@@ -25,9 +27,10 @@ public class FileDao extends Dao {
         return count.intValue();
     }
 
-    public List<File> list(String file_name, String request_user_id, Integer m, Integer n) {
-        JMap map = JMap.create();
+    public List<File> list(String file_name, String file_type, String request_user_id, Integer m, Integer n) {
+        Kv map = Kv.create();
         map.put(File.FILE_NAME, file_name);
+        map.put(File.FILE_TYPE, file_type);
         map.put(Constant.REQUEST_USER_ID, request_user_id);
         map.put(File.M, m);
         map.put(File.N, n);
@@ -40,7 +43,7 @@ public class FileDao extends Dao {
         File file = CacheUtil.get(FILE_CACHE, file_id);
 
         if (file == null) {
-            JMap map = JMap.create();
+            Kv map = Kv.create();
             map.put(File.FILE_ID, file_id);
             SqlPara sqlPara = Db.getSqlPara("file.find", map);
 
@@ -85,7 +88,7 @@ public class FileDao extends Dao {
     public boolean delete(String file_id, String request_user_id) {
         CacheUtil.remove(FILE_CACHE, file_id);
 
-        JMap map = JMap.create();
+        Kv map = Kv.create();
         map.put(File.FILE_ID, file_id);
         map.put(File.SYSTEM_UPDATE_USER_ID, request_user_id);
         map.put(File.SYSTEM_UPDATE_TIME, new Date());

@@ -1,6 +1,6 @@
 package com.shanghaichuangshi.dao;
 
-import com.jfinal.kit.JMap;
+import com.jfinal.kit.Kv;
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.SqlPara;
 import com.shanghaichuangshi.model.Authorization;
@@ -11,7 +11,7 @@ import java.util.List;
 public class AuthorizationDao extends Dao {
 
     public int count(String authorization_token) {
-        JMap map = JMap.create();
+        Kv map = Kv.create();
         map.put(Authorization.AUTHORIZATION_TOKEN, authorization_token);
         SqlPara sqlPara = Db.getSqlPara("authorization.count", map);
 
@@ -20,7 +20,7 @@ public class AuthorizationDao extends Dao {
     }
 
     public List<Authorization> list(String authorization_token, int m, int n) {
-        JMap map = JMap.create();
+        Kv map = Kv.create();
         map.put(Authorization.AUTHORIZATION_TOKEN, authorization_token);
         map.put(Authorization.M, m);
         map.put(Authorization.N, n);
@@ -30,7 +30,7 @@ public class AuthorizationDao extends Dao {
     }
 
     public Authorization find(String authorization_id) {
-        JMap map = JMap.create();
+        Kv map = Kv.create();
         map.put(Authorization.AUTHORIZATION_ID, authorization_id);
         SqlPara sqlPara = Db.getSqlPara("authorization.find", map);
 

@@ -1,6 +1,6 @@
 package com.shanghaichuangshi.dao;
 
-import com.jfinal.kit.JMap;
+import com.jfinal.kit.Kv;
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.SqlPara;
 import com.shanghaichuangshi.model.Log;
@@ -10,7 +10,7 @@ import java.util.List;
 public class LogDao extends Dao {
 
     public int count(String log_url) {
-        JMap map = JMap.create();
+        Kv map = Kv.create();
         map.put(Log.LOG_URL, log_url);
         SqlPara sqlPara = Db.getSqlPara("log.count", map);
 
@@ -19,7 +19,7 @@ public class LogDao extends Dao {
     }
 
     public List<Log> list(String log_url, int m, int n) {
-        JMap map = JMap.create();
+        Kv map = Kv.create();
         map.put(Log.LOG_URL, log_url);
         map.put(Log.M, m);
         map.put(Log.N, n);
@@ -29,7 +29,7 @@ public class LogDao extends Dao {
     }
 
     public Log find(String log_id) {
-        JMap map = JMap.create();
+        Kv map = Kv.create();
         map.put(Log.LOG_ID, log_id);
         SqlPara sqlPara = Db.getSqlPara("log.find", map);
 

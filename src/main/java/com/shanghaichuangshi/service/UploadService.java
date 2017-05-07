@@ -9,13 +9,16 @@ import com.shanghaichuangshi.type.FileType;
 import com.shanghaichuangshi.util.FileUtil;
 import com.shanghaichuangshi.util.Util;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class UploadService extends Service {
 
     private final FileService fileService = new FileService();
 
-    public void image(List<UploadFile> uploadFileList, String request_user_id) {
+    public List<Map<String, Object>> image(List<UploadFile> uploadFileList, String request_user_id) {
         String path = PathKit.getWebRootPath() + "/" + Constant.UPLOAD + "/" + request_user_id;
         String thumbnailPath = PathKit.getWebRootPath() + "/" + Constant.UPLOAD + "/" + request_user_id + "/" + Constant.THUMBNAIL;
         String originalPath = PathKit.getWebRootPath() + "/" + Constant.UPLOAD + "/" + request_user_id + "/" + Constant.ORIGINAL;
@@ -23,6 +26,8 @@ public class UploadService extends Service {
         FileUtil.createPath(path);
         FileUtil.createPath(thumbnailPath);
         FileUtil.createPath(originalPath);
+
+        List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
 
         for (UploadFile uploadFile : uploadFileList) {
             String suffix = uploadFile.getFileName().substring(uploadFile.getFileName().lastIndexOf(".") + 1);
@@ -46,8 +51,18 @@ public class UploadService extends Service {
             file.setFile_path(path.replace(PathKit.getWebRootPath(), ""));
             file.setFile_thumbnail_path(thumbnailPath.replace(PathKit.getWebRootPath(), ""));
             file.setFile_original_path(originalPath.replace(PathKit.getWebRootPath(), ""));
-            fileService.save(file, request_user_id);
+            file.setFile_image(originalPath.replace(PathKit.getWebRootPath(), ""));
+
+            File f = fileService.save(file, request_user_id);
+
+            Map<String, Object> map = new HashMap<String, Object>();
+            map.put(File.FILE_ID, f.getFile_id());
+            map.put(File.FILE_NAME, f.getFile_name());
+            map.put(File.FILE_PATH, f.getFile_original_path());
+            list.add(map);
         }
+
+        return list;
     }
 
 }

@@ -2,7 +2,7 @@ package com.shanghaichuangshi.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.jfinal.core.ActionKey;
-import com.jfinal.kit.JMap;
+import com.jfinal.kit.Kv;
 import com.jfinal.kit.PathKit;
 import com.jfinal.plugin.activerecord.Record;
 import com.jfinal.template.Engine;
@@ -118,7 +118,7 @@ public class CodeController extends Controller {
             name_space = Jdbc.table_schema.toLowerCase();
         }
 
-        JMap map = JMap.create();
+        Kv map = Kv.create();
         map.put("name_space", name_space);
         map.put("lower_model_name", lower_model_name);
         map.put("upper_model_name", upper_model_name);

@@ -1,6 +1,6 @@
 package com.shanghaichuangshi.dao;
 
-import com.jfinal.kit.JMap;
+import com.jfinal.kit.Kv;
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.SqlPara;
 import com.shanghaichuangshi.model.Resource;
@@ -12,7 +12,7 @@ import java.util.List;
 public class ResourceDao extends Dao {
 
     public int count(String resource_name) {
-        JMap map = JMap.create();
+        Kv map = Kv.create();
         map.put(Resource.RESOURCE_NAME, resource_name);
         SqlPara sqlPara = Db.getSqlPara("resource.count", map);
 
@@ -21,7 +21,7 @@ public class ResourceDao extends Dao {
     }
 
     public List<Resource> list(String resource_name, Integer m, Integer n) {
-        JMap map = JMap.create();
+        Kv map = Kv.create();
         map.put(Resource.RESOURCE_NAME, resource_name);
         map.put(Resource.M, m);
         map.put(Resource.N, n);
@@ -31,7 +31,7 @@ public class ResourceDao extends Dao {
     }
 
     public Resource find(String resource_id) {
-        JMap map = JMap.create();
+        Kv map = Kv.create();
         map.put(Resource.RESOURCE_ID, resource_id);
         SqlPara sqlPara = Db.getSqlPara("resource.find", map);
 
@@ -67,7 +67,7 @@ public class ResourceDao extends Dao {
     }
 
     public boolean delete(String resource_id, String request_user_id) {
-        JMap map = JMap.create();
+        Kv map = Kv.create();
         map.put(Resource.RESOURCE_ID, resource_id);
         map.put(Resource.SYSTEM_UPDATE_USER_ID, request_user_id);
         map.put(Resource.SYSTEM_UPDATE_TIME, new Date());

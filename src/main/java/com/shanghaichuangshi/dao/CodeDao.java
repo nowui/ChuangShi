@@ -1,6 +1,6 @@
 package com.shanghaichuangshi.dao;
 
-import com.jfinal.kit.JMap;
+import com.jfinal.kit.Kv;
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Record;
 import com.jfinal.plugin.activerecord.SqlPara;
@@ -11,7 +11,7 @@ import java.util.List;
 public class CodeDao extends Dao {
 
     public List<Record> listTable() {
-        JMap map = JMap.create();
+        Kv map = Kv.create();
         map.put("table_schema", Jdbc.table_schema);
         SqlPara sqlPara = Db.getSqlPara("code.listTable", map);
 
@@ -19,7 +19,7 @@ public class CodeDao extends Dao {
     }
 
     public List<Record> listColumn(String table_name) {
-        JMap map = JMap.create();
+        Kv map = Kv.create();
         map.put("table_name", table_name);
         map.put("table_schema", Jdbc.table_schema);
         SqlPara sqlPara = Db.getSqlPara("code.listColumn", map);

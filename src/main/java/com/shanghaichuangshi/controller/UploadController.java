@@ -6,6 +6,7 @@ import com.shanghaichuangshi.constant.Url;
 import com.shanghaichuangshi.service.UploadService;
 
 import java.util.List;
+import java.util.Map;
 
 public class UploadController extends Controller {
 
@@ -17,9 +18,9 @@ public class UploadController extends Controller {
 
         List<UploadFile> uploadFileList = getFiles(request_user_id, 1024 * 1024 * 2);
 
-        uploadService.image(uploadFileList, request_user_id);
+        List<Map<String, Object>> resultList = uploadService.image(uploadFileList, request_user_id);
 
-        renderSuccessJson();
+        renderSuccessJson(resultList);
     }
 
 }

@@ -7,12 +7,13 @@
       #set(file_name = "%" + file_name + "%")
       AND file_name LIKE #p(file_name)
     #end
+    AND file_type = #p(file_type)
   #end
 
   #sql("list")
     SELECT
     file_id,
-    file_thumbnail,
+    file_thumbnail_path,
     file_path
     FROM table_file
     WHERE system_status = 1
@@ -20,6 +21,7 @@
       #set(file_name = "%" + file_name + "%")
       AND file_name LIKE #p(file_name)
     #end
+    AND file_type = #p(file_type)
     ORDER BY system_create_time DESC
     #if(n > 0)
       LIMIT #p(m), #p(n)

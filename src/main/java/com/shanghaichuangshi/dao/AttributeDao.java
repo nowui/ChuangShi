@@ -1,6 +1,6 @@
 package com.shanghaichuangshi.dao;
 
-import com.jfinal.kit.JMap;
+import com.jfinal.kit.Kv;
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.SqlPara;
 import com.shanghaichuangshi.model.Attribute;
@@ -12,7 +12,7 @@ import java.util.List;
 public class AttributeDao extends Dao {
 
     public int count(String attribute_name) {
-        JMap map = JMap.create();
+        Kv map = Kv.create();
         map.put(Attribute.ATTRIBUTE_NAME, attribute_name);
         SqlPara sqlPara = Db.getSqlPara("attribute.count", map);
 
@@ -21,7 +21,7 @@ public class AttributeDao extends Dao {
     }
 
     public List<Attribute> list(String attribute_name, Integer m, Integer n) {
-        JMap map = JMap.create();
+        Kv map = Kv.create();
         map.put(Attribute.ATTRIBUTE_NAME, attribute_name);
         map.put(Attribute.M, m);
         map.put(Attribute.N, n);
@@ -31,7 +31,7 @@ public class AttributeDao extends Dao {
     }
 
     public Attribute find(String attribute_id) {
-        JMap map = JMap.create();
+        Kv map = Kv.create();
         map.put(Attribute.ATTRIBUTE_ID, attribute_id);
         SqlPara sqlPara = Db.getSqlPara("attribute.find", map);
 
@@ -67,7 +67,7 @@ public class AttributeDao extends Dao {
     }
 
     public boolean delete(String attribute_id, String request_user_id) {
-        JMap map = JMap.create();
+        Kv map = Kv.create();
         map.put(Attribute.ATTRIBUTE_ID, attribute_id);
         map.put(Attribute.SYSTEM_UPDATE_USER_ID, request_user_id);
         map.put(Attribute.SYSTEM_UPDATE_TIME, new Date());

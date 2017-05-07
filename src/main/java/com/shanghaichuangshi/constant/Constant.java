@@ -6,6 +6,8 @@ public class Constant {
 
     public static final String PRIVATE_KEY = "chuangshi";
 
+    public static final String AES_KEY = "!aes!0123456789!";
+
     public static final Level DATABASE = Level.forName("DATABASE", 50);
 
     public static final String REQUEST_PARAMETER = "request_parameter";

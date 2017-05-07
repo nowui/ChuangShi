@@ -73,14 +73,17 @@ public class AdminService extends Service {
 
         String token = authorizationService.saveByUser_id(u.getUser_id(), platform, version, ip_address, request_user_id);
 
-        Category category = categoryService.treeListByCategory_key(CategoryType.MENU.getKey());
-
         Map<String, Object> resultMap = new HashMap<String, Object>();
         resultMap.put(Admin.ADMIN_NAME, admin.getAdmin_name());
         resultMap.put(Constant.TOKEN.toLowerCase(), token);
-        resultMap.put(Constant.MENU, category.get(Constant.CHILDREN));
 
         return resultMap;
+    }
+
+    public List<Map<String, Object>> menu(String request_user_id) {
+        Category category = categoryService.treeListByCategory_key(CategoryType.MENU.getKey());
+
+        return category.get(Constant.CHILDREN);
     }
 
 }
