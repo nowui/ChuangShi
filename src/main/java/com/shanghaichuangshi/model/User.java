@@ -32,8 +32,11 @@ public class User extends Model<User> {
     @Column(type = ColumnType.VARCHAR, length = 200, comment = "用户头像")
     public static final String USER_AVATAR_ORIGINAL = "user_avatar_original";
 
-    @Column(type = ColumnType.VARCHAR, length = 200, comment = "微信OpenId")
+    @Column(type = ColumnType.VARCHAR, length = 50, comment = "微信OpenId")
     public static final String WECHAT_OPEN_ID = "wechat_open_id";
+
+    @Column(type = ColumnType.VARCHAR, length = 50, comment = "微信UnionId")
+    public static final String WECHAT_UNION_ID = "wechat_union_id";
 
     @Column(type = ColumnType.VARCHAR, length = 32, comment = "外键编号", updatable = false)
     public static final String OBJECT_ID = "object_id";
@@ -119,6 +122,14 @@ public class User extends Model<User> {
 
     public void setWechat_open_id(String wechat_open_id) {
         set(WECHAT_OPEN_ID, wechat_open_id);
+    }
+
+    public String getWechat_union_id() {
+        return getStr(WECHAT_UNION_ID);
+    }
+
+    public void setWechat_union_id(String wechat_union_id) {
+        set(WECHAT_UNION_ID, wechat_union_id);
     }
 
     public String getObject_id() {

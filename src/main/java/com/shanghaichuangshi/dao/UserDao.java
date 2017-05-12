@@ -7,6 +7,7 @@ import com.jfinal.plugin.activerecord.SqlPara;
 import com.shanghaichuangshi.constant.Constant;
 import com.shanghaichuangshi.model.User;
 import com.shanghaichuangshi.util.CacheUtil;
+import com.shanghaichuangshi.util.Util;
 
 import java.util.Date;
 import java.util.List;
@@ -90,11 +91,18 @@ public class UserDao extends Dao {
         }
     }
 
-    public User findByWechat_open_idAndUser_type(String wechat_open_id, String user_type) {
+    public User findByWechat_open_idAndWechat_union_idAndUser_type(String wechat_open_id, String wechat_union_id, String user_type) {
         Kv map = Kv.create();
-        map.put(User.WECHAT_OPEN_ID, wechat_open_id);
-        map.put(User.USER_TYPE, user_type);
-        SqlPara sqlPara = Db.getSqlPara("user.findByWechat_open_idAndUser_type", map);
+        SqlPara sqlPara;
+        if (Util.isNullOrEmpty(wechat_union_id)) {
+            map.put(User.WECHAT_OPEN_ID, wechat_open_id);
+            map.put(User.USER_TYPE, user_type);
+            sqlPara = Db.getSqlPara("user.findByWechat_open_idAndUser_type", map);
+        } else {
+            map.put(User.WECHAT_UNION_ID, wechat_union_id);
+            map.put(User.USER_TYPE, user_type);
+            sqlPara = Db.getSqlPara("user.findByWechat_unionid_idAndUser_type", map);
+        }
 
         List<User> userList = new User().find(sqlPara.getSql(), sqlPara.getPara());
         if (userList.size() == 0) {
@@ -149,7 +157,7 @@ public class UserDao extends Dao {
         return user;
     }
 
-    public User saveByUser_idAndUser_nameAndUser_avatarAndWechat_open_id(String user_id, String user_name, String user_avatar, String wechat_open_id, String object_id, String user_type, String request_user_id) {
+    public User saveByUser_idAndUser_nameAndUser_avatarAndWechat_open_idAndWechat_union_idAndObject_idAndUser_type(String user_id, String user_name, String user_avatar, String wechat_open_id, String wechat_union_id, String object_id, String user_type, String request_user_id) {
         User user = new User();
         user.setUser_id(user_id);
         user.setUser_phone("");
@@ -160,6 +168,7 @@ public class UserDao extends Dao {
         user.setUser_avatar_thumbnail(user_avatar);
         user.setUser_avatar_original(user_avatar);
         user.setWechat_open_id(wechat_open_id);
+        user.setWechat_union_id(wechat_union_id);
         user.setObject_id(object_id);
         user.setUser_type(user_type);
         user.setSystem_create_user_id(request_user_id);

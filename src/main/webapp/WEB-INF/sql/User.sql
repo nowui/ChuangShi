@@ -55,6 +55,15 @@
     AND user_type = #p(user_type)
   #end
 
+  #sql("findByWechat_unionid_idAndUser_type")
+    SELECT
+    *
+    FROM table_user
+    WHERE table_user.system_status = 1
+    AND wechat_union_id = #p(wechat_union_id)
+    AND user_type = #p(user_type)
+  #end
+
   #sql("updateByUser_password")
     UPDATE table_user SET
     user_password = #p(user_password),
