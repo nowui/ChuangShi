@@ -17,7 +17,6 @@ import java.security.spec.InvalidParameterSpecException;
 public class AesUtil {
 
     static {
-        System.out.println("999999999999999999999999999999999999999999999999999999999999");
         Security.addProvider(new BouncyCastleProvider());
     }
 
