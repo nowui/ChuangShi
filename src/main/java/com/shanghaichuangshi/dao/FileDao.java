@@ -14,7 +14,7 @@ import java.util.List;
 
 public class FileDao extends Dao {
 
-    private final String FILE_CACHE = "file_cache";
+    private final String FILE_BY_FILE_ID_CACHE = "file_by_file_id_cache";
 
     public int count(String file_name, String file_type, String request_user_id) {
         Kv map = Kv.create();
@@ -40,7 +40,7 @@ public class FileDao extends Dao {
     }
 
     public File find(String file_id) {
-        File file = CacheUtil.get(FILE_CACHE, file_id);
+        File file = CacheUtil.get(FILE_BY_FILE_ID_CACHE, file_id);
 
         if (file == null) {
             Kv map = Kv.create();
@@ -53,7 +53,7 @@ public class FileDao extends Dao {
             } else {
                 file = fileList.get(0);
 
-                CacheUtil.put(FILE_CACHE, file_id, file);
+                CacheUtil.put(FILE_BY_FILE_ID_CACHE, file_id, file);
             }
         }
 
@@ -74,7 +74,7 @@ public class FileDao extends Dao {
     }
 
     public boolean update(File file, String request_user_id) {
-        CacheUtil.remove(FILE_CACHE, file.getFile_id());
+        CacheUtil.remove(FILE_BY_FILE_ID_CACHE, file.getFile_id());
 
         file.remove(File.SYSTEM_CREATE_USER_ID);
         file.remove(File.SYSTEM_CREATE_TIME);
@@ -86,7 +86,7 @@ public class FileDao extends Dao {
     }
 
     public boolean delete(String file_id, String request_user_id) {
-        CacheUtil.remove(FILE_CACHE, file_id);
+        CacheUtil.remove(FILE_BY_FILE_ID_CACHE, file_id);
 
         Kv map = Kv.create();
         map.put(File.FILE_ID, file_id);

@@ -14,7 +14,7 @@ import java.util.List;
 
 public class UserDao extends Dao {
 
-    private final String USER_CACHE = "user_cache";
+    private final String USER_BY_USER_ID_CACHE = "user_by_user_id_cache";
 
     private String generatePassword(String user_password) {
         return HashKit.sha512(Constant.PRIVATE_KEY + user_password);
@@ -41,7 +41,7 @@ public class UserDao extends Dao {
     }
 
     public User find(String user_id) {
-        User user = CacheUtil.get(USER_CACHE, user_id);
+        User user = CacheUtil.get(USER_BY_USER_ID_CACHE, user_id);
 
         if (user == null) {
             Kv map = Kv.create();
@@ -54,7 +54,7 @@ public class UserDao extends Dao {
             } else {
                 user = userList.get(0);
 
-                CacheUtil.put(USER_CACHE, user_id, user);
+                CacheUtil.put(USER_BY_USER_ID_CACHE, user_id, user);
             }
         }
 

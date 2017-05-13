@@ -12,7 +12,7 @@ import java.util.List;
 
 public class CategoryDao extends Dao {
 
-    private final String CATEGORY_CACHE = "category_cache";
+    private final String CATEGORY_BY_CATEGORY_ID_CACHE = "category_by_category_id_cache";
 
     public int count(String category_name) {
         Kv map = Kv.create();
@@ -60,7 +60,7 @@ public class CategoryDao extends Dao {
     }
 
     public Category find(String category_id) {
-        Category category = CacheUtil.get(CATEGORY_CACHE, category_id);
+        Category category = CacheUtil.get(CATEGORY_BY_CATEGORY_ID_CACHE, category_id);
 
         if (category == null) {
             Kv map = Kv.create();
@@ -73,7 +73,7 @@ public class CategoryDao extends Dao {
             } else {
                 category = categoryList.get(0);
 
-                CacheUtil.put(CATEGORY_CACHE, category_id, category);
+                CacheUtil.put(CATEGORY_BY_CATEGORY_ID_CACHE, category_id, category);
             }
         }
 
@@ -106,7 +106,7 @@ public class CategoryDao extends Dao {
     }
 
     public boolean update(Category category, String request_user_id) {
-        CacheUtil.remove(CATEGORY_CACHE, category.getCategory_id());
+        CacheUtil.remove(CATEGORY_BY_CATEGORY_ID_CACHE, category.getCategory_id());
 
         category.remove(Category.SYSTEM_CREATE_USER_ID);
         category.remove(Category.SYSTEM_CREATE_TIME);
@@ -118,7 +118,7 @@ public class CategoryDao extends Dao {
     }
 
     public boolean delete(String category_id, String request_user_id) {
-        CacheUtil.remove(CATEGORY_CACHE, category_id);
+        CacheUtil.remove(CATEGORY_BY_CATEGORY_ID_CACHE, category_id);
 
         Kv map = Kv.create();
         map.put(Category.CATEGORY_ID, category_id);
