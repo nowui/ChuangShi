@@ -230,6 +230,22 @@ public class UserDao extends Dao {
         return Db.update(sqlPara.getSql(), sqlPara.getPara()) != 0;
     }
 
+    public boolean updateByUser_idAndUser_nameAndUser_avatar(String user_id, String user_name, String user_avatar, String request_user_id) {
+        CacheUtil.remove(USER_BY_USER_ID_CACHE, user_id);
+
+        Kv map = Kv.create();
+        map.put(User.USER_ID, user_id);
+        map.put(User.USER_NAME, user_name);
+        map.put(User.USER_AVATAR, user_avatar);
+        map.put(User.USER_AVATAR_THUMBNAIL, user_avatar);
+        map.put(User.USER_AVATAR_ORIGINAL, user_avatar);
+        map.put(User.SYSTEM_UPDATE_USER_ID, request_user_id);
+        map.put(User.SYSTEM_UPDATE_TIME, new Date());
+        SqlPara sqlPara = Db.getSqlPara("user.updateByUser_idAndUser_nameAndUser_avatar", map);
+
+        return Db.update(sqlPara.getSql(), sqlPara.getPara()) != 0;
+    }
+
     public boolean deleteByObject_idAndUser_type(String object_id, String user_type, String request_user_id) {
         Kv map = Kv.create();
         map.put(User.OBJECT_ID, object_id);

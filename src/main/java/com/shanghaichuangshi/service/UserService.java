@@ -108,6 +108,10 @@ public class UserService extends Service {
         return userDao.updateByObject_idAndUser_passwordAndUser_type(object_id, user_password, user_type, request_user_id);
     }
 
+    public boolean updateByUser_idAndUser_nameAndUser_avatar(String user_id, String user_name, String user_avatar, String request_user_id) {
+        return userDao.updateByUser_idAndUser_nameAndUser_avatar(user_id, user_name, user_avatar, request_user_id);
+    }
+
     public boolean deleteByObject_idAndUser_type(String object_id, String user_type, String request_user_id) {
         return userDao.deleteByObject_idAndUser_type(object_id, user_type, request_user_id);
     }

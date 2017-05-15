@@ -33,6 +33,14 @@ public class Util {
         return sb.toString();
     }
 
+    public static String getEmoji(String source) {
+        if(!isNull(source)){
+            return source.replaceAll("[\\ud800\\udc00-\\udbff\\udfff\\ud800-\\udfff]", "*");
+        }else{
+            return source;
+        }
+    }
+
     public static boolean isNull(Object obj) {
         if (obj == null) {
             return true;

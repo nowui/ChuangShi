@@ -99,6 +99,17 @@
     AND user_type = #p(user_type)
   #end
 
+  #sql("updateByUser_idAndUser_nameAndUser_avatar")
+    UPDATE table_user SET
+    user_name = #p(user_name),
+    user_avatar = #p(user_avatar),
+    user_avatar_thumbnail = #p(user_avatar),
+    user_avatar_original = #p(user_avatar),
+    system_update_user_id = #p(system_update_user_id),
+    system_update_time = #p(system_update_time)
+    WHERE user_id = #p(user_id)
+  #end
+
   #sql("deleteByObject_idAndUser_type")
     UPDATE table_user SET
     system_update_user_id = #p(system_update_user_id),

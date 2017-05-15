@@ -16,6 +16,8 @@ public class WeChat {
     public static String notify_url = "";
     public static String wx_app_id = "";
     public static String wx_app_secret = "";
+    public static String wx_mch_id = "";
+    public static String wx_mch_key = "";
     public static String income = "";
 
     static {
@@ -33,6 +35,8 @@ public class WeChat {
         notify_url = PropKit.get("notify_url");
         wx_app_id = PropKit.get("wx_app_id");
         wx_app_secret = PropKit.get("wx_app_secret");
+        wx_mch_id = PropKit.get("wx_mch_id");
+        wx_mch_key = PropKit.get("wx_mch_key");
         income = PropKit.get("income");
     }
 
