@@ -56,6 +56,6 @@ public class Constant {
 
     public static final int BATCH_SIZE = 100;
 
-    public static final String father_id = "0";
+    public static final String PARENT_ID = "0";
 
 }
