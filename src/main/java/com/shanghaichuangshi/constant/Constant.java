@@ -58,4 +58,6 @@ public class Constant {
 
     public static final String PARENT_ID = "0";
 
+    public static final String IS_SELECT = "is_select";
+
 }
