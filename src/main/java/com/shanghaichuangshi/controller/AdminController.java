@@ -84,7 +84,7 @@ public class AdminController extends Controller {
         User userModel = getParameter(User.class);
         String request_user_id = getRequest_user_id();
 
-        model.validate(Admin.ADMIN_ID, Admin.ADMIN_NAME, Admin.USER_ID);
+        model.validate(Admin.ADMIN_ID, Admin.ADMIN_NAME);
         userModel.validate(User.USER_ACCOUNT, User.USER_PASSWORD);
 
         adminService.update(model, userModel, request_user_id);

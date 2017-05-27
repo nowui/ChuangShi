@@ -64,11 +64,11 @@ public class Attribute extends Model<Attribute> {
         set(ATTRIBUTE_TYPE, attribute_type);
     }
 
-    public String getAttribute_sort() {
-        return getStr(ATTRIBUTE_SORT);
+    public Integer getAttribute_sort() {
+        return getInt(ATTRIBUTE_SORT);
     }
 
-    public void setAttribute_sort(String attribute_sort) {
+    public void setAttribute_sort(Integer attribute_sort) {
         set(ATTRIBUTE_SORT, attribute_sort);
     }
 }

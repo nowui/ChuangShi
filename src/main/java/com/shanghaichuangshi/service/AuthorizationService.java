@@ -36,7 +36,7 @@ public class AuthorizationService extends Service {
 
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(create_time);
-        calendar.add(Calendar.YEAR, 1);
+        calendar.add(Calendar.YEAR, 100);
         Date expire_time = calendar.getTime();
 
         Key key = new SecretKeySpec(Constant.PRIVATE_KEY.getBytes(), SignatureAlgorithm.HS256.getJcaName());

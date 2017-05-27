@@ -3,6 +3,7 @@
   #sql("count")
     SELECT COUNT(*) FROM table_category
     WHERE system_status = 1
+    AND parent_id = ''
     #if(category_name)
       #set(category_name = "%" + category_name + "%")
       AND category_name LIKE #p(category_name)
