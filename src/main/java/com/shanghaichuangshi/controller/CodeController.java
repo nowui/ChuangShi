@@ -20,7 +20,7 @@ public class CodeController extends Controller {
     private final CodeService codeService = new CodeService();
     private static Engine engine = Engine.create("engine");
 
-    @ActionKey(Url.CODE_LIST)
+    @ActionKey(Url.CODE_ADMIN_LIST)
     public void list() {
         JSONObject jsonObject = getParameterJSONObject();
 

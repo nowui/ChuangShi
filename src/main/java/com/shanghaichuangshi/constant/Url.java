@@ -4,7 +4,7 @@ public class Url {
 
     public static final String FAVICON_ICO = "/favicon.ico";
 
-    public static final String CODE_LIST = "/code/list";
+    public static final String CODE_ADMIN_LIST = "/code/admin/list";
     public static final String CODE_SAVE = "/code/save";
 
     public static final String UPLOAD_IMAGE = "/upload/image";
