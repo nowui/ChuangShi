@@ -20,7 +20,7 @@ public class AuthorizationController extends Controller {
 
         model.validate(Authorization.AUTHORIZATION_TOKEN);
 
-        List<Authorization> authorizationList = authorizationService.list(model, getM(), getN());
+        List<Authorization> authorizationList = authorizationService.list(model.getAuthorization_token(), getM(), getN());
 
         renderSuccessJson(authorizationList);
     }
@@ -33,9 +33,9 @@ public class AuthorizationController extends Controller {
 
         model.validate(Authorization.AUTHORIZATION_TOKEN);
 
-        int count = authorizationService.count(model);
+        int count = authorizationService.count(model.getAuthorization_token());
 
-        List<Authorization> authorizationList = authorizationService.list(model, getM(), getN());
+        List<Authorization> authorizationList = authorizationService.list(model.getAuthorization_token(), getM(), getN());
 
         renderSuccessJson(count, authorizationList);
     }

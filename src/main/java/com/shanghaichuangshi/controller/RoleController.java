@@ -20,7 +20,7 @@ public class RoleController extends Controller {
 
         model.validate(Role.ROLE_NAME);
 
-        List<Role> roleList = roleService.list(model, getM(), getN());
+        List<Role> roleList = roleService.list(model.getRole_name(), getM(), getN());
 
         renderSuccessJson(roleList);
     }
@@ -34,9 +34,9 @@ public class RoleController extends Controller {
 
         model.validate(Role.ROLE_NAME);
 
-        int count = roleService.count(model);
+        int count = roleService.count(model.getRole_name());
 
-        List<Role> roleList = roleService.list(model, getM(), getN());
+        List<Role> roleList = roleService.list(model.getRole_name(), getM(), getN());
 
         renderSuccessJson(count, roleList);
     }

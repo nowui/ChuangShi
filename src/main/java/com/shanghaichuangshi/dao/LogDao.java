@@ -9,18 +9,22 @@ import java.util.List;
 
 public class LogDao extends Dao {
 
-    public int count(String log_url) {
+    public int count(String log_url, String log_code, String log_platform) {
         Kv map = Kv.create();
         map.put(Log.LOG_URL, log_url);
+        map.put(Log.LOG_CODE, log_code);
+        map.put(Log.LOG_PLATFORM, log_platform);
         SqlPara sqlPara = Db.getSqlPara("log.count", map);
 
         Number count = Db.queryFirst(sqlPara.getSql(), sqlPara.getPara());
         return count.intValue();
     }
 
-    public List<Log> list(String log_url, int m, int n) {
+    public List<Log> list(String log_url, String log_code, String log_platform, int m, int n) {
         Kv map = Kv.create();
         map.put(Log.LOG_URL, log_url);
+        map.put(Log.LOG_CODE, log_code);
+        map.put(Log.LOG_PLATFORM, log_platform);
         map.put(Log.M, m);
         map.put(Log.N, n);
         SqlPara sqlPara = Db.getSqlPara("log.list", map);

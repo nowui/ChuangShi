@@ -20,7 +20,7 @@ public class LogController extends Controller {
 
         model.validate(Log.LOG_URL);
 
-        List<Log> logList = logService.list(model, getM(), getN());
+        List<Log> logList = logService.list(model.getLog_url(), model.getLog_code(), model.getLog_platform(), getM(), getN());
 
         renderSuccessJson(logList);
     }
@@ -31,11 +31,11 @@ public class LogController extends Controller {
 
         Log model = getParameter(Log.class);
 
-        model.validate(Log.LOG_URL);
+        model.validate(Log.LOG_URL, Log.LOG_CODE, Log.LOG_PLATFORM);
 
-        int count = logService.count(model);
+        int count = logService.count(model.getLog_url(), model.getLog_code(), model.getLog_platform());
 
-        List<Log> logList = logService.list(model, getM(), getN());
+        List<Log> logList = logService.list(model.getLog_url(), model.getLog_code(), model.getLog_platform(), getM(), getN());
 
         renderSuccessJson(count, logList);
     }

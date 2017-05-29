@@ -9,12 +9,12 @@ public class RoleService extends Service {
 
     private final RoleDao roleDao = new RoleDao();
 
-    public int count(Role role) {
-        return roleDao.count(role.getRole_name());
+    public int count(String role_name) {
+        return roleDao.count(role_name);
     }
 
-    public List<Role> list(Role role, int m, int n) {
-        return roleDao.list(role.getRole_name(), m, n);
+    public List<Role> list(String role_name, int m, int n) {
+        return roleDao.list(role_name, m, n);
     }
 
     public Role find(String role_id) {

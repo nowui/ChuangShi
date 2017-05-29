@@ -9,12 +9,12 @@ public class AttributeService extends Service {
 
     private final AttributeDao attributeDao = new AttributeDao();
 
-    public int count(Attribute attribute) {
-        return attributeDao.count(attribute.getAttribute_name());
+    public int count(String attribute_name) {
+        return attributeDao.count(attribute_name);
     }
 
-    public List<Attribute> list(Attribute attribute, int m, int n) {
-        return attributeDao.list(attribute.getAttribute_name(), m, n);
+    public List<Attribute> list(String attribute_name, int m, int n) {
+        return attributeDao.list(attribute_name, m, n);
     }
 
     public Attribute find(String attribute_id) {

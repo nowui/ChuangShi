@@ -10,12 +10,12 @@ public class #(first_model_name)Service extends Service {
 
     private final #(first_model_name)Dao #(first_lower_model_name)Dao = new #(first_model_name)Dao();
 
-    public int count(#(first_model_name) #(lower_model_name)) {
+    public int count(String #(lower_model_name)_name) {
         return #(first_lower_model_name)Dao.count(#(lower_model_name).get#(first_model_name)_name());
     }
 
-    public List<#(first_model_name)> list(#(first_model_name) #(lower_model_name), int m, int n) {
-        return #(first_lower_model_name)Dao.list(#(lower_model_name).get#(first_model_name)_name(), m, n);
+    public List<#(first_model_name)> list(String #(lower_model_name)_name, int m, int n) {
+        return #(first_lower_model_name)Dao.list(#(lower_model_name)_name, m, n);
     }
 
     public #(first_model_name) find(String #(lower_model_name)_id) {

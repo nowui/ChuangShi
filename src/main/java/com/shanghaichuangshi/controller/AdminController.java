@@ -22,7 +22,7 @@ public class AdminController extends Controller {
 
         model.validate(Admin.ADMIN_NAME);
 
-        List<Admin> adminList = adminService.list(model, getM(), getN());
+        List<Admin> adminList = adminService.list(model.getAdmin_name(), getM(), getN());
 
         renderSuccessJson(adminList);
     }
@@ -35,9 +35,9 @@ public class AdminController extends Controller {
 
         model.validate(Admin.ADMIN_NAME);
 
-        int count = adminService.count(model);
+        int count = adminService.count(model.getAdmin_name());
 
-        List<Admin> adminList = adminService.list(model, getM(), getN());
+        List<Admin> adminList = adminService.list(model.getAdmin_name(), getM(), getN());
 
         renderSuccessJson(count, adminList);
     }

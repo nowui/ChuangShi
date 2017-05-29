@@ -21,9 +21,9 @@ public class CategoryController extends Controller {
 
         model.validate(Category.CATEGORY_NAME);
 
-        int count = categoryService.count(model);
+        int count = categoryService.count(model.getCategory_name());
 
-        List<Category> categoryList = categoryService.list(model, getM(), getN());
+        List<Category> categoryList = categoryService.list(model.getCategory_name(), getM(), getN());
 
         renderSuccessJson(count, categoryList);
     }
@@ -34,17 +34,17 @@ public class CategoryController extends Controller {
 
         model.validate(Category.CATEGORY_ID);
 
-        Category category = categoryService.treeList(model);
+        Category category = categoryService.treeList(model.getCategory_id(), Category.CATEGORY_VALUE, Category.CATEGORY_SORT);
 
         renderSuccessJson(category.keep(Category.CATEGORY_ID, Category.CATEGORY_NAME, Constant.CHILDREN));
     }
 
-    @ActionKey(Url.CATEGORY_CHINA_LIST)
-    public void chinaList() {
-        List<Map<String, Object>> resultList = categoryService.treeChinaList();
-
-        renderSuccessJson(resultList);
-    }
+//    @ActionKey(Url.CATEGORY_CHINA_LIST)
+//    public void chinaList() {
+//        List<Map<String, Object>> resultList = categoryService.treeChinaList();
+//
+//        renderSuccessJson(resultList);
+//    }
 
     @ActionKey(Url.CATEGORY_FIND)
     public void find() {

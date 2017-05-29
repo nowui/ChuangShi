@@ -18,12 +18,12 @@ public class AuthorizationService extends Service {
 
     private final AuthorizationDao authorizationDao = new AuthorizationDao();
 
-    public int count(Authorization authorization) {
-        return authorizationDao.count(authorization.getAuthorization_token());
+    public int count(String authorization_token) {
+        return authorizationDao.count(authorization_token);
     }
 
-    public List<Authorization> list(Authorization authorization, int m, int n) {
-        return authorizationDao.list(authorization.getAuthorization_token(), m, n);
+    public List<Authorization> list(String authorization_token, int m, int n) {
+        return authorizationDao.list(authorization_token, m, n);
     }
 
     public Authorization find(String authorization_id) {

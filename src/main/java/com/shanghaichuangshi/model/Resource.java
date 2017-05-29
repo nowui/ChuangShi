@@ -8,8 +8,8 @@ public class Resource extends Model<Resource> {
     @Column(type = ColumnType.VARCHAR, length = 32, comment = "资源编号")
     public static final String RESOURCE_ID = "resource_id";
 
-    @Column(type = ColumnType.VARCHAR, length = 32, comment = "菜单编号")
-    public static final String MENU_ID = "menu_id";
+    @Column(type = ColumnType.VARCHAR, length = 32, comment = "分类编号")
+    public static final String CATEGORY_ID = "category_id";
 
     @Column(type = ColumnType.VARCHAR, length = 10, comment = "资源类型")
     public static final String RESOURCE_TYPE = "resource_type";
@@ -35,12 +35,12 @@ public class Resource extends Model<Resource> {
         set(RESOURCE_ID, resource_id);
     }
 
-    public String getMenu_id() {
-        return getStr(MENU_ID);
+    public String getCategory_id() {
+        return getStr(CATEGORY_ID);
     }
 
-    public void setMenu_id(String menu_id) {
-        set(MENU_ID, menu_id);
+    public void setCategory_id(String category_id) {
+        set(CATEGORY_ID, category_id);
     }
 
     public String getResource_type() {

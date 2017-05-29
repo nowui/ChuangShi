@@ -174,7 +174,8 @@ public class GlobalActionInterceptor implements Interceptor {
                 Date end = new Date();
 
                 ThreadContext.put(Log.LOG_ID, Util.getRandomUUID());
-                ThreadContext.put(Log.LOG_URL, controller.getRequest().getRequestURL().toString());
+                ThreadContext.put("log_full_url", controller.getRequest().getRequestURL().toString());
+                ThreadContext.put(Log.LOG_URL, url);
                 ThreadContext.put(Log.LOG_REQUEST, parameter.toJSONString());
                 ThreadContext.put(Log.LOG_RESPONSE, controller.getAttrForStr(Constant.RESPONSE_PARAMETER));
                 ThreadContext.put(Log.AUTHORIZATION_ID, authorization_id);

@@ -61,6 +61,7 @@ public class Url {
     public static final String LOG_DELETE = "/log/delete";
 
     public static final String RESOURCE_LIST = "/resource/list";
+    public static final String RESOURCE_CATEGORY_LIST = "/resource/category/list";
     public static final String RESOURCE_ADMIN_LIST = "/resource/admin/list";
     public static final String RESOURCE_FIND = "/resource/find";
     public static final String RESOURCE_ADMIN_FIND = "/resource/admin/find";
@@ -69,6 +70,7 @@ public class Url {
     public static final String RESOURCE_DELETE = "/resource/delete";
 
     public static final String FILE_LIST = "/file/list";
+    public static final String FILE_ADMIN_LIST = "/file/admin/list";
     public static final String FILE_ADMIN_IMAGE_LIST = "/file/admin/image/list";
     public static final String FILE_ADMIN_VIDEO_LIST = "/file/admin/video/list";
     public static final String FILE_FIND = "/file/find";

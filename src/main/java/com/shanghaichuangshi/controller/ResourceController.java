@@ -3,6 +3,7 @@ package com.shanghaichuangshi.controller;
 import com.jfinal.core.ActionKey;
 import com.shanghaichuangshi.constant.Constant;
 import com.shanghaichuangshi.constant.Url;
+import com.shanghaichuangshi.model.Category;
 import com.shanghaichuangshi.model.Resource;
 import com.shanghaichuangshi.service.ResourceService;
 
@@ -20,7 +21,7 @@ public class ResourceController extends Controller {
 
         model.validate(Resource.RESOURCE_NAME);
 
-        List<Resource> resourceList = resourceService.list(model, getM(), getN());
+        List<Resource> resourceList = resourceService.list(model.getResource_name(), getM(), getN());
 
         renderSuccessJson(resourceList);
     }
@@ -33,11 +34,18 @@ public class ResourceController extends Controller {
 
         model.validate(Resource.RESOURCE_NAME);
 
-        int count = resourceService.count(model);
+        int count = resourceService.count(model.getResource_name());
 
-        List<Resource> resourceList = resourceService.list(model, getM(), getN());
+        List<Resource> resourceList = resourceService.list(model.getResource_name(), getM(), getN());
 
         renderSuccessJson(count, resourceList);
+    }
+
+    @ActionKey(Url.RESOURCE_CATEGORY_LIST)
+    public void categoryList() {
+        Category category = resourceService.categoryList();
+
+        renderSuccessJson(category);
     }
 
     @ActionKey(Url.RESOURCE_FIND)

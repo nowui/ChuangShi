@@ -53,11 +53,11 @@ public class Role extends Model<Role> {
         set(ROLE_KEY, role_key);
     }
 
-    public String getRole_sort() {
-        return getStr(ROLE_SORT);
+    public Integer getRole_sort() {
+        return getInt(ROLE_SORT);
     }
 
-    public void setRole_sort(String role_sort) {
+    public void setRole_sort(Integer role_sort) {
         set(ROLE_SORT, role_sort);
     }
 }

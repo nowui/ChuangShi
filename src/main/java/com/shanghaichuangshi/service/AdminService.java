@@ -21,12 +21,12 @@ public class AdminService extends Service {
     private AuthorizationService authorizationService = new AuthorizationService();
     private CategoryService categoryService = new CategoryService();
 
-    public int count(Admin admin) {
-        return adminDao.count(admin.getAdmin_name());
+    public int count(String admin_name) {
+        return adminDao.count(admin_name);
     }
 
-    public List<Admin> list(Admin admin, int m, int n) {
-        return adminDao.list(admin.getAdmin_name(), m, n);
+    public List<Admin> list(String admin_name, int m, int n) {
+        return adminDao.list(admin_name, m, n);
     }
 
     public Admin find(String admin_id) {
@@ -81,7 +81,7 @@ public class AdminService extends Service {
     }
 
     public List<Map<String, Object>> menu(String request_user_id) {
-        Category category = categoryService.treeListByCategory_key(CategoryType.MENU.getKey());
+        Category category = categoryService.treeListByCategory_key(CategoryType.MENU.getKey(), Category.CATEGORY_VALUE, Category.CATEGORY_REMARK);
 
         return category.get(Constant.CHILDREN);
     }

@@ -21,7 +21,7 @@ public class #(first_model_name)Controller extends Controller {
 
         model.validate(#(first_model_name).#(upper_model_name)_NAME);
 
-        List<#(first_model_name)> #(first_lower_model_name)Listvice = #(first_lower_model_name)Service.list(model, getM(), getN());
+        List<#(first_model_name)> #(first_lower_model_name)Listvice = #(first_lower_model_name)Service.list(model.get#(first_model_name)_name(), getM(), getN());
 
         renderSuccessJson(#(first_lower_model_name)Listvice);
     }
@@ -36,7 +36,7 @@ public class #(first_model_name)Controller extends Controller {
 
         int count = #(first_lower_model_name)Service.count(model);
 
-        List<#(first_model_name)> #(first_lower_model_name)Listvice = #(first_lower_model_name)Service.list(model, getM(), getN());
+        List<#(first_model_name)> #(first_lower_model_name)Listvice = #(first_lower_model_name)Service.list(model.get#(first_model_name)_name(), getM(), getN());
 
         renderSuccessJson(count, #(first_lower_model_name)Listvice);
     }

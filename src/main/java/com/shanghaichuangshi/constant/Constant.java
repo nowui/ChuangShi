@@ -24,7 +24,7 @@ public class Constant {
 
     public static final String MESSAGE = "message";
 
-    public static final String KEY = "key";
+//    public static final String KEY = "key";
 
     public static final String CHILDREN = "children";
 

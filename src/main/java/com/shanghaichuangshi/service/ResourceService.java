@@ -1,7 +1,9 @@
 package com.shanghaichuangshi.service;
 
 import com.shanghaichuangshi.dao.ResourceDao;
+import com.shanghaichuangshi.model.Category;
 import com.shanghaichuangshi.model.Resource;
+import com.shanghaichuangshi.type.CategoryType;
 
 import java.util.List;
 
@@ -9,12 +11,18 @@ public class ResourceService extends Service {
 
     private final ResourceDao resourceDao = new ResourceDao();
 
-    public int count(Resource resource) {
-        return resourceDao.count(resource.getResource_name());
+    private final CategoryService categoryService = new CategoryService();
+
+    public int count(String resource_name) {
+        return resourceDao.count(resource_name);
     }
 
-    public List<Resource> list(Resource resource, int m, int n) {
-        return resourceDao.list(resource.getResource_name(), m, n);
+    public List<Resource> list(String resource_name, int m, int n) {
+        return resourceDao.list(resource_name, m, n);
+    }
+
+    public Category categoryList() {
+        return categoryService.treeListByCategory_key(CategoryType.MENU.getKey());
     }
 
     public Resource find(String resource_id) {

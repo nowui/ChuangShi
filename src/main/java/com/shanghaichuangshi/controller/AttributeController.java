@@ -20,7 +20,7 @@ public class AttributeController extends Controller {
 
         model.validate(Attribute.ATTRIBUTE_NAME);
 
-        List<Attribute> attributeList = attributeService.list(model, getM(), getN());
+        List<Attribute> attributeList = attributeService.list(model.getAttribute_name(), getM(), getN());
 
         renderSuccessJson(attributeList);
     }
@@ -33,9 +33,9 @@ public class AttributeController extends Controller {
 
         model.validate(Attribute.ATTRIBUTE_NAME);
 
-        int count = attributeService.count(model);
+        int count = attributeService.count(model.getAttribute_name());
 
-        List<Attribute> attributeList = attributeService.list(model, getM(), getN());
+        List<Attribute> attributeList = attributeService.list(model.getAttribute_name(), getM(), getN());
 
         renderSuccessJson(count, attributeList);
     }

@@ -7,6 +7,8 @@
       #set(log_url = "%" + log_url + "%")
       AND log_url LIKE #p(log_url)
     #end
+    AND log_code = #p(log_code)
+    AND log_platform = #p(log_platform)
   #end
 
   #sql("list")
@@ -24,6 +26,8 @@
       #set(log_url = "%" + log_url + "%")
       AND log_url LIKE #p(log_url)
     #end
+    AND log_code = #p(log_code)
+    AND log_platform = #p(log_platform)
     ORDER BY system_create_time DESC
     #if(n > 0)
       LIMIT #p(m), #p(n)
