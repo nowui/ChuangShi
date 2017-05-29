@@ -2,7 +2,7 @@ package com.shanghaichuangshi.type;
 
 public enum ResourceType {
 
-    URL("URL", "菜单"),
+    URL("URL", "链接"),
     BUTTON("BUTTON", "按钮");
 
     private String key;

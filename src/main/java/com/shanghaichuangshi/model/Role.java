@@ -8,8 +8,8 @@ public class Role extends Model<Role> {
     @Column(type = ColumnType.VARCHAR, length = 32, comment = "角色编号")
     public static final String ROLE_ID = "role_id";
 
-    @Column(type = ColumnType.VARCHAR, length = 32, comment = "组织架构编号")
-    public static final String ORGANIZATION_ID = "organization_id";
+    @Column(type = ColumnType.VARCHAR, length = 32, comment = "分类编号")
+    public static final String CATEGORY_ID = "category_id";
 
     @Column(type = ColumnType.VARCHAR, length = 20, comment = "角色名称")
     public static final String ROLE_NAME = "role_name";
@@ -29,12 +29,12 @@ public class Role extends Model<Role> {
         set(ROLE_ID, role_id);
     }
 
-    public String getOrganization_id() {
-        return getStr(ORGANIZATION_ID);
+    public String getCategory_id() {
+        return getStr(CATEGORY_ID);
     }
 
-    public void setOrganization_id(String organization_id) {
-        set(ORGANIZATION_ID, organization_id);
+    public void setCategory_id(String category_id) {
+        set(CATEGORY_ID, category_id);
     }
 
     public String getRole_name() {

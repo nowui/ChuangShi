@@ -184,7 +184,6 @@ public class GlobalActionInterceptor implements Interceptor {
                 ThreadContext.put(Log.LOG_PLATFORM, platform);
                 ThreadContext.put(Log.LOG_VERSION, version);
                 ThreadContext.put(Log.LOG_IP_ADDRESS, ip_address);
-                ThreadContext.put(Log.LOG_CREATE_TIME, DateUtil.getDateTimeString(start));
                 ThreadContext.put(Log.LOG_RUN_TIME, (end.getTime() - start.getTime()) + "");
                 ThreadContext.put(Log.SYSTEM_CREATE_USER_ID, request_user_id);
                 ThreadContext.put(Log.SYSTEM_CREATE_TIME, DateUtil.getDateTimeString(start));

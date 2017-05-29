@@ -81,7 +81,7 @@ public class AdminService extends Service {
     }
 
     public List<Map<String, Object>> menu(String request_user_id) {
-        Category category = categoryService.treeListByCategory_key(CategoryType.MENU.getKey(), Category.CATEGORY_VALUE, Category.CATEGORY_REMARK);
+        Category category = categoryService.treeListByCategory_key(CategoryType.RESOURCE.getKey(), Category.CATEGORY_VALUE, Category.CATEGORY_REMARK);
 
         return category.get(Constant.CHILDREN);
     }

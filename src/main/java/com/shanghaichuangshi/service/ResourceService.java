@@ -22,7 +22,7 @@ public class ResourceService extends Service {
     }
 
     public Category categoryList() {
-        return categoryService.treeListByCategory_key(CategoryType.MENU.getKey());
+        return categoryService.treeListByCategory_key(CategoryType.RESOURCE.getKey());
     }
 
     public Resource find(String resource_id) {

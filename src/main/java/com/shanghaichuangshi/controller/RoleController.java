@@ -3,6 +3,7 @@ package com.shanghaichuangshi.controller;
 import com.jfinal.core.ActionKey;
 import com.shanghaichuangshi.constant.Constant;
 import com.shanghaichuangshi.constant.Url;
+import com.shanghaichuangshi.model.Category;
 import com.shanghaichuangshi.model.Role;
 import com.shanghaichuangshi.service.RoleService;
 
@@ -39,6 +40,13 @@ public class RoleController extends Controller {
         List<Role> roleList = roleService.list(model.getRole_name(), getM(), getN());
 
         renderSuccessJson(count, roleList);
+    }
+
+    @ActionKey(Url.ROLE_CATEGORY_LIST)
+    public void categoryList() {
+        Category category = roleService.categoryList();
+
+        renderSuccessJson(category);
     }
 
     @ActionKey(Url.ROLE_FIND)

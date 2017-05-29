@@ -2,7 +2,7 @@ package com.shanghaichuangshi.type;
 
 public enum CategoryType {
 
-    MENU("MENU", "菜单"),
+    RESOURCE("RESOURCE", "资源"),
     CHINA("CHINA", "中国省市区"),
     ARTICLE("ARTICLE", "文章"),
     ROLE("ROLE", "角色"),

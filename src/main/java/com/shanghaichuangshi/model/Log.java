@@ -35,9 +35,6 @@ public class Log extends Model<Log> {
     @Column(type = ColumnType.VARCHAR, length = 20, comment = "日志请求ip地址")
     public static final String LOG_IP_ADDRESS = "log_ip_address";
 
-    @Column(type = ColumnType.VARCHAR, length = 20, comment = "日志请求时间")
-    public static final String LOG_CREATE_TIME = "log_create_time";
-
     @Column(type = ColumnType.VARCHAR, length = 10, comment = "日志请求响应时间")
     public static final String LOG_RUN_TIME = "log_run_time";
 
@@ -119,14 +116,6 @@ public class Log extends Model<Log> {
 
     public void setLog_ip_address(String log_ip_address) {
         set(LOG_IP_ADDRESS, log_ip_address);
-    }
-
-    public String getLog_create_time() {
-        return getStr(LOG_CREATE_TIME);
-    }
-
-    public void setLog_create_time(String log_create_time) {
-        set(LOG_CREATE_TIME, log_create_time);
     }
 
     public String getLog_run_time() {

@@ -75,11 +75,11 @@ public class Resource extends Model<Resource> {
         set(RESOURCE_VALUE, resource_value);
     }
 
-    public String getResource_sort() {
-        return getStr(RESOURCE_SORT);
+    public Integer getResource_sort() {
+        return getInt(RESOURCE_SORT);
     }
 
-    public void setResource_sort(String resource_sort) {
+    public void setResource_sort(Integer resource_sort) {
         set(RESOURCE_SORT, resource_sort);
     }
 }
