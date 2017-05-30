@@ -3,6 +3,9 @@
   #sql("count")
     SELECT COUNT(*) FROM table_resource
     WHERE system_status = 1
+    #if(category_id)
+      AND category_id = #p(category_id)
+    #end
     #if(resource_name)
       #set(resource_name = "%" + resource_name + "%")
       AND resource_name LIKE #p(resource_name)
@@ -12,17 +15,33 @@
   #sql("list")
     SELECT
     resource_id,
-    resource_name
+    category_id,
+    resource_name,
+    resource_key,
+    resource_value,
+    resource_sort
     FROM table_resource
     WHERE system_status = 1
+    #if(category_id)
+      AND category_id = #p(category_id)
+    #end
     #if(resource_name)
       #set(resource_name = "%" + resource_name + "%")
       AND resource_name LIKE #p(resource_name)
     #end
-    ORDER BY system_create_time DESC
+    ORDER BY resource_sort, system_create_time DESC
     #if(n > 0)
       LIMIT #p(m), #p(n)
     #end
+  #end
+
+  #sql("allList")
+    SELECT
+    resource_id,
+    category_id,
+    resource_name
+    FROM table_resource
+    WHERE system_status = 1
   #end
 
   #sql("find")

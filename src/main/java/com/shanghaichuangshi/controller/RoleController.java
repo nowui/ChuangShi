@@ -1,5 +1,6 @@
 package com.shanghaichuangshi.controller;
 
+import com.alibaba.fastjson.JSONObject;
 import com.jfinal.core.ActionKey;
 import com.shanghaichuangshi.constant.Constant;
 import com.shanghaichuangshi.constant.Url;
@@ -8,6 +9,7 @@ import com.shanghaichuangshi.model.Role;
 import com.shanghaichuangshi.service.RoleService;
 
 import java.util.List;
+import java.util.Map;
 
 public class RoleController extends Controller {
 
@@ -71,6 +73,17 @@ public class RoleController extends Controller {
         renderSuccessJson(role.removeSystemInfo());
     }
 
+    @ActionKey(Url.ROLE_RESOURCE_FIND)
+    public void resourceFind() {
+        Role model = getParameter(Role.class);
+
+        model.validate(Role.ROLE_ID);
+
+        List<Map<String, Object>> resultList = roleService.resourceFind(model.getRole_id());
+
+        renderSuccessJson(resultList);
+    }
+
     @ActionKey(Url.ROLE_SAVE)
     public void save() {
         Role model = getParameter(Role.class);
@@ -79,6 +92,22 @@ public class RoleController extends Controller {
         model.validate(Role.ROLE_NAME);
 
         roleService.save(model, request_user_id);
+
+        renderSuccessJson();
+    }
+
+    @ActionKey(Url.ROLE_RESOURCE_SAVE)
+    public void resourceSave() {
+        Role model = getParameter(Role.class);
+        String request_user_id = getRequest_user_id();
+
+        model.validate(Role.ROLE_ID);
+
+        validate("resource_id_list");
+
+        JSONObject jsonObject = getAttr(Constant.REQUEST_PARAMETER);
+
+        roleService.resourceSave(model.getRole_id(), jsonObject.getJSONArray("resource_id_list"), request_user_id);
 
         renderSuccessJson();
     }

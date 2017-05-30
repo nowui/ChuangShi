@@ -14,7 +14,9 @@ public class Url {
     public static final String ROLE_CATEGORY_LIST = "/role/category/list";
     public static final String ROLE_FIND = "/role/find";
     public static final String ROLE_ADMIN_FIND = "/role/admin/find";
+    public static final String ROLE_RESOURCE_FIND = "/role/resource/find";
     public static final String ROLE_SAVE = "/role/save";
+    public static final String ROLE_RESOURCE_SAVE = "/role/resource/save";
     public static final String ROLEL_UPDATE = "/role/update";
     public static final String ROLE_DELETE = "/role/delete";
 

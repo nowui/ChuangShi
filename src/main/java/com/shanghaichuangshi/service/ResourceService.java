@@ -13,12 +13,24 @@ public class ResourceService extends Service {
 
     private final CategoryService categoryService = new CategoryService();
 
-    public int count(String resource_name) {
-        return resourceDao.count(resource_name);
+    public int count(String category_id, String resource_name) {
+        return resourceDao.count(category_id, resource_name);
     }
 
-    public List<Resource> list(String resource_name, int m, int n) {
-        return resourceDao.list(resource_name, m, n);
+    public List<Resource> list(String category_id, String resource_name, int m, int n) {
+        List<Resource> resourceList = resourceDao.list(category_id, resource_name, m, n);
+
+        for (Resource resource : resourceList) {
+            Category category = categoryService.find(resource.getCategory_id());
+
+            resource.put(Category.CATEGORY_NAME, category.getCategory_name());
+        }
+
+        return resourceList;
+    }
+
+    public List<Resource> allList() {
+        return resourceDao.allList();
     }
 
     public Category categoryList() {

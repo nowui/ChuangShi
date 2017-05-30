@@ -11,8 +11,9 @@ import java.util.List;
 
 public class ResourceDao extends Dao {
 
-    public int count(String resource_name) {
+    public int count(String category_id, String resource_name) {
         Kv map = Kv.create();
+        map.put(Resource.CATEGORY_ID, category_id);
         map.put(Resource.RESOURCE_NAME, resource_name);
         SqlPara sqlPara = Db.getSqlPara("resource.count", map);
 
@@ -20,12 +21,20 @@ public class ResourceDao extends Dao {
         return count.intValue();
     }
 
-    public List<Resource> list(String resource_name, Integer m, Integer n) {
+    public List<Resource> list(String category_id, String resource_name, Integer m, Integer n) {
         Kv map = Kv.create();
+        map.put(Resource.CATEGORY_ID, category_id);
         map.put(Resource.RESOURCE_NAME, resource_name);
         map.put(Resource.M, m);
         map.put(Resource.N, n);
         SqlPara sqlPara = Db.getSqlPara("resource.list", map);
+
+        return new Resource().find(sqlPara.getSql(), sqlPara.getPara());
+    }
+
+    public List<Resource> allList() {
+        Kv map = Kv.create();
+        SqlPara sqlPara = Db.getSqlPara("resource.allList", map);
 
         return new Resource().find(sqlPara.getSql(), sqlPara.getPara());
     }

@@ -21,7 +21,7 @@ public class ResourceController extends Controller {
 
         model.validate(Resource.RESOURCE_NAME);
 
-        List<Resource> resourceList = resourceService.list(model.getResource_name(), getM(), getN());
+        List<Resource> resourceList = resourceService.list(model.getCategory_id(), model.getResource_name(), getM(), getN());
 
         renderSuccessJson(resourceList);
     }
@@ -34,9 +34,9 @@ public class ResourceController extends Controller {
 
         model.validate(Resource.RESOURCE_NAME);
 
-        int count = resourceService.count(model.getResource_name());
+        int count = resourceService.count(model.getCategory_id(), model.getResource_name());
 
-        List<Resource> resourceList = resourceService.list(model.getResource_name(), getM(), getN());
+        List<Resource> resourceList = resourceService.list(model.getCategory_id(), model.getResource_name(), getM(), getN());
 
         renderSuccessJson(count, resourceList);
     }

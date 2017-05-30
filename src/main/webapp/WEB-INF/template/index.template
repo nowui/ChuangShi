@@ -1,133 +1,132 @@
-import React, {Component, PropTypes} from 'react';
+import React, {Component} from 'react';
 import {connect} from 'dva';
 import QueueAnim from 'rc-queue-anim';
 import {Row, Col, Button, Form, Input, Table, Popconfirm, message} from 'antd';
 
 import #(first_model_name)Detail from './#(first_model_name)Detail';
 import constant from '../../util/constant';
-import http from '../../util/http';
+import notification from '../../util/notification';
+import request from '../../util/request';
 import style from '../style.css';
 
-let request;
 
 class #(first_model_name)Index extends Component {
   constructor(props) {
     super(props);
 
-    this.state = {}
+    this.state = {
+      is_load: false
+    }
   }
 
   componentDidMount() {
-    this.handleSearch();
+    this.props.form.setFieldsValue({
+      #(lower_model_name)_name: this.props.#(lower_model_name).#(lower_model_name)_name
+    });
+
+    this.handleLoad();
+
+    notification.on('notification_#(lower_model_name)_index_load', this, function (data) {
+      this.handleLoad();
+    });
   }
 
   componentWillUnmount() {
-    this.handleReset();
+    notification.remove('notification_#(lower_model_name)_index_load', this);
   }
 
   handleSearch() {
-    let #(lower_model_name)_name = this.props.form.getFieldValue('#(lower_model_name)_name');
-    let page_index = 1;
+    new Promise(function (resolve, reject) {
+      this.props.dispatch({
+        type: '#(lower_model_name)/fetch',
+        data: {
+          #(lower_model_name)_name: this.props.form.getFieldValue('#(lower_model_name)_name'),
+          page_index: 1
+        }
+      });
 
-    this.handleList(#(lower_model_name)_name, page_index);
+      resolve();
+    }.bind(this)).then(function () {
+      this.handleLoad();
+    }.bind(this));
   }
 
-  handleLoad(page_index) {
-    let #(lower_model_name)_name = this.props.#(lower_model_name).#(lower_model_name)_name;
+  handleLoad() {
+    this.setState({
+      is_load: true
+    });
 
-    this.handleList(#(lower_model_name)_name, page_index);
-  }
-
-  handleList(#(lower_model_name)_name, page_index) {
-    if (this.handleStart({
-        is_load: true
-      })) {
-      return;
-    }
-
-    request = http({
+    request.post({
       url: '/#(lower_model_name)/admin/list',
       data: {
-        #(lower_model_name)_name: #(lower_model_name)_name,
-        page_index: page_index,
+        #(lower_model_name)_name: this.props.#(lower_model_name).#(lower_model_name)_name,
+        page_index: this.props.#(lower_model_name).page_index,
         page_size: this.props.#(lower_model_name).page_size
       },
       success: function (json) {
-        for (let i = 0; i < json.data.length; i++) {
-          json.data[i].key = json.data[i].#(lower_model_name)_id;
-        }
-
         this.props.dispatch({
           type: '#(lower_model_name)/fetch',
           data: {
-            #(lower_model_name)_name: #(lower_model_name)_name,
             total: json.total,
-            list: json.data,
-            page_index: page_index
+            list: json.data
           }
         });
       }.bind(this),
       complete: function () {
-        this.handleFinish();
+        this.setState({
+          is_load: false
+        });
       }.bind(this)
-    }).post();
+    });
+  }
+
+  handleChangeIndex(page_index) {
+    new Promise(function (resolve, reject) {
+      this.props.dispatch({
+        type: '#(lower_model_name)/fetch',
+        data: {
+          page_index: page_index
+        }
+      });
+
+      resolve();
+    }.bind(this)).then(function () {
+      this.handleLoad();
+    }.bind(this));
   }
 
   handleChangeSize(page_index, page_size) {
-    this.props.dispatch({
-      type: '#(lower_model_name)/fetch',
-      data: {
-        page_size: page_size
-      }
-    });
+    new Promise(function (resolve, reject) {
+      this.props.dispatch({
+        type: '#(lower_model_name)/fetch',
+        data: {
+          page_index: page_index,
+          page_size: page_size
+        }
+      });
 
-    setTimeout(function () {
-      this.handleLoad(page_index);
-    }.bind(this), constant.timeout);
+      resolve();
+    }.bind(this)).then(function () {
+      this.handleLoad();
+    }.bind(this));
   }
 
   handleSave() {
-    this.props.dispatch({
-      type: '#(lower_model_name)/fetch',
-      data: {
-        is_detail: true,
-        action: 'save'
-      }
-    });
+    notification.emit('notification_#(lower_model_name)_detail_save', {});
   }
 
   handleUpdate(#(lower_model_name)_id) {
-    if (this.handleStart({
-        is_load: true,
-        is_detail: true,
-        action: 'update',
-        #(lower_model_name)_id: #(lower_model_name)_id
-      })) {
-      return;
-    }
-
-    request = http({
-      url: '/#(lower_model_name)/admin/find',
-      data: {
-        #(lower_model_name)_id: #(lower_model_name)_id
-      },
-      success: function (json) {
-        this.refs.detail.setFieldsValue(json.data);
-      }.bind(this),
-      complete: function () {
-        this.handleFinish();
-      }.bind(this)
-    }).post();
+    notification.emit('notification_#(lower_model_name)_detail_update', {
+      #(lower_model_name)_id: #(lower_model_name)_id
+    });
   }
 
   handleDelete(#(lower_model_name)_id) {
-    if (this.handleStart({
-        is_load: true
-      })) {
-      return;
-    }
+    this.setState({
+      is_load: true
+    });
 
-    request = http({
+    request.post({
       url: '/#(lower_model_name)/delete',
       data: {
         #(lower_model_name)_id: #(lower_model_name)_id
@@ -135,86 +134,13 @@ class #(first_model_name)Index extends Component {
       success: function (json) {
         message.success(constant.success);
 
-        setTimeout(function () {
-            this.handleLoad(this.props.#(lower_model_name).page_index);
-        }.bind(this), constant.timeout);
+        this.handleLoad();
       }.bind(this),
       complete: function () {
-        this.handleFinish();
+        this.setState({
+          is_load: false
+        });
       }.bind(this)
-    }).post();
-  }
-
-  handleSubmit(data) {
-    if (this.handleStart({
-        is_load: true
-      })) {
-      return;
-    }
-
-    if (this.props.#(lower_model_name).action == 'update') {
-      data.#(lower_model_name)_id = this.props.#(lower_model_name).#(lower_model_name)_id;
-    }
-
-    request = http({
-      url: '/#(lower_model_name)/' + this.props.#(lower_model_name).action,
-      data: data,
-      success: function (json) {
-        message.success(constant.success);
-
-        this.handleCancel();
-
-        setTimeout(function () {
-            this.handleLoad(this.props.#(lower_model_name).page_index);
-        }.bind(this), constant.timeout);
-      }.bind(this),
-      complete: function () {
-        this.handleFinish();
-      }.bind(this)
-    }).post();
-  }
-
-  handleCancel() {
-    this.props.dispatch({
-      type: '#(lower_model_name)/fetch',
-      data: {
-        is_detail: false
-      }
-    });
-
-    this.refs.detail.refs.wrappedComponent.refs.formWrappedComponent.handleReset();
-  }
-
-  handleStart(data) {
-    if (this.props.#(lower_model_name).is_load) {
-      return true;
-    }
-
-    this.props.dispatch({
-      type: '#(lower_model_name)/fetch',
-      data: data
-    });
-
-    return false;
-  }
-
-  handleFinish() {
-    this.props.dispatch({
-      type: '#(lower_model_name)/fetch',
-      data: {
-        is_load: false
-      }
-    });
-  }
-
-  handleReset() {
-    request.cancel();
-
-    this.props.dispatch({
-      type: '#(lower_model_name)/fetch',
-      data: {
-        is_detail: false
-      }
     });
   }
 
@@ -234,7 +160,8 @@ class #(first_model_name)Index extends Component {
           <a onClick={this.handleUpdate.bind(this, record.#(lower_model_name)_id)}>{constant.update}</a>
           <span className={style.divider}/>
           <Popconfirm title={constant.popconfirm_title} okText={constant.popconfirm_ok}
-                      cancelText={constant.popconfirm_cancel} onConfirm={this.handleDelete.bind(this, record.#(lower_model_name)_id)}>
+                      cancelText={constant.popconfirm_cancel}
+                      onConfirm={this.handleDelete.bind(this, record.#(lower_model_name)_id)}>
             <a>{constant.delete}</a>
           </Popconfirm>
         </span>
@@ -242,12 +169,16 @@ class #(first_model_name)Index extends Component {
     }];
 
     const pagination = {
-      total: this.props.#(lower_model_name).total,
-      current: this.props.#(lower_model_name).page_index,
-      pageSize: this.props.#(lower_model_name).page_size,
+      size: 'defalut',
+      total: this.state.total,
+      showTotal: function (total, range) {
+        return '总共' + total + '条数据';
+      },
+      current: this.state.page_index,
+      pageSize: this.state.page_size,
       showSizeChanger: true,
       onShowSizeChange: this.handleChangeSize.bind(this),
-      onChange: this.handleLoad.bind(this)
+      onChange: this.handleChangeIndex.bind(this)
     };
 
     return (
@@ -255,11 +186,11 @@ class #(first_model_name)Index extends Component {
         <div key="0">
           <Row className={style.layoutContentHeader}>
             <Col span={8}>
-              <div className={style.layoutContentHeaderTitle}>列表</div>
+              <div className={style.layoutContentHeaderTitle}>属性列表</div>
             </Col>
             <Col span={16} className={style.layoutContentHeaderMenu}>
               <Button type="default" icon="search" size="default" className={style.layoutContentHeaderMenuButton}
-                      loading={this.props.#(lower_model_name).is_load}
+                      loading={this.state.is_load}
                       onClick={this.handleSearch.bind(this)}>{constant.search}</Button>
               <Button type="primary" icon="plus-circle" size="default"
                       onClick={this.handleSave.bind(this)}>{constant.save}</Button>
@@ -268,7 +199,7 @@ class #(first_model_name)Index extends Component {
           <Form className={style.layoutContentHeaderSearch}>
             <Row>
               <Col span={8}>
-                <FormItem hasFeedback {...constant.formItemLayout} className={style.formItem} label="名称">
+                <FormItem hasFeedback {...constant.formItemLayout} className={style.formSearchItem} label="名称">
                   {
                     getFieldDecorator('#(lower_model_name)_name', {
                       initialValue: ''
@@ -284,15 +215,12 @@ class #(first_model_name)Index extends Component {
               </Col>
             </Row>
           </Form>
-          <Table className={style.layoutContentHeaderTable}
-                 loading={this.props.#(lower_model_name).is_load && !this.props.#(lower_model_name).is_detail} columns={columns}
-                 dataSource={this.props.#(lower_model_name).list} pagination={pagination} scroll={{y: constant.scrollHeight()}}
+          <Table rowKey="#(lower_model_name)_id"
+                 className={style.layoutContentHeaderTable}
+                 loading={this.state.is_load} columns={columns}
+                 dataSource={this.props.#(lower_model_name).list} pagination={pagination}
                  bordered/>
-          <#(first_model_name)Detail is_load={this.props.#(lower_model_name).is_load}
-                      is_detail={this.props.#(lower_model_name).is_detail}
-                      handleSubmit={this.handleSubmit.bind(this)}
-                      handleCancel={this.handleCancel.bind(this)}
-                      ref="detail"/>
+          <#(first_model_name)Detail/>
         </div>
       </QueueAnim>
     );
@@ -304,5 +232,5 @@ class #(first_model_name)Index extends Component {
 #(first_model_name)Index = Form.create({})(#(first_model_name)Index);
 
 export default connect(({#(lower_model_name)}) => ({
-  #(lower_model_name),
+  #(lower_model_name)
 }))(#(first_model_name)Index);

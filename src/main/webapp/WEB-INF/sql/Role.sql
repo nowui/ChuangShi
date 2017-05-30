@@ -12,7 +12,9 @@
   #sql("list")
     SELECT
     role_id,
-    role_name
+    category_id,
+    role_name,
+    role_key
     FROM table_role
     WHERE system_status = 1
     #if(role_name)
