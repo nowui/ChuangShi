@@ -56,7 +56,12 @@
   #sql("treeListByCategory_key")
     SELECT
     category_id,
-    category_name
+    parent_id,
+    category_name,
+    category_key,
+    category_value,
+    category_remark,
+    category_sort
     FROM table_category
     WHERE system_status = 1
     AND category_path LIKE (SELECT CONCAT('%', category_id, '%') FROM table_category WHERE category_key = #p(category_key) )

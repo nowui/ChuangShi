@@ -62,6 +62,10 @@ public class CategoryDao extends Dao {
 
         List<Category> categoryList = new Category().find(sqlPara.getSql(), sqlPara.getPara());
 
+        if (categoryList.size() == 0) {
+            return new ArrayList<Map<String, Object>>();
+        }
+
         Category category = findByCategory_key(category_key);
 
         return getChildren(categoryList, category.getCategory_id(), keys);
