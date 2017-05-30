@@ -13,14 +13,4 @@ public class RoleResourceService extends Service {
         return roleResourceDao.list(role_id);
     }
 
-    public void save(List<RoleResource> roleResourceList, String role_id, String request_user_id) {
-        if (roleResourceList.size() > 0) {
-            roleResourceDao.save(roleResourceList, role_id, request_user_id);
-        }
-    }
-
-    public void delete(List<String> roleResourceIdList, String role_id, String request_user_id) {
-        roleResourceDao.delete(roleResourceIdList, role_id, request_user_id);
-    }
-
 }

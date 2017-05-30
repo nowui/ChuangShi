@@ -46,9 +46,9 @@ public class RoleController extends Controller {
 
     @ActionKey(Url.ROLE_CATEGORY_LIST)
     public void categoryList() {
-        Category category = roleService.categoryList();
+        List<Map<String, Object>> resultList = roleService.categoryList();
 
-        renderSuccessJson(category);
+        renderSuccessJson(resultList);
     }
 
     @ActionKey(Url.ROLE_FIND)

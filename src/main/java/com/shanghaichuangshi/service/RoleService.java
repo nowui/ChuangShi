@@ -1,9 +1,11 @@
 package com.shanghaichuangshi.service;
 
 import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
 import com.shanghaichuangshi.constant.Constant;
+import com.shanghaichuangshi.dao.CategoryDao;
+import com.shanghaichuangshi.dao.ResourceDao;
 import com.shanghaichuangshi.dao.RoleDao;
+import com.shanghaichuangshi.dao.RoleResourceDao;
 import com.shanghaichuangshi.model.Category;
 import com.shanghaichuangshi.model.Resource;
 import com.shanghaichuangshi.model.Role;
@@ -20,9 +22,9 @@ public class RoleService extends Service {
 
     private final RoleDao roleDao = new RoleDao();
 
-    private final CategoryService categoryService = new CategoryService();
-    private final ResourceService resourceService = new ResourceService();
-    private final RoleResourceService roleResourceService = new RoleResourceService();
+    private final CategoryDao categoryDao = new CategoryDao();
+    private final ResourceDao resourceDao = new ResourceDao();
+    private final RoleResourceDao roleResourceDao = new RoleResourceDao();
 
     public int count(String role_name) {
         return roleDao.count(role_name);
@@ -32,7 +34,7 @@ public class RoleService extends Service {
         List<Role> roleList = roleDao.list(role_name, m, n);
 
         for (Role role : roleList) {
-            Category category = categoryService.find(role.getCategory_id());
+            Category category = categoryDao.find(role.getCategory_id());
 
             role.put(Category.CATEGORY_NAME, category.getCategory_name());
         }
@@ -40,8 +42,8 @@ public class RoleService extends Service {
         return roleList;
     }
 
-    public Category categoryList() {
-        return categoryService.treeListByCategory_key(CategoryType.ROLE.getKey());
+    public List<Map<String, Object>> categoryList() {
+        return categoryDao.treeListByCategory_key(CategoryType.ROLE.getKey());
     }
 
     public Role find(String role_id) {
@@ -49,12 +51,11 @@ public class RoleService extends Service {
     }
 
     public List<Map<String, Object>> resourceFind(String role_id) {
-        Category category = categoryService.treeListByCategory_key(CategoryType.RESOURCE.getKey());
-        List<Map<String, Object>> resultList = category.get(Constant.CHILDREN);
+        List<Map<String, Object>> resultList = categoryDao.treeListByCategory_key(CategoryType.RESOURCE.getKey());
 
-        List<Resource> resourceList = resourceService.allList();
+        List<Resource> resourceList = resourceDao.allList();
 
-        List<RoleResource> roleResourceList = roleResourceService.list(role_id);
+        List<RoleResource> roleResourceList = roleResourceDao.list(role_id);
 
         for (Resource resource : resourceList) {
             resource.put("is_check", false);
@@ -107,7 +108,7 @@ public class RoleService extends Service {
     }
 
     public void resourceSave(String role_id, JSONArray jsonArray, String request_user_id) {
-        List<RoleResource> roleResourceList = roleResourceService.list(role_id);
+        List<RoleResource> roleResourceList = roleResourceDao.list(role_id);
         List<RoleResource> roleResourceSaveList = new ArrayList<RoleResource>();
         List<String> roleResourceDeleteList = new ArrayList<String>();
 
@@ -151,8 +152,8 @@ public class RoleService extends Service {
             }
         }
 
-        roleResourceService.delete(roleResourceDeleteList, role_id, request_user_id);
-        roleResourceService.save(roleResourceSaveList, role_id, request_user_id);
+        roleResourceDao.delete(roleResourceDeleteList, role_id, request_user_id);
+        roleResourceDao.save(roleResourceSaveList, role_id, request_user_id);
     }
 
     public boolean update(Role role, String request_user_id) {

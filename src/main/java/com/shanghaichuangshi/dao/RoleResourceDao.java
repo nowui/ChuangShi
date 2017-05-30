@@ -35,6 +35,10 @@ public class RoleResourceDao extends Dao {
     }
 
     public void save(List<RoleResource> roleResourceList, String role_id, String request_user_id) {
+        if (roleResourceList.size() == 0) {
+            return;
+        }
+
         CacheUtil.remove(ROLE_RESOURCE_BY_ROLE_ID_CACHE, role_id);
 
         Kv map = Kv.create();
@@ -65,6 +69,10 @@ public class RoleResourceDao extends Dao {
     }
 
     public void delete(List<String> roleResourceIdList, String role_id, String request_user_id) {
+        if (roleResourceIdList.size() == 0) {
+            return;
+        }
+
         CacheUtil.remove(ROLE_RESOURCE_BY_ROLE_ID_CACHE, role_id);
 
         Kv map = Kv.create();

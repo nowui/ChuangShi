@@ -34,9 +34,9 @@ public class CategoryController extends Controller {
 
         model.validate(Category.CATEGORY_ID);
 
-        Category category = categoryService.treeList(model.getCategory_id(), Category.CATEGORY_VALUE, Category.CATEGORY_SORT);
+        List<Map<String, Object>> resultList = categoryService.adminTreeList(model.getCategory_id(), Category.CATEGORY_VALUE, Category.CATEGORY_SORT);
 
-        renderSuccessJson(category.keep(Category.CATEGORY_ID, Category.CATEGORY_NAME, Constant.CHILDREN));
+        renderSuccessJson(resultList);
     }
 
 //    @ActionKey(Url.CATEGORY_CHINA_LIST)

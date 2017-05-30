@@ -1,17 +1,19 @@
 package com.shanghaichuangshi.service;
 
+import com.shanghaichuangshi.dao.CategoryDao;
 import com.shanghaichuangshi.dao.ResourceDao;
 import com.shanghaichuangshi.model.Category;
 import com.shanghaichuangshi.model.Resource;
 import com.shanghaichuangshi.type.CategoryType;
 
 import java.util.List;
+import java.util.Map;
 
 public class ResourceService extends Service {
 
     private final ResourceDao resourceDao = new ResourceDao();
 
-    private final CategoryService categoryService = new CategoryService();
+    private final CategoryDao categoryDao = new CategoryDao();
 
     public int count(String category_id, String resource_name) {
         return resourceDao.count(category_id, resource_name);
@@ -21,7 +23,7 @@ public class ResourceService extends Service {
         List<Resource> resourceList = resourceDao.list(category_id, resource_name, m, n);
 
         for (Resource resource : resourceList) {
-            Category category = categoryService.find(resource.getCategory_id());
+            Category category = categoryDao.find(resource.getCategory_id());
 
             resource.put(Category.CATEGORY_NAME, category.getCategory_name());
         }
@@ -33,8 +35,8 @@ public class ResourceService extends Service {
         return resourceDao.allList();
     }
 
-    public Category categoryList() {
-        return categoryService.treeListByCategory_key(CategoryType.RESOURCE.getKey());
+    public List<Map<String, Object>> categoryList() {
+        return categoryDao.treeListByCategory_key(CategoryType.RESOURCE.getKey());
     }
 
     public Resource find(String resource_id) {

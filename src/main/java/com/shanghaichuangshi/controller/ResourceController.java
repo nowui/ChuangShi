@@ -8,6 +8,7 @@ import com.shanghaichuangshi.model.Resource;
 import com.shanghaichuangshi.service.ResourceService;
 
 import java.util.List;
+import java.util.Map;
 
 public class ResourceController extends Controller {
 
@@ -43,9 +44,9 @@ public class ResourceController extends Controller {
 
     @ActionKey(Url.RESOURCE_CATEGORY_LIST)
     public void categoryList() {
-        Category category = resourceService.categoryList();
+        List<Map<String, Object>> resultList = resourceService.categoryList();
 
-        renderSuccessJson(category);
+        renderSuccessJson(resultList);
     }
 
     @ActionKey(Url.RESOURCE_FIND)

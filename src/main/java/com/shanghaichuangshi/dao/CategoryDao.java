@@ -3,12 +3,12 @@ package com.shanghaichuangshi.dao;
 import com.jfinal.kit.Kv;
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.SqlPara;
+import com.shanghaichuangshi.constant.Constant;
 import com.shanghaichuangshi.model.Category;
 import com.shanghaichuangshi.util.CacheUtil;
 import com.shanghaichuangshi.util.Util;
 
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 public class CategoryDao extends Dao {
 
@@ -43,20 +43,50 @@ public class CategoryDao extends Dao {
         return new Category().find(sqlPara.getSql(), sqlPara.getPara());
     }
 
-    public List<Category> treeListByCategory_path(String category_path) {
+    public List<Map<String, Object>> treeListByCategory_path(String category_id, String... keys) {
         Kv map = Kv.create();
-        map.put(Category.CATEGORY_PATH, "%" + category_path + "%");
+        map.put(Category.CATEGORY_PATH, "%" + category_id + "%");
         SqlPara sqlPara = Db.getSqlPara("category.treeListByCategory_path", map);
 
-        return new Category().find(sqlPara.getSql(), sqlPara.getPara());
+        List<Category> categoryList = new Category().find(sqlPara.getSql(), sqlPara.getPara());
+
+        Category category = find(category_id);
+
+        return getChildren(categoryList, category.getCategory_id(), keys);
     }
 
-    public List<Category> treeListByCategory_key(String category_key) {
+    public List<Map<String, Object>> treeListByCategory_key(String category_key, String... keys) {
         Kv map = Kv.create();
         map.put(Category.CATEGORY_KEY, category_key);
         SqlPara sqlPara = Db.getSqlPara("category.treeListByCategory_key", map);
 
-        return new Category().find(sqlPara.getSql(), sqlPara.getPara());
+        List<Category> categoryList = new Category().find(sqlPara.getSql(), sqlPara.getPara());
+
+        Category category = findByCategory_key(category_key);
+
+        return getChildren(categoryList, category.getCategory_id(), keys);
+    }
+
+    private List<Map<String, Object>> getChildren(List<Category> categoryList, String parent_id, String... keys) {
+        List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
+        for (Category category : categoryList) {
+            if (category.getParent_id().equals(parent_id)) {
+                Map<String, Object> map = new HashMap<String, Object>();
+                map.put(Category.CATEGORY_ID, category.getCategory_id());
+                map.put(Category.CATEGORY_NAME, category.getCategory_name());
+
+                for (String key : keys) {
+                    map.put(key, category.get(key));
+                }
+
+                List<Map<String, Object>> childrenList = getChildren(categoryList, category.getCategory_id(), keys);
+                if (childrenList.size() > 0) {
+                    map.put(Constant.CHILDREN, childrenList);
+                }
+                list.add(map);
+            }
+        }
+        return list;
     }
 
     public Category find(String category_id) {
