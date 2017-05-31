@@ -4,7 +4,6 @@ import com.alibaba.fastjson.JSONObject;
 import com.jfinal.core.ActionKey;
 import com.shanghaichuangshi.constant.Constant;
 import com.shanghaichuangshi.constant.Url;
-import com.shanghaichuangshi.model.Category;
 import com.shanghaichuangshi.model.Role;
 import com.shanghaichuangshi.service.RoleService;
 

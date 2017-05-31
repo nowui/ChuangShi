@@ -42,6 +42,7 @@
     resource_name
     FROM table_resource
     WHERE system_status = 1
+    ORDER BY resource_sort, system_create_time DESC
   #end
 
   #sql("find")
