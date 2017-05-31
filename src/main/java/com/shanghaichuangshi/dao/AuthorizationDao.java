@@ -81,4 +81,14 @@ public class AuthorizationDao extends Dao {
         return authorization;
     }
 
+    public boolean delete(String authorization_id, String request_user_id) {
+        Kv map = Kv.create();
+        map.put(Authorization.AUTHORIZATION_ID, authorization_id);
+        map.put(Authorization.SYSTEM_UPDATE_USER_ID, request_user_id);
+        map.put(Authorization.SYSTEM_UPDATE_TIME, new Date());
+        SqlPara sqlPara = Db.getSqlPara("authorization.delete", map);
+
+        return Db.update(sqlPara.getSql(), sqlPara.getPara()) != 0;
+    }
+
 }

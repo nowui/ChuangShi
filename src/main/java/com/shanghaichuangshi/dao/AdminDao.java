@@ -43,19 +43,6 @@ public class AdminDao extends Dao {
         }
     }
 
-    public Admin findByUser_id(String user_id) {
-        Kv map = Kv.create();
-        map.put(Admin.USER_ID, user_id);
-        SqlPara sqlPara = Db.getSqlPara("admin.findByUser_id", map);
-
-        List<Admin> adminList = new Admin().find(sqlPara.getSql(), sqlPara.getPara());
-        if (adminList.size() == 0) {
-            return null;
-        } else {
-            return adminList.get(0);
-        }
-    }
-
     public Admin save(Admin admin, String request_user_id) {
         admin.setAdmin_id(Util.getRandomUUID());
         admin.setSystem_create_user_id(request_user_id);

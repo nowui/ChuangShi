@@ -6,15 +6,12 @@ import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.SqlPara;
 import com.shanghaichuangshi.constant.Constant;
 import com.shanghaichuangshi.model.User;
-import com.shanghaichuangshi.util.CacheUtil;
 import com.shanghaichuangshi.util.Util;
 
 import java.util.Date;
 import java.util.List;
 
 public class UserDao extends Dao {
-
-    private final String USER_BY_USER_ID_CACHE = "user_by_user_id_cache";
 
     private String generatePassword(String user_password) {
         return HashKit.sha512(Constant.PRIVATE_KEY + user_password);
@@ -41,24 +38,16 @@ public class UserDao extends Dao {
     }
 
     public User find(String user_id) {
-        User user = CacheUtil.get(USER_BY_USER_ID_CACHE, user_id);
+        Kv map = Kv.create();
+        map.put(User.USER_ID, user_id);
+        SqlPara sqlPara = Db.getSqlPara("user.find", map);
 
-        if (user == null) {
-            Kv map = Kv.create();
-            map.put(User.USER_ID, user_id);
-            SqlPara sqlPara = Db.getSqlPara("user.find", map);
-
-            List<User> userList = new User().find(sqlPara.getSql(), sqlPara.getPara());
-            if (userList.size() == 0) {
-                user = null;
-            } else {
-                user = userList.get(0);
-
-                CacheUtil.put(USER_BY_USER_ID_CACHE, user_id, user);
-            }
+        List<User> userList = new User().find(sqlPara.getSql(), sqlPara.getPara());
+        if (userList.size() == 0) {
+            return null;
+        } else {
+            return userList.get(0);
         }
-
-        return user;
     }
 
     public User findByUser_accountAndUser_passwordAndUser_type(String user_account, String user_password, String user_type) {
@@ -231,8 +220,6 @@ public class UserDao extends Dao {
     }
 
     public boolean updateByUser_idAndUser_nameAndUser_avatar(String user_id, String user_name, String user_avatar, String request_user_id) {
-        CacheUtil.remove(USER_BY_USER_ID_CACHE, user_id);
-
         Kv map = Kv.create();
         map.put(User.USER_ID, user_id);
         map.put(User.USER_NAME, user_name);

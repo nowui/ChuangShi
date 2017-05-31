@@ -2,10 +2,10 @@ package com.shanghaichuangshi.service;
 
 import com.alibaba.fastjson.JSONArray;
 import com.shanghaichuangshi.constant.Constant;
-import com.shanghaichuangshi.dao.CategoryDao;
-import com.shanghaichuangshi.dao.ResourceDao;
-import com.shanghaichuangshi.dao.RoleDao;
-import com.shanghaichuangshi.dao.RoleResourceDao;
+import com.shanghaichuangshi.cache.CategoryCache;
+import com.shanghaichuangshi.cache.ResourceCache;
+import com.shanghaichuangshi.cache.RoleCache;
+import com.shanghaichuangshi.cache.RoleResourceCache;
 import com.shanghaichuangshi.model.Category;
 import com.shanghaichuangshi.model.Resource;
 import com.shanghaichuangshi.model.Role;
@@ -20,21 +20,20 @@ import java.util.Map;
 
 public class RoleService extends Service {
 
-    private final RoleDao roleDao = new RoleDao();
-
-    private final CategoryDao categoryDao = new CategoryDao();
-    private final ResourceDao resourceDao = new ResourceDao();
-    private final RoleResourceDao roleResourceDao = new RoleResourceDao();
+    private final RoleCache roleCache = new RoleCache();
+    private final CategoryCache categoryCache = new CategoryCache();
+    private final ResourceCache resourceCache = new ResourceCache();
+    private final RoleResourceCache roleResourceCache = new RoleResourceCache();
 
     public int count(String role_name) {
-        return roleDao.count(role_name);
+        return roleCache.count(role_name);
     }
 
     public List<Role> list(String role_name, int m, int n) {
-        List<Role> roleList = roleDao.list(role_name, m, n);
+        List<Role> roleList = roleCache.list(role_name, m, n);
 
         for (Role role : roleList) {
-            Category category = categoryDao.find(role.getCategory_id());
+            Category category = categoryCache.find(role.getCategory_id());
 
             role.put(Category.CATEGORY_NAME, category.getCategory_name());
         }
@@ -43,19 +42,19 @@ public class RoleService extends Service {
     }
 
     public List<Map<String, Object>> categoryList() {
-        return categoryDao.treeListByCategory_key(CategoryType.ROLE.getKey());
+        return categoryCache.treeListByCategory_key(CategoryType.ROLE.getKey());
     }
 
     public Role find(String role_id) {
-        return roleDao.find(role_id);
+        return roleCache.find(role_id);
     }
 
     public List<Map<String, Object>> resourceFind(String role_id) {
-        List<Map<String, Object>> resultList = categoryDao.treeListByCategory_key(CategoryType.RESOURCE.getKey());
+        List<Map<String, Object>> resultList = categoryCache.treeListByCategory_key(CategoryType.RESOURCE.getKey());
 
-        List<Resource> resourceList = resourceDao.allList();
+        List<Resource> resourceList = resourceCache.allList();
 
-        List<RoleResource> roleResourceList = roleResourceDao.list(role_id);
+        List<RoleResource> roleResourceList = roleResourceCache.list(role_id);
 
         for (Resource resource : resourceList) {
             resource.put("is_check", false);
@@ -104,11 +103,11 @@ public class RoleService extends Service {
     }
 
     public Role save(Role role, String request_user_id) {
-        return roleDao.save(role, request_user_id);
+        return roleCache.save(role, request_user_id);
     }
 
     public void resourceSave(String role_id, JSONArray jsonArray, String request_user_id) {
-        List<RoleResource> roleResourceList = roleResourceDao.list(role_id);
+        List<RoleResource> roleResourceList = roleResourceCache.list(role_id);
         List<RoleResource> roleResourceSaveList = new ArrayList<RoleResource>();
         List<String> roleResourceDeleteList = new ArrayList<String>();
 
@@ -152,16 +151,16 @@ public class RoleService extends Service {
             }
         }
 
-        roleResourceDao.delete(roleResourceDeleteList, role_id, request_user_id);
-        roleResourceDao.save(roleResourceSaveList, role_id, request_user_id);
+        roleResourceCache.delete(roleResourceDeleteList, role_id, request_user_id);
+        roleResourceCache.save(roleResourceSaveList, role_id, request_user_id);
     }
 
     public boolean update(Role role, String request_user_id) {
-        return roleDao.update(role, request_user_id);
+        return roleCache.update(role, request_user_id);
     }
 
     public boolean delete(Role role, String request_user_id) {
-        return roleDao.delete(role.getRole_id(), request_user_id);
+        return roleCache.delete(role.getRole_id(), request_user_id);
     }
 
 }

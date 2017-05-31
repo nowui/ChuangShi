@@ -5,14 +5,11 @@ import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.SqlPara;
 import com.shanghaichuangshi.constant.Constant;
 import com.shanghaichuangshi.model.Category;
-import com.shanghaichuangshi.util.CacheUtil;
 import com.shanghaichuangshi.util.Util;
 
 import java.util.*;
 
 public class CategoryDao extends Dao {
-
-    private final String CATEGORY_BY_CATEGORY_ID_CACHE = "category_by_category_id_cache";
 
     public int count(String category_name) {
         Kv map = Kv.create();
@@ -94,24 +91,16 @@ public class CategoryDao extends Dao {
     }
 
     public Category find(String category_id) {
-        Category category = CacheUtil.get(CATEGORY_BY_CATEGORY_ID_CACHE, category_id);
+        Kv map = Kv.create();
+        map.put(Category.CATEGORY_ID, category_id);
+        SqlPara sqlPara = Db.getSqlPara("category.find", map);
 
-        if (category == null) {
-            Kv map = Kv.create();
-            map.put(Category.CATEGORY_ID, category_id);
-            SqlPara sqlPara = Db.getSqlPara("category.find", map);
-
-            List<Category> categoryList = new Category().find(sqlPara.getSql(), sqlPara.getPara());
-            if (categoryList.size() == 0) {
-                category = null;
-            } else {
-                category = categoryList.get(0);
-
-                CacheUtil.put(CATEGORY_BY_CATEGORY_ID_CACHE, category_id, category);
-            }
+        List<Category> categoryList = new Category().find(sqlPara.getSql(), sqlPara.getPara());
+        if (categoryList.size() == 0) {
+            return null;
+        } else {
+            return categoryList.get(0);
         }
-
-        return category;
     }
 
     public Category findByCategory_key(String category_key) {
@@ -140,8 +129,6 @@ public class CategoryDao extends Dao {
     }
 
     public boolean update(Category category, String request_user_id) {
-        CacheUtil.remove(CATEGORY_BY_CATEGORY_ID_CACHE, category.getCategory_id());
-
         category.remove(Category.SYSTEM_CREATE_USER_ID);
         category.remove(Category.SYSTEM_CREATE_TIME);
         category.setSystem_update_user_id(request_user_id);
@@ -152,8 +139,6 @@ public class CategoryDao extends Dao {
     }
 
     public boolean delete(String category_id, String request_user_id) {
-        CacheUtil.remove(CATEGORY_BY_CATEGORY_ID_CACHE, category_id);
-
         Kv map = Kv.create();
         map.put(Category.CATEGORY_ID, category_id);
         map.put(Category.SYSTEM_UPDATE_USER_ID, request_user_id);

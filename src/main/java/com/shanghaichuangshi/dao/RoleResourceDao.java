@@ -5,7 +5,6 @@ import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.SqlPara;
 import com.shanghaichuangshi.constant.Constant;
 import com.shanghaichuangshi.model.RoleResource;
-import com.shanghaichuangshi.util.CacheUtil;
 import com.shanghaichuangshi.util.Util;
 
 import java.util.ArrayList;
@@ -14,32 +13,18 @@ import java.util.List;
 
 public class RoleResourceDao extends Dao {
 
-    private final String ROLE_RESOURCE_BY_ROLE_ID_CACHE = "role_resource_by_role_id_cache";
-
     public List<RoleResource> list(String role_id) {
-        List<RoleResource> roleResourceList = CacheUtil.get(ROLE_RESOURCE_BY_ROLE_ID_CACHE, role_id);
+        Kv map = Kv.create();
+        map.put(RoleResource.ROLE_ID, role_id);
+        SqlPara sqlPara = Db.getSqlPara("role_resource.list", map);
 
-        if (roleResourceList == null) {
-            Kv map = Kv.create();
-            map.put(RoleResource.ROLE_ID, role_id);
-            SqlPara sqlPara = Db.getSqlPara("role_resource.list", map);
-
-            roleResourceList = new RoleResource().find(sqlPara.getSql(), sqlPara.getPara());
-
-            if (roleResourceList.size() > 0) {
-                CacheUtil.put(ROLE_RESOURCE_BY_ROLE_ID_CACHE, role_id, roleResourceList);
-            }
-        }
-
-        return roleResourceList;
+        return new RoleResource().find(sqlPara.getSql(), sqlPara.getPara());
     }
 
     public void save(List<RoleResource> roleResourceList, String role_id, String request_user_id) {
         if (roleResourceList.size() == 0) {
             return;
         }
-
-        CacheUtil.remove(ROLE_RESOURCE_BY_ROLE_ID_CACHE, role_id);
 
         Kv map = Kv.create();
         SqlPara sqlPara = Db.getSqlPara("role_resource.save", map);
@@ -72,8 +57,6 @@ public class RoleResourceDao extends Dao {
         if (roleResourceIdList.size() == 0) {
             return;
         }
-
-        CacheUtil.remove(ROLE_RESOURCE_BY_ROLE_ID_CACHE, role_id);
 
         Kv map = Kv.create();
         SqlPara sqlPara = Db.getSqlPara("role_resource.delete", map);

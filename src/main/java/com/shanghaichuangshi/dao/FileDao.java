@@ -1,20 +1,16 @@
 package com.shanghaichuangshi.dao;
 
 import com.jfinal.kit.Kv;
-import com.jfinal.kit.Kv;
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.SqlPara;
 import com.shanghaichuangshi.constant.Constant;
 import com.shanghaichuangshi.model.File;
-import com.shanghaichuangshi.util.CacheUtil;
 import com.shanghaichuangshi.util.Util;
 
 import java.util.Date;
 import java.util.List;
 
 public class FileDao extends Dao {
-
-    private final String FILE_BY_FILE_ID_CACHE = "file_by_file_id_cache";
 
     public int count(String file_name, String file_type, String request_user_id) {
         Kv map = Kv.create();
@@ -40,24 +36,16 @@ public class FileDao extends Dao {
     }
 
     public File find(String file_id) {
-        File file = CacheUtil.get(FILE_BY_FILE_ID_CACHE, file_id);
+        Kv map = Kv.create();
+        map.put(File.FILE_ID, file_id);
+        SqlPara sqlPara = Db.getSqlPara("file.find", map);
 
-        if (file == null) {
-            Kv map = Kv.create();
-            map.put(File.FILE_ID, file_id);
-            SqlPara sqlPara = Db.getSqlPara("file.find", map);
-
-            List<File> fileList = new File().find(sqlPara.getSql(), sqlPara.getPara());
-            if (fileList.size() == 0) {
-                file = null;
-            } else {
-                file = fileList.get(0);
-
-                CacheUtil.put(FILE_BY_FILE_ID_CACHE, file_id, file);
-            }
+        List<File> fileList = new File().find(sqlPara.getSql(), sqlPara.getPara());
+        if (fileList.size() == 0) {
+            return null;
+        } else {
+            return fileList.get(0);
         }
-
-        return file;
     }
 
     public File save(File file, String request_user_id) {
@@ -74,8 +62,6 @@ public class FileDao extends Dao {
     }
 
     public boolean update(File file, String request_user_id) {
-        CacheUtil.remove(FILE_BY_FILE_ID_CACHE, file.getFile_id());
-
         file.remove(File.SYSTEM_CREATE_USER_ID);
         file.remove(File.SYSTEM_CREATE_TIME);
         file.setSystem_update_user_id(request_user_id);
@@ -86,8 +72,6 @@ public class FileDao extends Dao {
     }
 
     public boolean delete(String file_id, String request_user_id) {
-        CacheUtil.remove(FILE_BY_FILE_ID_CACHE, file_id);
-
         Kv map = Kv.create();
         map.put(File.FILE_ID, file_id);
         map.put(File.SYSTEM_UPDATE_USER_ID, request_user_id);

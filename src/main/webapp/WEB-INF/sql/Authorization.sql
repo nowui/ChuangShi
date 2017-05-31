@@ -36,4 +36,12 @@
     AND authorization_id = #p(authorization_id)
   #end
 
+  #sql("delete")
+    UPDATE table_authorization SET
+    system_update_user_id = #p(system_update_user_id),
+    system_update_time = #p(system_update_time),
+    system_status = 0
+    AND authorization_id = #p(authorization_id)
+  #end
+
 #end

@@ -1,6 +1,6 @@
 package com.shanghaichuangshi.#(name_space).service;
 
-import com.shanghaichuangshi.#(name_space).dao.#(first_model_name)Dao;
+import com.shanghaichuangshi.#(name_space).cache.#(first_model_name)Cache;
 import com.shanghaichuangshi.#(name_space).model.#(first_model_name);
 import com.shanghaichuangshi.service.Service;
 
@@ -8,7 +8,7 @@ import java.util.List;
 
 public class #(first_model_name)Service extends Service {
 
-    private final #(first_model_name)Dao #(first_lower_model_name)Dao = new #(first_model_name)Dao();
+    private final #(first_model_name)Cache #(first_lower_model_name)Cache = new #(first_model_name)Cache();
 
     public int count(String #(lower_model_name)_name) {
         return #(first_lower_model_name)Dao.count(#(lower_model_name).get#(first_model_name)_name());

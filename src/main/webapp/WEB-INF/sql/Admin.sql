@@ -37,12 +37,4 @@
     AND table_admin.admin_id = #p(admin_id)
   #end
 
-  #sql("findByUser_id")
-    SELECT
-    *
-    FROM table_admin
-    WHERE system_status = 1
-    AND user_id = #p(user_id)
-  #end
-
 #end

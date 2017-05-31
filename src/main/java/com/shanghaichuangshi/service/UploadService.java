@@ -3,6 +3,7 @@ package com.shanghaichuangshi.service;
 import com.jfinal.kit.FileKit;
 import com.jfinal.kit.PathKit;
 import com.jfinal.upload.UploadFile;
+import com.shanghaichuangshi.cache.FileCache;
 import com.shanghaichuangshi.constant.Constant;
 import com.shanghaichuangshi.model.File;
 import com.shanghaichuangshi.type.FileType;
@@ -16,7 +17,7 @@ import java.util.Map;
 
 public class UploadService extends Service {
 
-    private final FileService fileService = new FileService();
+    private final FileCache fileCache = new FileCache();
 
     public List<Map<String, Object>> image(List<UploadFile> uploadFileList, String request_user_id) {
         String path = PathKit.getWebRootPath() + "/" + Constant.UPLOAD + "/" + request_user_id;
@@ -53,7 +54,7 @@ public class UploadService extends Service {
             file.setFile_original_path(originalPath.replace(PathKit.getWebRootPath(), ""));
             file.setFile_image(originalPath.replace(PathKit.getWebRootPath(), ""));
 
-            File f = fileService.save(file, request_user_id);
+            File f = fileCache.save(file, request_user_id);
 
             Map<String, Object> map = new HashMap<String, Object>();
             map.put(File.FILE_ID, f.getFile_id());
