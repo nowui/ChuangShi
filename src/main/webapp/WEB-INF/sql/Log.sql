@@ -7,8 +7,12 @@
       #set(log_url = "%" + log_url + "%")
       AND log_url LIKE #p(log_url)
     #end
-    AND log_code = #p(log_code)
-    AND log_platform = #p(log_platform)
+    #if(log_code)
+      AND log_code = #p(log_code)
+    #end
+    #if(log_platform)
+      AND log_platform = #p(log_platform)
+    #end
   #end
 
   #sql("list")

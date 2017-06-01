@@ -14,19 +14,6 @@ public class RoleController extends Controller {
 
     private final RoleService roleService = new RoleService();
 
-    @ActionKey(Url.ROLE_LIST)
-    public void list() {
-        validate(Constant.PAGE_INDEX, Constant.PAGE_SIZE);
-
-        Role model = getParameter(Role.class);
-
-        model.validate(Role.ROLE_NAME);
-
-        List<Role> roleList = roleService.list(model.getRole_name(), getM(), getN());
-
-        renderSuccessJson(roleList);
-    }
-
     @ActionKey(Url.ROLE_ADMIN_LIST)
     public void adminList() {
         validate(Constant.PAGE_INDEX, Constant.PAGE_SIZE);
@@ -43,22 +30,11 @@ public class RoleController extends Controller {
         renderSuccessJson(count, roleList);
     }
 
-    @ActionKey(Url.ROLE_CATEGORY_LIST)
-    public void categoryList() {
+    @ActionKey(Url.ROLE_ADMIN_CATEGORY_LIST)
+    public void adminCategoryList() {
         List<Map<String, Object>> resultList = roleService.categoryList();
 
         renderSuccessJson(resultList);
-    }
-
-    @ActionKey(Url.ROLE_FIND)
-    public void find() {
-        Role model = getParameter(Role.class);
-
-        model.validate(Role.ROLE_ID);
-
-        Role role = roleService.find(model.getRole_id());
-
-        renderSuccessJson(role.removeUnfindable());
     }
 
     @ActionKey(Url.ROLE_ADMIN_FIND)
@@ -72,8 +48,8 @@ public class RoleController extends Controller {
         renderSuccessJson(role.removeSystemInfo());
     }
 
-    @ActionKey(Url.ROLE_RESOURCE_FIND)
-    public void resourceFind() {
+    @ActionKey(Url.ROLE_ADMIN_RESOURCE_FIND)
+    public void adminResourceFind() {
         Role model = getParameter(Role.class);
 
         model.validate(Role.ROLE_ID);
@@ -83,8 +59,8 @@ public class RoleController extends Controller {
         renderSuccessJson(resultList);
     }
 
-    @ActionKey(Url.ROLE_SAVE)
-    public void save() {
+    @ActionKey(Url.ROLE_ADMIN_SAVE)
+    public void adminSave() {
         Role model = getParameter(Role.class);
         String request_user_id = getRequest_user_id();
 
@@ -95,8 +71,8 @@ public class RoleController extends Controller {
         renderSuccessJson();
     }
 
-    @ActionKey(Url.ROLE_RESOURCE_SAVE)
-    public void resourceSave() {
+    @ActionKey(Url.ROLE_ADMIN_RESOURCE_SAVE)
+    public void adminResourceSave() {
         Role model = getParameter(Role.class);
         String request_user_id = getRequest_user_id();
 
@@ -111,8 +87,8 @@ public class RoleController extends Controller {
         renderSuccessJson();
     }
 
-    @ActionKey(Url.ROLEL_UPDATE)
-    public void update() {
+    @ActionKey(Url.ROLEL_ADMIN_UPDATE)
+    public void adminUpdate() {
         Role model = getParameter(Role.class);
         String request_user_id = getRequest_user_id();
 
@@ -123,8 +99,8 @@ public class RoleController extends Controller {
         renderSuccessJson();
     }
 
-    @ActionKey(Url.ROLE_DELETE)
-    public void delete() {
+    @ActionKey(Url.ROLE_ADMIN_DELETE)
+    public void adminDelete() {
         Role model = getParameter(Role.class);
         String request_user_id = getRequest_user_id();
 

@@ -12,19 +12,6 @@ public class AuthorizationController extends Controller {
 
     private final AuthorizationService authorizationService = new AuthorizationService();
 
-    @ActionKey(Url.AUTHORIZATION_LIST)
-    public void list() {
-        validate(Constant.PAGE_INDEX, Constant.PAGE_SIZE);
-
-        Authorization model = getParameter(Authorization.class);
-
-        model.validate(Authorization.AUTHORIZATION_TOKEN);
-
-        List<Authorization> authorizationList = authorizationService.list(model.getAuthorization_token(), getM(), getN());
-
-        renderSuccessJson(authorizationList);
-    }
-
     @ActionKey(Url.AUTHORIZATION_ADMIN_LIST)
     public void adminList() {
         validate(Constant.PAGE_INDEX, Constant.PAGE_SIZE);
@@ -38,17 +25,6 @@ public class AuthorizationController extends Controller {
         List<Authorization> authorizationList = authorizationService.list(model.getAuthorization_token(), getM(), getN());
 
         renderSuccessJson(count, authorizationList);
-    }
-
-    @ActionKey(Url.AUTHORIZATION_FIND)
-    public void find() {
-        Authorization model = getParameter(Authorization.class);
-
-        model.validate(Authorization.AUTHORIZATION_ID);
-
-        Authorization authorization = authorizationService.find(model.getAuthorization_id());
-
-        renderSuccessJson(authorization.removeUnfindable());
     }
 
     @ActionKey(Url.AUTHORIZATION_ADMIN_FIND)

@@ -14,19 +14,6 @@ public class AdminController extends Controller {
 
     private final AdminService adminService = new AdminService();
 
-    @ActionKey(Url.ADMIN_LIST)
-    public void list() {
-        validate(Constant.PAGE_INDEX, Constant.PAGE_SIZE);
-
-        Admin model = getParameter(Admin.class);
-
-        model.validate(Admin.ADMIN_NAME);
-
-        List<Admin> adminList = adminService.list(model.getAdmin_name(), getM(), getN());
-
-        renderSuccessJson(adminList);
-    }
-
     @ActionKey(Url.ADMIN_ADMIN_LIST)
     public void adminList() {
         validate(Constant.PAGE_INDEX, Constant.PAGE_SIZE);
@@ -42,17 +29,6 @@ public class AdminController extends Controller {
         renderSuccessJson(count, adminList);
     }
 
-    @ActionKey(Url.ADMIN_FIND)
-    public void find() {
-        Admin model = getParameter(Admin.class);
-
-        model.validate(Admin.ADMIN_ID);
-
-        Admin admin = adminService.find(model.getAdmin_id());
-
-        renderSuccessJson(admin.removeUnfindable());
-    }
-
     @ActionKey(Url.ADMIN_ADMIN_FIND)
     public void adminFind() {
         Admin model = getParameter(Admin.class);
@@ -64,8 +40,8 @@ public class AdminController extends Controller {
         renderSuccessJson(admin.removeSystemInfo());
     }
 
-    @ActionKey(Url.ADMIN_SAVE)
-    public void save() {
+    @ActionKey(Url.ADMIN_ADMIN_SAVE)
+    public void adminSave() {
         Admin model = getParameter(Admin.class);
         User userModel = getParameter(User.class);
         String request_user_id = getRequest_user_id();
@@ -78,8 +54,8 @@ public class AdminController extends Controller {
         renderSuccessJson();
     }
 
-    @ActionKey(Url.ADMINL_UPDATE)
-    public void update() {
+    @ActionKey(Url.ADMINL_ADMIN_UPDATE)
+    public void adminUpdate() {
         Admin model = getParameter(Admin.class);
         User userModel = getParameter(User.class);
         String request_user_id = getRequest_user_id();
@@ -92,8 +68,8 @@ public class AdminController extends Controller {
         renderSuccessJson();
     }
 
-    @ActionKey(Url.ADMIN_DELETE)
-    public void delete() {
+    @ActionKey(Url.ADMIN_ADMIN_DELETE)
+    public void adminDelete() {
         Admin model = getParameter(Admin.class);
         String request_user_id = getRequest_user_id();
 
@@ -104,8 +80,8 @@ public class AdminController extends Controller {
         renderSuccessJson();
     }
 
-    @ActionKey(Url.ADMIN_LOGIN)
-    public void login() {
+    @ActionKey(Url.ADMIN_ADMIN_LOGIN)
+    public void adminLogin() {
         User model = getParameter(User.class);
         String request_user_id = getRequest_user_id();
 
@@ -114,9 +90,8 @@ public class AdminController extends Controller {
         renderSuccessJson(resultMap);
     }
 
-    @ActionKey(Url.ADMIN_MENU)
-    public void menu() {
-        User model = getParameter(User.class);
+    @ActionKey(Url.ADMIN_ADMIN_MENU)
+    public void adminMenu() {
         String request_user_id = getRequest_user_id();
 
         List<Map<String, Object>> resultList = adminService.menu(request_user_id);

@@ -12,19 +12,6 @@ public class AttributeController extends Controller {
 
     private final AttributeService attributeService = new AttributeService();
 
-    @ActionKey(Url.ATTRIBUTE_LIST)
-    public void list() {
-        validate(Constant.PAGE_INDEX, Constant.PAGE_SIZE);
-
-        Attribute model = getParameter(Attribute.class);
-
-        model.validate(Attribute.ATTRIBUTE_NAME);
-
-        List<Attribute> attributeList = attributeService.list(model.getAttribute_name(), getM(), getN());
-
-        renderSuccessJson(attributeList);
-    }
-
     @ActionKey(Url.ATTRIBUTE_ADMIN_LIST)
     public void adminList() {
         validate(Constant.PAGE_INDEX, Constant.PAGE_SIZE);
@@ -40,17 +27,6 @@ public class AttributeController extends Controller {
         renderSuccessJson(count, attributeList);
     }
 
-    @ActionKey(Url.ATTRIBUTE_FIND)
-    public void find() {
-        Attribute model = getParameter(Attribute.class);
-
-        model.validate(Attribute.ATTRIBUTE_ID);
-
-        Attribute attribute = attributeService.find(model.getAttribute_id());
-
-        renderSuccessJson(attribute.removeUnfindable());
-    }
-
     @ActionKey(Url.ATTRIBUTE_ADMIN_FIND)
     public void adminFind() {
         Attribute model = getParameter(Attribute.class);
@@ -62,8 +38,8 @@ public class AttributeController extends Controller {
         renderSuccessJson(attribute.removeSystemInfo());
     }
 
-    @ActionKey(Url.ATTRIBUTE_SAVE)
-    public void save() {
+    @ActionKey(Url.ATTRIBUTE_ADMIN_SAVE)
+    public void adminSave() {
         Attribute model = getParameter(Attribute.class);
         String request_user_id = getRequest_user_id();
 
@@ -74,8 +50,8 @@ public class AttributeController extends Controller {
         renderSuccessJson();
     }
 
-    @ActionKey(Url.ATTRIBUTEL_UPDATE)
-    public void update() {
+    @ActionKey(Url.ATTRIBUTEL_ADMIN_UPDATE)
+    public void adminUpdate() {
         Attribute model = getParameter(Attribute.class);
         String request_user_id = getRequest_user_id();
 
@@ -86,8 +62,8 @@ public class AttributeController extends Controller {
         renderSuccessJson();
     }
 
-    @ActionKey(Url.ATTRIBUTE_DELETE)
-    public void delete() {
+    @ActionKey(Url.ATTRIBUTE_ADMIN_DELETE)
+    public void adminDelete() {
         Attribute model = getParameter(Attribute.class);
         String request_user_id = getRequest_user_id();
 

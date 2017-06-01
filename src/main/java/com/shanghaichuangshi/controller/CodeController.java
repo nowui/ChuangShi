@@ -37,8 +37,8 @@ public class CodeController extends Controller {
         renderSuccessJson(list.size(), list);
     }
 
-    @ActionKey(Url.CODE_SAVE)
-    public void save() throws IOException {
+    @ActionKey(Url.CODE_ADMIN_SAVE)
+    public void adminSave() throws IOException {
         JSONObject jsonObject = getParameterJSONObject();
 
         String table_name = jsonObject.getString("table_name");

@@ -14,19 +14,6 @@ public class ResourceController extends Controller {
 
     private final ResourceService resourceService = new ResourceService();
 
-    @ActionKey(Url.RESOURCE_LIST)
-    public void list() {
-        validate(Constant.PAGE_INDEX, Constant.PAGE_SIZE);
-
-        Resource model = getParameter(Resource.class);
-
-        model.validate(Resource.RESOURCE_NAME);
-
-        List<Resource> resourceList = resourceService.list(model.getCategory_id(), model.getResource_name(), getM(), getN());
-
-        renderSuccessJson(resourceList);
-    }
-
     @ActionKey(Url.RESOURCE_ADMIN_LIST)
     public void adminList() {
         validate(Constant.PAGE_INDEX, Constant.PAGE_SIZE);
@@ -42,22 +29,11 @@ public class ResourceController extends Controller {
         renderSuccessJson(count, resourceList);
     }
 
-    @ActionKey(Url.RESOURCE_CATEGORY_LIST)
-    public void categoryList() {
+    @ActionKey(Url.RESOURCE_ADMIN_CATEGORY_LIST)
+    public void adminCategoryList() {
         List<Map<String, Object>> resultList = resourceService.categoryList();
 
         renderSuccessJson(resultList);
-    }
-
-    @ActionKey(Url.RESOURCE_FIND)
-    public void find() {
-        Resource model = getParameter(Resource.class);
-
-        model.validate(Resource.RESOURCE_ID);
-
-        Resource resource = resourceService.find(model.getResource_id());
-
-        renderSuccessJson(resource.removeUnfindable());
     }
 
     @ActionKey(Url.RESOURCE_ADMIN_FIND)
@@ -71,8 +47,8 @@ public class ResourceController extends Controller {
         renderSuccessJson(resource.removeSystemInfo());
     }
 
-    @ActionKey(Url.RESOURCE_SAVE)
-    public void save() {
+    @ActionKey(Url.RESOURCE_ADMIN_SAVE)
+    public void adminSave() {
         Resource model = getParameter(Resource.class);
         String request_user_id = getRequest_user_id();
 
@@ -83,8 +59,8 @@ public class ResourceController extends Controller {
         renderSuccessJson();
     }
 
-    @ActionKey(Url.RESOURCEL_UPDATE)
-    public void update() {
+    @ActionKey(Url.RESOURCEL_ADMIN_UPDATE)
+    public void adminUpdate() {
         Resource model = getParameter(Resource.class);
         String request_user_id = getRequest_user_id();
 
@@ -95,8 +71,8 @@ public class ResourceController extends Controller {
         renderSuccessJson();
     }
 
-    @ActionKey(Url.RESOURCE_DELETE)
-    public void delete() {
+    @ActionKey(Url.RESOURCE_ADMIN_DELETE)
+    public void adminDelete() {
         Resource model = getParameter(Resource.class);
         String request_user_id = getRequest_user_id();
 

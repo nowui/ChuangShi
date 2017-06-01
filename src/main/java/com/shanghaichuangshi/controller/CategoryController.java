@@ -46,17 +46,6 @@ public class CategoryController extends Controller {
 //        renderSuccessJson(resultList);
 //    }
 
-    @ActionKey(Url.CATEGORY_FIND)
-    public void find() {
-        Category model = getParameter(Category.class);
-
-        model.validate(Category.CATEGORY_ID);
-
-        Category category = categoryService.find(model.getCategory_id());
-
-        renderSuccessJson(category.removeUnfindable());
-    }
-
     @ActionKey(Url.CATEGORY_ADMIN_FIND)
     public void adminFind() {
         Category model = getParameter(Category.class);
@@ -68,8 +57,8 @@ public class CategoryController extends Controller {
         renderSuccessJson(category.removeSystemInfo());
     }
 
-    @ActionKey(Url.CATEGORY_SAVE)
-    public void save() {
+    @ActionKey(Url.CATEGORY_ADMIN_SAVE)
+    public void adminSave() {
         Category model = getParameter(Category.class);
         String request_user_id = getRequest_user_id();
 
@@ -80,8 +69,8 @@ public class CategoryController extends Controller {
         renderSuccessJson();
     }
 
-    @ActionKey(Url.CATEGORYL_UPDATE)
-    public void update() {
+    @ActionKey(Url.CATEGORYL_ADMIN_UPDATE)
+    public void adminUpdate() {
         Category model = getParameter(Category.class);
         String request_user_id = getRequest_user_id();
 
@@ -92,8 +81,8 @@ public class CategoryController extends Controller {
         renderSuccessJson();
     }
 
-    @ActionKey(Url.CATEGORY_DELETE)
-    public void delete() {
+    @ActionKey(Url.CATEGORY_ADMIN_DELETE)
+    public void adminDelete() {
         Category model = getParameter(Category.class);
         String request_user_id = getRequest_user_id();
 
