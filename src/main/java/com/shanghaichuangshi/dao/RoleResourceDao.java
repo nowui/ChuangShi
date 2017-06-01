@@ -21,6 +21,14 @@ public class RoleResourceDao extends Dao {
         return new RoleResource().find(sqlPara.getSql(), sqlPara.getPara());
     }
 
+    public List<RoleResource> listByRole_key(String role_key) {
+        Kv map = Kv.create();
+        map.put(RoleResource.ROLE_KEY, role_key);
+        SqlPara sqlPara = Db.getSqlPara("role_resource.listByRole_key", map);
+
+        return new RoleResource().find(sqlPara.getSql(), sqlPara.getPara());
+    }
+
     public void save(List<RoleResource> roleResourceList, String role_id, String request_user_id) {
         if (roleResourceList.size() == 0) {
             return;

@@ -10,6 +10,16 @@
     AND role_id = #p(role_id)
   #end
 
+  #sql("listByRole_key")
+    SELECT
+    table_resource.resource_value
+    FROM table_role_resource
+    INNER JOIN table_resource ON table_resource.resource_id = table_role_resource.resource_id
+    INNER JOIN table_role ON table_role.role_id = table_role_resource.role_id
+    WHERE table_role_resource.system_status = 1
+    AND table_role.role_key = #p(role_key)
+  #end
+
   #sql("save")
     INSERT INTO table_role_resource (
       role_resource_id,

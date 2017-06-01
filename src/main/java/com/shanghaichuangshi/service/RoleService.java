@@ -49,6 +49,10 @@ public class RoleService extends Service {
         return roleCache.find(role_id);
     }
 
+    public Role findByRole_key(String role_key) {
+        return roleCache.findByRole_key(role_key);
+    }
+
     public List<Map<String, Object>> resourceFind(String role_id) {
         List<Map<String, Object>> resultList = categoryCache.treeListByCategory_key(CategoryType.RESOURCE.getKey());
 
@@ -151,8 +155,10 @@ public class RoleService extends Service {
             }
         }
 
-        roleResourceCache.delete(roleResourceDeleteList, role_id, request_user_id);
-        roleResourceCache.save(roleResourceSaveList, role_id, request_user_id);
+        Role role = roleCache.find(role_id);
+
+        roleResourceCache.delete(roleResourceDeleteList, role_id, role.getRole_key(), request_user_id);
+        roleResourceCache.save(roleResourceSaveList, role_id, role.getRole_key(), request_user_id);
     }
 
     public boolean update(Role role, String request_user_id) {

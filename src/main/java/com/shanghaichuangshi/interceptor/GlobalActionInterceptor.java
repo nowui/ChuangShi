@@ -8,9 +8,10 @@ import com.jfinal.kit.HttpKit;
 import com.jfinal.plugin.activerecord.DbKit;
 import com.shanghaichuangshi.constant.Constant;
 import com.shanghaichuangshi.constant.Url;
-import com.shanghaichuangshi.model.Authorization;
-import com.shanghaichuangshi.model.Log;
-import com.shanghaichuangshi.model.User;
+import com.shanghaichuangshi.model.*;
+import com.shanghaichuangshi.service.RoleResourceService;
+import com.shanghaichuangshi.service.RoleService;
+import com.shanghaichuangshi.service.UserService;
 import com.shanghaichuangshi.util.DateUtil;
 import com.shanghaichuangshi.util.HttpUtil;
 import com.shanghaichuangshi.util.Util;
@@ -40,10 +41,15 @@ public class GlobalActionInterceptor implements Interceptor {
     private final List<String> uncheckLogUrlList = new ArrayList<String>();
     private final List<String> uncheckHeaderUrlList = new ArrayList<String>();
 
+    private final UserService userService = new UserService();
+    //    private final AuthorizationService authorizationService = new AuthorizationService();
+    private final RoleService roleService = new RoleService();
+    private final RoleResourceService roleResourceService = new RoleResourceService();
+
     public GlobalActionInterceptor(List<String> uncheckUrlList, List<String> uncheckTokenUrlList, List<String> uncheckRequestUserIdUrlList, List<String> uncheckParameterUrlList, List<String> uncheckHeaderUrlList) {
         this.uncheckUrlList.addAll(uncheckUrlList);
 
-        this.uncheckTokenUrlList.add(Url.ADMIN_LOGIN);
+        this.uncheckTokenUrlList.add(Url.ADMIN_ADMIN_LOGIN);
         this.uncheckTokenUrlList.addAll(uncheckTokenUrlList);
 
         this.uncheckRequestUserIdUrlList.addAll(uncheckRequestUserIdUrlList);
@@ -90,6 +96,11 @@ public class GlobalActionInterceptor implements Interceptor {
                     request_user_id = claims.get(User.USER_ID).toString();
 
                     authorization_id = claims.get(Authorization.AUTHORIZATION_ID).toString();
+//                    Authorization authorization = authorizationService.find(authorization_id);
+//                    if (!authorization.getSystem_status()) {
+//                        throw new RuntimeException("authorization is not valid");
+//                    }
+
                 } catch (Exception e) {
                     if (!uncheckRequestUserIdUrlList.contains(url)) {
                         throw new RuntimeException(Constant.TOKEN + " timeout");
@@ -125,13 +136,22 @@ public class GlobalActionInterceptor implements Interceptor {
             if (uncheckUrlList.contains(url)) {
 
             } else {
-                ((com.shanghaichuangshi.controller.Controller)controller).setPlatform(platform);
-                ((com.shanghaichuangshi.controller.Controller)controller).setVersion(version);
-                ((com.shanghaichuangshi.controller.Controller)controller).setIp_address(ip_address);
-                ((com.shanghaichuangshi.controller.Controller)controller).setRequest_user_id(request_user_id);
-                ((com.shanghaichuangshi.controller.Controller)controller).setPage_index(parameter.getIntValue(Constant.PAGE_INDEX));
-                ((com.shanghaichuangshi.controller.Controller)controller).setPage_size(parameter.getIntValue(Constant.PAGE_SIZE));
-                ((com.shanghaichuangshi.controller.Controller)controller).setParameter(parameter);
+                ((com.shanghaichuangshi.controller.Controller) controller).setPlatform(platform);
+                ((com.shanghaichuangshi.controller.Controller) controller).setVersion(version);
+                ((com.shanghaichuangshi.controller.Controller) controller).setIp_address(ip_address);
+                ((com.shanghaichuangshi.controller.Controller) controller).setRequest_user_id(request_user_id);
+                ((com.shanghaichuangshi.controller.Controller) controller).setPage_index(parameter.getIntValue(Constant.PAGE_INDEX));
+                ((com.shanghaichuangshi.controller.Controller) controller).setPage_size(parameter.getIntValue(Constant.PAGE_SIZE));
+                ((com.shanghaichuangshi.controller.Controller) controller).setParameter(parameter);
+            }
+
+            User user = userService.find(request_user_id);
+            if (!user.getSystem_status()) {
+                throw new RuntimeException("user is not valid");
+            }
+            List<String> resourceValueList = roleResourceService.listByRole_key(user.getUser_type());
+            if (!resourceValueList.contains(url)) {
+
             }
 
             invocation.invoke();

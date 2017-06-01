@@ -64,7 +64,7 @@ public class RoleController extends Controller {
         Role model = getParameter(Role.class);
         String request_user_id = getRequest_user_id();
 
-        model.validate(Role.ROLE_NAME);
+        model.validate(Role.ROLE_NAME, Role.ROLE_KEY, Role.ROLE_SORT);
 
         roleService.save(model, request_user_id);
 
@@ -92,7 +92,7 @@ public class RoleController extends Controller {
         Role model = getParameter(Role.class);
         String request_user_id = getRequest_user_id();
 
-        model.validate(Role.ROLE_ID, Role.ROLE_NAME);
+        model.validate(Role.ROLE_ID, Role.ROLE_NAME, Role.ROLE_KEY, Role.ROLE_SORT);
 
         roleService.update(model, request_user_id);
 

@@ -43,6 +43,19 @@ public class RoleDao extends Dao {
         }
     }
 
+    public Role findByRole_key(String role_key) {
+        Kv map = Kv.create();
+        map.put(Role.ROLE_KEY, role_key);
+        SqlPara sqlPara = Db.getSqlPara("role.findByRole_key", map);
+
+        List<Role> roleList = new Role().find(sqlPara.getSql(), sqlPara.getPara());
+        if (roleList.size() == 0) {
+            return null;
+        } else {
+            return roleList.get(0);
+        }
+    }
+
     public Role save(Role role, String request_user_id) {
         role.setRole_id(Util.getRandomUUID());
         role.setSystem_create_user_id(request_user_id);

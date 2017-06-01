@@ -35,6 +35,14 @@
     AND role_id = #p(role_id)
   #end
 
+  #sql("findByRole_key")
+    SELECT
+    *
+    FROM table_role
+    WHERE system_status = 1
+    AND role_key = #p(role_key)
+  #end
+
   #sql("delete")
     UPDATE table_role SET
     system_update_user_id = #p(system_update_user_id),

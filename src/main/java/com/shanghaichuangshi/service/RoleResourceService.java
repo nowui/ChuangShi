@@ -13,4 +13,8 @@ public class RoleResourceService extends Service {
         return roleResourceCache.list(role_id);
     }
 
+    public List<String> listByRole_key(String role_key) {
+        return roleResourceCache.listByRole_key(role_key);
+    }
+
 }
