@@ -8,7 +8,7 @@ import java.util.List;
 
 public class AttributeCache extends Cache {
 
-    private final String ATTRIBUTE_BY_ATTRIBUTE_ID_CACHE = "attribute_by_attribute_id_cache";
+    public static final String ATTRIBUTE_BY_ATTRIBUTE_ID_CACHE = "attribute_by_attribute_id_cache";
 
     private AttributeDao attributeDao = new AttributeDao();
 

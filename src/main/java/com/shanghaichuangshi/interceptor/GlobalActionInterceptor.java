@@ -145,13 +145,15 @@ public class GlobalActionInterceptor implements Interceptor {
                 ((com.shanghaichuangshi.controller.Controller) controller).setParameter(parameter);
             }
 
-            User user = userService.find(request_user_id);
-            if (!user.getSystem_status()) {
-                throw new RuntimeException("user is not valid");
-            }
-            List<String> resourceValueList = roleResourceService.listByRole_key(user.getUser_type());
-            if (!resourceValueList.contains(url)) {
-
+            if (!Util.isNullOrEmpty(request_user_id)) {
+                User user = userService.find(request_user_id);
+                if (!user.getSystem_status()) {
+                    throw new RuntimeException("user is not valid");
+                }
+                List<String> resourceValueList = roleResourceService.listByRole_key(user.getUser_type());
+                if (!resourceValueList.contains(url)) {
+                    throw new RuntimeException("permission denied");
+                }
             }
 
             invocation.invoke();

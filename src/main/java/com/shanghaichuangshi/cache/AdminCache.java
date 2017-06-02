@@ -8,7 +8,7 @@ import java.util.List;
 
 public class AdminCache extends Cache {
 
-    private final String ADMIN_BY_ADMIN_ID_CACHE = "admin_by_admin_id_cache";
+    public static final String ADMIN_BY_ADMIN_ID_CACHE = "admin_by_admin_id_cache";
 
     private AdminDao adminDao = new AdminDao();
 

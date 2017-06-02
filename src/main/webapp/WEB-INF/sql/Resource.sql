@@ -39,7 +39,8 @@
     SELECT
     resource_id,
     category_id,
-    resource_name
+    resource_name,
+    resource_value
     FROM table_resource
     WHERE system_status = 1
     ORDER BY resource_sort, system_create_time DESC

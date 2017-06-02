@@ -63,4 +63,6 @@ public class Url {
     public static final String FILEL_UPDATE = "/file/update";
     public static final String FILE_DELETE = "/file/delete";
 
+    public static final String CONFIG_ADMIN_CACHE_DELETE = "/config/admin/cache/delete";
+
 }

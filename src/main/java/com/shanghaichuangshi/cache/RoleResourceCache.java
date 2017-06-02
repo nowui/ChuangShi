@@ -1,7 +1,6 @@
 package com.shanghaichuangshi.cache;
 
 import com.shanghaichuangshi.dao.RoleResourceDao;
-import com.shanghaichuangshi.model.Role;
 import com.shanghaichuangshi.model.RoleResource;
 import com.shanghaichuangshi.util.CacheUtil;
 
@@ -10,8 +9,8 @@ import java.util.List;
 
 public class RoleResourceCache extends Cache {
 
-    private final String ROLE_RESOURCE_LIST_BY_ROLE_ID_CACHE = "role_resource_list_by_role_id_cache";
-    private final String ROLE_RESOURCE_LIST_BY_ROLE_KEY_CACHE = "role_resource_list_by_role_key_cache";
+    public static final String ROLE_RESOURCE_LIST_BY_ROLE_ID_CACHE = "role_resource_list_by_role_id_cache";
+    public static final String ROLE_RESOURCE_LIST_BY_ROLE_KEY_CACHE = "role_resource_list_by_role_key_cache";
 
     private RoleResourceDao roleResourceDao = new RoleResourceDao();
 

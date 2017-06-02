@@ -67,7 +67,7 @@ public class Model<M extends Model> extends com.jfinal.plugin.activerecord.Model
     }
 
     public Boolean getSystem_status() {
-        return getBoolean(SYSTEM_UPDATE_TIME);
+        return getBoolean(SYSTEM_STATUS);
     }
 
     public void setSystem_status(Boolean system_status) {

@@ -8,7 +8,7 @@ import java.util.List;
 
 public class AuthorizationCache extends Cache {
 
-    private final String AUTHORIZATION_BY_AUTHORIZATION_ID_CACHE = "authorization_by_authorization_id_cache";
+    public static final String AUTHORIZATION_BY_AUTHORIZATION_ID_CACHE = "authorization_by_authorization_id_cache";
 
     private AuthorizationDao authorizationDao = new AuthorizationDao();
 

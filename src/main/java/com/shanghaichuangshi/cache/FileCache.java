@@ -8,7 +8,7 @@ import java.util.List;
 
 public class FileCache extends Cache {
 
-    private final String FILE_BY_FILE_ID_CACHE = "file_by_file_id_cache";
+    public static final String FILE_BY_FILE_ID_CACHE = "file_by_file_id_cache";
 
     private FileDao fileDao = new FileDao();
 

@@ -8,8 +8,8 @@ import java.util.List;
 
 public class RoleCache extends Cache {
 
-    private final String ROLE_BY_ROLE_ID_CACHE = "role_by_role_id_cache";
-    private final String ROLE_BY_ROLE_KEY_CACHE = "role_by_role_key_cache";
+    public static final String ROLE_BY_ROLE_ID_CACHE = "role_by_role_id_cache";
+    public static final String ROLE_BY_ROLE_KEY_CACHE = "role_by_role_key_cache";
 
     private RoleDao roleDao = new RoleDao();
 

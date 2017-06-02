@@ -8,7 +8,7 @@ import java.util.*;
 
 public class CategoryCache extends Cache {
 
-    private final String CATEGORY_BY_CATEGORY_ID_CACHE = "category_by_category_id_cache";
+    public static final String CATEGORY_BY_CATEGORY_ID_CACHE = "category_by_category_id_cache";
 
     private CategoryDao categoryDao = new CategoryDao();
 

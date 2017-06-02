@@ -20,6 +20,7 @@ public class WebConfig {
         routes.add("/role", RoleController.class);
         routes.add("/upload", UploadController.class);
         routes.add("/file", FileController.class);
+        routes.add("/config", ConfigController.class);
 
         return routes;
     }

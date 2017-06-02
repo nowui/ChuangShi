@@ -8,7 +8,7 @@ import java.util.List;
 
 public class LogCache extends Cache {
 
-    private final String LOG_BY_LOG_ID_CACHE = "log_by_log_id_cache";
+    public static final String LOG_BY_LOG_ID_CACHE = "log_by_log_id_cache";
 
     private LogDao logDao = new LogDao();
 

@@ -88,7 +88,7 @@ public class RoleService extends Service {
                         map.put("is_leaf", true);
                         map.put("is_check", resource.get("is_check"));
                         map.put(Category.CATEGORY_ID, resource.getResource_id());
-                        map.put(Category.CATEGORY_NAME, resource.getResource_name());
+                        map.put(Category.CATEGORY_NAME, resource.getResource_name() + " - " + resource.getResource_value());
 
                         list.add(map);
                     }

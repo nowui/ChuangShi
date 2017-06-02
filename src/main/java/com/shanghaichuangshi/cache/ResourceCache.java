@@ -8,7 +8,7 @@ import java.util.List;
 
 public class ResourceCache extends Cache {
 
-    private final String RESOURCE_BY_RESOURCE_ID_CACHE = "resource_by_resource_id_cache";
+    public static final String RESOURCE_BY_RESOURCE_ID_CACHE = "resource_by_resource_id_cache";
 
     private ResourceDao resourceDao = new ResourceDao();
 

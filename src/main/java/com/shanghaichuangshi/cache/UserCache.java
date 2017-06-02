@@ -6,7 +6,7 @@ import com.shanghaichuangshi.util.CacheUtil;
 
 public class UserCache extends Cache {
 
-    private final String USER_BY_USER_ID_CACHE = "user_by_user_id_cache";
+    public static final String USER_BY_USER_ID_CACHE = "user_by_user_id_cache";
 
     private UserDao userDao = new UserDao();
 
