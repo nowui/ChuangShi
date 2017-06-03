@@ -1,0 +1,37 @@
+package com.shanghaichuangshi.#(name_space).cache;
+
+import com.shanghaichuangshi.cache.Cache;
+import com.shanghaichuangshi.#(name_space).dao.#(first_model_name)Dao;
+import com.shanghaichuangshi.#(name_space).model.#(first_model_name);
+
+import java.util.List;
+
+public class #(first_model_name)Cache extends Cache {
+
+    private final #(first_model_name)Dao #(first_lower_model_name)Dao = new #(first_model_name)Dao();
+
+    public int count(String #(lower_model_name)_name) {
+        return #(first_lower_model_name)Dao.count(#(lower_model_name)_name);
+    }
+
+    public List<#(first_model_name)> list(String #(lower_model_name)_name, int m, int n) {
+        return #(first_lower_model_name)Dao.list(#(lower_model_name)_name, m, n);
+    }
+
+    public #(first_model_name) find(String #(lower_model_name)_id) {
+        return #(first_lower_model_name)Dao.find(#(lower_model_name)_id);
+    }
+
+    public #(first_model_name) save(#(first_model_name) #(lower_model_name), String request_user_id) {
+        return #(first_lower_model_name)Dao.save(#(lower_model_name), request_user_id);
+    }
+
+    public boolean update(#(first_model_name) #(lower_model_name), String request_user_id) {
+        return #(first_lower_model_name)Dao.update(#(lower_model_name), request_user_id);
+    }
+
+    public boolean delete(String #(lower_model_name)_id, String request_user_id) {
+        return #(first_lower_model_name)Dao.delete(#(lower_model_name)_id, request_user_id);
+    }
+
+}

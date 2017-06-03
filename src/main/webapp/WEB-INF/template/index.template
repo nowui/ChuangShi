@@ -6,7 +6,7 @@ import {Row, Col, Button, Form, Input, Table, Popconfirm, message} from 'antd';
 import #(first_model_name)Detail from './#(first_model_name)Detail';
 import constant from '../../util/constant';
 import notification from '../../util/notification';
-import request from '../../util/request';
+import http from '../../util/http';
 import style from '../style.css';
 
 
@@ -56,7 +56,7 @@ class #(first_model_name)Index extends Component {
       is_load: true
     });
 
-    request.post({
+    http.request({
       url: '/#(lower_model_name)/admin/list',
       data: {
         #(lower_model_name)_name: this.props.#(lower_model_name).#(lower_model_name)_name,
@@ -126,7 +126,7 @@ class #(first_model_name)Index extends Component {
       is_load: true
     });
 
-    request.post({
+    http.request({
       url: '/#(lower_model_name)/delete',
       data: {
         #(lower_model_name)_id: #(lower_model_name)_id
@@ -186,7 +186,7 @@ class #(first_model_name)Index extends Component {
         <div key="0">
           <Row className={style.layoutContentHeader}>
             <Col span={8}>
-              <div className={style.layoutContentHeaderTitle}>属性列表</div>
+              <div className={style.layoutContentHeaderTitle}>列表</div>
             </Col>
             <Col span={16} className={style.layoutContentHeaderMenu}>
               <Button type="default" icon="search" size="default" className={style.layoutContentHeaderMenuButton}

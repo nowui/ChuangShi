@@ -34,7 +34,7 @@ public class CategoryController extends Controller {
 
         model.validate(Category.CATEGORY_ID);
 
-        List<Map<String, Object>> resultList = categoryService.adminTreeList(model.getCategory_id(), Category.CATEGORY_VALUE, Category.CATEGORY_SORT);
+        List<Map<String, Object>> resultList = categoryService.treeListByCategory_key(model.getCategory_id(), Category.CATEGORY_VALUE, Category.CATEGORY_SORT);
 
         renderSuccessJson(resultList);
     }

@@ -54,7 +54,7 @@ public class GlobalActionInterceptor implements Interceptor {
 
         this.uncheckRequestUserIdUrlList.addAll(uncheckRequestUserIdUrlList);
 
-        this.uncheckParameterUrlList.add(Url.UPLOAD_IMAGE);
+        this.uncheckParameterUrlList.add(Url.FILE_ADMIN_IMAGE_UPLOAD);
         this.uncheckParameterUrlList.addAll(uncheckParameterUrlList);
 
         this.uncheckLogUrlList.add(Url.LOG_ADMIN_LIST);
@@ -150,10 +150,10 @@ public class GlobalActionInterceptor implements Interceptor {
                 if (!user.getSystem_status()) {
                     throw new RuntimeException("user is not valid");
                 }
-                List<String> resourceValueList = roleResourceService.listByRole_key(user.getUser_type());
-                if (!resourceValueList.contains(url)) {
-                    throw new RuntimeException("permission denied");
-                }
+//                List<String> resourceValueList = roleResourceService.listByRole_key(user.getUser_type());
+//                if (!resourceValueList.contains(url)) {
+//                    throw new RuntimeException("permission denied");
+//                }
             }
 
             invocation.invoke();

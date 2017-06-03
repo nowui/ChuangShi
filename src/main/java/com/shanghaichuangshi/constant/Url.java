@@ -7,8 +7,6 @@ public class Url {
     public static final String CODE_ADMIN_LIST = "/code/admin/list";
     public static final String CODE_ADMIN_SAVE = "/code/admin/save";
 
-    public static final String UPLOAD_IMAGE = "/upload/image";
-
     public static final String ROLE_ADMIN_LIST = "/role/admin/list";
     public static final String ROLE_ADMIN_CATEGORY_LIST = "/role/admin/category/list";
     public static final String ROLE_ADMIN_FIND = "/role/admin/find";
@@ -58,10 +56,9 @@ public class Url {
     public static final String FILE_ADMIN_VIDEO_LIST = "/file/admin/video/list";
     public static final String FILE_FIND = "/file/find";
     public static final String FILE_ADMIN_FIND = "/file/admin/find";
-    public static final String FILE_SAVE = "/file/save";
-    public static final String FILE_VIDEO_SAVE = "/file/video/save";
-    public static final String FILEL_UPDATE = "/file/update";
+    public static final String FILE_UPDATE = "/file/update";
     public static final String FILE_DELETE = "/file/delete";
+    public static final String FILE_ADMIN_IMAGE_UPLOAD = "/file/admin/image/upload";
 
     public static final String CONFIG_ADMIN_CACHE_DELETE = "/config/admin/cache/delete";
 

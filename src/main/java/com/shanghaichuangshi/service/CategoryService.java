@@ -20,13 +20,13 @@ public class CategoryService extends Service {
         return categoryCache.list(category_name, m, n);
     }
 
-    public List<Map<String, Object>> adminTreeList(String category_id, String... keys) {
+    public List<Map<String, Object>> treeListByCategory_key(String category_id, String... keys) {
         return categoryCache.treeListByCategory_path(category_id, keys);
     }
 
-//    public List<Map<String, Object>> listByCategory_key(String category_key) {
-//        return categoryCache.treeListByCategory_key(category_key);
-//    }
+    public List<Map<String, Object>> listByCategory_key(String category_key, String... keys) {
+        return categoryCache.treeListByCategory_key(category_key, keys);
+    }
 
     public Category find(String category_id) {
         return categoryCache.find(category_id);

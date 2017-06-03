@@ -18,7 +18,6 @@ public class WebConfig {
         routes.add("/attribute", AttributeController.class);
         routes.add("/resource", ResourceController.class);
         routes.add("/role", RoleController.class);
-        routes.add("/upload", UploadController.class);
         routes.add("/file", FileController.class);
         routes.add("/config", ConfigController.class);
 

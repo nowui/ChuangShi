@@ -34,7 +34,7 @@ public class #(first_model_name)Controller extends Controller {
 
         model.validate(#(first_model_name).#(upper_model_name)_NAME);
 
-        int count = #(first_lower_model_name)Service.count(model);
+        int count = #(first_lower_model_name)Service.count(model.get#(first_model_name)_name());
 
         List<#(first_model_name)> #(first_lower_model_name)Listvice = #(first_lower_model_name)Service.list(model.get#(first_model_name)_name(), getM(), getN());
 
@@ -63,7 +63,7 @@ public class #(first_model_name)Controller extends Controller {
         renderSuccessJson(#(lower_model_name).removeSystemInfo());
     }
 
-    @ActionKey(Url.#(upper_model_name)_SAVE)
+    @ActionKey(Url.#(upper_model_name)_ADMIN_SAVE)
     public void save() {
         #(first_model_name) model = getParameter(#(first_model_name).class);
         String request_user_id = getRequest_user_id();
@@ -75,7 +75,7 @@ public class #(first_model_name)Controller extends Controller {
         renderSuccessJson();
     }
 
-    @ActionKey(Url.#(upper_model_name)L_UPDATE)
+    @ActionKey(Url.#(upper_model_name)_ADMIN_UPDATE)
     public void update() {
         #(first_model_name) model = getParameter(#(first_model_name).class);
         String request_user_id = getRequest_user_id();
@@ -87,7 +87,7 @@ public class #(first_model_name)Controller extends Controller {
         renderSuccessJson();
     }
 
-    @ActionKey(Url.#(upper_model_name)_DELETE)
+    @ActionKey(Url.#(upper_model_name)_ADMIN_DELETE)
     public void delete() {
         #(first_model_name) model = getParameter(#(first_model_name).class);
         String request_user_id = getRequest_user_id();

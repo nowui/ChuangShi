@@ -1,6 +1,7 @@
 package com.shanghaichuangshi.controller;
 
 import com.jfinal.core.ActionKey;
+import com.jfinal.upload.UploadFile;
 import com.shanghaichuangshi.constant.Constant;
 import com.shanghaichuangshi.constant.Url;
 import com.shanghaichuangshi.model.File;
@@ -8,6 +9,7 @@ import com.shanghaichuangshi.service.FileService;
 import com.shanghaichuangshi.type.FileType;
 
 import java.util.List;
+import java.util.Map;
 
 public class FileController extends Controller {
 
@@ -113,19 +115,19 @@ public class FileController extends Controller {
 //        renderSuccessJson();
 //    }
 
-    @ActionKey(Url.FILE_VIDEO_SAVE)
-    public void videoSave() {
-        File model = getParameter(File.class);
-        String request_user_id = getRequest_user_id();
+//    @ActionKey(Url.FILE_VIDEO_SAVE)
+//    public void videoSave() {
+//        File model = getParameter(File.class);
+//        String request_user_id = getRequest_user_id();
+//
+//        model.validate(File.FILE_NAME, File.FILE_PATH, File.FILE_IMAGE);
+//
+//        File file = fileService.videoSave(model.getFile_name(), model.getFile_path(), model.getFile_image(), request_user_id);
+//
+//        renderSuccessJson(file);
+//    }
 
-        model.validate(File.FILE_NAME, File.FILE_PATH, File.FILE_IMAGE);
-
-        File file = fileService.videoSave(model.getFile_name(), model.getFile_path(), model.getFile_image(), request_user_id);
-
-        renderSuccessJson(file);
-    }
-
-    @ActionKey(Url.FILEL_UPDATE)
+    @ActionKey(Url.FILE_UPDATE)
     public void update() {
         File model = getParameter(File.class);
         String request_user_id = getRequest_user_id();
@@ -135,6 +137,17 @@ public class FileController extends Controller {
         fileService.update(model, request_user_id);
 
         renderSuccessJson();
+    }
+
+    @ActionKey(Url.FILE_ADMIN_IMAGE_UPLOAD)
+    public void adminImageUpload() {
+        String request_user_id = getRequest_user_id();
+
+        List<UploadFile> uploadFileList = getFiles(request_user_id, 1024 * 1024 * 2);
+
+        List<Map<String, Object>> resultList = fileService.imageUpload(uploadFileList, request_user_id);
+
+        renderSuccessJson(resultList);
     }
 
     @ActionKey(Url.FILE_DELETE)

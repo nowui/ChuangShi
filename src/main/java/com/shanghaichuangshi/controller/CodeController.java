@@ -88,6 +88,7 @@ public class CodeController extends Controller {
         write(engine, name_space, lowerModelName, upperModelName, firstModelName, firstLowerModelName, columnList, "model.template", firstModelName + ".java");
         write(engine, name_space, lowerModelName, upperModelName, firstModelName, firstLowerModelName, columnList, "dao.template", firstModelName + "Dao.java");
         write(engine, name_space, lowerModelName, upperModelName, firstModelName, firstLowerModelName, columnList, "service.template", firstModelName + "Service.java");
+        write(engine, name_space, lowerModelName, upperModelName, firstModelName, firstLowerModelName, columnList, "cache.template", firstModelName + "Cache.java");
         write(engine, name_space, lowerModelName, upperModelName, firstModelName, firstLowerModelName, columnList, "controller.template", firstModelName + "Controller.java");
         write(engine, name_space, lowerModelName, upperModelName, firstModelName, firstLowerModelName, columnList, "config.template", "WebConfig.java");
         write(engine, name_space, lowerModelName, upperModelName, firstModelName, firstLowerModelName, columnList, "state.template", lowerModelName + ".js");
