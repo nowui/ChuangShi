@@ -54,7 +54,7 @@ public class GlobalActionInterceptor implements Interceptor {
 
         this.uncheckRequestUserIdUrlList.addAll(uncheckRequestUserIdUrlList);
 
-        this.uncheckParameterUrlList.add(Url.FILE_ADMIN_IMAGE_UPLOAD);
+        this.uncheckParameterUrlList.add(Url.FILE_ADMIN_UPLOAD);
         this.uncheckParameterUrlList.addAll(uncheckParameterUrlList);
 
         this.uncheckLogUrlList.add(Url.LOG_ADMIN_LIST);

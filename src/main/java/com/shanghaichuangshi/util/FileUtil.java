@@ -7,7 +7,10 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.channels.FileChannel;
 
 public class FileUtil {
 
@@ -61,10 +64,10 @@ public class FileUtil {
 
             if (originalWidth > width && width > 0) {
 //                if (originalWidth > originalHeight) {
-                    newWidth = width;
+                newWidth = width;
 
-                    double scale = (double) originalWidth / (double) newWidth;
-                    newHeight = (int) (originalHeight / scale);
+                double scale = (double) originalWidth / (double) newWidth;
+                newHeight = (int) (originalHeight / scale);
 //                } else {
 //                    newHeight = width;
 //
@@ -99,6 +102,25 @@ public class FileUtil {
             throw new RuntimeException("IOException: " + e.toString());
         }
 
+    }
+
+    public static void copy(File source, File dest) {
+        FileChannel inputChannel = null;
+        FileChannel outputChannel = null;
+        try {
+            inputChannel = new FileInputStream(source).getChannel();
+            outputChannel = new FileOutputStream(dest).getChannel();
+            outputChannel.transferFrom(inputChannel, 0, inputChannel.size());
+        } catch (IOException e) {
+            throw new RuntimeException("IOException: " + e.toString());
+        } finally {
+            try {
+                inputChannel.close();
+                outputChannel.close();
+            } catch (IOException e) {
+                throw new RuntimeException("IOException: " + e.toString());
+            }
+        }
     }
 
 }

@@ -63,24 +63,6 @@ public class FileController extends Controller {
         renderSuccessJson(count, fileList);
     }
 
-    @ActionKey(Url.FILE_ADMIN_VIDEO_LIST)
-    public void adminVideoList() {
-        validate(Constant.PAGE_INDEX, Constant.PAGE_SIZE);
-
-        File model = getParameter(File.class);
-        String request_user_id = getRequest_user_id();
-
-        model.validate(File.FILE_NAME);
-
-        String file_type = FileType.VIDEO.getKey();
-
-        int count = fileService.count(model.getFile_name(), file_type, request_user_id);
-
-        List<File> fileList = fileService.list(model.getFile_name(), file_type, request_user_id, getM(), getN());
-
-        renderSuccessJson(count, fileList);
-    }
-
     @ActionKey(Url.FILE_FIND)
     public void find() {
         File model = getParameter(File.class);
@@ -139,13 +121,13 @@ public class FileController extends Controller {
         renderSuccessJson();
     }
 
-    @ActionKey(Url.FILE_ADMIN_IMAGE_UPLOAD)
-    public void adminImageUpload() {
+    @ActionKey(Url.FILE_ADMIN_UPLOAD)
+    public void adminUpload() {
         String request_user_id = getRequest_user_id();
 
         List<UploadFile> uploadFileList = getFiles(request_user_id, 1024 * 1024 * 2);
 
-        List<Map<String, Object>> resultList = fileService.imageUpload(uploadFileList, request_user_id);
+        List<Map<String, Object>> resultList = fileService.upload(uploadFileList, request_user_id);
 
         renderSuccessJson(resultList);
     }

@@ -68,6 +68,10 @@ public class AdminService extends Service {
     public Map<String, Object> login(String user_account, String user_password, String platform, String version, String ip_address, String request_user_id) {
         User user = userCache.findByUser_accountAndUser_passwordAndUser_type(user_account, user_password, UserType.ADMIN.getKey());
 
+        if (user == null) {
+            throw new RuntimeException("用户名或者密码不正确");
+        }
+
         Admin admin = adminCache.find(user.getObject_id());
 
         Authorization authorization = authorizationCache.save(user.getUser_id(), platform, version, ip_address, request_user_id);

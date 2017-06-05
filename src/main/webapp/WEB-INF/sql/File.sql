@@ -7,7 +7,9 @@
       #set(file_name = "%" + file_name + "%")
       AND file_name LIKE #p(file_name)
     #end
-    AND file_type = #p(file_type)
+    #if(file_type)
+      AND file_type = #p(file_type)
+    #end
   #end
 
   #sql("list")
@@ -21,7 +23,9 @@
       #set(file_name = "%" + file_name + "%")
       AND file_name LIKE #p(file_name)
     #end
-    AND file_type = #p(file_type)
+    #if(file_type)
+      AND file_type = #p(file_type)
+    #end
     ORDER BY system_create_time DESC
     #if(n > 0)
       LIMIT #p(m), #p(n)

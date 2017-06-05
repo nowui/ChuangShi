@@ -58,7 +58,7 @@ public class Url {
     public static final String FILE_ADMIN_FIND = "/file/admin/find";
     public static final String FILE_UPDATE = "/file/update";
     public static final String FILE_DELETE = "/file/delete";
-    public static final String FILE_ADMIN_IMAGE_UPLOAD = "/file/admin/image/upload";
+    public static final String FILE_ADMIN_UPLOAD = "/file/admin/upload";
 
     public static final String CONFIG_ADMIN_CACHE_DELETE = "/config/admin/cache/delete";
 

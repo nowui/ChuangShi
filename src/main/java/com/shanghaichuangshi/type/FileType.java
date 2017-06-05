@@ -3,7 +3,7 @@ package com.shanghaichuangshi.type;
 public enum FileType {
 
     IMAGE("IMAGE", "图片"),
-    VIDEO("VIDEO", "视频");
+    OTHER("OTHER", "其他");
 
     private String key;
     private String value;

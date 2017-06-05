@@ -10,6 +10,7 @@ import com.shanghaichuangshi.type.FileType;
 import com.shanghaichuangshi.util.FileUtil;
 import com.shanghaichuangshi.util.Util;
 
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -35,20 +36,6 @@ public class FileService extends Service {
         return fileCache.save(file, request_user_id);
     }
 
-    public File videoSave(String file_name, String file_path, String file_image, String request_user_id) {
-        File file = new File();
-        file.setFile_type(FileType.VIDEO.getKey());
-        file.setFile_name(file_name);
-        file.setFile_suffix(file_path.substring(file_path.lastIndexOf(".") + 1, file_path.length()));
-        file.setFile_size(0);
-        file.setFile_path(file_path);
-        file.setFile_thumbnail_path(file_path);
-        file.setFile_original_path(file_path);
-        file.setFile_image(file_image);
-
-        return fileCache.save(file, request_user_id);
-    }
-
     public boolean update(File file, String request_user_id) {
         return fileCache.update(file, request_user_id);
     }
@@ -57,7 +44,7 @@ public class FileService extends Service {
         return fileCache.delete(file.getFile_id(), request_user_id);
     }
 
-    public List<Map<String, Object>> imageUpload(List<UploadFile> uploadFileList, String request_user_id) {
+    public List<Map<String, Object>> upload(List<UploadFile> uploadFileList, String request_user_id) {
         String path = PathKit.getWebRootPath() + "/" + Constant.UPLOAD + "/" + request_user_id;
         String thumbnailPath = PathKit.getWebRootPath() + "/" + Constant.UPLOAD + "/" + request_user_id + "/" + Constant.THUMBNAIL;
         String originalPath = PathKit.getWebRootPath() + "/" + Constant.UPLOAD + "/" + request_user_id + "/" + Constant.ORIGINAL;
@@ -76,14 +63,25 @@ public class FileService extends Service {
             thumbnailPath = thumbnailPath + "/" + name;
             originalPath = originalPath + "/" + name;
 
-            FileUtil.resizeImage(uploadFile.getFile(), suffix, thumbnailPath, 100);
-            FileUtil.resizeImage(uploadFile.getFile(), suffix, path, 360);
-            FileUtil.resizeImage(uploadFile.getFile(), suffix, originalPath, 0);
+            String file_type = FileType.IMAGE.getKey();
+
+            if (suffix.equals("png") || suffix.equals("jpg") || suffix.equals("jpeg")) {
+                FileUtil.resizeImage(uploadFile.getFile(), suffix, thumbnailPath, 100);
+                FileUtil.resizeImage(uploadFile.getFile(), suffix, path, 360);
+                FileUtil.resizeImage(uploadFile.getFile(), suffix, originalPath, 0);
+            } else {
+                FileUtil.copy(uploadFile.getFile(), new java.io.File(path));
+
+                thumbnailPath = path;
+                originalPath = path;
+
+                file_type = FileType.OTHER.getKey();
+            }
 
             FileKit.delete(uploadFile.getFile());
 
             File file = new File();
-            file.setFile_type(FileType.IMAGE.getKey());
+            file.setFile_type(file_type);
             file.setFile_name(name);
             file.setFile_suffix(suffix);
             file.setFile_size((int) uploadFile.getFile().length());
