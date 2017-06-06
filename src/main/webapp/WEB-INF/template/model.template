@@ -19,5 +19,6 @@ public class #(first_model_name) extends Model<#(first_model_name)> {
     public void set#(column.first_column_name)(String #(column.column_name)) {
         set(#(column.upper_column_name), #(column.column_name));
     }
+
     #end
 }
