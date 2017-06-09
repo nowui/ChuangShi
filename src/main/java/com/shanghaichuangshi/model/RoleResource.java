@@ -1,17 +1,17 @@
 package com.shanghaichuangshi.model;
 
 import com.shanghaichuangshi.annotation.Column;
-import com.shanghaichuangshi.type.ColumnType;
+import com.shanghaichuangshi.type.ColumnTypeEnum;
 
 public class RoleResource extends Model<RoleResource> {
 
-    @Column(type = ColumnType.VARCHAR, length = 32, comment = "角色资源编号")
+    @Column(type = ColumnTypeEnum.VARCHAR, length = 32, comment = "角色资源编号")
     public static final String ROLE_RESOURCE_ID = "role_resource_id";
 
-    @Column(type = ColumnType.VARCHAR, length = 32, comment = "角色编号")
+    @Column(type = ColumnTypeEnum.VARCHAR, length = 32, comment = "角色编号")
     public static final String ROLE_ID = "role_id";
 
-    @Column(type = ColumnType.VARCHAR, length = 32, comment = "资源编号")
+    @Column(type = ColumnTypeEnum.VARCHAR, length = 32, comment = "资源编号")
     public static final String RESOURCE_ID = "resource_id";
 
     public static final String ROLE_KEY = "role_key";

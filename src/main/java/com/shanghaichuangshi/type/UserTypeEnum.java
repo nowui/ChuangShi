@@ -1,6 +1,6 @@
 package com.shanghaichuangshi.type;
 
-public enum UserType {
+public enum UserTypeEnum {
 
     ADMIN("ADMIN", "管理员"),
     MEMBER("MEMBER", "会员"),
@@ -12,7 +12,7 @@ public enum UserType {
     private String key;
     private String value;
 
-    private UserType(String key, String value) {
+    private UserTypeEnum(String key, String value) {
         this.key = key;
         this.value = value;
     }

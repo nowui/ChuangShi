@@ -1,47 +1,47 @@
 package com.shanghaichuangshi.model;
 
 import com.shanghaichuangshi.annotation.Column;
-import com.shanghaichuangshi.type.ColumnType;
+import com.shanghaichuangshi.type.ColumnTypeEnum;
 
 public class User extends Model<User> {
 
-    @Column(type = ColumnType.VARCHAR, length = 32, comment = "用户编号")
+    @Column(type = ColumnTypeEnum.VARCHAR, length = 32, comment = "用户编号")
     public static final String USER_ID = "user_id";
 
-    @Column(type = ColumnType.VARCHAR, length = 20, comment = "用户帐号")
+    @Column(type = ColumnTypeEnum.VARCHAR, length = 20, comment = "用户帐号")
     public static final String USER_ACCOUNT = "user_account";
 
-    @Column(type = ColumnType.VARCHAR, length = 11, comment = "用户电话")
+    @Column(type = ColumnTypeEnum.VARCHAR, length = 11, comment = "用户电话")
     public static final String USER_PHONE = "user_phone";
 
-    @Column(type = ColumnType.VARCHAR, length = 20, comment = "用户邮箱")
+    @Column(type = ColumnTypeEnum.VARCHAR, length = 20, comment = "用户邮箱")
     public static final String USER_EMAIL = "user_email";
 
-    @Column(type = ColumnType.VARCHAR, length = 20, comment = "用户密码")
+    @Column(type = ColumnTypeEnum.VARCHAR, length = 20, comment = "用户密码")
     public static final String USER_PASSWORD = "user_password";
 
-    @Column(type = ColumnType.VARCHAR, length = 20, comment = "用户名称")
+    @Column(type = ColumnTypeEnum.VARCHAR, length = 20, comment = "用户名称")
     public static final String USER_NAME = "user_name";
 
-    @Column(type = ColumnType.VARCHAR, length = 100, comment = "用户头像")
+    @Column(type = ColumnTypeEnum.VARCHAR, length = 100, comment = "用户头像")
     public static final String USER_AVATAR = "user_avatar";
 
-    @Column(type = ColumnType.VARCHAR, length = 200, comment = "用户头像")
+    @Column(type = ColumnTypeEnum.VARCHAR, length = 200, comment = "用户头像")
     public static final String USER_AVATAR_THUMBNAIL = "user_avatar_thumbnail";
 
-    @Column(type = ColumnType.VARCHAR, length = 200, comment = "用户头像")
+    @Column(type = ColumnTypeEnum.VARCHAR, length = 200, comment = "用户头像")
     public static final String USER_AVATAR_ORIGINAL = "user_avatar_original";
 
-    @Column(type = ColumnType.VARCHAR, length = 50, comment = "微信OpenId")
+    @Column(type = ColumnTypeEnum.VARCHAR, length = 50, comment = "微信OpenId")
     public static final String WECHAT_OPEN_ID = "wechat_open_id";
 
-    @Column(type = ColumnType.VARCHAR, length = 50, comment = "微信UnionId")
+    @Column(type = ColumnTypeEnum.VARCHAR, length = 50, comment = "微信UnionId")
     public static final String WECHAT_UNION_ID = "wechat_union_id";
 
-    @Column(type = ColumnType.VARCHAR, length = 32, comment = "外键编号", updatable = false)
+    @Column(type = ColumnTypeEnum.VARCHAR, length = 32, comment = "外键编号", updatable = false)
     public static final String OBJECT_ID = "object_id";
 
-    @Column(type = ColumnType.VARCHAR, length = 20, comment = "用户类型", updatable = false)
+    @Column(type = ColumnTypeEnum.VARCHAR, length = 20, comment = "用户类型", updatable = false)
     public static final String USER_TYPE = "user_type";
 
     public String getUser_id() {

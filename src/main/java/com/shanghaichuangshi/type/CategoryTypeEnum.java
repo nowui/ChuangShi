@@ -1,14 +1,17 @@
 package com.shanghaichuangshi.type;
 
-public enum ResourceType {
+public enum CategoryTypeEnum {
 
-    URL("URL", "链接"),
-    BUTTON("BUTTON", "按钮");
+    RESOURCE("RESOURCE", "资源"),
+    CHINA("CHINA", "中国省市区"),
+    ARTICLE("ARTICLE", "文章"),
+    ROLE("ROLE", "角色"),
+    PRODUCT("PRODUCT", "商品");
 
     private String key;
     private String value;
 
-    private ResourceType(String key, String value) {
+    private CategoryTypeEnum(String key, String value) {
         this.key = key;
         this.value = value;
     }

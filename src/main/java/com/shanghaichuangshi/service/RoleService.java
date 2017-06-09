@@ -10,7 +10,7 @@ import com.shanghaichuangshi.model.Category;
 import com.shanghaichuangshi.model.Resource;
 import com.shanghaichuangshi.model.Role;
 import com.shanghaichuangshi.model.RoleResource;
-import com.shanghaichuangshi.type.CategoryType;
+import com.shanghaichuangshi.type.CategoryTypeEnum;
 import com.shanghaichuangshi.util.Util;
 
 import java.util.ArrayList;
@@ -42,7 +42,7 @@ public class RoleService extends Service {
     }
 
     public List<Map<String, Object>> categoryList() {
-        return categoryCache.treeListByCategory_key(CategoryType.ROLE.getKey());
+        return categoryCache.treeListByCategory_key(CategoryTypeEnum.ROLE.getKey());
     }
 
     public Role find(String role_id) {
@@ -54,7 +54,7 @@ public class RoleService extends Service {
     }
 
     public List<Map<String, Object>> resourceFind(String role_id) {
-        List<Map<String, Object>> resultList = categoryCache.treeListByCategory_key(CategoryType.RESOURCE.getKey());
+        List<Map<String, Object>> resultList = categoryCache.treeListByCategory_key(CategoryTypeEnum.RESOURCE.getKey());
 
         List<Resource> resourceList = resourceCache.allList();
 

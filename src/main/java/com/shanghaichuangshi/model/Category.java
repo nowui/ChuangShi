@@ -1,32 +1,32 @@
 package com.shanghaichuangshi.model;
 
 import com.shanghaichuangshi.annotation.Column;
-import com.shanghaichuangshi.type.ColumnType;
+import com.shanghaichuangshi.type.ColumnTypeEnum;
 
 public class Category extends Model<Category> {
 
-    @Column(type = ColumnType.VARCHAR, length = 32, comment = "分类编号")
+    @Column(type = ColumnTypeEnum.VARCHAR, length = 32, comment = "分类编号")
     public static final String CATEGORY_ID = "category_id";
 
-    @Column(type = ColumnType.VARCHAR, length = 32, comment = "分类父编号", findable = false, updatable = false)
+    @Column(type = ColumnTypeEnum.VARCHAR, length = 32, comment = "分类父编号", findable = false, updatable = false)
     public static final String PARENT_ID = "parent_id";
 
-    @Column(type = ColumnType.VARCHAR, length = 20, comment = "分类名称")
+    @Column(type = ColumnTypeEnum.VARCHAR, length = 20, comment = "分类名称")
     public static final String CATEGORY_NAME = "category_name";
 
-    @Column(type = ColumnType.VARCHAR, length = 100, comment = "分类键值")
+    @Column(type = ColumnTypeEnum.VARCHAR, length = 100, comment = "分类键值")
     public static final String CATEGORY_KEY = "category_key";
 
-    @Column(type = ColumnType.VARCHAR, length = 100, comment = "分类数值")
+    @Column(type = ColumnTypeEnum.VARCHAR, length = 100, comment = "分类数值")
     public static final String CATEGORY_VALUE = "category_value";
 
-    @Column(type = ColumnType.VARCHAR, length = 5000, comment = "分类路径", findable = false, updatable = false)
+    @Column(type = ColumnTypeEnum.VARCHAR, length = 5000, comment = "分类路径", findable = false, updatable = false)
     public static final String CATEGORY_PATH = "category_path";
 
-    @Column(type = ColumnType.VARCHAR, length = 100, comment = "分类描述")
+    @Column(type = ColumnTypeEnum.VARCHAR, length = 100, comment = "分类描述")
     public static final String CATEGORY_REMARK = "category_remark";
 
-    @Column(type = ColumnType.INT, length = 3, comment = "分类排序")
+    @Column(type = ColumnTypeEnum.INT, length = 3, comment = "分类排序")
     public static final String CATEGORY_SORT = "category_sort";
 
     public String getCategory_id() {

@@ -4,7 +4,7 @@ import com.shanghaichuangshi.cache.CategoryCache;
 import com.shanghaichuangshi.cache.ResourceCache;
 import com.shanghaichuangshi.model.Category;
 import com.shanghaichuangshi.model.Resource;
-import com.shanghaichuangshi.type.CategoryType;
+import com.shanghaichuangshi.type.CategoryTypeEnum;
 
 import java.util.List;
 import java.util.Map;
@@ -35,7 +35,7 @@ public class ResourceService extends Service {
     }
 
     public List<Map<String, Object>> categoryList() {
-        return categoryCache.treeListByCategory_key(CategoryType.RESOURCE.getKey());
+        return categoryCache.treeListByCategory_key(CategoryTypeEnum.RESOURCE.getKey());
     }
 
     public Resource find(String resource_id) {

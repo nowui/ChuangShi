@@ -1,26 +1,26 @@
 package com.shanghaichuangshi.model;
 
 import com.shanghaichuangshi.annotation.Column;
-import com.shanghaichuangshi.type.ColumnType;
+import com.shanghaichuangshi.type.ColumnTypeEnum;
 
 public class Attribute extends Model<Attribute> {
 
-    @Column(type = ColumnType.VARCHAR, length = 32, comment = "属性编号")
+    @Column(type = ColumnTypeEnum.VARCHAR, length = 32, comment = "属性编号")
     public static final String ATTRIBUTE_ID = "attribute_id";
 
-    @Column(type = ColumnType.VARCHAR, length = 20, comment = "属性名称")
+    @Column(type = ColumnTypeEnum.VARCHAR, length = 20, comment = "属性名称")
     public static final String ATTRIBUTE_NAME = "attribute_name";
 
-    @Column(type = ColumnType.VARCHAR, length = 20, comment = "属性输入类型")
+    @Column(type = ColumnTypeEnum.VARCHAR, length = 20, comment = "属性输入类型")
     public static final String ATTRIBUTE_INPUT_TYPE = "attribute_input_type";
 
-    @Column(type = ColumnType.VARCHAR, length = 1000, comment = "属性默认值")
+    @Column(type = ColumnTypeEnum.VARCHAR, length = 1000, comment = "属性默认值")
     public static final String ATTRIBUTE_DEFAULT_VALUE = "attribute_default_value";
 
-    @Column(type = ColumnType.VARCHAR, length = 10, comment = "属性类型")
+    @Column(type = ColumnTypeEnum.VARCHAR, length = 10, comment = "属性类型")
     public static final String ATTRIBUTE_TYPE = "attribute_type";
 
-    @Column(type = ColumnType.INT, length = 3, comment = "属性排序")
+    @Column(type = ColumnTypeEnum.INT, length = 3, comment = "属性排序")
     public static final String ATTRIBUTE_SORT = "attribute_sort";
 
     

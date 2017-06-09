@@ -2,7 +2,7 @@ package com.shanghaichuangshi.model;
 
 import com.shanghaichuangshi.annotation.Column;
 import com.shanghaichuangshi.constant.Constant;
-import com.shanghaichuangshi.type.ColumnType;
+import com.shanghaichuangshi.type.ColumnTypeEnum;
 import com.shanghaichuangshi.util.Util;
 
 import java.io.Serializable;
@@ -13,19 +13,19 @@ public class Model<M extends Model> extends com.jfinal.plugin.activerecord.Model
 
     private static final long serialVersionUID = 1L;
 
-    @com.shanghaichuangshi.annotation.Column(type = ColumnType.VARCHAR, length = 32, comment = "", findable = false)
+    @com.shanghaichuangshi.annotation.Column(type = ColumnTypeEnum.VARCHAR, length = 32, comment = "", findable = false)
     public static final String SYSTEM_CREATE_USER_ID = "system_create_user_id";
 
-    @com.shanghaichuangshi.annotation.Column(type = ColumnType.DATETIME, length = 0, comment = "", findable = false)
+    @com.shanghaichuangshi.annotation.Column(type = ColumnTypeEnum.DATETIME, length = 0, comment = "", findable = false)
     public static final String SYSTEM_CREATE_TIME = "system_create_time";
 
-    @com.shanghaichuangshi.annotation.Column(type = ColumnType.VARCHAR, length = 32, comment = "", findable = false)
+    @com.shanghaichuangshi.annotation.Column(type = ColumnTypeEnum.VARCHAR, length = 32, comment = "", findable = false)
     public static final String SYSTEM_UPDATE_USER_ID = "system_update_user_id";
 
-    @com.shanghaichuangshi.annotation.Column(type = ColumnType.DATETIME, length = 0, comment = "", findable = false)
+    @com.shanghaichuangshi.annotation.Column(type = ColumnTypeEnum.DATETIME, length = 0, comment = "", findable = false)
     public static final String SYSTEM_UPDATE_TIME = "system_update_time";
 
-    @com.shanghaichuangshi.annotation.Column(type = ColumnType.BOOLEAN, length = 0, comment = "", findable = false)
+    @com.shanghaichuangshi.annotation.Column(type = ColumnTypeEnum.BOOLEAN, length = 0, comment = "", findable = false)
     public static final String SYSTEM_STATUS = "system_status";
 
     public static final String M = "m";

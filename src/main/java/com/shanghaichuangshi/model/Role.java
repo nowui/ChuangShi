@@ -1,23 +1,23 @@
 package com.shanghaichuangshi.model;
 
 import com.shanghaichuangshi.annotation.Column;
-import com.shanghaichuangshi.type.ColumnType;
+import com.shanghaichuangshi.type.ColumnTypeEnum;
 
 public class Role extends Model<Role> {
 
-    @Column(type = ColumnType.VARCHAR, length = 32, comment = "角色编号")
+    @Column(type = ColumnTypeEnum.VARCHAR, length = 32, comment = "角色编号")
     public static final String ROLE_ID = "role_id";
 
-    @Column(type = ColumnType.VARCHAR, length = 32, comment = "分类编号")
+    @Column(type = ColumnTypeEnum.VARCHAR, length = 32, comment = "分类编号")
     public static final String CATEGORY_ID = "category_id";
 
-    @Column(type = ColumnType.VARCHAR, length = 20, comment = "角色名称")
+    @Column(type = ColumnTypeEnum.VARCHAR, length = 20, comment = "角色名称")
     public static final String ROLE_NAME = "role_name";
 
-    @Column(type = ColumnType.VARCHAR, length = 20, comment = "角色键值")
+    @Column(type = ColumnTypeEnum.VARCHAR, length = 20, comment = "角色键值")
     public static final String ROLE_KEY = "role_key";
 
-    @Column(type = ColumnType.INT, length = 3, comment = "角色排序")
+    @Column(type = ColumnTypeEnum.INT, length = 3, comment = "角色排序")
     public static final String ROLE_SORT = "role_sort";
 
     

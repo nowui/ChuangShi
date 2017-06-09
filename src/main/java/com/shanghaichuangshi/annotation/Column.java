@@ -1,6 +1,6 @@
 package com.shanghaichuangshi.annotation;
 
-import com.shanghaichuangshi.type.ColumnType;
+import com.shanghaichuangshi.type.ColumnTypeEnum;
 
 import java.lang.annotation.*;
 
@@ -8,7 +8,7 @@ import java.lang.annotation.*;
 @Target({ElementType.FIELD, ElementType.METHOD})
 @Documented
 public @interface Column {
-    ColumnType type() default ColumnType.VARCHAR;
+    ColumnTypeEnum type() default ColumnTypeEnum.VARCHAR;
 
     int length() default 0;
 

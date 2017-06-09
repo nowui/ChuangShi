@@ -1,14 +1,14 @@
 package com.shanghaichuangshi.type;
 
-public enum FileType {
+public enum ResourceTypeEnum {
 
-    IMAGE("IMAGE", "图片"),
-    OTHER("OTHER", "其他");
+    URL("URL", "链接"),
+    BUTTON("BUTTON", "按钮");
 
     private String key;
     private String value;
 
-    private FileType(String key, String value) {
+    private ResourceTypeEnum(String key, String value) {
         this.key = key;
         this.value = value;
     }

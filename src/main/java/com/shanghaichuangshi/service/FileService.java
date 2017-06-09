@@ -6,11 +6,10 @@ import com.jfinal.upload.UploadFile;
 import com.shanghaichuangshi.cache.FileCache;
 import com.shanghaichuangshi.constant.Constant;
 import com.shanghaichuangshi.model.File;
-import com.shanghaichuangshi.type.FileType;
+import com.shanghaichuangshi.type.FileTypeEnum;
 import com.shanghaichuangshi.util.FileUtil;
 import com.shanghaichuangshi.util.Util;
 
-import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -63,7 +62,7 @@ public class FileService extends Service {
             thumbnailPath = thumbnailPath + "/" + name;
             originalPath = originalPath + "/" + name;
 
-            String file_type = FileType.IMAGE.getKey();
+            String file_type = FileTypeEnum.IMAGE.getKey();
 
             if (suffix.equals("png") || suffix.equals("jpg") || suffix.equals("jpeg")) {
                 FileUtil.resizeImage(uploadFile.getFile(), suffix, thumbnailPath, 100);
@@ -75,7 +74,7 @@ public class FileService extends Service {
                 thumbnailPath = path;
                 originalPath = path;
 
-                file_type = FileType.OTHER.getKey();
+                file_type = FileTypeEnum.OTHER.getKey();
             }
 
             FileKit.delete(uploadFile.getFile());

@@ -60,4 +60,6 @@ public class Constant {
 
     public static final String IS_SELECT = "is_select";
 
+    public static final String ZERO = "0";
+
 }

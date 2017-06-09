@@ -1,35 +1,35 @@
 package com.shanghaichuangshi.model;
 
 import com.shanghaichuangshi.annotation.Column;
-import com.shanghaichuangshi.type.ColumnType;
+import com.shanghaichuangshi.type.ColumnTypeEnum;
 import com.shanghaichuangshi.util.DateUtil;
 
 import java.util.Date;
 
 public class Authorization extends Model<Authorization> {
 
-    @Column(type = ColumnType.VARCHAR, length = 32, comment = "授权编号")
+    @Column(type = ColumnTypeEnum.VARCHAR, length = 32, comment = "授权编号")
     public static final String AUTHORIZATION_ID = "authorization_id";
 
-    @Column(type = ColumnType.VARCHAR, length = 350, comment = "授权token")
+    @Column(type = ColumnTypeEnum.VARCHAR, length = 350, comment = "授权token")
     public static final String AUTHORIZATION_TOKEN = "authorization_token";
 
-    @Column(type = ColumnType.VARCHAR, length = 32, comment = "用户编号")
+    @Column(type = ColumnTypeEnum.VARCHAR, length = 32, comment = "用户编号")
     public static final String USER_ID = "user_id";
 
-    @Column(type = ColumnType.VARCHAR, length = 10, comment = "授权平台")
+    @Column(type = ColumnTypeEnum.VARCHAR, length = 10, comment = "授权平台")
     public static final String AUTHORIZATION_PLATFORM = "authorization_platform";
 
-    @Column(type = ColumnType.VARCHAR, length = 10, comment = "授权版本")
+    @Column(type = ColumnTypeEnum.VARCHAR, length = 10, comment = "授权版本")
     public static final String AUTHORIZATION_VERSION = "authorization_version";
 
-    @Column(type = ColumnType.VARCHAR, length = 20, comment = "授权ip地址")
+    @Column(type = ColumnTypeEnum.VARCHAR, length = 20, comment = "授权ip地址")
     public static final String AUTHORIZATION_IP_ADDRESS = "authorization_ip_address";
 
-    @Column(type = ColumnType.DATETIME, length = 0, comment = "授权创建时间")
+    @Column(type = ColumnTypeEnum.DATETIME, length = 0, comment = "授权创建时间")
     public static final String AUTHORIZATION_CREATE_TIME = "authorization_create_time";
 
-    @Column(type = ColumnType.DATETIME, length = 0, comment = "授权失效时间")
+    @Column(type = ColumnTypeEnum.DATETIME, length = 0, comment = "授权失效时间")
     public static final String AUTHORIZATION_EXPIRE_TIME = "authorization_expire_time";
 
     public String getAuthorization_id() {

@@ -1,41 +1,41 @@
 package com.shanghaichuangshi.model;
 
 import com.shanghaichuangshi.annotation.Column;
-import com.shanghaichuangshi.type.ColumnType;
+import com.shanghaichuangshi.type.ColumnTypeEnum;
 
 public class Log extends Model<Log> {
 
-    @Column(type = ColumnType.VARCHAR, length = 32, comment = "日志编号")
+    @Column(type = ColumnTypeEnum.VARCHAR, length = 32, comment = "日志编号")
     public static final String LOG_ID = "log_id";
 
-    @Column(type = ColumnType.VARCHAR, length = 255, comment = "日志请求地址")
+    @Column(type = ColumnTypeEnum.VARCHAR, length = 255, comment = "日志请求地址")
     public static final String LOG_URL = "log_url";
 
-    @Column(type = ColumnType.LONGTEXT, length = 0, comment = "日志请求参数")
+    @Column(type = ColumnTypeEnum.LONGTEXT, length = 0, comment = "日志请求参数")
     public static final String LOG_REQUEST = "log_request";
 
-    @Column(type = ColumnType.LONGTEXT, length = 0, comment = "日志请求返回")
+    @Column(type = ColumnTypeEnum.LONGTEXT, length = 0, comment = "日志请求返回")
     public static final String LOG_RESPONSE = "log_response";
 
-    @Column(type = ColumnType.VARCHAR, length = 32, comment = "授权编号")
+    @Column(type = ColumnTypeEnum.VARCHAR, length = 32, comment = "授权编号")
     public static final String AUTHORIZATION_ID = "authorization_id";
 
-    @Column(type = ColumnType.VARCHAR, length = 32, comment = "用户编号")
+    @Column(type = ColumnTypeEnum.VARCHAR, length = 32, comment = "用户编号")
     public static final String USER_ID = "user_id";
 
-    @Column(type = ColumnType.VARCHAR, length = 3, comment = "日志状态码")
+    @Column(type = ColumnTypeEnum.VARCHAR, length = 3, comment = "日志状态码")
     public static final String LOG_CODE = "log_code";
 
-    @Column(type = ColumnType.VARCHAR, length = 10, comment = "日志请求平台")
+    @Column(type = ColumnTypeEnum.VARCHAR, length = 10, comment = "日志请求平台")
     public static final String LOG_PLATFORM = "log_platform";
 
-    @Column(type = ColumnType.VARCHAR, length = 10, comment = "日志请求版本")
+    @Column(type = ColumnTypeEnum.VARCHAR, length = 10, comment = "日志请求版本")
     public static final String LOG_VERSION = "log_version";
 
-    @Column(type = ColumnType.VARCHAR, length = 20, comment = "日志请求ip地址")
+    @Column(type = ColumnTypeEnum.VARCHAR, length = 20, comment = "日志请求ip地址")
     public static final String LOG_IP_ADDRESS = "log_ip_address";
 
-    @Column(type = ColumnType.VARCHAR, length = 10, comment = "日志请求响应时间")
+    @Column(type = ColumnTypeEnum.VARCHAR, length = 10, comment = "日志请求响应时间")
     public static final String LOG_RUN_TIME = "log_run_time";
 
     public String getLog_id() {

@@ -1,6 +1,6 @@
 package com.shanghaichuangshi.type;
 
-public enum ColumnType {
+public enum ColumnTypeEnum {
     INT("INT"),
     TINYINT("TINYINT"),
     VARCHAR("VARCHAR"),
@@ -11,7 +11,7 @@ public enum ColumnType {
 
     private String key;
 
-    private ColumnType(String key) {
+    private ColumnTypeEnum(String key) {
         this.key = key;
     }
 

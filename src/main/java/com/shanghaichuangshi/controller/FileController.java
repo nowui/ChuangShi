@@ -6,7 +6,7 @@ import com.shanghaichuangshi.constant.Constant;
 import com.shanghaichuangshi.constant.Url;
 import com.shanghaichuangshi.model.File;
 import com.shanghaichuangshi.service.FileService;
-import com.shanghaichuangshi.type.FileType;
+import com.shanghaichuangshi.type.FileTypeEnum;
 
 import java.util.List;
 import java.util.Map;
@@ -54,7 +54,7 @@ public class FileController extends Controller {
 
         model.validate(File.FILE_NAME);
 
-        String file_type = FileType.IMAGE.getKey();
+        String file_type = FileTypeEnum.IMAGE.getKey();
 
         int count = fileService.count(model.getFile_name(), file_type, request_user_id);
 

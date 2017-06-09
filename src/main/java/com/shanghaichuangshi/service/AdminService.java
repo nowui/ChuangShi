@@ -9,8 +9,8 @@ import com.shanghaichuangshi.model.Admin;
 import com.shanghaichuangshi.model.Authorization;
 import com.shanghaichuangshi.model.Category;
 import com.shanghaichuangshi.model.User;
-import com.shanghaichuangshi.type.CategoryType;
-import com.shanghaichuangshi.type.UserType;
+import com.shanghaichuangshi.type.CategoryTypeEnum;
+import com.shanghaichuangshi.type.UserTypeEnum;
 import com.shanghaichuangshi.util.Util;
 
 import java.util.HashMap;
@@ -42,7 +42,7 @@ public class AdminService extends Service {
 
         adminCache.save(admin, request_user_id);
 
-        userCache.saveByUser_idAndUser_accountAndUser_passwordAndObject_idAndUser_type(user_id, user.getUser_account(), user.getUser_password(), admin.getAdmin_id(), UserType.ADMIN.getKey(), request_user_id);
+        userCache.saveByUser_idAndUser_accountAndUser_passwordAndObject_idAndUser_type(user_id, user.getUser_account(), user.getUser_password(), admin.getAdmin_id(), UserTypeEnum.ADMIN.getKey(), request_user_id);
 
         return admin;
     }
@@ -50,9 +50,9 @@ public class AdminService extends Service {
     public boolean update(Admin admin, User user, String request_user_id) {
         boolean result = adminCache.update(admin, request_user_id);
 
-        userCache.updateByObject_idAndUser_accountAndUser_type(admin.getAdmin_id(), user.getUser_account(), UserType.ADMIN.getKey(), request_user_id);
+        userCache.updateByObject_idAndUser_accountAndUser_type(admin.getAdmin_id(), user.getUser_account(), UserTypeEnum.ADMIN.getKey(), request_user_id);
 
-        userCache.updateByObject_idAndUser_passwordAndUser_type(admin.getAdmin_id(), user.getUser_password(), UserType.ADMIN.getKey(), request_user_id);
+        userCache.updateByObject_idAndUser_passwordAndUser_type(admin.getAdmin_id(), user.getUser_password(), UserTypeEnum.ADMIN.getKey(), request_user_id);
 
         return result;
     }
@@ -60,13 +60,13 @@ public class AdminService extends Service {
     public boolean delete(Admin admin, String request_user_id) {
         boolean result = adminCache.delete(admin.getAdmin_id(), request_user_id);
 
-        userCache.deleteByObject_idAndUser_type(admin.getAdmin_id(), UserType.ADMIN.getKey(), request_user_id);
+        userCache.deleteByObject_idAndUser_type(admin.getAdmin_id(), UserTypeEnum.ADMIN.getKey(), request_user_id);
 
         return result;
     }
 
     public Map<String, Object> login(String user_account, String user_password, String platform, String version, String ip_address, String request_user_id) {
-        User user = userCache.findByUser_accountAndUser_passwordAndUser_type(user_account, user_password, UserType.ADMIN.getKey());
+        User user = userCache.findByUser_accountAndUser_passwordAndUser_type(user_account, user_password, UserTypeEnum.ADMIN.getKey());
 
         if (user == null) {
             throw new RuntimeException("用户名或者密码不正确");
@@ -84,7 +84,7 @@ public class AdminService extends Service {
     }
 
     public List<Map<String, Object>> menu(String request_user_id) {
-        return categoryCache.treeListByCategory_key(CategoryType.RESOURCE.getKey(), Category.CATEGORY_VALUE, Category.CATEGORY_REMARK);
+        return categoryCache.treeListByCategory_key(CategoryTypeEnum.RESOURCE.getKey(), Category.CATEGORY_VALUE, Category.CATEGORY_REMARK);
     }
 
 }
