@@ -35,7 +35,6 @@ public class WebConfig {
         activeRecordPlugin.addMapping("table_resource", "resource_id", Resource.class);
         activeRecordPlugin.addMapping("table_role", "role_id", Role.class);
         activeRecordPlugin.addMapping("table_role_resource", "role_resource_id", RoleResource.class);
-        activeRecordPlugin.addMapping("table_count", "count_id", Count.class);
 
         return activeRecordPlugin;
     }

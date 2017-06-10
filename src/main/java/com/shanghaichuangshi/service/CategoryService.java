@@ -42,6 +42,10 @@ public class CategoryService extends Service {
         }
     }
 
+    public Category findByCategory_key(String category_key) {
+        return categoryCache.findByCategory_key(category_key);
+    }
+
     public Category save(Category category, String request_user_id) {
         checkByCategory_idAndCategory_key("", category.getCategory_key());
 

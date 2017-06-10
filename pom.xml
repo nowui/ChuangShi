@@ -80,11 +80,6 @@
             <version>2017.5</version>
         </dependency>
         <dependency>
-            <groupId>net.dreamlu</groupId>
-            <artifactId>JFinal-event</artifactId>
-            <version>1.5.1</version>
-        </dependency>
-        <dependency>
             <groupId>com.jfinal</groupId>
             <artifactId>jfinal-weixin</artifactId>
             <version>1.9</version>
