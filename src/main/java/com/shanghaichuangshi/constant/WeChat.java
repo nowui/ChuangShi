@@ -18,7 +18,7 @@ public class WeChat {
     public static String wx_app_secret = "";
     public static String wx_mch_id = "";
     public static String wx_mch_key = "";
-    public static String income = "";
+    public static int commission_level = 0;
 
     static {
         PropKit.clear();
@@ -37,7 +37,7 @@ public class WeChat {
         wx_app_secret = PropKit.get("wx_app_secret");
         wx_mch_id = PropKit.get("wx_mch_id");
         wx_mch_key = PropKit.get("wx_mch_key");
-        income = PropKit.get("income");
+        commission_level = PropKit.getInt("commission_level");
     }
 
     public static ApiConfig getApiConfig() {
